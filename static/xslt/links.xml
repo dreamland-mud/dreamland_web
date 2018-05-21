@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF8"?>
+<page>
+	<head>
+                 <title>DreamLand MUD - Мир Грёз, Полезные Ссылки</title>
+        </head>
+        
+        <header />
+        <content>
+		<!-- Hero-area -->
+		<div class="hero-area section">
+
+			<!-- Backgound Image -->
+			<div class="bg-image bg-parallax overlay"></div>
+			<!-- /Backgound Image -->
+
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1 text-center">
+						<ul class="hero-area-tree">
+							<li><a href="index.html">Home</a></li>
+							<li>Links</li>
+						</ul>
+						<h1 class="white-text">Полезные ссылки</h1>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /Hero-area -->
+
+		<div id="links" class="section">
+			<!-- container -->
+			<div class="container">
+
+				<!-- row -->
+				<div class="row">
+                                        
+					<div id="main" class="col-md-12">
+
+						<div class="feature">
+							<i class="feature-icon fa fa-thumbs-up"></i>
+							<div class="feature-content">
+								<h4>Ресурсы</h4>
+                                                                <ul class="links-list">
+                                                                    <li><a href="http://tsamada.com.ua/mud/">Сайт Tsamada</a>: клиенты и старый поисковик по вещам (Win exe)</li>
+                                                                    <li><a href="http://c7i.ru/a_map/">Карты мира Берег Семи Воплощений</a>: некоторые зоны совпадают с Dream Land</li>
+                                                                    <li><a href="http://maps.df2.ru/arealist.php">Карты мира Dangerous Fantasy 2</a>: некоторые зоны совпадают с Dream Land</li>
+                                                                </ul>
+                                                       </div>
+                                                </div>
+
+						<div class="feature">
+							<i class="feature-icon fa fa-folder"></i>
+							<div class="feature-content">
+								<h4>Каталоги миров</h4>
+                                                                <ul class="links-list">
+                                                                    <li><a href="http://mudconnector.su">Русскоязычный MUD Connector</a>: база данных всех известных миров ру-сферы</li>
+                                                                    <li><a href="http://mudconnector.su/DreamLand">Наш мир на русскоязычном MUD Connector</a></li>
+                                                                    <li><a href="http://www.mudconnect.com">Всемирный MUD Connector (mudconnect.com)</a></li>
+                                                                    <li><a href="http://www.mudconnect.com/cgi-bin/adv_search.cgi?Mode=MUD&amp;mud=DreamLand">Страница нашего мира на mudconnect.com</a></li>
+                                                                    <li><a href="http://muder.ru">Портал MUDer</a>: база миров и клиентов, новости</li>
+                                                                </ul>
+							</div>
+						</div>
+
+						<div class="feature">
+							<i class="feature-icon fa fa-comments"></i>
+							<div class="feature-content">
+								<h4>Общение</h4>
+                                                                <ul class="links-list">
+                                                                    <li><a href="http://forum.mudconnector.su">Форум русскоязычного MUD Connector</a></li>
+                                                                    <li><a href="http://muder.ru/forum">Форум портала MUDer</a></li>
+                                                                </ul>
+							</div>
+						</div>
+
+                                                <div class="feature">
+							<i class="feature-icon fa ">&#xf201;</i>
+							<div class="feature-content">
+								<h4>Статистика</h4>
+                                                                <ul class="links-list">
+                                                                    <li><a href="http://muds.kharkov.org">Статистика всех русскоязычных миров</a>: графики посещений в реальном времени</li>
+                                                                    <li><a href="http://proolnewtest.kharkov.org/munin/localhost/localhost/plugin_rus_muds_11_sh.html">Статистика посещений DreamLand</a>: с предыдущего сайта</li>
+                                                    <!--
+                                                        <li><img src="http://proolnewtest.kharkov.org/munin/localhost/localhost/plugin_rus_muds_11_sh-week.png"/></li>
+                                                    -->
+                                                                </ul>
+                                                       </div>
+                                                </div>
+
+                                        </div>
+                                        <!-- main -->
+				</div>
+				<!-- row -->
+
+			</div>
+			<!-- container -->
+
+		</div>
+        </content>
+
+        <footer/>
+</page>

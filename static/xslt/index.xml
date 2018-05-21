@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF8"?>
+<page>
+        <head>
+		<title>DreamLand MUD - Мир Грёз, текстовая онлайн рпг на фентезийную тематику</title>
+        </head>
+        
+        <header/>
+
+        <content>
+		<div id="home" class="hero-area">
+			<div class="bg-image bg-parallax overlay"></div>
+
+			<div class="home-wrapper">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<h1 class="white-text">Dream Land MUD: текстовая онлайн игра</h1>
+							<p class="lead white-text">Добро пожаловать в Мир Грёз, бесплатную текстовую ролевую игру на фентезийную тематику. Вас ждет огромный мир, полный приключений, путешествий, битв, квестов и, конечно, общения с другими игроками. И так как всё это происходит в тексте, ничто не сможет ограничить вашу буйную фантазию.</p>
+							<a class="main-button icon-button" href="https://dreamland.rocks/mudjs">Начать игру!</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="about" class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-header">
+                                                    <h2>Добро пожаловать в Мир Грёз</h2>
+							<p class="lead">Есть несколько способов зайти в мир и начать играть:</p>
+                                                        <div class="feature">
+                                                                <i class="feature-icon fa fa-check"></i>
+                                                                <div class="feature-content">
+                                                                    <h4>Веб-клиент</h4>
+                                                                    <p>Можно играть прямо из браузера, используя <a href="/mudjs">веб-клиент</a>. Если вы раньше пользовались веб-клиентом, а сейчас не получается соединиться, значит недавно поменялся его протокол работы. Перегрузите страницу через Ctrl+F5, если и это не поможет, почистите кеши браузера.</p>
+                                                                </div>
+                                                        </div>
+                                                        <div class="feature">
+                                                                <i class="feature-icon fa fa-check"></i>
+                                                                <div class="feature-content">
+                                                                    <h4>Специальные программы-клиенты</h4>
+                                                                    <p>Можно использовать популярные клиенты для игры в MUD, такие как JMC, zMUD или MMC. При подключении укажите адрес и порт dreamland.rocks 9000.</p>
+                                                                </div>
+                                                        </div>
+                                                        <div class="feature">
+                                                                <i class="feature-icon fa fa-check"></i>
+                                                                <div class="feature-content">
+                                                                    <h4>Telnet</h4>
+                                                                    <p>Самый базовый способ, если не получается всё остальное, это telnet dreamland.rocks 9000.</p>
+                                                                </div>
+                                                        </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="help" class="section" style="margin-top: -120px;">
+			<div class="container">
+				<div class="row">
+					<div class="section-header text-center">
+						<h2>Помощь начинающим</h2>
+						<p class="lead">В этом разделе вы найдете множество полезной информации для начинающих и не только.</p>
+					</div>
+				</div>
+
+				<div id="courses-wrapper">
+					<div class="row">
+						<div class="col-md-3 col-sm-3 col-xs-6 col-lg-2 col-lg-offset-2 ">
+							<div class="course">
+								<a href="guide.html" class="course-img">
+									<img src="./img/miyunur/ship1.png" alt=""/>
+									<i class="course-link-icon fa fa-link"></i>
+								</a>
+								<a class="course-title" href="guide.html">Учебник новичка</a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-6 col-lg-2 ">
+							<div class="course">
+								<a href="maps.html" class="course-img">
+									<img src="./img/miyunur/map.png" alt=""/>
+									<i class="course-link-icon fa fa-link"></i>
+								</a>
+								<a class="course-title" href="maps.html">Карты и пути</a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-6 col-lg-2">
+							<div class="course">
+								<a href="searcher.html" class="course-img">
+									<img src="./img/miyunur/shoespur.png" alt=""/>
+									<i class="course-link-icon fa fa-link"></i>
+								</a>
+								<a class="course-title" href="searcher.html">Поиск вещей</a>
+							</div>
+						</div>
+						<div class="col-md-3 col-sm-3 col-xs-6 col-lg-2 ">
+							<div class="course">
+								<a href="links.html" class="course-img">
+									<img src="./img/miyunur/wheel.png" alt=""/>
+									<i class="course-link-icon fa fa-link"></i>
+								</a>
+								<a class="course-title" href="links.html">Полезные ссылки</a>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+               </div>
+
+		<div id="contact" class="section">
+			<div class="bg-image bg-parallax overlay"></div>
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-8 col-md-offset-2 text-center">
+						<h2 class="white-text">Как связаться с создателями</h2>
+                                                <p class="lead white-text">По всем вопросам пишите на <a href="mailto:ruffina.koza@gmail.com"><b>почту</b></a>, или же внутриигровой почтой (<b>note to immortal</b>). Также можно оставить сообщение на <a href="https://www.facebook.com/DreamLand-MUD-268700330534658/"><b>нашей странице в Facebook</b></a>.</p>
+					</div>
+				</div>
+			</div>
+               </div>
+
+		<div id="about" class="section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="section-header">
+                                                    <h2>О проекте</h2>
+							<p class="lead">Мир был основан в 1998 году на базе Anatolia MUD, и постепенно переехал на свою собственную кодовую базу.</p>
+						</div>
+
+						<div class="feature">
+							<i class="feature-icon fa fa-check"></i>
+							<div class="feature-content">
+								<h4>Игровые особенности</h4>
+                                                                <ul>
+                                                                    <li>- 26 рас с уникальными расовыми умениями</li>
+                                                                    <li>- 13 профессий, в том числе "универсальная" профессия, чьи навыки основаны на дереве умений</li>
+                                                                    <li>- 12 кланов, со своей историей, философией и умениями; клановые зоны и дипломатия; возможности кланового строительства</li>
+                                                                    <li>- 140+ зон, с более чем 9500 комнат (игровых локаций)</li>
+                                                                    <li>- гибкая система ПК (PvP): варианты no-PK, ограниченного PK, полного PK</li>
+                                                                    <li>- разнообразные автоматические персональные квесты, учитывающие профессию и характер персонажа</li>
+                                                                    <li>- групповые/глобальные квесты</li>
+                                                                    <li>- гибкая система ремортов (перерождение после 100го уровня)</li>
+                                                                    <li>- все предметы сохраняются между перезагрузками; нет платы за 'постой'</li>
+                                                                    <li>- много возможностей для ролевого самовыражения: персонализация вещей, cоциалов, умений и заклинаний</li>
+                                                                    <li>- постройка личных домов</li>
+                                                                    <li>- мобы с искусственным интеллектом</li>
+                                                                    <li>... и многое другое </li>
+                                                                </ul>
+							</div>
+						</div>
+
+						<div class="feature">
+							<i class="feature-icon fa fa-check"></i>
+							<div class="feature-content">
+								<h4>Кодовая база</h4>
+                                                                <ul>
+                                                                    <li>- 99% игровой логики меняется на лету, без перезагрузки, благодаря системе плагинов</li>
+                                                                    <li>- уникальный скриптовый язык Fenia</li>
+                                                                    <li>- внутриигровой редактор зон</li>
+                                                                    <li>- состояние мира и скриптовой машины сохраняется между ребутами</li>
+                                                                </ul>
+							</div>
+						</div>
+
+						<div class="feature">
+							<i class="feature-icon fa fa-check"></i>
+							<div class="feature-content">
+								<h4>Скриптовый язык</h4>
+                                                                <p>Позволяет описывать ту же логику (команды, умения, поведение), что и в основном коде, от простых 'мобпрог' до сложных игровых подсистем. Ниже приведено  несколько примеров.</p>
+                                                                <ul>
+                                                                    <li>- <a href="https://dreamland.rocks/fenia/nanny.html">Сложный пример</a>: "няня", отвечающая за создание новых персонажей и вход в мир старых.</li>
+                                                                    <li>- <a href="https://dreamland.rocks/fenia/fire.html">Простой пример</a>: добавляет возможность поджигать предметы спичками и палить костры, без предварительной поддержки этих процессов со стороны кода.</li> 
+                                                                </ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+                
+	</content>
+        <footer />
+</page>
+

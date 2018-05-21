@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF8"?>
+<page>
+	<head>
+                 <title>DreamLand MUD - Мир Грёз, Поиск вещей</title>
+                <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"/>
+        </head>
+        
+        <header />
+        <content>
+
+		<!-- Hero-area -->
+		<div class="hero-area section">
+			<div class="bg-image bg-parallax overlay"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1 text-center">
+						<ul class="hero-area-tree">
+							<li><a href="index.html">Home</a></li>
+							<li>Searcher</li>
+						</ul>
+						<h1 class="white-text">Поиск вещей</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /Hero-area -->
+
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+                                    <div id="main" class="col-md-12">
+                                        <h1>Поиск вещей</h1>
+                                        <p class="lead">Здесь вы найдете поисковики по различным типам предметов, которые встречаются в мире. Помните, что отображаются далеко не все свойства: самую полную информацию о предмете можно узнать с помощью заклинаний 'опознание' или у мудрецов.</p>
+
+
+                                        <ul class="nav nav-tabs">
+                                              <li class="active"><a data-toggle="tab" href="#armor">Доспехи</a></li>
+                                              <li><a data-toggle="tab" href="#weapon">Оружие</a></li>
+                                              <li><a data-toggle="tab" href="#magicItem">Магия</a></li>
+                                        </ul>
+					<div class="tab-content">
+					  <div id="armor" class="tab-pane fade in active">
+                                            <h3>Доспехи, светильники, одежда</h3>
+                                            <p>Можно искать вещи по имени, задав ключевое слово в строке поиска, а также по тому, куда надевается эта вещь. Результаты поиска можно ограничить, задав интересующий диапазон уровней.</p><p>Обозначения колонок: HR (hitroll, точность), DR (damroll, повреждения), HP (hitpoints, здоровье), AC (armor class, класс брони), SVS (saves vs spell, защита от заклинаний), STR (сила), INT (ум), WIS (мудрость), DEX (ловкость), CON (сложение), CHA (харизма), SIZE (размер). </p>
+
+                                            <div class="section" width="80%" style="width:80%;">
+                                            <div class="container">
+                                                    <!-- row -->
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                                <form>
+                                                                  <div class="form-row">
+                                                                    <div class="form-group col-md-2 col-sm-2">
+                                                                      <label for="levelMin">Уровень с</label>
+                                                                      <input type="text" class="form-control" id="levelMin" placeholder=""/>
+                                                                    </div>
+                                                                    <div class="form-group col-md-2 col-sm-2">
+                                                                      <label for="levelMax">... по</label>
+                                                                      <input type="text" class="form-control" id="levelMax" placeholder=""/>
+                                                                    </div>
+                                                                  </div>
+                                                                  <div class="form-group col-md-3 col-sm-3">
+                                                                    <label for="wearloc">Надевается</label>
+                                                                    <select id="wearloc" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
+                                                                        <option value="undef" selected="selected">(выбрать)</option>
+                                                                        <option value="light">свет</option>
+                                                                        <option value="finger">палец</option>
+                                                                        <option value="neck">шея</option>
+                                                                        <option value="body">вокруг тела</option>
+                                                                        <option value="head">голова</option>
+                                                                        <option value="legs">бедра</option>
+                                                                        <option value="feet">ноги</option>
+                                                                        <option value="hands">руки</option>
+                                                                        <option value="arms">плечи</option>
+                                                                        <option value="shield">щит</option>
+                                                                        <option value="torso">на тело</option>
+                                                                        <option value="waist">талия</option>
+                                                                        <option value="wrist">запястье</option>
+                                                                        <option value="hold">в руках</option>
+                                                                        <option value="float">кружится</option>
+                                                                        <option value="face">лицо</option>
+                                                                        <option value="ears">уши</option>
+                                                                        <option value="horse">лошадиное тело</option>
+                                                                        <option value="hooves">копыта</option>
+
+                                                                    </select>
+                                                                  </div>
+                                                                  <div class="form-group col-md-4 col-sm-4">
+                                                                    <label for="name">Название</label>
+                                                                    <input type="text" class="form-control" id="name" placeholder=""/>
+                                                                  </div>
+                                                                  <div class="col-md-1">
+                                                                     <button id="submit" type="button" class="btn btn-lg btn-primary" style="margin-top: 20px;">Искать</button>
+                                                                  </div>
+                                                               </form>
+                                                               <div class="row"><div class="col-md-10 loading" style="text-align:center;">Работаю...</div></div>
+                                                            </div><!-- main -->
+                                                    </div><!-- row -->
+                                                    <div class="row"><div class="col-sm-12">
+                                                            <div class="myerror alert alert-warning" style="display:none;"></div>
+                                                    </div></div>
+
+
+                                                    <table class="table table-striped">
+                                                        <thead><tr>
+                                                            <th>Имя</th>        
+                                                            <th>Ур</th>        
+                                                            <th>Тип</th>        
+                                                            <th>HR</th>        
+                                                            <th>DR</th>        
+                                                            <th>HP</th>        
+                                                            <th>AC</th>        
+                                                            <th>SVS</th>        
+                                                            <th>STR</th>        
+                                                            <th>INT</th>        
+                                                            <th>WIS</th>        
+                                                            <th>DEX</th>        
+                                                            <th>CON</th>        
+                                                            <th>CHA</th>        
+                                                            <th>SIZE</th>        
+                                                            <th>Зона</th>        
+                                                            <th>Где</th>        
+                                                        </tr></thead>
+                                                        <tbody class="data-target"></tbody>
+                                                    </table>
+
+                                            </div><!-- armor container -->
+                                            </div><!-- armor section -->
+                                        </div> <!-- armor tab-pane -->
+
+
+					  <div id="weapon" class="tab-pane fade">
+                                            <h3>Оружие</h3>
+                                            <p>Можно искать оружие по имени, задав ключевое слово в строке поиска, а также по типу оружия. Результаты поиска можно ограничить, задав интересующий диапазон уровней.</p>
+                                            <p>Повреждение от оружия определяется броском кубиков. Кубик с заданным числом граней бросают заданное число раз и вычисляют среднее. Обозначения колонок: D1 (сколько раз бросать кубики), D2 (сколько граней у кубика), AVE (average, средние повреждения), HR (hitroll, точность), DR (damroll, повреждения), HP (hitpoints, здоровье), MAN (мана, энергия), AC (armor class, класс брони), SVS (saves vs spell, защита от заклинаний), STR (сила), INT (ум), WIS (мудрость), DEX (ловкость), CON (сложение). </p>
+
+		<div class="section" width="80%" style="width:80%">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+                                    <div class="col-md-12">
+                                            <form>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-2 col-sm-2">
+                                                  <label for="levelMin">Уровень с</label>
+                                                  <input type="text" class="form-control" id="levelMin" placeholder=""/>
+                                                </div>
+                                                <div class="form-group col-md-2 col-sm-2">
+                                                  <label for="levelMax">... по</label>
+                                                  <input type="text" class="form-control" id="levelMax" placeholder=""/>
+                                                </div>
+                                              </div>
+                                              <div class="form-group col-md-3 col-sm-3">
+                                                <label for="wclass">Тип оружия</label>
+                                                <select id="wclass" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
+                                                    <option value="undef" selected="selected">(выбрать)</option>
+                                                    <option value="exotic">экзотика (exotic)</option> 
+                                                    <option value="sword">меч (sword)</option> 
+                                                    <option value="dagger">кинжал (dagger)</option> 
+                                                    <option value="staff">посох (staff)</option>
+                                                    <option value="spear">копье (spear)</option> 
+                                                    <option value="mace">булава (mace)</option> 
+                                                    <option value="axe">топор (axe)</option> 
+                                                    <option value="flail">цеп (flail)</option> 
+                                                    <option value="whip">плетка (whip)</option> 
+                                                    <option value="polearm">алебарда (polearm)</option> 
+                                                    <option value="bow">лук (bow)</option> 
+                                                    <option value="arrow">стрела (arrow)</option> 
+                                                    <option value="lance">пика (lance)</option> 
+                                                    <option value="stone">камень (stone)</option>
+                                                </select>
+                                              </div>
+                                              <div class="form-group col-md-4 col-sm-4">
+                                                <label for="name">Название</label>
+                                                <input type="text" class="form-control" id="name" placeholder=""/>
+                                              </div>
+                                              <div class="col-md-1">
+                                                 <button id="submit" type="button" class="btn btn-lg btn-primary" style="margin-top: 20px;">Искать</button>
+                                              </div>
+                                           </form>
+                                           <div class="row"><div class="col-md-10 loading" style="text-align:center;">Работаю...</div></div>
+                                        </div><!-- main -->
+				</div><!-- row -->
+                                <div class="row"><div class="col-sm-12">
+                                        <div class="myerror alert alert-warning" style="display:none;"></div>
+                                </div></div>
+
+                                            <table class="table table-striped">
+                                                <thead><tr>
+                                                    <th>Имя</th>        
+                                                    <th>Ур</th>        
+                                                    <th>D1</th>        
+                                                    <th>D2</th>        
+                                                    <th>AVE</th>        
+                                                    <th>Эффекты</th>        
+                                                    <th>HR</th>        
+                                                    <th>DR</th>        
+                                                    <th>HP</th>        
+                                                    <th>MAN</th>        
+                                                    <th>AC</th>        
+                                                    <th>SVS</th>        
+                                                    <th>STR</th>        
+                                                    <th>INT</th>        
+                                                    <th>WIS</th>        
+                                                    <th>DEX</th>        
+                                                    <th>CON</th>        
+                                                    <th>Зона</th>        
+                                                    <th>Где</th>        
+                                                </tr></thead>
+                                                <tbody class="data-target"></tbody>
+                                            </table>
+			</div><!-- weapons container -->
+                    </div><!-- weapons section -->
+
+                                        </div> <!-- weapons tab-pane -->
+
+                                        <!-- magic tab-pane -->
+					<div id="magicItem" class="tab-pane fade">
+                                            <h3>Зелья, свитки, посохи, жезлы и пилюли</h3>
+                                            <p>Волшебные предметы можно искать по их типу, а также по английскому названию заклинания в строке поиска. Результат можно ограничить по уровню.</p>
+                                            <p>Обозначения колонок: Ур (уровень использования предмета), Ур Закл (уровень заклинания), Зрд (кол-во зарядов; жезлы и посохи можно использовать более одного раза).</p>
+
+		<div class="section" width="80%" style="width:80%">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+                                    <div class="col-md-12">
+                                            <form>
+                                              <div class="form-row">
+                                                <div class="form-group col-md-2 col-sm-2">
+                                                  <label for="levelMin">Уровень с</label>
+                                                  <input type="text" class="form-control" id="levelMin" placeholder=""/>
+                                                </div>
+                                                <div class="form-group col-md-2 col-sm-2">
+                                                  <label for="levelMax">... по</label>
+                                                  <input type="text" class="form-control" id="levelMax" placeholder=""/>
+                                                </div>
+                                              </div>
+                                              <div class="form-group col-md-3 col-sm-3">
+                                                <label for="itemtype">Тип предмета</label>
+                                                <select id="itemtype" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
+                                                    <option value="undef" selected="selected">(выбрать)</option>
+                                                    <option value="potion">зелье (potion)</option> 
+                                                    <option value="pill">лекарство (pill)</option> 
+                                                    <option value="scroll">свиток (scroll)</option> 
+                                                    <option value="wand">жезл (wand)</option> 
+                                                    <option value="staff">посох (staff)</option>
+                                                </select>
+                                              </div>
+                                              <div class="form-group col-md-4 col-sm-4">
+                                                <label for="spells">Заклинание</label>
+                                                <input type="text" class="form-control" id="spells" placeholder=""/>
+                                              </div>
+                                              <div class="col-md-1">
+                                                 <button id="submit" type="button" class="btn btn-lg btn-primary" style="margin-top: 20px;">Искать</button>
+                                              </div>
+                                           </form>
+                                           <div class="row"><div class="col-md-10 loading" style="text-align:center;">Работаю...</div></div>
+                                        </div><!-- main -->
+				</div><!-- row -->
+                                <div class="row"><div class="col-sm-12">
+                                        <div class="myerror alert alert-warning" style="display:none;"></div>
+                                </div></div>
+
+                                            <table class="table table-striped">
+                                                <thead><tr>
+                                                    <th>Имя</th>        
+                                                    <th>Ур</th>        
+                                                    <th>Тип</th>        
+                                                    <th>Ур Закл</th>        
+                                                    <th>Зрд</th>        
+                                                    <th>Заклинания</th>        
+                                                    <th>Зона</th>        
+                                                    <th>Где</th>        
+                                                </tr></thead>
+                                                <tbody class="data-target"></tbody>
+                                            </table>
+			</div><!-- magic container -->
+                    </div><!-- magic section -->
+
+                                        </div> <!-- magic tab-pane -->
+                                        `
+                                    </div> <!-- tab-content-->
+                                    </div>
+                                </div>
+			</div><!-- searcher container -->
+                </div><!-- section -->
+
+        </content>
+
+        <footer>
+                <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+                <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/searcher.js"></script>
+        </footer> 
+</page>

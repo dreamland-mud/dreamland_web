@@ -1,0 +1,25 @@
+pre.for-panel { 
+   padding: 0px; 
+   background-color: inherit; 
+   border: none; 
+   border-radius: 0px; 
+   white-space: pre-wrap;       /* css-3 */
+   white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+   white-space: -pre-wrap;      /* Opera 4-6 */
+   white-space: -o-pre-wrap;    /* Opera 7 */
+   word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.for-panel .panel-heading { text-align: center; }
+.for-panel .panel-body { 
+   padding: 0px 15px 0px 15px;
+}
+span.news-date { float: left; }
+span.news-subject { }
+span.tag-x { color: white; }
+span.tag-r { color: red; }
+span.tag-y { color: yellow; }
+span.tag-g { color: green; }
+span.tag-b { color: blue; }
+span.tag-c { color: cyan; }
+span.tag-m { color: magenta; }
+
