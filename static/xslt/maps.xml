@@ -70,7 +70,7 @@
 <tr><td>Шахматная Доска</td><td>Chessboard</td><td></td><td>10</td><td>35</td><td>3w2sw</td></tr>
 <tr><td>Шоколадная фабрика</td><td></td><td><a href="maps/chocolate.html">карта</a></td><td>20</td><td>70</td><td>золотой билет в кондитерских</td></tr>
 <tr><td>Логовище Сайкуалы</td><td>Ciquala Lair</td><td></td><td>40</td><td>62</td><td>13w2n2en</td></tr>
-<tr><td>Цирк</td><td>Circus</td><td></td><td>1</td><td>12</td><td>3e9s</td></tr>
+<tr><td>Цирк</td><td>Circus</td><td><a href="maps/circus.html">карта</a></td><td>1</td><td>12</td><td>3e9s</td></tr>
 <tr><td>Облачная Гора</td><td>Cloudy Mountain</td><td></td><td>40</td><td>100</td><td>3e4n2w7n6esu2e3n3uw5nwu2ne3n</td></tr>
 <tr><td>Шабаш</td><td>Coven</td><td><a href="maps/coven.html">карта</a></td><td>25</td><td>35</td><td>6e4s2en</td></tr>
 <tr><td>Озеро Кристалмир</td><td>Crystalmir Lake</td><td></td><td>5</td><td>35</td><td>6e3n от Рыночной Площади Старого Мидгаарда</td></tr>
@@ -116,12 +116,12 @@
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
 <tr><td>Библиотека</td><td></td><td></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
 <tr><td>Башня Лича</td><td>Lich Tower</td><td></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
-<tr><td>Волшебный Лес</td><td>Magic Forest</td><td></td><td>25</td><td>40</td><td>13w;enter tree</td></tr>
+<tr><td>Волшебный Лес</td><td>Magic Forest</td><td><a href="maps/magicfor.html">карта</a></td><td>25</td><td>40</td><td>13w;enter tree</td></tr>
 <tr><td>Мах&apos;н-Тор</td><td>The Keep of Mahn-Tor</td><td></td><td>5</td><td>35</td><td>6e4s2es2ed3nes</td></tr>
 <tr><td>Непрерывность парков</td><td></td><td></td><td>1</td><td>100</td><td>за западными воротами Старого Мидгаарда</td></tr>
 <tr><td>Старая Топь</td><td>Old Marsh</td><td></td><td>15</td><td>25</td><td>13ws2w2sw3s</td></tr>
 <tr><td>Маскарад</td><td></td><td><a href="maps/masquerade.html">карта</a></td><td>1</td><td>5</td><td>портал блуждает по новичковым зонам</td></tr>
-<tr><td>Mother Goose</td><td>Mother Goose</td><td></td><td>3</td><td>15</td><td>3s2e2s6wns2w</td></tr>
+<tr><td>Mother Goose</td><td>Mother Goose</td><td><a href="maps/mgoose.html">карта</a></td><td>3</td><td>15</td><td>3s2e2s6wns2w</td></tr>
 <tr><td>Миден&apos;нир</td><td>Miden&apos;nir</td><td></td><td>5</td><td>15</td><td>3e8s2w2s</td></tr>
 <tr><td>Мидгаард</td><td>Midgaard</td><td><a href="maps/midgaard.html">карта</a></td><td>1</td><td>100</td><td>войти в портал в храме своего города</td></tr>
 <tr><td>Лихолесье</td><td>Mirkwood</td><td></td><td>5</td><td>15</td><td>4e3n2w2n3edn</td></tr>
@@ -140,7 +140,7 @@
 <tr><td>Plains of the North</td><td>Plains of the North</td><td></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
 <tr><td>Мидгаардская Тюрьма</td><td>The Prison of Midgaard</td><td></td><td>5</td><td>90</td><td>6s3w</td></tr>
 <tr><td>Темница Герихельма</td><td></td><td></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
-<tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
+<tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
 <tr><td>Дом Куифаэля</td><td>Quifael's Area</td><td></td><td>31</td><td>35</td><td>6se3swse</td></tr>
 <tr><td>Храм Крысиного Бога</td><td></td><td></td><td>1</td><td>106</td><td>3wsed</td></tr>
 <tr><td>Резиденция Редферна</td><td>Redferne&apos;s Residence</td><td></td><td>20</td><td>30</td><td>6se3swsu</td></tr>
