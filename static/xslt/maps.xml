@@ -94,10 +94,10 @@
 <tr><td>Большой Герихельм</td><td>Greater Gerighelm</td><td></td><td>1</td><td>30</td><td>7wu</td></tr>
 <tr><td>Деревня Гномов</td><td>Gnome Village</td><td></td><td>5</td><td>15</td><td>8es</td></tr>
 <tr><td>Кладбище</td><td>Graveyard</td><td><a href="maps/grave.html">карта</a></td><td>5</td><td>10</td><td>3e7sws</td></tr>
-<tr><td>Священная Роща</td><td>Holy Grove</td><td></td><td>5</td><td>20</td><td>8en</td></tr>
+<tr><td>Священная Роща</td><td>Holy Grove</td><td><a href="maps/grove.html">карта</a></td><td>5</td><td>20</td><td>8en</td></tr>
 <tr><td>Крепость Гоблинов</td><td>Goblin Stronghold</td><td></td><td>10</td><td>20</td><td>3w8s2e7s2e4su</td></tr>
 <tr><td>Город Призраков</td><td>Ghost Town</td><td></td><td>45</td><td>65</td><td>21e5sden</td></tr>
-<tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td></td><td>5</td><td>10</td><td>5w</td></tr>
+<tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td><a href="maps/haon.html">карта</a></td><td>5</td><td>10</td><td>5w</td></tr>
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
 <tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
 <tr><td>Храм Зава</td><td></td><td></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
@@ -150,7 +150,7 @@
 <tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
 <tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
 <tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
-<tr><td>Шир</td><td>Shire</td><td></td><td>5</td><td>35</td><td>5wn</td></tr>
+<tr><td>Шир</td><td>Shire</td><td><a href="maps/shire.html">карта</a></td><td>5</td><td>35</td><td>5wn</td></tr>
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
 <tr><td>Солас</td><td>Solace</td><td></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Храм Тананды</td><td></td><td></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
