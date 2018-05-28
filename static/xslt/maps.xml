@@ -91,7 +91,7 @@
 <tr><td>Вольная Гавань</td><td>Freeport</td><td><a href="maps/freeport.html">карта</a></td><td>8</td><td>53</td><td>34en3e</td></tr>
 <tr><td>Галактика</td><td>Galaxy</td><td></td><td>20</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать вход в таверну</td></tr>
 <tr><td>Планетарная Геометрия</td><td></td><td></td><td>1</td><td>100</td><td>через Пастбища и другое</td></tr>
-<tr><td>Большой Герихельм</td><td>Greater Gerighelm</td><td></td><td>1</td><td>30</td><td>7wu</td></tr>
+<tr><td>Большой Герихельм</td><td>Greater Gerighelm</td><td><a href="maps/gerghlm2.html">карта</a></td><td>1</td><td>30</td><td>7wu</td></tr>
 <tr><td>Деревня Гномов</td><td>Gnome Village</td><td></td><td>5</td><td>15</td><td>8es</td></tr>
 <tr><td>Кладбище</td><td>Graveyard</td><td><a href="maps/grave.html">карта</a></td><td>5</td><td>10</td><td>3e7sws</td></tr>
 <tr><td>Священная Роща</td><td>Holy Grove</td><td><a href="maps/grove.html">карта</a></td><td>5</td><td>20</td><td>8en</td></tr>
@@ -152,7 +152,7 @@
 <tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
 <tr><td>Шир</td><td>Shire</td><td><a href="maps/shire.html">карта</a></td><td>5</td><td>35</td><td>5wn</td></tr>
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
-<tr><td>Солас</td><td>Solace</td><td></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
+<tr><td>Солас</td><td>Solace</td><td><a href="maps/solace.html">карта</a></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Храм Тананды</td><td></td><td></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
 <tr><td>The City of Anon</td><td>The City of Anon</td><td><a href="maps/tcwnn.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnw</td></tr>
 <tr><td>The Walls of Anon</td><td>The Walls of Anon</td><td></td><td>50</td><td>65</td><td>через все Guard Towers в The City of Anon</td></tr>
