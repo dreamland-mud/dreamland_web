@@ -45,16 +45,15 @@
                                                         <p class="lead">В этом разделе собрана информация о путях к большинству зон (арий) Мира Грез. По умолчанию путь указан от Рыночной Площади Мидгаарда. Подробнее смотреть help run, help movement и все связанные разделы. Также читайте help areas, чтобы узнать, как отобразить все зоны на свой уровень или найти зону по имени.</p>
 						</div>
                                                 <div class="feature">
-                                                    
 <table class="table" id="areatable">
 <thead><tr><th>Имя зоны</th><th>Исходное имя</th><th>Карта</th><th>Мин</th><th>Макс</th><th>Путь</th></tr></thead>
-<tr><td>Ааракокран</td><td>Aarakokran City</td><td></td><td>15</td><td>30</td><td>6e4s2es2eds4und4ne3neu</td></tr>
-<tr><td>Абисс</td><td>The Abyss</td><td></td><td>30</td><td>50</td><td>6e4s2es2edsun</td></tr>
+<tr><td>Ааракокран</td><td>Aarakokran City</td><td><a href="maps/aarak2.html">карта</a></td><td>15</td><td>30</td><td>6e4s2es2eds4und4ne3neu</td></tr>
+<tr><td>Абисс</td><td>The Abyss</td><td><a href="maps/abyss2.html">карта</a></td><td>30</td><td>50</td><td>6e4s2es2edsun</td></tr>
 <tr><td>В Воздухе</td><td>In the Air</td><td></td><td>5</td><td>10</td><td>n2u</td></tr>
 <tr><td>Страна Чудес</td><td>Wonderland</td><td><a href="maps/alice.html">карта</a></td><td>35</td><td>45</td><td>35esenen5es</td></tr>
 <tr><td>Амбер</td><td></td><td></td><td>1</td><td>100</td><td>3s2e2s6wnsws</td></tr>
 <tr><td>Замок Амбера, 1й этаж</td><td></td><td><a href="maps/amber_floor1.png">карта</a></td><td>10</td><td>25</td><td>3s2e2s6wnsw2s2w2n</td></tr>
-<tr><td>Антария</td><td>Antharia</td><td></td><td>9</td><td>42</td><td>6e3n3w2n2d  от Рыночной Площади Старого Мидгаарда</td></tr>
+<tr><td>Антария</td><td>Antharia</td><td><a href="maps/antharia.html">карта</a></td><td>9</td><td>42</td><td>6e3n3w2n2d  от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Арахнос</td><td>Arachnos</td><td></td><td>5</td><td>20</td><td>13ws2wnwu</td></tr>
 <tr><td>Аркадия</td><td>Arcadia</td><td></td><td>30</td><td>90</td><td>4e3n2w5nw3nd7n</td></tr>
 <tr><td>Армагеддон</td><td>Armageddon</td><td></td><td>70</td><td>95</td><td>34en4e2s3enen5es2e</td></tr>
@@ -98,7 +97,7 @@
 <tr><td>Крепость Гоблинов</td><td>Goblin Stronghold</td><td></td><td>10</td><td>20</td><td>3w8s2e7s2e4su</td></tr>
 <tr><td>Город Призраков</td><td>Ghost Town</td><td></td><td>45</td><td>65</td><td>21e5sden</td></tr>
 <tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td><a href="maps/haon.html">карта</a></td><td>5</td><td>10</td><td>5w</td></tr>
-<tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
+<tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
 <tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
 <tr><td>Храм Зава</td><td></td><td></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
 <tr><td>Пригород Герихельма</td><td></td><td></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
@@ -109,10 +108,10 @@
 <tr><td>Пригород Соласа</td><td></td><td></td><td>1</td><td>100</td><td>тропа вдоль берега Озера Кристалмир</td></tr>
 <tr><td>Пригород Долины Титанов</td><td></td><td></td><td>1</td><td>100</td><td>от Моста с воротами в Долине Титанов</td></tr>
 <tr><td>Хижина</td><td></td><td></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
-<tr><td>Valhalla</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
+<tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
 <tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
 <tr><td>Логово Джэра</td><td>Lair of Jher</td><td></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
-<tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
+<tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
 <tr><td>Библиотека</td><td></td><td></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
 <tr><td>Башня Лича</td><td>Lich Tower</td><td></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
@@ -120,33 +119,33 @@
 <tr><td>Мах&apos;н-Тор</td><td>The Keep of Mahn-Tor</td><td></td><td>5</td><td>35</td><td>6e4s2es2ed3nes</td></tr>
 <tr><td>Непрерывность парков</td><td></td><td></td><td>1</td><td>100</td><td>за западными воротами Старого Мидгаарда</td></tr>
 <tr><td>Старая Топь</td><td>Old Marsh</td><td></td><td>15</td><td>25</td><td>13ws2w2sw3s</td></tr>
-<tr><td>Маскарад</td><td></td><td><a href="maps/masquerade.html">карта</a></td><td>1</td><td>5</td><td>портал блуждает по новичковым зонам</td></tr>
+<tr><td>Маскарад</td><td></td><td><a href="maps/masquerade.html">карта</a></td><td>1</td><td>5</td><td>блуждающий портал</td></tr>
 <tr><td>Mother Goose</td><td>Mother Goose</td><td><a href="maps/mgoose.html">карта</a></td><td>3</td><td>15</td><td>3s2e2s6wns2w</td></tr>
 <tr><td>Миден&apos;нир</td><td>Miden&apos;nir</td><td></td><td>5</td><td>15</td><td>3e8s2w2s</td></tr>
 <tr><td>Мидгаард</td><td>Midgaard</td><td><a href="maps/midgaard.html">карта</a></td><td>1</td><td>100</td><td>войти в портал в храме своего города</td></tr>
 <tr><td>Лихолесье</td><td>Mirkwood</td><td></td><td>5</td><td>15</td><td>4e3n2w2n3edn</td></tr>
-<tr><td>Старый Мидгаард</td><td>Old Midgaard</td><td></td><td>1</td><td>30</td><td>2nu3s;enter portal;d</td></tr>
 <tr><td>Королевство Зеркал</td><td>Mirror of Realm</td><td></td><td>20</td><td>50</td><td>6e2ne</td></tr>
+<tr><td>Старый Мидгаард</td><td>Old Midgaard</td><td></td><td>1</td><td>30</td><td>2nu3s;enter portal;d</td></tr>
 <tr><td>Мория</td><td>Moria</td><td><a href="maps/moria.html">карта</a></td><td>5</td><td>15</td><td>6e3n</td></tr>
 <tr><td>Гора Смерти</td><td>Kurgan Mount Doom</td><td></td><td>45</td><td>65</td><td>13w2n2edn</td></tr>
 <tr><td>Земля гоблинов</td><td>Goblin Nation</td><td></td><td>10</td><td>25</td><td>35ese</td></tr>
 <tr><td>Зона Новичков</td><td>Newbie Zone</td><td></td><td>1</td><td>10</td><td>2nu3s;enter portal</td></tr>
 <tr><td>Новый Талос</td><td>New Thalos</td><td><a href="maps/newthalos.html">карта</a></td><td>10</td><td>35</td><td>15e</td></tr>
 <tr><td>Нирвана</td><td>Nirvana</td><td></td><td>30</td><td>35</td><td>8e2n2eu</td></tr>
-<tr><td>Офкол</td><td>Ofcol</td><td></td><td>1</td><td>100</td><td>3e4n2w4ne4n2ene2n</td></tr>
 <tr><td>New Ofcol</td><td>New Ofcol</td><td><a href="maps/ofcol2.html">карта</a></td><td>5</td><td>35</td><td>3e4n2w4ne4n2ene3n2e</td></tr>
+<tr><td>Офкол</td><td>Ofcol</td><td></td><td>1</td><td>100</td><td>3e4n2w4ne4n2ene2n</td></tr>
 <tr><td>Олимп</td><td>Olympus</td><td><a href="maps/olympus.html">карта</a></td><td>5</td><td>60</td><td>4e3n2w6nu</td></tr>
 <tr><td>Парк Сумрачных Ветров</td><td>Shady Breezes Park</td><td></td><td>65</td><td>100</td><td>4e2ne</td></tr>
-<tr><td>Plains of the North</td><td>Plains of the North</td><td></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
-<tr><td>Мидгаардская Тюрьма</td><td>The Prison of Midgaard</td><td></td><td>5</td><td>90</td><td>6s3w</td></tr>
+<tr><td>Plains of the North</td><td>Plains of the North</td><td><a href="maps/plains.html">карта</a></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
 <tr><td>Темница Герихельма</td><td></td><td></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
+<tr><td>Тюрьма</td><td>Мидгаардская тюрьма</td><td></td><td>5</td><td>90</td><td>6s3w</td></tr>
 <tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
-<tr><td>Дом Куифаэля</td><td>Quifael's Area</td><td></td><td>31</td><td>35</td><td>6se3swse</td></tr>
+<tr><td>Дом Куифаэля</td><td>Quifael&apos;s Area</td><td></td><td>31</td><td>35</td><td>6se3swse</td></tr>
 <tr><td>Храм Крысиного Бога</td><td></td><td></td><td>1</td><td>106</td><td>3wsed</td></tr>
 <tr><td>Резиденция Редферна</td><td>Redferne&apos;s Residence</td><td></td><td>20</td><td>30</td><td>6se3swsu</td></tr>
 <tr><td>Пещеры</td><td>Caverns</td><td><a href="maps/ryzen2.html">карта</a></td><td>25</td><td>45</td><td>6e4s2es2ed3ne4s4wsw2sd2sd</td></tr>
 <tr><td>Пастбища и другое</td><td></td><td></td><td>1</td><td>100</td><td>3eN2w3n2es</td></tr>
-<tr><td>MUD Школа</td><td>MUD School</td><td></td><td>1</td><td>5</td><td>2nu</td></tr>
+<tr><td>MUD Школа</td><td>MUD School</td><td><a href="maps/school.html">карта</a></td><td>1</td><td>5</td><td>2nu</td></tr>
 <tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
 <tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
 <tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
@@ -154,8 +153,8 @@
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
 <tr><td>Солас</td><td>Solace</td><td><a href="maps/solace.html">карта</a></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Храм Тананды</td><td></td><td></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
-<tr><td>The City of Anon</td><td>The City of Anon</td><td><a href="maps/tcwnn.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnw</td></tr>
 <tr><td>The Walls of Anon</td><td>The Walls of Anon</td><td></td><td>50</td><td>65</td><td>через все Guard Towers в The City of Anon</td></tr>
+<tr><td>The City of Anon</td><td>The City of Anon</td><td><a href="maps/tcwnn.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnw</td></tr>
 <tr><td>Талос</td><td>Thalos</td><td></td><td>10</td><td>25</td><td>6e4s3w</td></tr>
 <tr><td>Долина Титанов</td><td>Valley of the Titans</td><td><a href="maps/titan.html">карта</a></td><td>25</td><td>50</td><td>13w2nen</td></tr>
 <tr><td>Храм Фемиды</td><td></td><td></td><td>0</td><td>101</td><td>2se</td></tr>
@@ -167,12 +166,12 @@
 <tr><td>Подземье (UnderDark)</td><td>UnderDark</td><td></td><td>13</td><td>50</td><td>6e10nd</td></tr>
 <tr><td>Дьявольский Монастырь</td><td>The Unholy Abbey</td><td></td><td>60</td><td>65</td><td>6e10n2e8n</td></tr>
 <tr><td>Valley of the Elves</td><td>Valley of the Elves</td><td><a href="maps/valley.html">карта</a></td><td>5</td><td>20</td><td>4e3n2w5nwn</td></tr>
-<tr><td>The Village of Anon</td><td>The Village of Anon</td><td></td><td>1</td><td>65</td><td>6e4s4w3s4wnws8w</td></tr>
+<tr><td>The Village of Anon</td><td>The Village of Anon</td><td><a href="maps/villa.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnws8w</td></tr>
 <tr><td>Тайное Убежище Колдуна</td><td>The Keep of The Warlock</td><td></td><td>20</td><td>30</td><td>6e2nw от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Cannabis</td><td>Cannabis</td><td><a href="maps/weed.html">карта</a></td><td>40</td><td>60</td><td>13w2ne2n4wn2w2n2w5s2wn</td></tr>
-<tr><td>Westland</td><td>Westland</td><td></td><td>40</td><td>90</td><td>13w2ne3n</td></tr>
+<tr><td>Westland</td><td>Westland</td><td><a href="maps/westland.html">карта</a></td><td>40</td><td>90</td><td>13w2ne3n</td></tr>
 <tr><td>Вивернова башня</td><td>Wyvern&apos;s Tower</td><td></td><td>5</td><td>30</td><td>6e4s2es2ede</td></tr>
-<tr><td>Мидгаардский Зоопарк</td><td></td><td></td><td>1</td><td>15</td><td>8sesu</td></tr>
+<tr><td>Мидгаардский Зоопарк</td><td></td><td><a href="maps/zoo3.html">карта</a></td><td>1</td><td>15</td><td>8sesu</td></tr>
 <tr><td>Музей Зоологии</td><td>Zoology Museum</td><td><a href="maps/zoology.html">карта</a></td><td>1</td><td>10</td><td>2nue</td></tr>
 </table>
                                                 </div>
