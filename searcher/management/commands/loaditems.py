@@ -33,7 +33,7 @@ class Command(BaseCommand):
                     item.mana = row['mana']
                     item.move = row['move']
                     item.saves = row['saves']
-                    item.amor = row['armor']
+                    item.armor = row['armor']
                     item.stat_str = row['str']
                     item.stat_int = row['int']
                     item.stat_wis = row['wis']

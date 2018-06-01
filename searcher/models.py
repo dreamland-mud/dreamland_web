@@ -54,7 +54,7 @@ class Item(models.Model):
     where = models.CharField(max_length=256, default='')
     
     def __repr__ (self):
-        return u"<item vnum=%s lvl=%s>" % (self.vnum, self.level)
+        return u"<item vnum=%s lvl=%s armor=%s>" % (self.vnum, self.level, self.armor)
 
 
 
