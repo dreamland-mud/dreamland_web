@@ -15,3 +15,6 @@ searcher/migrations
 
 # VSCode
 *.code-workspace
+*.pyc
+*.sqlite3
+stunnel.*
