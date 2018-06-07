@@ -80,7 +80,7 @@
 <tr><td>Пик Драконов</td><td>Dragon Spyre</td><td></td><td>30</td><td>65</td><td>4e3n2w3ne2n4esu</td></tr>
 <tr><td>Остров Дракири</td><td>Drakyri Isle</td><td></td><td>65</td><td>90</td><td>7w2sese3s</td></tr>
 <tr><td>Machine Dreams</td><td>Machine Dreams</td><td></td><td>1</td><td>5</td><td>3e2swsu</td></tr>
-<tr><td>Drow City</td><td>Drow City</td><td><a href="maps/drow.html">карта</a></td><td>15</td><td>25</td><td>6e4s2es2edws2d</td></tr>
+<tr><td>Город Дроу</td><td>Drow City</td><td><a href="maps/drow.html">карта</a></td><td>15</td><td>25</td><td>6e4s2es2edws2d</td></tr>
 <tr><td>Королевство Гномов</td><td>Dwarven Kingdom</td><td><a href="maps/dwarven.html">карта</a></td><td>10</td><td>25</td><td>6e3n2e</td></tr>
 <tr><td>Зона Дилана</td><td>Dylan&apos;s Area</td><td><a href="maps/dylan.html">карта</a></td><td>15</td><td>25</td><td>6se3sws4us</td></tr>
 <tr><td>Пески Скорби</td><td>Sands of Sorrow</td><td></td><td>10</td><td>20</td><td>3s2e2s3e</td></tr>
@@ -112,7 +112,7 @@
 <tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
 <tr><td>Логово Джэра</td><td>Lair of Jher</td><td></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
 <tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
-<tr><td>Озеро Слез</td><td>Озеро Слез</td><td></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
+<tr><td>Озеро Слез</td><td>Озеро Слез</td><td><a href="maps/lake.html">карта</a></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
 <tr><td>Библиотека</td><td></td><td></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
 <tr><td>Башня Лича</td><td>Lich Tower</td><td></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
 <tr><td>Волшебный Лес</td><td>Magic Forest</td><td><a href="maps/magicfor.html">карта</a></td><td>25</td><td>40</td><td>13w;enter tree</td></tr>
@@ -137,6 +137,7 @@
 <tr><td>Олимп</td><td>Olympus</td><td><a href="maps/olympus.html">карта</a></td><td>5</td><td>60</td><td>4e3n2w6nu</td></tr>
 <tr><td>Парк Сумрачных Ветров</td><td>Shady Breezes Park</td><td></td><td>65</td><td>100</td><td>4e2ne</td></tr>
 <tr><td>Plains of the North</td><td>Plains of the North</td><td><a href="maps/plains.html">карта</a></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
+<tr><td>Прерии</td><td></td><td></td><td>0</td><td>107</td><td>сесть на поезд на станции метро под Общей Площадью Мидгаарда</td></tr>
 <tr><td>Темница Герихельма</td><td></td><td></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
 <tr><td>Тюрьма</td><td>Мидгаардская тюрьма</td><td></td><td>5</td><td>90</td><td>6s3w</td></tr>
 <tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
@@ -167,10 +168,10 @@
 <tr><td>Дьявольский Монастырь</td><td>The Unholy Abbey</td><td></td><td>60</td><td>65</td><td>6e10n2e8n</td></tr>
 <tr><td>Valley of the Elves</td><td>Valley of the Elves</td><td><a href="maps/valley.html">карта</a></td><td>5</td><td>20</td><td>4e3n2w5nwn</td></tr>
 <tr><td>The Village of Anon</td><td>The Village of Anon</td><td><a href="maps/villa.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnws8w</td></tr>
-<tr><td>Тайное Убежище Колдуна</td><td>The Keep of The Warlock</td><td></td><td>20</td><td>30</td><td>6e2nw от Рыночной Площади Старого Мидгаарда</td></tr>
+<tr><td>Тайное Убежище Колдуна</td><td>The Keep of The Warlock</td><td><a href="maps/warkeep.html">карта</a></td><td>20</td><td>30</td><td>6e2nw от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Cannabis</td><td>Cannabis</td><td><a href="maps/weed.html">карта</a></td><td>40</td><td>60</td><td>13w2ne2n4wn2w2n2w5s2wn</td></tr>
 <tr><td>Westland</td><td>Westland</td><td><a href="maps/westland.html">карта</a></td><td>40</td><td>90</td><td>13w2ne3n</td></tr>
-<tr><td>Вивернова башня</td><td>Wyvern&apos;s Tower</td><td></td><td>5</td><td>30</td><td>6e4s2es2ede</td></tr>
+<tr><td>Вивернова башня</td><td>Wyvern&apos;s Tower</td><td><a href="maps/wyvern.html">карта</a></td><td>5</td><td>30</td><td>6e4s2es2ede</td></tr>
 <tr><td>Мидгаардский Зоопарк</td><td></td><td><a href="maps/zoo3.html">карта</a></td><td>1</td><td>15</td><td>8sesu</td></tr>
 <tr><td>Музей Зоологии</td><td>Zoology Museum</td><td><a href="maps/zoology.html">карта</a></td><td>1</td><td>10</td><td>2nue</td></tr>
 </table>
