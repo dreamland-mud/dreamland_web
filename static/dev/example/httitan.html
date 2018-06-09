@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+        <head>
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>DreamLand MUD - Примеры программ</title>
+
+    </head>
+        <body>
+<pre>
+
+Кот из дома Маклауда периодически произносит реплику.
+
+lionkillerInit = function () 
+{
+    .get_mob_index(18156).onSpec = function(this) 
+    { 
+	if(.chance(1)) 
+	    in_room.ppl.call.act(
+		"%^C1 неожиданно произносит: \"{RМяса{x хочу!\"", this); 
+    };
+}
+
+</pre>
+        </body>
+</html>
+
