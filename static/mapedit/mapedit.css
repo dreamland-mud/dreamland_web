@@ -1,0 +1,21 @@
+
+.room {
+    color: #ffffff;
+}
+
+.file-label {
+    margin-right: 2em;
+}
+
+.btn-ctrl {
+    float: right;
+    font-size: 1.5em;
+    color: grey;
+    border-color: grey;
+}
+
+.btn-ctrl:hover {
+    background-color: lightgrey;
+    border-color: lightgrey;
+}    
+
