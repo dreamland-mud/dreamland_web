@@ -19,3 +19,10 @@
     border-color: lightgrey;
 }    
 
+pre {
+   color: #d3d7cf;
+   font-size: 1.3em;
+   background-color: #2e3436;
+   font-family: 'Roboto Mono', monospace;
+}
+

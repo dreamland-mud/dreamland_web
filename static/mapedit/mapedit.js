@@ -53,7 +53,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-            url: 'maps/index.json',
+            url: '/maps/index.json',
             dataType: 'json'
         })
         .then(function(data) {
@@ -89,13 +89,20 @@ $(document).ready(function() {
         $('#map').empty();
 
         $.ajax({
-                url: 'maps/' + mapfile,
+                url: '/maps/' + mapfile,
                 dataType: 'text'
             })
             .then(setMap)
             .fail(function(xhr) {
                 console.log('oops', arguments);
             });
+    });
+
+    $('#props-modal #vnum').on('keypress', function(e) {
+        if (e.which == 13) {
+           e.preventDefault();
+           $('#props-modal .ok-button').trigger('click');
+        }
     });
 
     $('#props-modal .ok-button').click(function(e) {
@@ -128,6 +135,10 @@ $(document).ready(function() {
         if($target) {
             $target.replaceWith($target.text());
         }
+    });
+
+    $('#props-modal').on('shown.bs.modal', function () {
+        $('#vnum').focus();
     });
 
     $('#map').keydown(function(e) {
