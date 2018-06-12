@@ -2,9 +2,9 @@
 
 set -e
 
-cd maps
+cd maps/sources
 
-for i in sources/*.html
+for i in [a-z0-9]*.html
 do
-       cat map-header.html $i map-footer.html > `basename $i`
+       cat map-header.html $i map-footer.html > ../$i
 done    
