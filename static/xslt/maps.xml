@@ -54,7 +54,7 @@
 <tr><td>Амбер</td><td></td><td></td><td>1</td><td>100</td><td>3s2e2s6wnsws</td></tr>
 <tr><td>Замок Амбера, 1й этаж</td><td></td><td><a href="maps/amber_floor1.png">карта</a></td><td>10</td><td>25</td><td>3s2e2s6wnsw2s2w2n</td></tr>
 <tr><td>Антария</td><td>Antharia</td><td><a href="maps/antharia.html">карта</a></td><td>9</td><td>42</td><td>6e3n3w2n2d  от Рыночной Площади Старого Мидгаарда</td></tr>
-<tr><td>Арахнос</td><td>Arachnos</td><td></td><td>5</td><td>20</td><td>13ws2wnwu</td></tr>
+<tr><td>Арахнос</td><td>Arachnos</td><td><a href="maps/arachnos.html">карта</a></td><td>5</td><td>20</td><td>13ws2wnwu</td></tr>
 <tr><td>Аркадия</td><td>Arcadia</td><td></td><td>30</td><td>90</td><td>4e3n2w5nw3nd7n</td></tr>
 <tr><td>Армагеддон</td><td>Armageddon</td><td></td><td>70</td><td>95</td><td>34en4e2s3enen5es2e</td></tr>
 <tr><td>Астрал</td><td>Astral Plane</td><td></td><td>10</td><td>35</td><td>n2un2u</td></tr>
@@ -72,7 +72,7 @@
 <tr><td>Цирк</td><td>Circus</td><td><a href="maps/circus.html">карта</a></td><td>1</td><td>12</td><td>3e9s</td></tr>
 <tr><td>Облачная Гора</td><td>Cloudy Mountain</td><td></td><td>40</td><td>100</td><td>3e4n2w7n6esu2e3n3uw5nwu2ne3n</td></tr>
 <tr><td>Шабаш</td><td>Coven</td><td><a href="maps/coven.html">карта</a></td><td>25</td><td>35</td><td>6e4s2en</td></tr>
-<tr><td>Озеро Кристалмир</td><td>Crystalmir Lake</td><td></td><td>5</td><td>35</td><td>6e3n от Рыночной Площади Старого Мидгаарда</td></tr>
+<tr><td>Озеро Кристалмир</td><td>Crystalmir Lake</td><td><a href="maps/crystal2.html">карта</a></td><td>5</td><td>35</td><td>6e3n от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Темный Континент</td><td>Dark Continent</td><td></td><td>5</td><td>35</td><td>34en2e</td></tr>
 <tr><td>Детский сад Дварфов</td><td>Dwarven Day Care</td><td><a href="maps/daycare.html">карта</a></td><td>1</td><td>5</td><td>6e3n2es</td></tr>
 <tr><td>Разделенные Души</td><td>Divided Souls</td><td></td><td>45</td><td>90</td><td>6se3sws4use</td></tr>
@@ -83,7 +83,7 @@
 <tr><td>Город Дроу</td><td>Drow City</td><td><a href="maps/drow.html">карта</a></td><td>15</td><td>25</td><td>6e4s2es2edws2d</td></tr>
 <tr><td>Королевство Гномов</td><td>Dwarven Kingdom</td><td><a href="maps/dwarven.html">карта</a></td><td>10</td><td>25</td><td>6e3n2e</td></tr>
 <tr><td>Зона Дилана</td><td>Dylan&apos;s Area</td><td><a href="maps/dylan.html">карта</a></td><td>15</td><td>25</td><td>6se3sws4us</td></tr>
-<tr><td>Пески Скорби</td><td>Sands of Sorrow</td><td></td><td>10</td><td>20</td><td>3s2e2s3e</td></tr>
+<tr><td>Пески Скорби</td><td>Sands of Sorrow</td><td><a href="maps/eastern.html">карта</a></td><td>10</td><td>20</td><td>3s2e2s3e</td></tr>
 <tr><td>Изумрудный Лес</td><td>Emerald Forest</td><td><a href="maps/emerald.html">карта</a></td><td>15</td><td>60</td><td>3w8s2e3swsw</td></tr>
 <tr><td>Faerie Ring</td><td>Faerie Ring</td><td></td><td>10</td><td>15</td><td>3e8s2w2s2e2se</td></tr>
 <tr><td>Огненная Гора</td><td>Firetop Mountain</td><td></td><td>10</td><td>20</td><td>4e3n2w5nwnw2ue4nenenesesw3n</td></tr>
@@ -129,7 +129,7 @@
 <tr><td>Мория</td><td>Moria</td><td><a href="maps/moria.html">карта</a></td><td>5</td><td>15</td><td>6e3n</td></tr>
 <tr><td>Гора Смерти</td><td>Kurgan Mount Doom</td><td></td><td>45</td><td>65</td><td>13w2n2edn</td></tr>
 <tr><td>Земля гоблинов</td><td>Goblin Nation</td><td></td><td>10</td><td>25</td><td>35ese</td></tr>
-<tr><td>Зона Новичков</td><td>Newbie Zone</td><td></td><td>1</td><td>10</td><td>2nu3s;enter portal</td></tr>
+<tr><td>Зона Новичков</td><td>Newbie Zone</td><td><a href="maps/newbie2.html">карта</a></td><td>1</td><td>10</td><td>2nu3s;enter portal</td></tr>
 <tr><td>Новый Талос</td><td>New Thalos</td><td><a href="maps/newthalos.html">карта</a></td><td>10</td><td>35</td><td>15e</td></tr>
 <tr><td>Нирвана</td><td>Nirvana</td><td></td><td>30</td><td>35</td><td>8e2n2eu</td></tr>
 <tr><td>New Ofcol</td><td>New Ofcol</td><td><a href="maps/ofcol2.html">карта</a></td><td>5</td><td>35</td><td>3e4n2w4ne4n2ene3n2e</td></tr>
@@ -160,7 +160,7 @@
 <tr><td>Долина Титанов</td><td>Valley of the Titans</td><td><a href="maps/titan.html">карта</a></td><td>25</td><td>50</td><td>13w2nen</td></tr>
 <tr><td>Храм Фемиды</td><td></td><td></td><td>0</td><td>101</td><td>2se</td></tr>
 <tr><td>Ад</td><td>Descent to Hell</td><td><a href="maps/tohell.html">карта</a></td><td>32</td><td>51</td><td>6e4s2es2ed3ne4s4wsw2sd2sde2sde2swswswd2edse3s</td></tr>
-<tr><td>Иггдрасиль</td><td>Yggdrasil</td><td></td><td>15</td><td>50</td><td>13ws2wnwuw4neus2eswsdneunds5wn</td></tr>
+<tr><td>Иггдрасиль</td><td>Yggdrasil</td><td><a href="maps/tree.html">карта</a></td><td>15</td><td>50</td><td>13ws2wnwuw4neus2eswsdneunds5wn</td></tr>
 <tr><td>Трельские Пещеры</td><td>Trillium Caverns</td><td><a href="maps/trilium.html">карта</a></td><td>55</td><td>90</td><td>13w2n2edw</td></tr>
 <tr><td>Пещера Троллей</td><td>Troll Den</td><td></td><td>10</td><td>15</td><td>3s2e2s6wnes</td></tr>
 <tr><td>Древняя Троя</td><td>Old Troya</td><td></td><td>30</td><td>45</td><td>4e3n2w6n2u8nd</td></tr>
