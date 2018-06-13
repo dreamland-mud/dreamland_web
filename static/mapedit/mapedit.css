@@ -39,6 +39,7 @@ html, body {
 
 #map pre {
    display: inline-block;
+   overflow: hidden;
    color: #d3d7cf;
    font-size: 1.3em;
    background-color: #2e3436;

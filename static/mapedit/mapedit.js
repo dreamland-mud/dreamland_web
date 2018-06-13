@@ -1,6 +1,6 @@
 
 $(document).ready(function() {
-    var $target, range, $saveButton, source, lastLocation;
+    var $target, range, $saveButton, lastLocation;
 
     function scrollToActive() {
 	var $active = $('.room.active'),
@@ -48,11 +48,9 @@ $(document).ready(function() {
     }
 
     function setMap(html) {
-        source = html;
-        var themap = $('<html></html>').append(source).find('pre')[0].innerHTML;
         $('#map')
             .empty()
-            .append($('<pre>').append(themap));
+            .append(html);
 	
         updateActive();
     }
@@ -90,12 +88,7 @@ $(document).ready(function() {
 
         URL.revokeObjectURL($saveButton.attr('href'));
 
-        var doc = new DOMParser().parseFromString(source, 'text/html');
-
-        $(doc).find('pre')[0].innerHTML = $('#map pre')[0].innerHTML;
-
-        var str = new XMLSerializer().serializeToString(doc);
-
+        var str = $('#map pre')[0].outerHTML;
         var blob = new Blob([str], {type : 'text/html; charset=UTF-8'});
         
         $saveButton
@@ -148,7 +141,9 @@ $(document).ready(function() {
                 url: '/maps/' + mapfile,
                 dataType: 'text'
             })
-            .then(setMap)
+            .then(function(html) {
+                setMap($('<html></html>').append(html).find('pre')[0].outerHTML);
+            })
             .fail(function(xhr) {
                 console.log('oops', arguments);
             })
