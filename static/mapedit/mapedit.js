@@ -101,7 +101,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-            url: '/maps/index.json',
+            url: '/maps/index.json?1',
             dataType: 'json'
         })
         .then(function(data) {
@@ -132,7 +132,7 @@ $(document).ready(function() {
 
         $('#load-button').val('');
 
-        var mapfile = arefile.replace(/\.are$/, '') + '.html';
+        var mapfile = arefile.replace(/\.are$/, '') + '.html?1';
         
         $('#map').empty();
 
