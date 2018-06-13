@@ -20,6 +20,10 @@ html, body {
     color: #ffffff;
 }
 
+.room.active {
+    color: red;
+}
+
 .btn-ctrl {
     float: right;
     font-size: 1.5em;

@@ -1,6 +1,28 @@
 
 $(document).ready(function() {
-    var $target, range, $saveButton, source, vnum;
+    var $target, range, $saveButton, source, lastLocation;
+
+    function scrollToActive() {
+	var $active = $('.room.active'),
+	    $follow = $('#follow');
+
+	if($active.length && $follow.length && $follow[0].checked) {
+	    var off = $active.offset(),
+		$vp = $('html, body');
+
+	    $vp.scrollTop(off.top-$(window).height()/2);
+	    $vp.scrollLeft(off.left-$(window).width()/2);
+	}
+    }
+
+    function updateActive() {
+        $('.room').removeClass('active');
+
+	if(!lastLocation)
+	    return;
+
+        $('.room-' + lastLocation.vnum).addClass('active');
+    }
 
     if('BroadcastChannel' in window) {
         var bc = new BroadcastChannel('location');
@@ -9,7 +31,17 @@ $(document).ready(function() {
             if(ev.data.what !== 'location')
                 return;
     
-	    vnum = ev.data.location.vnum;
+	    lastLocation = ev.data.location;
+
+	    updateActive();
+
+	    if(lastLocation) {
+	        $('#currentLocationBlock')
+	    	    .text('Положение персонажа: ' + lastLocation.area + ', ' + lastLocation.vnum)
+		    .show();
+            } else {
+	        $('#currentLocationBlock').hide();
+            }
         };
     
         bc.postMessage({ what: 'where am i' });
@@ -21,6 +53,8 @@ $(document).ready(function() {
         $('#map')
             .empty()
             .append($('<pre>').append(themap));
+	
+        updateActive();
     }
 
     $('#load-button').change(function(e) {
@@ -146,12 +180,8 @@ $(document).ready(function() {
                 range.insertNode(document.createTextNode(text));
             }
         }
-    });
 
-    $('#props-modal .clear-button').click(function(e) {
-        if($target) {
-            $target.replaceWith($target.text());
-        }
+	updateActive();
     });
 
     $('#props-modal').on('shown.bs.modal', function () {
@@ -165,8 +195,8 @@ $(document).ready(function() {
                 e.preventDefault();
                 $target = null;
                 $('#text').val(range.toString());
-		if(vnum) {
-                    $('#vnum').val(vnum);
+		if(lastLocation) {
+                    $('#vnum').val(lastLocation.vnum);
                 } else {
                     $('#vnum').val('');
                 }
@@ -187,6 +217,7 @@ $(document).ready(function() {
                     .get()
                     .join(' ')
                 );
+
             $('#props-modal').modal('show');
         }
     });
