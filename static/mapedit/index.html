@@ -2,6 +2,7 @@
 <html lang="ru">
     <head>
         <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <script src="mapedit.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -27,14 +28,19 @@
                 </div>
             </div>
         </div>
-        <div class="content-fluid">
+        <div id="contents" class="container-fluid">
             <div class="row">
-                <div class="col-2 offset-6">
+                <div class="col-2">
+                  <a href="/" target=_blank>[Главная]</a>&nbsp;&nbsp; <a href="/maps.html" target=_blank>[Карты]</a>
+               </div>
+                <div class="col-2 offset-3">
                     <select class="form-control" id="area-file">
                     </select>
                 </div>
+                <div class="col-1">
+                    <center>Или</center>
+                </div>
                 <div class="col-3">
-                    <span class="file-label">Или</span>
                     <input type="file" id="load-button"></input>
                 </div>
                 <div class="col-1">

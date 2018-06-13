@@ -1,6 +1,19 @@
 
 $(document).ready(function() {
-    var $target, range, $saveButton, source;
+    var $target, range, $saveButton, source, vnum;
+
+    if('BroadcastChannel' in window) {
+        var bc = new BroadcastChannel('location');
+    
+        bc.onmessage = function (ev) {
+            if(ev.data.what !== 'location')
+                return;
+    
+	    vnum = ev.data.location.vnum;
+        };
+    
+        bc.postMessage({ what: 'where am i' });
+    }
 
     function setMap(html) {
         source = html;
@@ -88,6 +101,7 @@ $(document).ready(function() {
         
         $('#map').empty();
 
+        $('#area-file').prop('disabled', 'disabled');
         $.ajax({
                 url: '/maps/' + mapfile,
                 dataType: 'text'
@@ -95,7 +109,10 @@ $(document).ready(function() {
             .then(setMap)
             .fail(function(xhr) {
                 console.log('oops', arguments);
-            });
+            })
+	    .always(function() {
+                $('#area-file').prop('disabled', false);
+	    });
     });
 
     $('#props-modal #vnum').on('keypress', function(e) {
@@ -148,7 +165,11 @@ $(document).ready(function() {
                 e.preventDefault();
                 $target = null;
                 $('#text').val(range.toString());
-                $('#vnum').val('');
+		if(vnum) {
+                    $('#vnum').val(vnum);
+                } else {
+                    $('#vnum').val('');
+                }
                 $('#props-modal').modal('show');
             }
         }
