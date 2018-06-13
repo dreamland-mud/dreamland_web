@@ -50,7 +50,7 @@ $(document).ready(function() {
     function setMap(html) {
         $('#map')
             .empty()
-            .append(html);
+            .append($('<pre>').append(html));
 	
         updateActive();
     }
@@ -88,7 +88,7 @@ $(document).ready(function() {
 
         URL.revokeObjectURL($saveButton.attr('href'));
 
-        var str = $('#map pre')[0].outerHTML;
+        var str = $('#map pre')[0].innerHTML;
         var blob = new Blob([str], {type : 'text/html; charset=UTF-8'});
         
         $saveButton
@@ -142,7 +142,7 @@ $(document).ready(function() {
                 dataType: 'text'
             })
             .then(function(html) {
-                setMap($('<html></html>').append(html).find('pre')[0].outerHTML);
+                setMap($('<html></html>').append(html).find('pre')[0].innerHTML);
             })
             .fail(function(xhr) {
                 console.log('oops', arguments);
