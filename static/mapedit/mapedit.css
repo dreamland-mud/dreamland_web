@@ -17,7 +17,7 @@ html, body {
 }
 
 .room {
-    color: #ffffff;
+    color: lightgreen;
 }
 
 .room.active {
@@ -29,6 +29,7 @@ html, body {
     font-size: 1.5em;
     color: grey;
     border-color: grey;
+    margin: 0 0.1em;
 }
 
 .btn-ctrl:hover {
@@ -42,6 +43,7 @@ html, body {
    font-size: 1.3em;
    background-color: #2e3436;
    font-family: 'Roboto Mono', monospace;
+   line-height: 1em;
 }
 
 a {

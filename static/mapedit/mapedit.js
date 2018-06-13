@@ -71,14 +71,22 @@ $(document).ready(function() {
     $saveButton = $('#save-button');
 
     $saveButton.click(function(e) {
-        var arefile = $('#area-file').val();
+        var mapfile, arefile = $('#area-file').val();
 
-        if(!arefile) {
+        if(arefile) {
+            mapfile = arefile.replace(/\.are$/, '') + '.html';
+	} else {
+	    var files = $('#load-button')[0].files;
+
+	    if(files) {
+                mapfile = files[0].name;
+            }
+        }
+
+        if(!mapfile) {
             e.preventDefault();
             return;
         }
-
-        var mapfile = arefile.replace(/\.are$/, '') + '.html';
 
         URL.revokeObjectURL($saveButton.attr('href'));
 
@@ -220,5 +228,22 @@ $(document).ready(function() {
 
             $('#props-modal').modal('show');
         }
+    });
+
+    function changeFontSize(delta) {
+	var terminal = $('#map pre');
+        var style = terminal.css('font-size'); 
+        var fontSize = parseFloat(style); 
+        terminal.css('font-size', (fontSize + delta) + 'px');
+    }
+
+    $('#font-plus-button').click(function(e) {
+        e.preventDefault();
+        changeFontSize(2);
+    });
+
+    $('#font-minus-button').click(function(e) {
+        e.preventDefault();
+        changeFontSize(-2);
     });
 });
