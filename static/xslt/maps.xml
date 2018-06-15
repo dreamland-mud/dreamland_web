@@ -56,7 +56,7 @@
 <tr><td>Антария</td><td>Antharia</td><td><a href="maps/antharia.html">карта</a></td><td>9</td><td>42</td><td>6e3n3w2n2d  от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Арахнос</td><td>Arachnos</td><td><a href="maps/arachnos.html">карта</a></td><td>5</td><td>20</td><td>13ws2wnwu</td></tr>
 <tr><td>Аркадия</td><td>Arcadia</td><td></td><td>30</td><td>90</td><td>4e3n2w5nw3nd7n</td></tr>
-<tr><td>Армагеддон</td><td>Armageddon</td><td></td><td>70</td><td>95</td><td>34en4e2s3enen5es2e</td></tr>
+<tr><td>Армагеддон</td><td>Armageddon</td><td><a href="maps/armagddn.html">карта</a></td><td>70</td><td>95</td><td>34en4e2s3enen5es2e</td></tr>
 <tr><td>Астрал</td><td>Astral Plane</td><td></td><td>10</td><td>35</td><td>n2un2u</td></tr>
 <tr><td>Бангзуйские Сады</td><td>Bangzui Gardens</td><td></td><td>90</td><td>100</td><td>6se3sws4use2ne2ndnu</td></tr>
 <tr><td>Базар</td><td>Bazaar</td><td><a href="maps/bazaar.html">карта</a></td><td>4</td><td>100</td><td>21e4s2w2s3wn</td></tr>
@@ -73,7 +73,7 @@
 <tr><td>Облачная Гора</td><td>Cloudy Mountain</td><td></td><td>40</td><td>100</td><td>3e4n2w7n6esu2e3n3uw5nwu2ne3n</td></tr>
 <tr><td>Шабаш</td><td>Coven</td><td><a href="maps/coven.html">карта</a></td><td>25</td><td>35</td><td>6e4s2en</td></tr>
 <tr><td>Озеро Кристалмир</td><td>Crystalmir Lake</td><td><a href="maps/crystal2.html">карта</a></td><td>5</td><td>35</td><td>6e3n от Рыночной Площади Старого Мидгаарда</td></tr>
-<tr><td>Темный Континент</td><td>Dark Continent</td><td></td><td>5</td><td>35</td><td>34en2e</td></tr>
+<tr><td>Темный Континент</td><td>Dark Continent</td><td><a href="maps/dark2.html">карта</a></td><td>5</td><td>35</td><td>34en2e</td></tr>
 <tr><td>Детский сад Дварфов</td><td>Dwarven Day Care</td><td><a href="maps/daycare.html">карта</a></td><td>1</td><td>5</td><td>6e3n2es</td></tr>
 <tr><td>Разделенные Души</td><td>Divided Souls</td><td></td><td>45</td><td>90</td><td>6se3sws4use</td></tr>
 <tr><td>Замок Драконов</td><td>Dragon Tower</td><td></td><td>5</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать дракончика</td></tr>
@@ -86,7 +86,7 @@
 <tr><td>Пески Скорби</td><td>Sands of Sorrow</td><td><a href="maps/eastern.html">карта</a></td><td>10</td><td>20</td><td>3s2e2s3e</td></tr>
 <tr><td>Изумрудный Лес</td><td>Emerald Forest</td><td><a href="maps/emerald.html">карта</a></td><td>15</td><td>60</td><td>3w8s2e3swsw</td></tr>
 <tr><td>Faerie Ring</td><td>Faerie Ring</td><td></td><td>10</td><td>15</td><td>3e8s2w2s2e2se</td></tr>
-<tr><td>Огненная Гора</td><td>Firetop Mountain</td><td></td><td>10</td><td>20</td><td>4e3n2w5nwnw2ue4nenenesesw3n</td></tr>
+<tr><td>Огненная Гора</td><td>Firetop Mountain</td><td><a href="maps/firetop2.html">карта</a></td><td>10</td><td>20</td><td>4e3n2w5nwnw2ue4nenenesesw3n</td></tr>
 <tr><td>Вольная Гавань</td><td>Freeport</td><td><a href="maps/freeport.html">карта</a></td><td>8</td><td>53</td><td>34en3e</td></tr>
 <tr><td>Галактика</td><td>Galaxy</td><td></td><td>20</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать вход в таверну</td></tr>
 <tr><td>Планетарная Геометрия</td><td></td><td></td><td>1</td><td>100</td><td>через Пастбища и другое</td></tr>
@@ -94,7 +94,7 @@
 <tr><td>Деревня Гномов</td><td>Gnome Village</td><td></td><td>5</td><td>15</td><td>8es</td></tr>
 <tr><td>Кладбище</td><td>Graveyard</td><td><a href="maps/grave.html">карта</a></td><td>5</td><td>10</td><td>3e7sws</td></tr>
 <tr><td>Священная Роща</td><td>Holy Grove</td><td><a href="maps/grove.html">карта</a></td><td>5</td><td>20</td><td>8en</td></tr>
-<tr><td>Крепость Гоблинов</td><td>Goblin Stronghold</td><td></td><td>10</td><td>20</td><td>3w8s2e7s2e4su</td></tr>
+<tr><td>Крепость Гоблинов</td><td>Goblin Stronghold</td><td><a href="maps/gstrong.html">карта</a></td><td>10</td><td>20</td><td>3w8s2e7s2e4su</td></tr>
 <tr><td>Город Призраков</td><td>Ghost Town</td><td></td><td>45</td><td>65</td><td>21e5sden</td></tr>
 <tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td><a href="maps/haon.html">карта</a></td><td>5</td><td>10</td><td>5w</td></tr>
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
@@ -143,13 +143,13 @@
 <tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
 <tr><td>Дом Куифаэля</td><td>Quifael&apos;s Area</td><td></td><td>31</td><td>35</td><td>6se3swse</td></tr>
 <tr><td>Храм Крысиного Бога</td><td></td><td></td><td>1</td><td>106</td><td>3wsed</td></tr>
-<tr><td>Резиденция Редферна</td><td>Redferne&apos;s Residence</td><td></td><td>20</td><td>30</td><td>6se3swsu</td></tr>
+<tr><td>Резиденция Редферна</td><td>Redferne&apos;s Residence</td><td><a href="maps/redferne.html">карта</a></td><td>20</td><td>30</td><td>6se3swsu</td></tr>
 <tr><td>Пещеры</td><td>Caverns</td><td><a href="maps/ryzen2.html">карта</a></td><td>25</td><td>45</td><td>6e4s2es2ed3ne4s4wsw2sd2sd</td></tr>
 <tr><td>Пастбища и другое</td><td></td><td></td><td>1</td><td>100</td><td>3eN2w3n2es</td></tr>
 <tr><td>MUD Школа</td><td>MUD School</td><td><a href="maps/school.html">карта</a></td><td>1</td><td>5</td><td>2nu</td></tr>
 <tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
 <tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
-<tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
+<tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td><a href="maps/shaolin.html">карта</a></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
 <tr><td>Шир</td><td>Shire</td><td><a href="maps/shire.html">карта</a></td><td>5</td><td>35</td><td>5wn</td></tr>
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
 <tr><td>Солас</td><td>Solace</td><td><a href="maps/solace.html">карта</a></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
