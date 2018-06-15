@@ -1,13 +1,58 @@
 
 $(document).ready(function() {
-    var $target, range, $saveButton, source;
+    var $target, range, $saveButton, lastLocation;
+
+    function scrollToActive() {
+	var $active = $('.room.active'),
+	    $follow = $('#follow');
+
+	if($active.length && $follow.length && $follow[0].checked) {
+	    var off = $active.offset(),
+		$vp = $('html, body');
+
+	    $vp.scrollTop(off.top-$(window).height()/2);
+	    $vp.scrollLeft(off.left-$(window).width()/2);
+	}
+    }
+
+    function updateActive() {
+        $('.room').removeClass('active');
+
+	if(!lastLocation)
+	    return;
+
+        $('.room-' + lastLocation.vnum).addClass('active');
+    }
+
+    if('BroadcastChannel' in window) {
+        var bc = new BroadcastChannel('location');
+    
+        bc.onmessage = function (ev) {
+            if(ev.data.what !== 'location')
+                return;
+    
+	    lastLocation = ev.data.location;
+
+	    updateActive();
+
+	    if(lastLocation) {
+	        $('#currentLocationBlock')
+	    	    .text('Положение персонажа: ' + lastLocation.area + ', ' + lastLocation.vnum)
+		    .show();
+            } else {
+	        $('#currentLocationBlock').hide();
+            }
+        };
+    
+        bc.postMessage({ what: 'where am i' });
+    }
 
     function setMap(html) {
-        source = html;
-        var themap = $('<html></html>').append(source).find('pre')[0].innerHTML;
         $('#map')
             .empty()
-            .append($('<pre>').append(themap));
+            .append($('<pre>').append(html));
+	
+        updateActive();
     }
 
     $('#load-button').change(function(e) {
@@ -24,23 +69,26 @@ $(document).ready(function() {
     $saveButton = $('#save-button');
 
     $saveButton.click(function(e) {
-        var arefile = $('#area-file').val();
+        var mapfile, arefile = $('#area-file').val();
 
-        if(!arefile) {
+        if(arefile) {
+            mapfile = arefile.replace(/\.are$/, '') + '.html';
+	} else {
+	    var files = $('#load-button')[0].files;
+
+	    if(files) {
+                mapfile = files[0].name;
+            }
+        }
+
+        if(!mapfile) {
             e.preventDefault();
             return;
         }
 
-        var mapfile = arefile.replace(/\.are$/, '') + '.html';
-
         URL.revokeObjectURL($saveButton.attr('href'));
 
-        var doc = new DOMParser().parseFromString(source, 'text/html');
-
-        $(doc).find('pre')[0].innerHTML = $('#map pre')[0].innerHTML;
-
-        var str = new XMLSerializer().serializeToString(doc);
-
+        var str = $('#map pre')[0].innerHTML;
         var blob = new Blob([str], {type : 'text/html; charset=UTF-8'});
         
         $saveButton
@@ -53,7 +101,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-            url: '/maps/index.json',
+            url: '/maps/index.json?1',
             dataType: 'json'
         })
         .then(function(data) {
@@ -84,18 +132,24 @@ $(document).ready(function() {
 
         $('#load-button').val('');
 
-        var mapfile = arefile.replace(/\.are$/, '') + '.html';
+        var mapfile = arefile.replace(/\.are$/, '') + '.html?1';
         
         $('#map').empty();
 
+        $('#area-file').prop('disabled', 'disabled');
         $.ajax({
                 url: '/maps/' + mapfile,
                 dataType: 'text'
             })
-            .then(setMap)
+            .then(function(html) {
+                setMap($('<html></html>').append(html).find('pre')[0].innerHTML);
+            })
             .fail(function(xhr) {
                 console.log('oops', arguments);
-            });
+            })
+	    .always(function() {
+                $('#area-file').prop('disabled', false);
+	    });
     });
 
     $('#props-modal #vnum').on('keypress', function(e) {
@@ -129,12 +183,8 @@ $(document).ready(function() {
                 range.insertNode(document.createTextNode(text));
             }
         }
-    });
 
-    $('#props-modal .clear-button').click(function(e) {
-        if($target) {
-            $target.replaceWith($target.text());
-        }
+	updateActive();
     });
 
     $('#props-modal').on('shown.bs.modal', function () {
@@ -148,7 +198,11 @@ $(document).ready(function() {
                 e.preventDefault();
                 $target = null;
                 $('#text').val(range.toString());
-                $('#vnum').val('');
+		if(lastLocation) {
+                    $('#vnum').val(lastLocation.vnum);
+                } else {
+                    $('#vnum').val('');
+                }
                 $('#props-modal').modal('show');
             }
         }
@@ -166,7 +220,25 @@ $(document).ready(function() {
                     .get()
                     .join(' ')
                 );
+
             $('#props-modal').modal('show');
         }
+    });
+
+    function changeFontSize(delta) {
+	var terminal = $('#map pre');
+        var style = terminal.css('font-size'); 
+        var fontSize = parseFloat(style); 
+        terminal.css('font-size', (fontSize + delta) + 'px');
+    }
+
+    $('#font-plus-button').click(function(e) {
+        e.preventDefault();
+        changeFontSize(2);
+    });
+
+    $('#font-minus-button').click(function(e) {
+        e.preventDefault();
+        changeFontSize(-2);
     });
 });
