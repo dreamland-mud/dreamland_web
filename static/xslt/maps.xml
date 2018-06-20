@@ -95,7 +95,7 @@
 <tr><td>Кладбище</td><td>Graveyard</td><td><a href="maps/grave.html">карта</a></td><td>5</td><td>10</td><td>3e7sws</td></tr>
 <tr><td>Священная Роща</td><td>Holy Grove</td><td><a href="maps/grove.html">карта</a></td><td>5</td><td>20</td><td>8en</td></tr>
 <tr><td>Крепость Гоблинов</td><td>Goblin Stronghold</td><td><a href="maps/gstrong.html">карта</a></td><td>10</td><td>20</td><td>3w8s2e7s2e4su</td></tr>
-<tr><td>Город Призраков</td><td>Ghost Town</td><td></td><td>45</td><td>65</td><td>21e5sden</td></tr>
+<tr><td>Город Призраков</td><td>Ghost Town</td><td><a href="maps/gtown.html">карта</a></td><td>45</td><td>65</td><td>21e5sden</td></tr>
 <tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td><a href="maps/haon.html">карта</a></td><td>5</td><td>10</td><td>5w</td></tr>
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
 <tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
@@ -114,7 +114,7 @@
 <tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td><a href="maps/lake.html">карта</a></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
 <tr><td>Библиотека</td><td></td><td></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
-<tr><td>Башня Лича</td><td>Lich Tower</td><td></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
+<tr><td>Башня Лича</td><td>Lich Tower</td><td><a href="maps/lich.html">карта</a></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
 <tr><td>Волшебный Лес</td><td>Magic Forest</td><td><a href="maps/magicfor.html">карта</a></td><td>25</td><td>40</td><td>13w;enter tree</td></tr>
 <tr><td>Мах&apos;н-Тор</td><td>The Keep of Mahn-Tor</td><td></td><td>5</td><td>35</td><td>6e4s2es2ed3nes</td></tr>
 <tr><td>Непрерывность парков</td><td></td><td></td><td>1</td><td>100</td><td>за западными воротами Старого Мидгаарда</td></tr>
@@ -123,7 +123,7 @@
 <tr><td>Mother Goose</td><td>Mother Goose</td><td><a href="maps/mgoose.html">карта</a></td><td>3</td><td>15</td><td>3s2e2s6wns2w</td></tr>
 <tr><td>Миден&apos;нир</td><td>Miden&apos;nir</td><td><a href="maps/midennir.html">карта</a></td><td>5</td><td>15</td><td>3e8s2w2s</td></tr>
 <tr><td>Мидгаард</td><td>Midgaard</td><td><a href="maps/midgaard.html">карта</a></td><td>1</td><td>100</td><td>войти в портал в храме своего города</td></tr>
-<tr><td>Лихолесье</td><td>Mirkwood</td><td></td><td>5</td><td>15</td><td>4e3n2w2n3edn</td></tr>
+<tr><td>Лихолесье</td><td>Mirkwood</td><td><a href="maps/mirkwd2.html">карта</a></td><td>5</td><td>15</td><td>4e3n2w2n3edn</td></tr>
 <tr><td>Королевство Зеркал</td><td>Mirror of Realm</td><td></td><td>20</td><td>50</td><td>6e2ne</td></tr>
 <tr><td>Старый Мидгаард</td><td>Old Midgaard</td><td></td><td>1</td><td>30</td><td>2nu3s;enter portal;d</td></tr>
 <tr><td>Мория</td><td>Moria</td><td><a href="maps/moria.html">карта</a></td><td>5</td><td>15</td><td>6e3n</td></tr>
@@ -163,7 +163,7 @@
 <tr><td>Иггдрасиль</td><td>Yggdrasil</td><td><a href="maps/tree.html">карта</a></td><td>15</td><td>50</td><td>13ws2wnwuw4neus2eswsdneunds5wn</td></tr>
 <tr><td>Трельские Пещеры</td><td>Trillium Caverns</td><td><a href="maps/trilium.html">карта</a></td><td>55</td><td>90</td><td>13w2n2edw</td></tr>
 <tr><td>Пещера Троллей</td><td>Troll Den</td><td></td><td>10</td><td>15</td><td>3s2e2s6wnes</td></tr>
-<tr><td>Древняя Троя</td><td>Old Troya</td><td></td><td>30</td><td>45</td><td>4e3n2w6n2u8nd</td></tr>
+<tr><td>Древняя Троя</td><td>Old Troya</td><td><a href="maps/troy.html">карта</a></td><td>30</td><td>45</td><td>4e3n2w6n2u8nd</td></tr>
 <tr><td>Подземье (UnderDark)</td><td>UnderDark</td><td><a href="maps/under2.html">карта</a></td><td>13</td><td>50</td><td>6e10nd</td></tr>
 <tr><td>Дьявольский Монастырь</td><td>The Unholy Abbey</td><td></td><td>60</td><td>65</td><td>6e10n2e8n</td></tr>
 <tr><td>Valley of the Elves</td><td>Valley of the Elves</td><td><a href="maps/valley.html">карта</a></td><td>5</td><td>20</td><td>4e3n2w5nwn</td></tr>
