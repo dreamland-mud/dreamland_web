@@ -1,0 +1,14 @@
+
+.active {
+    color: red;
+}
+
+body {
+    background-color: #2e3436;
+    color: #d3d7cf;
+}
+
+body pre {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.3em;
+}

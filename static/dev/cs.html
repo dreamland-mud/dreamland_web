@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/html" lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8"></meta><meta http-equiv="X-UA-Compatible" content="IE=edge"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+<meta name="Description" CONTENT="DreamLand MUD (Мир Грез, Мир Снов, Dream Land, МУД, МАД) текстовая многопользовательская бесплатная ролевая онлайн игра на тематику фентези"></meta>
+
+<title xmlns="">DreamLand MUD - Ресурсы для строителей</title>
+   </head>
+   
+   <body>
+<pre>
+<h1>Редактирование феневых скриптов</h1>
+<h3>Синтаксис команды codesource (cs)</h3>
+Вот что выводится в мире, если набрать cs:
+
+Чтение:
+     list         - показать список всех существующих codesources
+     read &lt;номер&gt; - прочитать cs по номеру из списка
+     copy &lt;номер&gt; - скопировать cs из списка в буфер редактора
+
+Редактирование:
+     subj &lt;текст&gt; - указать тему cs; удобно тут же указывать версию
+     bin &lt;id&gt;     - прочесть текст cs из https://pastebin.com/&lt;id&gt;
+     paste        - вставить текст cs из буфера редактора
+     + &lt;строка&gt;   - добавить одну строку в текст cs
+     -            - удалить последнюю строку из текста cs
+     show         - показать редактируемый cs
+     clear        - очистить редактируемый cs
+
+Выполнение:
+     post         - выполнить cs, далее можно делать eval blablaInit() для объявленной там функции
+
+<h3>Использование pastebin</h3>
+Можно выкладывать длинные скрипты на <a target=_blank href="https://pastebin.com">https://pastebin.com</a>, а затем указать их идентификатор команде 'cs bin'.
+
+Пример создания нового скрипта:
+
+cs subj my cool script, v1.0
+cs bin IUEoie83e
+cs post
+eval ...
+
+
+<h3>Встроенный редактор в веб-клиенте</h3>
+Если вы используете веб-клиент, можно редактировать буфер прямо из браузера.
+Для этого делайте так:
+
+Пример создания нового скрипта:
+cs subj my cool script, v1.0
+webedit -- открывает окно, в которое можно вбить или вставить текст, затем нажать Save.
+cs paste
+cs post
+eval ...
+
+Пример редактирования существующего:
+cs list
+cs copy 33
+webedit -- текст скрипта с номером 33 окажется в окне, там его можно видоизменить и нажать Save
+cs subj my cool script, v1.1
+cs paste
+cs post
+eval ...
+
+
+</pre>
+   </body>
+</html>
+

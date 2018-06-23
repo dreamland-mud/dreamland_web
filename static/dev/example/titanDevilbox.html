@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+        <head>
+                <meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>DreamLand MUD - Примеры программ</title>
+
+    </head>
+        <body>
+<pre>
+
+Чертик из коробочки выскакивает, если ее открыть.
+
+devilBoxInit = function() {	
+    var boxIndex;
+	    
+    boxIndex = .get_obj_index(18141);
+    
+    boxIndex.onOpen = function(obj, char) {
+	char.act("Веселый чертенок Пугает тебя, внезапно выпрыгнув из подарочной коробки!{/Твой испуг заметен!");
+	char.in_room.ppl.sub(char).call.act("Веселый чертенок до смерти напугал %^C4, внезапно выпрыгнув из подарочной коробки! Вот смеху-то.",char);	
+    };
+    
+    boxIndex.onClose = function(obj, char){
+	char.act("Ты прячешь чертенка в коробку и тщательно настраиваешь пружину. Сегодня еще кому-то повезет. *grin*");
+	char.in_room.ppl.sub(char).call.act("Со злобным видом на лице %^C1 проделывает странноватые операции с праздничной коробкой. Опасный тип.",char);
+    };	
+}
+
+</pre>
+        </body>
+</html>
+

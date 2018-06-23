@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+        <script src="mapedit.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"></link>
+        <link href="../mudjs/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" ></link>
+        <link href="mapedit.css" rel="stylesheet" type="text/css" ></link>
+    </head>
+    <body>
+        <div id="props-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="vnum">Vnum</label>
+                            <input name="vnum" id="vnum" class="form-control"></input>
+			    <small id="currentLocationBlock" class="form-text text-muted"></small>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="cancel-button btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="ok-button btn btn-primary" data-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="contents" class="container-fluid">
+            <div class="row">
+                <div class="col-2">
+                  <a href="/" target=_blank>[Главная]</a>&nbsp;&nbsp; <a href="/maps.html" target=_blank>[Карты]</a>
+               </div>
+                <div class="col-2 offset-2">
+                    <select class="form-control" id="area-file">
+                    </select>
+                </div>
+                <div class="col-1">
+                    <center>Или</center>
+                </div>
+                <div class="col-3">
+                    <input type="file" id="load-button"></input>
+                </div>
+                <div class="col-2">
+                    <a id="save-button" href="#" class="btn btn-sm btn-ctrl btn-outline-primary">
+                        <i class="fa fa-save"></i>
+                    </a>
+                    <button id="font-plus-button" type="button" class="btn btn-sm btn-ctrl btn-outline-primary">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                    <button id="font-minus-button" type="button" class="btn btn-sm btn-ctrl btn-outline-primary">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="map" tabindex="1" contenteditable="true">
+            </div>
+        </div>
+    </body>
+</html>
