@@ -55,7 +55,7 @@
 <tr><td>Замок Амбера, 1й этаж</td><td></td><td><a href="maps/amber_floor1.html">карта</a></td><td>10</td><td>25</td><td>3s2e2s7w2s2w2n</td></tr>
 <tr><td>Антария</td><td>Antharia</td><td><a href="maps/antharia.html">карта</a></td><td>9</td><td>42</td><td>6e3n3w2n2d  от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Арахнос</td><td>Arachnos</td><td><a href="maps/arachnos.html">карта</a></td><td>5</td><td>20</td><td>13ws2wnwu</td></tr>
-<tr><td>Аркадия</td><td>Arcadia</td><td></td><td>30</td><td>90</td><td>4e3n2w5nw3nd7n</td></tr>
+<tr><td>Аркадия</td><td>Arcadia</td><td><a href="maps/arcadia.html">карта</a></td><td>30</td><td>90</td><td>4e3n2w5nw3nd7n</td></tr>
 <tr><td>Армагеддон</td><td>Armageddon</td><td><a href="maps/armagddn.html">карта</a></td><td>70</td><td>95</td><td>34en4e2s3enen5es2e</td></tr>
 <tr><td>Астрал</td><td>Astral Plane</td><td></td><td>10</td><td>35</td><td>n2un2u</td></tr>
 <tr><td>Бангзуйские Сады</td><td>Bangzui Gardens</td><td></td><td>90</td><td>100</td><td>6se3sws4use2ne2ndnu</td></tr>
@@ -99,7 +99,7 @@
 <tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td><a href="maps/haon.html">карта</a></td><td>5</td><td>10</td><td>5w</td></tr>
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
 <tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
-<tr><td>Храм Зава</td><td></td><td></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
+<tr><td>Храм Зава</td><td></td><td><a href="maps/hram-zav.html">карта</a></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
 <tr><td>Пригород Герихельма</td><td></td><td></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
 <tr><td>Городская Свалка</td><td></td><td></td><td>1</td><td>100</td><td>4sw</td></tr>
 <tr><td>Пригород Нового Офкола</td><td></td><td></td><td>1</td><td>100</td><td>на восток Золотой Цитадели Нового Офкола</td></tr>
@@ -110,7 +110,7 @@
 <tr><td>Хижина</td><td></td><td></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
 <tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
 <tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
-<tr><td>Логово Джэра</td><td>Lair of Jher</td><td></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
+<tr><td>Логово Джэра</td><td>Lair of Jher</td><td><a href="maps/jher.html">карта</a></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
 <tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td><a href="maps/lake.html">карта</a></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
 <tr><td>Библиотека</td><td></td><td></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
@@ -127,8 +127,8 @@
 <tr><td>Королевство Зеркал</td><td>Mirror of Realm</td><td></td><td>20</td><td>50</td><td>6e2ne</td></tr>
 <tr><td>Старый Мидгаард</td><td>Old Midgaard</td><td></td><td>1</td><td>30</td><td>2nu3s;enter portal;d</td></tr>
 <tr><td>Мория</td><td>Moria</td><td><a href="maps/moria.html">карта</a></td><td>5</td><td>15</td><td>6e3n</td></tr>
-<tr><td>Гора Смерти</td><td>Kurgan Mount Doom</td><td></td><td>45</td><td>65</td><td>13w2n2edn</td></tr>
-<tr><td>Земля гоблинов</td><td>Goblin Nation</td><td></td><td>10</td><td>25</td><td>35ese</td></tr>
+<tr><td>Гора Смерти</td><td>Kurgan Mount Doom</td><td><a href="maps/mtdoom.html">карта</a></td><td>45</td><td>65</td><td>13w2n2edn</td></tr>
+<tr><td>Земля гоблинов</td><td>Goblin Nation</td><td><a href="maps/nation.html">карта</a></td><td>10</td><td>25</td><td>35ese</td></tr>
 <tr><td>Зона Новичков</td><td>Newbie Zone</td><td><a href="maps/newbie2.html">карта</a></td><td>1</td><td>10</td><td>2nu3s;enter portal</td></tr>
 <tr><td>Новый Талос</td><td>New Thalos</td><td><a href="maps/newthalos.html">карта</a></td><td>10</td><td>35</td><td>15e</td></tr>
 <tr><td>Нирвана</td><td>Nirvana</td><td></td><td>30</td><td>35</td><td>8e2n2eu</td></tr>
