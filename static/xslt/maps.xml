@@ -150,6 +150,7 @@
 <tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
 <tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
 <tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td><a href="maps/shaolin.html">карта</a></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
+<tr><td>Фрегат</td><td></td><td><a href="maps/ship.html">карта</a></td><td>1</td><td>5</td><td>сюда все попадают после создания персонажа</td></tr>
 <tr><td>Шир</td><td>Shire</td><td><a href="maps/shire.html">карта</a></td><td>5</td><td>35</td><td>5wn</td></tr>
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
 <tr><td>Солас</td><td>Solace</td><td><a href="maps/solace.html">карта</a></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
