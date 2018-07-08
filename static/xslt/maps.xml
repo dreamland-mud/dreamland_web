@@ -118,7 +118,7 @@
 <tr><td>Волшебный Лес</td><td>Magic Forest</td><td><a href="maps/magicfor.html">карта</a></td><td>25</td><td>40</td><td>13w;enter tree</td></tr>
 <tr><td>Мах&apos;н-Тор</td><td>The Keep of Mahn-Tor</td><td><a href="maps/mahntor.html">карта</a></td><td>5</td><td>35</td><td>6e4s2es2ed3nes</td></tr>
 <tr><td>Непрерывность парков</td><td></td><td></td><td>1</td><td>100</td><td>за западными воротами Старого Мидгаарда</td></tr>
-<tr><td>Старая Топь</td><td>Old Marsh</td><td></td><td>15</td><td>25</td><td>13ws2w2sw3s</td></tr>
+<tr><td>Старая Топь</td><td>Old Marsh</td><td><a href="maps/marsh.html">карта</a></td><td>15</td><td>25</td><td>13ws2w2sw3s</td></tr>
 <tr><td>Маскарад</td><td></td><td><a href="maps/masquerade.html">карта</a></td><td>1</td><td>5</td><td>блуждающий портал</td></tr>
 <tr><td>Mother Goose</td><td>Mother Goose</td><td><a href="maps/mgoose.html">карта</a></td><td>3</td><td>15</td><td>3s2e2s6wns2w</td></tr>
 <tr><td>Миден&apos;нир</td><td>Miden&apos;nir</td><td><a href="maps/midennir.html">карта</a></td><td>5</td><td>15</td><td>3e8s2w2s</td></tr>
@@ -137,7 +137,7 @@
 <tr><td>Олимп</td><td>Olympus</td><td><a href="maps/olympus.html">карта</a></td><td>5</td><td>60</td><td>4e3n2w6nu</td></tr>
 <tr><td>Парк Сумрачных Ветров</td><td>Shady Breezes Park</td><td></td><td>65</td><td>100</td><td>4e2ne</td></tr>
 <tr><td>Равнины Севера</td><td>Plains of the North</td><td><a href="maps/plains.html">карта</a></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
-<tr><td>Прерии</td><td></td><td></td><td>0</td><td>107</td><td>сесть на поезд на станции метро под Общей Площадью Мидгаарда</td></tr>
+<tr><td>Прерии</td><td></td><td><a href="maps/prairie.html">карта</a></td><td>0</td><td>107</td><td>сесть на поезд на станции метро под Общей Площадью Мидгаарда</td></tr>
 <tr><td>Темница Герихельма</td><td></td><td></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
 <tr><td>Тюрьма</td><td>Мидгаардская тюрьма</td><td></td><td>5</td><td>90</td><td>6s3w</td></tr>
 <tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
@@ -157,7 +157,7 @@
 <tr><td>Храм Тананды</td><td></td><td></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
 <tr><td>The Walls of Anon</td><td>The Walls of Anon</td><td></td><td>50</td><td>65</td><td>через все Guard Towers в The City of Anon</td></tr>
 <tr><td>The City of Anon</td><td>The City of Anon</td><td><a href="maps/tcwnn.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnw</td></tr>
-<tr><td>Талос</td><td>Thalos</td><td></td><td>10</td><td>25</td><td>6e4s3w</td></tr>
+<tr><td>Талос</td><td>Thalos</td><td><a href="maps/thalos.html">карта</a></td><td>10</td><td>25</td><td>6e4s3w</td></tr>
 <tr><td>Долина Титанов</td><td>Valley of the Titans</td><td><a href="maps/titan.html">карта</a></td><td>25</td><td>50</td><td>13w2nen</td></tr>
 <tr><td>Храм Фемиды</td><td></td><td></td><td>0</td><td>101</td><td>2se</td></tr>
 <tr><td>Ад</td><td>Descent to Hell</td><td><a href="maps/tohell.html">карта</a></td><td>32</td><td>51</td><td>6e4s2es2ed3ne4s4wsw2sd2sde2sde2swswswd2edse3s</td></tr>
@@ -166,7 +166,7 @@
 <tr><td>Пещера Троллей</td><td>Troll Den</td><td></td><td>10</td><td>15</td><td>3s2e2s6wnes</td></tr>
 <tr><td>Древняя Троя</td><td>Old Troya</td><td><a href="maps/troy.html">карта</a></td><td>30</td><td>45</td><td>4e3n2w6n2u8nd</td></tr>
 <tr><td>Подземье (UnderDark)</td><td>UnderDark</td><td><a href="maps/under2.html">карта</a></td><td>13</td><td>50</td><td>6e10nd</td></tr>
-<tr><td>Дьявольский Монастырь</td><td>The Unholy Abbey</td><td></td><td>60</td><td>65</td><td>6e10n2e8n</td></tr>
+<tr><td>Дьявольский Монастырь</td><td>The Unholy Abbey</td><td><a href="maps/unholy.html">карта</a></td><td>60</td><td>65</td><td>6e10n2e8n</td></tr>
 <tr><td>Valley of the Elves</td><td>Valley of the Elves</td><td><a href="maps/valley.html">карта</a></td><td>5</td><td>20</td><td>4e3n2w5nwn</td></tr>
 <tr><td>The Village of Anon</td><td>The Village of Anon</td><td><a href="maps/villa.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnws8w</td></tr>
 <tr><td>Тайное Убежище Колдуна</td><td>The Keep of The Warlock</td><td><a href="maps/warkeep.html">карта</a></td><td>20</td><td>30</td><td>6e2nw от Рыночной Площади Старого Мидгаарда</td></tr>
