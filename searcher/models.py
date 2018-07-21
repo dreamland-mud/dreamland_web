@@ -52,6 +52,7 @@ class Item(models.Model):
     affects = models.CharField(max_length=256, default='')
     area = models.CharField(max_length=256, default='')
     where = models.CharField(max_length=256, default='')
+    limit = models.IntegerField(default=-1)
     
     def __repr__ (self):
         return u"<item vnum=%s lvl=%s armor=%s>" % (self.vnum, self.level, self.armor)
@@ -78,7 +79,7 @@ class Weapon(models.Model):
         ( 'stone',   'камень' ),
     )
 
-# Header: vnum,name,level,weaponclass,special,d1,d2,ave,hr,dr,hp,mana,saves,ac,str,int,wis,dex,con,area,where
+# Header: vnum,name,level,weaponclass,special,d1,d2,ave,hr,dr,hp,mana,saves,ac,str,int,wis,dex,con,area,where,limit
 
     vnum = models.IntegerField(db_index=True, unique=True)
     name = models.CharField(max_length=100)
@@ -104,6 +105,7 @@ class Weapon(models.Model):
     stat_con = models.IntegerField(default=0)
     area = models.CharField(max_length=256, default='')
     where = models.CharField(max_length=256, default='')
+    limit = models.IntegerField(default=-1)
     
     def __repr__ (self):
         return u"<weapon vnum=%s lvl=%s>" % (self.vnum, self.level)
@@ -116,9 +118,11 @@ class MagicItem(models.Model):
         ( 'scroll',   'свиток' ), 
         ( 'wand',  'жезл' ), 
         ( 'staff',  'посох' ), 
+        ( 'spellbook',  'книга заклинаний' ), 
+        ( 'warp_stone',  'искажающий камень' ), 
     )
 
-# Header: vnum,name,level,type,spellLevel,charges,spells,area,where
+# Header: vnum,name,level,type,spellLevel,charges,spells,area,where,limit
 
     vnum = models.IntegerField(db_index=True, unique=True)
     name = models.CharField(max_length=100)
@@ -132,6 +136,7 @@ class MagicItem(models.Model):
     spells = models.CharField(max_length=256, default='')
     area = models.CharField(max_length=256, default='')
     where = models.CharField(max_length=256, default='')
+    limit = models.IntegerField(default=-1)
     
     def __repr__ (self):
         return u"<magicItem vnum=%s lvl=%s type=%s>" % (self.vnum, self.level, self.itemtype)

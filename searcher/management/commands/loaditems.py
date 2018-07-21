@@ -44,6 +44,7 @@ class Command(BaseCommand):
                     item.affects = row['affects']
                     item.area = row['area']
                     item.where = row['where']
+                    item.limit = row['limit']
 
                     if item.vnum:
                     	item.save()

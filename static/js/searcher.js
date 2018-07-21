@@ -1,8 +1,8 @@
 (function($) {
 	"use strict"
 
-//        var appUrl = 'https://dreamland.rocks:8443/searcher-api';
-        var appUrl = 'http://127.0.0.1:8000/searcher-api';
+        var appUrl = 'https://dreamland.rocks:8443/searcher-api';
+//        var appUrl = 'http://127.0.0.1:8000/searcher-api';
 
         $(document).ready(function() {
           spinner();
@@ -53,6 +53,8 @@
                     table.DataTable().clear();
                     // Render received data.
                     for (var i = 0; i < items.length; i++) {
+                        if (items[i]['limit'] > 0) 
+                            items[i]['name'] = "<i>" + items[i]['name'] + "</i>";
                         table.DataTable().row.add(items[i]).draw();
                     }
 

@@ -31,6 +31,7 @@ class Command(BaseCommand):
                     magic.spells = row['spells']
                     magic.area = row['area']
                     magic.where = row['where']
+                    magic.limit = row['limit']
 
                     if magic.vnum:
                     	magic.save()

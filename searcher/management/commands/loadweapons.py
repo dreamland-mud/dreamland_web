@@ -43,6 +43,7 @@ class Command(BaseCommand):
                     weapon.stat_con = row['con']
                     weapon.area = row['area']
                     weapon.where = row['where']
+                    weapon.limit = row['limit']
 
                     if weapon.vnum:
                     	weapon.save()
