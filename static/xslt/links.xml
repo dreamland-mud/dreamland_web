@@ -43,6 +43,8 @@
 							<div class="feature-content">
 								<h4>Ресурсы</h4>
                                                                 <ul class="links-list">
+                                                                    <li><a href="https://dreamland.rocks/mudjs/index.html#build">Стройплощадка</a>: версия сервера для строителей и скриптописателей</li>
+                                                                    <li><a href="https://dreamland.rocks/dev">Ресурсы для строителей</a></li>
                                                                     <li><a href="http://tsamada.com.ua/mud/">Сайт Tsamada</a>: клиенты и старый поисковик по вещам (Win exe)</li>
                                                                     <li><a href="http://c7i.ru/a_map/">Карты мира Берег Семи Воплощений</a>: некоторые зоны совпадают с Dream Land</li>
                                                                     <li><a href="http://maps.df2.ru/arealist.php">Карты мира Dangerous Fantasy 2</a>: некоторые зоны совпадают с Dream Land</li>
