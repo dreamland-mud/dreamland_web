@@ -55,11 +55,11 @@
 							<div class="feature-content">
 								<h4>Каталоги миров</h4>
                                                                 <ul class="links-list">
-                                                                    <li><a href="http://mudconnector.su">Русскоязычный MUD Connector</a>: база данных всех известных миров ру-сферы</li>
-                                                                    <li><a href="http://mudconnector.su/DreamLand">Наш мир на русскоязычном MUD Connector</a></li>
-                                                                    <li><a href="http://www.mudconnect.com">Всемирный MUD Connector (mudconnect.com)</a></li>
-                                                                    <li><a href="http://www.mudconnect.com/cgi-bin/adv_search.cgi?Mode=MUD&amp;mud=DreamLand">Страница нашего мира на mudconnect.com</a></li>
-                                                                    <li><a href="http://muder.ru">Портал MUDer</a>: база миров и клиентов, новости</li>
+                                                                    <li><a target="_blank" href="http://mudconnector.su">Русскоязычный MUD Connector</a>: база данных всех известных миров ру-сферы</li>
+                                                                    <li><a target="_blank" href="http://mudconnector.su/DreamLand">Наш мир на русскоязычном MUD Connector</a></li>
+                                                                    <li><a target="_blank" href="http://www.mudconnect.com">Всемирный MUD Connector (mudconnect.com)</a></li>
+                                                                    <li><a target="_blank" href="http://www.mudconnect.com/cgi-bin/adv_search.cgi?Mode=MUD&amp;mud=DreamLand">Страница нашего мира на mudconnect.com</a></li>
+                                                                    <li><a target="_blank" href="http://muder.ru">Портал MUDer</a>: база миров и клиентов, новости</li>
                                                                 </ul>
 							</div>
 						</div>
@@ -69,8 +69,9 @@
 							<div class="feature-content">
 								<h4>Общение</h4>
                                                                 <ul class="links-list">
-                                                                    <li><a href="http://forum.mudconnector.su">Форум русскоязычного MUD Connector</a></li>
-                                                                    <li><a href="http://muder.ru/forum">Форум портала MUDer</a></li>
+                                                                    <li><a target="_blank" href="https://discord.gg/RPaz6ut">Русскоязычный Discord-канал по MUD</a></li>
+                                                                    <li><a target="_blank" href="http://forum.mudconnector.su">Форум русскоязычного MUD Connector</a></li>
+                                                                    <li><a target="_blank" href="http://muder.ru/forum">Форум портала MUDer</a></li>
                                                                 </ul>
 							</div>
 						</div>
@@ -80,8 +81,8 @@
 							<div class="feature-content">
 								<h4>Статистика</h4>
                                                                 <ul class="links-list">
-                                                                    <li><a href="http://muds.kharkov.org">Статистика всех русскоязычных миров</a>: графики посещений в реальном времени</li>
-                                                                    <li><a href="http://proolnewtest.kharkov.org/munin/localhost/localhost/plugin_rus_muds_11_sh.html">Статистика посещений DreamLand</a>: с предыдущего сайта</li>
+                                                                    <li><a target="_blank" href="http://muds.kharkov.org">Статистика всех русскоязычных миров</a>: графики посещений в реальном времени</li>
+                                                                    <li><a target="_blank" href="http://proolnewtest.kharkov.org/munin/localhost/localhost/plugin_rus_muds_11_sh.html">Статистика посещений DreamLand</a>: с предыдущего сайта</li>
                                                     <!--
                                                         <li><img src="http://proolnewtest.kharkov.org/munin/localhost/localhost/plugin_rus_muds_11_sh-week.png"/></li>
                                                     -->
