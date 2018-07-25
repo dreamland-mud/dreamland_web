@@ -49,7 +49,7 @@
 <thead><tr><th>Имя зоны</th><th>Исходное имя</th><th>Карта</th><th>Мин</th><th>Макс</th><th>Путь</th></tr></thead>
 <tr><td>Ааракокран</td><td>Aarakokran City</td><td><a href="maps/aarak2.html">карта</a></td><td>15</td><td>30</td><td>6e4s2es2eds4und4ne3neu</td></tr>
 <tr><td>Абисс</td><td>The Abyss</td><td><a href="maps/abyss2.html">карта</a></td><td>30</td><td>50</td><td>6e4s2es2edsun</td></tr>
-<tr><td>В Воздухе</td><td>In the Air</td><td></td><td>5</td><td>10</td><td>n2u</td></tr>
+<tr><td>В Воздухе</td><td>In the Air</td><td><a href="maps/air.html">карта</a></td><td>5</td><td>10</td><td>n2u</td></tr>
 <tr><td>Страна Чудес</td><td>Wonderland</td><td><a href="maps/alice.html">карта</a></td><td>35</td><td>45</td><td>35esenen5es</td></tr>
 <tr><td>Амбер</td><td></td><td></td><td>1</td><td>100</td><td>3s2e2s7ws</td></tr>
 <tr><td>Замок Амбера, 1й этаж</td><td></td><td><a href="maps/amber_floor1.html">карта</a></td><td>10</td><td>25</td><td>3s2e2s7w2s2w2n</td></tr>
@@ -63,14 +63,14 @@
 <tr><td>Blight</td><td>Blight</td><td><a href="maps/blight.html">карта</a></td><td>35</td><td>50</td><td>6e10n2e7nw</td></tr>
 <tr><td>Камелот</td><td>Camelot</td><td><a href="maps/camelot.html">карта</a></td><td>20</td><td>52</td><td>4e3n2w3ne2n5e</td></tr>
 <tr><td>Каньон Стихий</td><td>Elemental Canyon</td><td><a href="maps/canyon.html">карта</a></td><td>5</td><td>30</td><td>6e4s2es2eds</td></tr>
-<tr><td>Казино</td><td></td><td></td><td>1</td><td>100</td><td>3e2n3en</td></tr>
+<tr><td>Казино</td><td></td><td><a href="maps/casino.html">карта</a></td><td>1</td><td>100</td><td>3e2n3en</td></tr>
 <tr><td>Подземелья Дварфов</td><td>Dwarven Catacombs</td><td></td><td>10</td><td>20</td><td>6e3n2e3n3w2d</td></tr>
 <tr><td>Подземелье Часовни</td><td>Chapel</td><td><a href="maps/chapel.html">карта</a></td><td>15</td><td>25</td><td>3e7sw6s</td></tr>
 <tr><td>Шахматная Доска</td><td>Chessboard</td><td></td><td>10</td><td>35</td><td>3w2sw</td></tr>
 <tr><td>Шоколадная фабрика</td><td></td><td><a href="maps/chocolate.html">карта</a></td><td>20</td><td>70</td><td>золотой билет в кондитерских</td></tr>
 <tr><td>Логовище Сайкуалы</td><td>Ciquala Lair</td><td><a href="maps/ciquala2.html">карта</a></td><td>40</td><td>62</td><td>13w2n2en</td></tr>
 <tr><td>Цирк</td><td>Circus</td><td><a href="maps/circus.html">карта</a></td><td>1</td><td>12</td><td>3e9s</td></tr>
-<tr><td>Облачная Гора</td><td>Cloudy Mountain</td><td></td><td>40</td><td>100</td><td>3e4n2w7n6esu2e3n3uw5nwu2ne3n</td></tr>
+<tr><td>Облачная Гора</td><td>Cloudy Mountain</td><td><a href="maps/cloudymt.html">карта</a></td><td>40</td><td>100</td><td>3e4n2w7n6esu2e3n3uw5nwu2ne3n</td></tr>
 <tr><td>Шабаш</td><td>Coven</td><td><a href="maps/coven.html">карта</a></td><td>25</td><td>35</td><td>6e4s2en</td></tr>
 <tr><td>Озеро Кристалмир</td><td>Crystalmir Lake</td><td><a href="maps/crystal2.html">карта</a></td><td>5</td><td>35</td><td>6e3n от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Темный Континент</td><td>Dark Continent</td><td><a href="maps/dark2.html">карта</a></td><td>5</td><td>35</td><td>34en2e</td></tr>
@@ -88,10 +88,10 @@
 <tr><td>Faerie Ring</td><td>Faerie Ring</td><td></td><td>10</td><td>15</td><td>3e8s2w2s2e2se</td></tr>
 <tr><td>Огненная Гора</td><td>Firetop Mountain</td><td><a href="maps/firetop2.html">карта</a></td><td>10</td><td>20</td><td>4e3n2w5nwnw2ue4nenenesesw3n</td></tr>
 <tr><td>Вольная Гавань</td><td>Freeport</td><td><a href="maps/freeport.html">карта</a></td><td>8</td><td>53</td><td>34en3e</td></tr>
-<tr><td>Галактика</td><td>Galaxy</td><td></td><td>20</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать вход в таверну</td></tr>
+<tr><td>Галактика</td><td>Galaxy</td><td><a href="maps/galaxy.html">карта</a></td><td>20</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать вход в таверну</td></tr>
 <tr><td>Планетарная Геометрия</td><td></td><td></td><td>1</td><td>100</td><td>через Пастбища и другое</td></tr>
 <tr><td>Большой Герихельм</td><td>Greater Gerighelm</td><td><a href="maps/gerghlm2.html">карта</a></td><td>1</td><td>30</td><td>7wu</td></tr>
-<tr><td>Деревня Гномов</td><td>Gnome Village</td><td></td><td>5</td><td>15</td><td>8es</td></tr>
+<tr><td>Деревня Гномов</td><td>Gnome Village</td><td><a href="maps/gnome.html">карта</a></td><td>5</td><td>15</td><td>8es</td></tr>
 <tr><td>Кладбище</td><td>Graveyard</td><td><a href="maps/grave.html">карта</a></td><td>5</td><td>10</td><td>3e7sws</td></tr>
 <tr><td>Священная Роща</td><td>Holy Grove</td><td><a href="maps/grove.html">карта</a></td><td>5</td><td>20</td><td>8en</td></tr>
 <tr><td>Крепость Гоблинов</td><td>Goblin Stronghold</td><td><a href="maps/gstrong.html">карта</a></td><td>10</td><td>20</td><td>3w8s2e7s2e4su</td></tr>
@@ -113,11 +113,11 @@
 <tr><td>Логово Джэра</td><td>Lair of Jher</td><td><a href="maps/jher.html">карта</a></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
 <tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td><a href="maps/lake.html">карта</a></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
-<tr><td>Библиотека</td><td></td><td></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
+<tr><td>Библиотека</td><td></td><td><a href="maps/library.html">карта</a></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
 <tr><td>Башня Лича</td><td>Lich Tower</td><td><a href="maps/lich.html">карта</a></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
 <tr><td>Волшебный Лес</td><td>Magic Forest</td><td><a href="maps/magicfor.html">карта</a></td><td>25</td><td>40</td><td>13w;enter tree</td></tr>
 <tr><td>Мах&apos;н-Тор</td><td>The Keep of Mahn-Tor</td><td><a href="maps/mahntor.html">карта</a></td><td>5</td><td>35</td><td>6e4s2es2ed3nes</td></tr>
-<tr><td>Непрерывность парков</td><td></td><td></td><td>1</td><td>100</td><td>за западными воротами Старого Мидгаарда</td></tr>
+<tr><td>Непрерывность парков</td><td></td><td><a href="maps/mansion.html">карта</a></td><td>1</td><td>100</td><td>за западными воротами Старого Мидгаарда</td></tr>
 <tr><td>Старая Топь</td><td>Old Marsh</td><td><a href="maps/marsh.html">карта</a></td><td>15</td><td>25</td><td>13ws2w2sw3s</td></tr>
 <tr><td>Маскарад</td><td></td><td><a href="maps/masquerade.html">карта</a></td><td>1</td><td>5</td><td>блуждающий портал</td></tr>
 <tr><td>Mother Goose</td><td>Mother Goose</td><td><a href="maps/mgoose.html">карта</a></td><td>3</td><td>15</td><td>3s2e2s6wns2w</td></tr>
@@ -148,7 +148,7 @@
 <tr><td>Пастбища и другое</td><td></td><td></td><td>1</td><td>100</td><td>3eN2w3n2es</td></tr>
 <tr><td>MUD Школа</td><td>MUD School</td><td><a href="maps/school.html">карта</a></td><td>1</td><td>5</td><td>2nu</td></tr>
 <tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
-<tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
+<tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td><a href="maps/shalafi.html">карта</a></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
 <tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td><a href="maps/shaolin.html">карта</a></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
 <tr><td>Фрегат</td><td></td><td><a href="maps/ship.html">карта</a></td><td>1</td><td>5</td><td>сюда все попадают после создания персонажа</td></tr>
 <tr><td>Шир</td><td>Shire</td><td><a href="maps/shire.html">карта</a></td><td>5</td><td>35</td><td>5wn</td></tr>
