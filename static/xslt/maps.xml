@@ -64,7 +64,7 @@
 <tr><td>Камелот</td><td>Camelot</td><td><a href="maps/camelot.html">карта</a></td><td>20</td><td>52</td><td>4e3n2w3ne2n5e</td></tr>
 <tr><td>Каньон Стихий</td><td>Elemental Canyon</td><td><a href="maps/canyon.html">карта</a></td><td>5</td><td>30</td><td>6e4s2es2eds</td></tr>
 <tr><td>Казино</td><td></td><td><a href="maps/casino.html">карта</a></td><td>1</td><td>100</td><td>3e2n3en</td></tr>
-<tr><td>Подземелья Дварфов</td><td>Dwarven Catacombs</td><td></td><td>10</td><td>20</td><td>6e3n2e3n3w2d</td></tr>
+<tr><td>Подземелья Дварфов</td><td>Dwarven Catacombs</td><td><a href="maps/catacomb.html">карта</a></td><td>10</td><td>20</td><td>6e3n2e3n3w2d</td></tr>
 <tr><td>Подземелье Часовни</td><td>Chapel</td><td><a href="maps/chapel.html">карта</a></td><td>15</td><td>25</td><td>3e7sw6s</td></tr>
 <tr><td>Шахматная Доска</td><td>Chessboard</td><td></td><td>10</td><td>35</td><td>3w2sw</td></tr>
 <tr><td>Шоколадная фабрика</td><td></td><td><a href="maps/chocolate.html">карта</a></td><td>20</td><td>70</td><td>золотой билет в кондитерских</td></tr>
@@ -109,7 +109,7 @@
 <tr><td>Пригород Долины Титанов</td><td></td><td></td><td>1</td><td>100</td><td>от Моста с воротами в Долине Титанов</td></tr>
 <tr><td>Хижина</td><td></td><td></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
 <tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
-<tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
+<tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td><a href="maps/isles.html">карта</a></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
 <tr><td>Логово Джэра</td><td>Lair of Jher</td><td><a href="maps/jher.html">карта</a></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
 <tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td><a href="maps/lake.html">карта</a></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
