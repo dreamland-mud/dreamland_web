@@ -111,19 +111,6 @@
 			</div>
                </div>
 
-		<div id="contact" class="section">
-			<div class="bg-image bg-parallax overlay"></div>
-			<div class="container">
-				<div class="row">
-
-					<div class="col-md-8 col-md-offset-2 text-center">
-						<h2 class="white-text">Как связаться с создателями</h2>
-                                                <p class="lead white-text">По всем вопросам пишите на <a href="mailto:ruffina.koza@gmail.com"><b>почту</b></a>, или же внутриигровой почтой (<b>note to immortal</b>). Также можно оставить сообщение на <a href="https://www.facebook.com/DreamLand-MUD-268700330534658/"><b>нашей странице в Facebook</b></a>.</p>
-					</div>
-				</div>
-			</div>
-               </div>
-
 		<div id="about" class="section">
 			<div class="container">
 				<div class="row">
@@ -182,8 +169,125 @@
 					</div>
 				</div>
 			</div>
-		</div>
+                </div><!-- about -->
 
+                <div id="contact" class="section">
+			<div class="bg-image bg-parallax overlay"></div>
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-8 col-md-offset-2 text-center">
+						<h2 class="white-text">Как связаться с создателями</h2>
+                                                <p class="lead white-text">По всем вопросам пишите на <a href="mailto:ruffina.koza@gmail.com"><b>почту</b></a>, или же внутриигровой почтой (<b>note to immortal</b>). Также можно оставить сообщение на <a href="https://www.facebook.com/DreamLand-MUD-268700330534658/"><b>нашей странице в Facebook</b></a>.</p>
+					</div>
+				</div>
+			</div>
+                </div><!-- contact -->
+
+
+		<!-- Helping -->
+		<div id="why-us" class="section">
+
+			<!-- container -->
+			<div class="container">
+
+				<!-- row -->
+				<div class="row">
+					<div class="section-header text-center">
+						<h2>Как помочь проекту</h2>
+						<p class="lead">Есть много способов помочь сделать мир DreamLand еще лучше.</p>
+					</div>
+
+					<div class="col-md-4">
+						<div class="feature">
+							<i class="feature-icon fa fa-key"></i>
+							<div class="feature-content">
+								<h4>Стать строителем</h4>
+								<p>Создавать свои зоны, используя встроенный редактор OLC.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature">
+							<i class="feature-icon fa fa-pen-fancy"></i>
+							<div class="feature-content">
+								<h4>Писать скрипты</h4>
+								<p>Описывать сложное поведение, создавать квесты и новые команды.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature">
+							<i class="feature-icon fa fa-bug"></i>
+							<div class="feature-content">
+								<h4>Стать кодером</h4>
+								<p>Решать разные задачи, от охоты на мелкие глюки до расширения кодовой базы.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature">
+							<i class="feature-icon fa fa-map-marked-alt"></i>
+							<div class="feature-content">
+								<h4>Стать картографом</h4>
+								<p>Наносить разметку на карты, для подсветки текущего положения персонажа.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature">
+							<i class="feature-icon fa fa-laptop-code"></i>
+							<div class="feature-content">
+								<h4>Улучшать веб-клиент</h4>
+								<p>Расширять новыми фишками один или оба веб-клиента.</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="feature">
+							<i class="feature-icon fa fa-book"></i>
+							<div class="feature-content">
+								<h4>Помогать новичкам</h4>
+								<p>Дорабатывать справку, писать учебники и FAQ, развивать города.</p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="center-btn">
+                                            <a class="main-button icon-button" href="/dev.html">Подробнее</a>
+					</div>
+				</div>
+                                <br/>
+                                <div class="row">
+					<div class="col-xs-12">
+                                            <div class="feature">
+                                                    <i class="feature-icon fab fa-git"></i>
+                                                    <div class="feature-content">
+                                                            <h4>DreamLand на GitHub</h4>
+                                                            <p>Исходники кодовой базы и сопутствующих проектов: <a target="_blank" href="https://github.com/dreamland-mud">https://github.com/dreamland-mud</a></p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>                                                
+                                <div class="row">
+					<div class="col-xs-12">
+                                            <div class="feature">
+                                                    <i class="feature-icon fab fa-docker"></i>
+                                                    <div class="feature-content">
+                                                            <h4>DreamLand на Docker Hub</h4>
+                                                            <p>Готовые Docker контейнеры с сервером: <a target="_blank" href="https://hub.docker.com/r/dreamland">https://hub.docker.com/r/dreamland</a></p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>                                                
+
+
+				<hr/>
+
+			</div> <!-- /container -->
+		</div> <!-- /Helping -->
 
                 
 	</content>
