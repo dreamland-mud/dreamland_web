@@ -109,11 +109,13 @@
 				</div>
 
 				<div id="bottom-footer" class="row">
-					<div class="col-md-4 col-md-push-8">
+                                        <div class="col-md-4 col-md-push-8">
+                                        <!--
 						<ul class="footer-social">
-							<li><a href="https://plus.google.com/100935392158446743578" class="google-plus"><i class="fa fa-google-plus"></i></a></li>
-                                                        <li><a href="https://www.facebook.com/dreamland.mud" class="facebook"><i class="fa fa-facebook"></i></a></li>
-						</ul>
+							<li><a href="https://plus.google.com/100935392158446743578" class="google-plus"><i class="fab fa-google-plus-f"></i></a></li>
+                                                        <li><a href="https://www.facebook.com/dreamland.mud" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
+                                                </ul>
+                                        -->
 					</div>
 
 					<div class="col-md-12">
@@ -128,7 +130,9 @@
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 		<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
-                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/solid.css" integrity="sha384-wnAC7ln+XN0UKdcPvJvtqIH3jOjs9pnKnq9qX68ImXvOGz2JuFoEiCjT8jyZQX2z" crossorigin="anonymous"/>
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/brands.css" integrity="sha384-nT8r1Kzllf71iZl81CdFzObMsaLOhqBU1JD2+XoAALbdtWaXDOlWOZTR4v1ktjPE" crossorigin="anonymous"/>
+                <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css" integrity="sha384-HbmWTHay9psM8qyzEKPc8odH4DsOuzdejtnr+OFtDmOcIVnhgReQ4GZBH7uwcjf6" crossorigin="anonymous"/>
                 <xsl:copy-of select="*"/>
 </xsl:template>
 

@@ -186,8 +186,8 @@ blockquote:before{
 }
 
 .main-button.icon-button:after {
-	content:"\f178";
-	font-family:FontAwesome;
+	content:"\f30b";
+	font-family:"Font Awesome 5 Free";
 	position:absolute;
 	width: 30px;
 	right: 15px;
@@ -653,7 +653,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	color: #FF6700;
 }
 
-#courses .center-btn {
+.center-btn {
 	text-align:center;
 	margin-top:40px;
 }
