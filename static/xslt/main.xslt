@@ -36,7 +36,7 @@
 		<link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
 		<!-- Custom stlylesheet -->
-		<link type="text/css" rel="stylesheet" href="css/style03.css"/>
+		<link type="text/css" rel="stylesheet" href="css/style.css?4"/>
 
 		<!-- Google font -->
                 <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet"/>
