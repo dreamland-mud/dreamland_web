@@ -2,6 +2,7 @@
 if('BroadcastChannel' in window) {
     var bc = new BroadcastChannel('location');
     var prevArea;
+    
     bc.onmessage = function (ev) {
         if(ev.data.what !== 'location')
             return;
