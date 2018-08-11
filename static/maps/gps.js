@@ -21,7 +21,7 @@ if('BroadcastChannel' in window) {
         $('.room-' + ev.data.location.vnum).addClass('active');
 
         var $active = $('.room.active'),
-        $follow = $('#follow');
+            $follow = $('#follow');
 
         if($active.length && $follow.length && $follow[0].checked) {
             var off = $active.offset(),
