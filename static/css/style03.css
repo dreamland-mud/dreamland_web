@@ -1387,3 +1387,19 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 .fa-google-plus {
     margin-top: 10px;
 }    
+
+/*
+ * Dev page, make fonts more readable, underline link,
+ * show normal lists.
+ */
+#dev {
+    color: #444;
+    font-size: 18px;
+}    
+#dev ul {
+    list-style: circle;
+    padding-left: 20px;
+}    
+#dev a {
+    text-decoration: underline;
+}    
