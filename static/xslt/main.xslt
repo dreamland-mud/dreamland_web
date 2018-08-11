@@ -69,9 +69,9 @@
                             <ul class="main-menu nav navbar-nav navbar-right">
                                     <li><a href="index.html">Главная</a></li>
                                     <li><a href="https://dreamland.rocks/mudjs">Играть</a></li>
-                                    <li><a href="guide.html">Учебник</a></li>
                                     <li><a href="maps.html">Карты</a></li>
                                     <li><a href="searcher.html">Вещи</a></li>
+                                    <li><a href="index.html#why-us">Разработка</a></li>
                                     <li class="hidden-md hidden-sm"><a href="news.html">Новости</a></li>
                                     <li class="hidden-md hidden-sm"><a href="stories.html">Легенды</a></li>
                                     <li class="hidden-md hidden-sm"><a href="links.html">Ссылки</a></li>
@@ -97,9 +97,9 @@
 						<ul class="footer-nav">
                                                     <li><a href="index.html">Главная</a></li>
                                                     <li><a href="https://dreamland.rocks/mudjs">Играть</a></li>
-                                                    <li><a href="guide.html">Учебник</a></li>
                                                     <li><a href="maps.html">Карты</a></li>
                                                     <li><a href="searcher.html">Вещи</a></li>
+                                                    <li><a href="index.html#why-us">Разработка</a></li>
                                                     <li><a href="news.html">Новости</a></li>
                                                     <li><a href="stories.html">Легенды</a></li>
                                                     <li><a href="links.html">Ссылки</a></li>

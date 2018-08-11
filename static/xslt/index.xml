@@ -256,7 +256,7 @@
 				</div>
 				<div class="row">
 					<div class="center-btn">
-						<a class="main-button icon-button" href="#">Подробнее</a>
+                                            <a class="main-button icon-button" href="/dev.html">Подробнее</a>
 					</div>
 				</div>
                                 <br/>
@@ -277,7 +277,7 @@
                                                     <i class="feature-icon fab fa-docker"></i>
                                                     <div class="feature-content">
                                                             <h4>DreamLand на Docker Hub</h4>
-                                                            <p>Готовые Docker контейнеры с сервером: <a target="_blank" href="https://hub.docker.com/r/dreamland/">https://hub.docker.com/r/dreamland/</a></p>
+                                                            <p>Готовые Docker контейнеры с сервером: <a target="_blank" href="https://hub.docker.com/r/dreamland">https://hub.docker.com/r/dreamland</a></p>
                                                     </div>
                                             </div>
                                         </div>
