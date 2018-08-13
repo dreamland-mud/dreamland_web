@@ -77,8 +77,8 @@
 <tr><td>Детский сад Дварфов</td><td>Dwarven Day Care</td><td><a href="maps/daycare.html">карта</a></td><td>1</td><td>5</td><td>6e3n2es</td></tr>
 <tr><td>Разделенные Души</td><td>Divided Souls</td><td></td><td>45</td><td>90</td><td>6se3sws4use</td></tr>
 <tr><td>Замок Драконов</td><td>Dragon Tower</td><td><a href="maps/draconia.html">карта</a></td><td>5</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать дракончика</td></tr>
-<tr><td>Пик Драконов</td><td>Dragon Spyre</td><td></td><td>30</td><td>65</td><td>4e3n2w3ne2n4esu</td></tr>
-<tr><td>Остров Дракири</td><td>Drakyri Isle</td><td></td><td>65</td><td>90</td><td>7w2sese3s</td></tr>
+<tr><td>Пик Драконов</td><td>Dragon Spyre</td><td><a href="maps/dragon2.html">карта</a></td><td>30</td><td>65</td><td>4e3n2w3ne2n4esu</td></tr>
+<tr><td>Остров Дракири</td><td>Drakyri Isle</td><td><a href="maps/drakyri.html">карта</a></td><td>65</td><td>90</td><td>7w2sese3s</td></tr>
 <tr><td>Machine Dreams</td><td>Machine Dreams</td><td></td><td>1</td><td>5</td><td>3e2swsu</td></tr>
 <tr><td>Город Дроу</td><td>Drow City</td><td><a href="maps/drow.html">карта</a></td><td>15</td><td>25</td><td>6e4s2es2edws2d</td></tr>
 <tr><td>Королевство Гномов</td><td>Dwarven Kingdom</td><td><a href="maps/dwarven.html">карта</a></td><td>10</td><td>25</td><td>6e3n2e</td></tr>
@@ -89,7 +89,7 @@
 <tr><td>Огненная Гора</td><td>Firetop Mountain</td><td><a href="maps/firetop2.html">карта</a></td><td>10</td><td>20</td><td>4e3n2w5nwnw2ue4nenenesesw3n</td></tr>
 <tr><td>Вольная Гавань</td><td>Freeport</td><td><a href="maps/freeport.html">карта</a></td><td>8</td><td>53</td><td>34en3e</td></tr>
 <tr><td>Галактика</td><td>Galaxy</td><td><a href="maps/galaxy.html">карта</a></td><td>20</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать вход в таверну</td></tr>
-<tr><td>Планетарная Геометрия</td><td></td><td></td><td>1</td><td>100</td><td>через Пастбища и другое</td></tr>
+<tr><td>Планетарная Геометрия</td><td></td><td><a href="maps/geometry.html">карта</a></td><td>1</td><td>100</td><td>через Пастбища и другое</td></tr>
 <tr><td>Большой Герихельм</td><td>Greater Gerighelm</td><td><a href="maps/gerghlm2.html">карта</a></td><td>1</td><td>30</td><td>7wu</td></tr>
 <tr><td>Деревня Гномов</td><td>Gnome Village</td><td><a href="maps/gnome.html">карта</a></td><td>5</td><td>15</td><td>8es</td></tr>
 <tr><td>Кладбище</td><td>Graveyard</td><td><a href="maps/grave.html">карта</a></td><td>5</td><td>10</td><td>3e7sws</td></tr>
@@ -111,7 +111,7 @@
 <tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
 <tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td><a href="maps/isles.html">карта</a></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
 <tr><td>Логово Джэра</td><td>Lair of Jher</td><td><a href="maps/jher.html">карта</a></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
-<tr><td>King&apos;s Castle</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
+<tr><td>Королевский замок</td><td>King&apos;s Castle</td><td><a href="maps/king2.html">карта</a></td><td>30</td><td>50</td><td>4e3n2w5nen</td></tr>
 <tr><td>Озеро Слез</td><td>Озеро Слез</td><td><a href="maps/lake.html">карта</a></td><td>10</td><td>30</td><td>Разрушенная пристань в Изумрудном Лесу</td></tr>
 <tr><td>Библиотека</td><td></td><td><a href="maps/library.html">карта</a></td><td>1</td><td>110</td><td>3e7s2wn</td></tr>
 <tr><td>Башня Лича</td><td>Lich Tower</td><td><a href="maps/lich.html">карта</a></td><td>45</td><td>75</td><td>6e4s2es2ed3ne4s2w</td></tr>
@@ -145,7 +145,7 @@
 <tr><td>Храм Крысиного Бога</td><td></td><td></td><td>1</td><td>106</td><td>3wsed</td></tr>
 <tr><td>Резиденция Редферна</td><td>Redferne&apos;s Residence</td><td><a href="maps/redferne.html">карта</a></td><td>20</td><td>30</td><td>6se3swsu</td></tr>
 <tr><td>Пещеры</td><td>Caverns</td><td><a href="maps/ryzen2.html">карта</a></td><td>25</td><td>45</td><td>6e4s2es2ed3ne4s4wsw2sd2sd</td></tr>
-<tr><td>Пастбища и другое</td><td></td><td></td><td>1</td><td>100</td><td>3eN2w3n2es</td></tr>
+<tr><td>Пастбища и другое</td><td></td><td><a href="maps/satyr.html">карта</a></td><td>1</td><td>100</td><td>3eN2w3n2es</td></tr>
 <tr><td>MUD Школа</td><td>MUD School</td><td><a href="maps/school.html">карта</a></td><td>1</td><td>5</td><td>2nu</td></tr>
 <tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
 <tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td><a href="maps/shalafi.html">карта</a></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
