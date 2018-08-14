@@ -1,10 +1,11 @@
 
 if('BroadcastChannel' in window) {
+	var sessionId = getParameterByName('sessionId');
     var bc = new BroadcastChannel('location');
     var prevArea;
-    
+
     bc.onmessage = function (ev) {
-        if(ev.data.what !== 'location')
+        if(ev.data.what !== 'location' || ev.data.sessionId !== sessionId)
             return;
 
         var currentArea = ev.data.location.area;
@@ -14,7 +15,7 @@ if('BroadcastChannel' in window) {
         }
 
         if (currentArea != prevArea) {
-            window.location.href = '/maps/' + currentArea.replace(/\.are$/, '') + '.html?1';
+            window.location.href = '/maps/' + currentArea.replace(/\.are$/, '') + '.html?sessionId=' + sessionId;
         }
 
         $('.room').removeClass('active');
@@ -35,4 +36,14 @@ if('BroadcastChannel' in window) {
     $(document).ready(function() {
         bc.postMessage({ what: 'where am i' });
     });
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
