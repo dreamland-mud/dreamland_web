@@ -51,7 +51,7 @@
 <tr><td>Абисс</td><td>The Abyss</td><td><a href="maps/abyss2.html">карта</a></td><td>30</td><td>50</td><td>6e4s2es2edsun</td></tr>
 <tr><td>В Воздухе</td><td>In the Air</td><td><a href="maps/air.html">карта</a></td><td>5</td><td>10</td><td>n2u</td></tr>
 <tr><td>Страна Чудес</td><td>Wonderland</td><td><a href="maps/alice.html">карта</a></td><td>35</td><td>45</td><td>35esenen5es</td></tr>
-<tr><td>Амбер</td><td></td><td></td><td>1</td><td>100</td><td>3s2e2s7ws</td></tr>
+<tr><td>Амбер</td><td></td><td><a href="maps/amber_area.html">карта</a></td><td>1</td><td>100</td><td>3s2e2s7ws</td></tr>
 <tr><td>Замок Амбера, 1й этаж</td><td></td><td><a href="maps/amber_floor1.html">карта</a></td><td>10</td><td>25</td><td>3s2e2s7w2s2w2n</td></tr>
 <tr><td>Антария</td><td>Antharia</td><td><a href="maps/antharia.html">карта</a></td><td>9</td><td>42</td><td>6e3n3w2n2d  от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Арахнос</td><td>Arachnos</td><td><a href="maps/arachnos.html">карта</a></td><td>5</td><td>20</td><td>13ws2wnwu</td></tr>
@@ -66,7 +66,7 @@
 <tr><td>Казино</td><td></td><td><a href="maps/casino.html">карта</a></td><td>1</td><td>100</td><td>3e2n3en</td></tr>
 <tr><td>Подземелья Дварфов</td><td>Dwarven Catacombs</td><td><a href="maps/catacomb.html">карта</a></td><td>10</td><td>20</td><td>6e3n2e3n3w2d</td></tr>
 <tr><td>Подземелье Часовни</td><td>Chapel</td><td><a href="maps/chapel.html">карта</a></td><td>15</td><td>25</td><td>3e7sw6s</td></tr>
-<tr><td>Шахматная Доска</td><td>Chessboard</td><td></td><td>10</td><td>35</td><td>3w2sw</td></tr>
+<tr><td>Шахматная Доска</td><td>Chessboard</td><td><a href="maps/chess2.html">карта</a></td><td>10</td><td>35</td><td>3w2sw</td></tr>
 <tr><td>Шоколадная фабрика</td><td></td><td><a href="maps/chocolate.html">карта</a></td><td>20</td><td>70</td><td>золотой билет в кондитерских</td></tr>
 <tr><td>Логовище Сайкуалы</td><td>Ciquala Lair</td><td><a href="maps/ciquala2.html">карта</a></td><td>40</td><td>62</td><td>13w2n2en</td></tr>
 <tr><td>Цирк</td><td>Circus</td><td><a href="maps/circus.html">карта</a></td><td>1</td><td>12</td><td>3e9s</td></tr>
@@ -107,7 +107,7 @@
 <tr><td>Предместья Старого Мидгаарда</td><td></td><td></td><td>1</td><td>100</td><td>возле восточного входа в Старый Мидгаард</td></tr>
 <tr><td>Пригород Соласа</td><td></td><td></td><td>1</td><td>100</td><td>тропа вдоль берега Озера Кристалмир</td></tr>
 <tr><td>Пригород Долины Титанов</td><td></td><td></td><td>1</td><td>100</td><td>от Моста с воротами в Долине Титанов</td></tr>
-<tr><td>Хижина</td><td></td><td></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
+<tr><td>Хижина</td><td></td><td><a href="maps/hut.html">карта</a></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
 <tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
 <tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td><a href="maps/isles.html">карта</a></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
 <tr><td>Логово Джэра</td><td>Lair of Jher</td><td><a href="maps/jher.html">карта</a></td><td>35</td><td>55</td><td>13w2n2ed5nu2wn2wd2sd</td></tr>
@@ -133,13 +133,13 @@
 <tr><td>Новый Талос</td><td>New Thalos</td><td><a href="maps/newthalos.html">карта</a></td><td>10</td><td>35</td><td>15e</td></tr>
 <tr><td>Нирвана</td><td>Nirvana</td><td><a href="maps/nirvana.html">карта</a></td><td>30</td><td>35</td><td>8e2n2eu</td></tr>
 <tr><td>New Ofcol</td><td>New Ofcol</td><td><a href="maps/ofcol2.html">карта</a></td><td>5</td><td>35</td><td>3e4n2w4ne4n2ene3n2e</td></tr>
-<tr><td>Офкол</td><td>Ofcol</td><td></td><td>1</td><td>100</td><td>3e4n2w4ne4n2ene2n</td></tr>
+<tr><td>Офкол</td><td>Ofcol</td><td><a href="maps/ofcol.html">карта</a></td><td>1</td><td>100</td><td>3e4n2w4ne4n2ene2n</td></tr>
 <tr><td>Олимп</td><td>Olympus</td><td><a href="maps/olympus.html">карта</a></td><td>5</td><td>60</td><td>4e3n2w6nu</td></tr>
 <tr><td>Парк Сумрачных Ветров</td><td>Shady Breezes Park</td><td></td><td>65</td><td>100</td><td>4e2ne</td></tr>
 <tr><td>Равнины Севера</td><td>Plains of the North</td><td><a href="maps/plains.html">карта</a></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
 <tr><td>Прерии</td><td></td><td><a href="maps/prairie.html">карта</a></td><td>0</td><td>107</td><td>сесть на поезд на станции метро под Общей Площадью Мидгаарда</td></tr>
 <tr><td>Темница Герихельма</td><td></td><td></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
-<tr><td>Тюрьма</td><td>Мидгаардская тюрьма</td><td></td><td>5</td><td>90</td><td>6s3w</td></tr>
+<tr><td>Тюрьма</td><td>Мидгаардская тюрьма</td><td><a href="maps/prison.html">карта</a></td><td>5</td><td>90</td><td>6s3w</td></tr>
 <tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
 <tr><td>Дом Куифаэля</td><td>Quifael&apos;s Area</td><td><a href="maps/quifael.html">карта</a></td><td>31</td><td>35</td><td>6se3swse</td></tr>
 <tr><td>Храм Крысиного Бога</td><td></td><td></td><td>1</td><td>106</td><td>3wsed</td></tr>
@@ -147,7 +147,7 @@
 <tr><td>Пещеры</td><td>Caverns</td><td><a href="maps/ryzen2.html">карта</a></td><td>25</td><td>45</td><td>6e4s2es2ed3ne4s4wsw2sd2sd</td></tr>
 <tr><td>Пастбища и другое</td><td></td><td><a href="maps/satyr.html">карта</a></td><td>1</td><td>100</td><td>3eN2w3n2es</td></tr>
 <tr><td>MUD Школа</td><td>MUD School</td><td><a href="maps/school.html">карта</a></td><td>1</td><td>5</td><td>2nu</td></tr>
-<tr><td>Sewers</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
+<tr><td>Канализация</td><td>Sewers</td><td></td><td>5</td><td>30</td><td>4sd</td></tr>
 <tr><td>Башня Магического Искусства</td><td>Tower of the Arcane Arts</td><td><a href="maps/shalafi.html">карта</a></td><td>90</td><td>100</td><td>За Алтарем на 6м этаже High Tower</td></tr>
 <tr><td>Храм Шаолинь</td><td>Shaolin Temple</td><td><a href="maps/shaolin.html">карта</a></td><td>5</td><td>30</td><td>12n от Центра Рыночной Площади в Новом Талосе</td></tr>
 <tr><td>Фрегат</td><td></td><td><a href="maps/ship.html">карта</a></td><td>1</td><td>5</td><td>сюда все попадают после создания персонажа</td></tr>
@@ -163,7 +163,7 @@
 <tr><td>Ад</td><td>Descent to Hell</td><td><a href="maps/tohell.html">карта</a></td><td>32</td><td>51</td><td>6e4s2es2ed3ne4s4wsw2sd2sde2sde2swswswd2edse3s</td></tr>
 <tr><td>Иггдрасиль</td><td>Yggdrasil</td><td><a href="maps/tree.html">карта</a></td><td>15</td><td>50</td><td>13ws2wnwuw4neus2eswsdneunds5wn</td></tr>
 <tr><td>Трельские Пещеры</td><td>Trillium Caverns</td><td><a href="maps/trilium.html">карта</a></td><td>55</td><td>90</td><td>13w2n2edw</td></tr>
-<tr><td>Пещера Троллей</td><td>Troll Den</td><td></td><td>10</td><td>15</td><td>3s2e2s6wnes</td></tr>
+<tr><td>Пещера Троллей</td><td>Troll Den</td><td><a href="maps/trollden.html">карта</a></td><td>10</td><td>15</td><td>3s2e2s6wnes</td></tr>
 <tr><td>Древняя Троя</td><td>Old Troya</td><td><a href="maps/troy.html">карта</a></td><td>30</td><td>45</td><td>4e3n2w6n2u8nd</td></tr>
 <tr><td>Подземье (UnderDark)</td><td>UnderDark</td><td><a href="maps/under2.html">карта</a></td><td>13</td><td>50</td><td>6e10nd</td></tr>
 <tr><td>Дьявольский Монастырь</td><td>The Unholy Abbey</td><td><a href="maps/unholy.html">карта</a></td><td>60</td><td>65</td><td>6e10n2e8n</td></tr>
