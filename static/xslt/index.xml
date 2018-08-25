@@ -282,6 +282,17 @@
                                             </div>
                                         </div>
                                 </div>                                                
+                                <div class="row">
+					<div class="col-xs-12">
+                                            <div class="feature">
+                                                    <i class="feature-icon fab fa-trello"></i>
+                                                    <div class="feature-content">
+                                                            <h4>DreamLand на Trello</h4>
+                                                            <p>Доска с текущими задачами: <a target="_blank" href="https://trello.com/b/r2gUQ6TY/make-dreamland-great-again">https://trello.com/b/r2gUQ6TY/make-dreamland-great-again</a></p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>                                                
 
 
 				<hr/>
