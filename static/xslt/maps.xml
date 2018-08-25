@@ -45,6 +45,7 @@
                                                         <p class="lead">В этом разделе собрана информация о путях к большинству зон (арий) Мира Грез. По умолчанию путь указан от Рыночной Площади Мидгаарда. Подробнее смотреть help run, help movement и все связанные разделы. Также читайте help areas, чтобы узнать, как отобразить все зоны на свой уровень или найти зону по имени.</p>
 						</div>
                                                 <div class="feature">
+
 <table class="table" id="areatable">
 <thead><tr><th>Имя зоны</th><th>Исходное имя</th><th>Карта</th><th>Мин</th><th>Макс</th><th>Путь</th></tr></thead>
 <tr><td>Ааракокран</td><td>Aarakokran City</td><td><a href="maps/aarak2.html">карта</a></td><td>15</td><td>30</td><td>6e4s2es2eds4und4ne3neu</td></tr>
@@ -100,13 +101,13 @@
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
 <tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
 <tr><td>Храм Зава</td><td></td><td><a href="maps/hram-zav.html">карта</a></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
-<tr><td>Пригород Герихельма</td><td></td><td></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
-<tr><td>Городская Свалка</td><td></td><td></td><td>1</td><td>100</td><td>4sw</td></tr>
+<tr><td>Пригород Герихельма</td><td></td><td><a href="maps/htgerighelm.html">карта</a></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
+<tr><td>Городская Свалка</td><td></td><td><a href="maps/htmidgaard.html">карта</a></td><td>1</td><td>100</td><td>4sw</td></tr>
 <tr><td>Пригород Нового Офкола</td><td></td><td></td><td>1</td><td>100</td><td>на восток Золотой Цитадели Нового Офкола</td></tr>
-<tr><td>Предместья Нового Талоса</td><td></td><td></td><td>1</td><td>100</td><td>свалка в восточной части Иштар Драйв</td></tr>
+<tr><td>Предместья Нового Талоса</td><td></td><td><a href="maps/htnewthalos.html">карта</a></td><td>1</td><td>100</td><td>свалка в восточной части Иштар Драйв</td></tr>
 <tr><td>Предместья Старого Мидгаарда</td><td></td><td><a href="maps/htoldmidgaard.html">карта</a></td><td>1</td><td>100</td><td>возле восточного входа в Старый Мидгаард</td></tr>
 <tr><td>Пригород Соласа</td><td></td><td></td><td>1</td><td>100</td><td>тропа вдоль берега Озера Кристалмир</td></tr>
-<tr><td>Пригород Долины Титанов</td><td></td><td></td><td>1</td><td>100</td><td>от Моста с воротами в Долине Титанов</td></tr>
+<tr><td>Пригород Долины Титанов</td><td></td><td><a href="maps/httitan.html">карта</a></td><td>1</td><td>100</td><td>от Моста с воротами в Долине Титанов</td></tr>
 <tr><td>Хижина</td><td></td><td><a href="maps/hut.html">карта</a></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
 <tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
 <tr><td>Пиратские Острова</td><td>Isles of Pirate Lords</td><td><a href="maps/isles.html">карта</a></td><td>40</td><td>90</td><td>4e3n2w3ne2n4e4sw</td></tr>
@@ -138,7 +139,7 @@
 <tr><td>Парк Сумрачных Ветров</td><td>Shady Breezes Park</td><td><a href="maps/park.html">карта</a></td><td>65</td><td>100</td><td>4e2ne</td></tr>
 <tr><td>Равнины Севера</td><td>Plains of the North</td><td><a href="maps/plains.html">карта</a></td><td>1</td><td>20</td><td>4e3n2wn</td></tr>
 <tr><td>Прерии</td><td></td><td><a href="maps/prairie.html">карта</a></td><td>0</td><td>107</td><td>сесть на поезд на станции метро под Общей Площадью Мидгаарда</td></tr>
-<tr><td>Темница Герихельма</td><td></td><td></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
+<tr><td>Темница Герихельма</td><td></td><td><a href="maps/prison2.html">карта</a></td><td>50</td><td>100</td><td>На юг от Западной Улицы Герихельма, у свалки</td></tr>
 <tr><td>Тюрьма</td><td>Prison of Midgaard</td><td><a href="maps/prison.html">карта</a></td><td>5</td><td>90</td><td>6s3w</td></tr>
 <tr><td>Великие Пирамиды</td><td>The Great Pyramid</td><td><a href="maps/pyramid.html">карта</a></td><td>5</td><td>50</td><td>3s2e2s10enen2e</td></tr>
 <tr><td>Дом Куифаэля</td><td>Quifael&apos;s Area</td><td><a href="maps/quifael.html">карта</a></td><td>31</td><td>35</td><td>6se3swse</td></tr>
