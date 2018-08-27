@@ -45,7 +45,6 @@
                                                         <p class="lead">В этом разделе собрана информация о путях к большинству зон (арий) Мира Грез. По умолчанию путь указан от Рыночной Площади Мидгаарда. Подробнее смотреть help run, help movement и все связанные разделы. Также читайте help areas, чтобы узнать, как отобразить все зоны на свой уровень или найти зону по имени.</p>
 						</div>
                                                 <div class="feature">
-
 <table class="table" id="areatable">
 <thead><tr><th>Имя зоны</th><th>Исходное имя</th><th>Карта</th><th>Мин</th><th>Макс</th><th>Путь</th></tr></thead>
 <tr><td>Ааракокран</td><td>Aarakokran City</td><td><a href="maps/aarak2.html">карта</a></td><td>15</td><td>30</td><td>6e4s2es2eds4und4ne3neu</td></tr>
@@ -103,10 +102,10 @@
 <tr><td>Храм Зава</td><td></td><td><a href="maps/hram-zav.html">карта</a></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
 <tr><td>Пригород Герихельма</td><td></td><td><a href="maps/htgerighelm.html">карта</a></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
 <tr><td>Городская Свалка</td><td></td><td><a href="maps/htmidgaard.html">карта</a></td><td>1</td><td>100</td><td>4sw</td></tr>
-<tr><td>Пригород Нового Офкола</td><td></td><td></td><td>1</td><td>100</td><td>на восток Золотой Цитадели Нового Офкола</td></tr>
+<tr><td>Пригород Нового Офкола</td><td></td><td><a href="maps/htnewofcol.html">карта</a></td><td>1</td><td>100</td><td>на восток Золотой Цитадели Нового Офкола</td></tr>
 <tr><td>Предместья Нового Талоса</td><td></td><td><a href="maps/htnewthalos.html">карта</a></td><td>1</td><td>100</td><td>свалка в восточной части Иштар Драйв</td></tr>
 <tr><td>Предместья Старого Мидгаарда</td><td></td><td><a href="maps/htoldmidgaard.html">карта</a></td><td>1</td><td>100</td><td>возле восточного входа в Старый Мидгаард</td></tr>
-<tr><td>Пригород Соласа</td><td></td><td></td><td>1</td><td>100</td><td>тропа вдоль берега Озера Кристалмир</td></tr>
+<tr><td>Пригород Соласа</td><td></td><td><a href="maps/htsolace.html">карта</a></td><td>1</td><td>100</td><td>тропа вдоль берега Озера Кристалмир</td></tr>
 <tr><td>Пригород Долины Титанов</td><td></td><td><a href="maps/httitan.html">карта</a></td><td>1</td><td>100</td><td>от Моста с воротами в Долине Титанов</td></tr>
 <tr><td>Хижина</td><td></td><td><a href="maps/hut.html">карта</a></td><td>1</td><td>100</td><td>вход из Королевства Зеркал</td></tr>
 <tr><td>Вальгалла</td><td>Valhalla</td><td></td><td>102</td><td>110</td><td>3nu</td></tr>
@@ -155,12 +154,12 @@
 <tr><td>Шир</td><td>Shire</td><td><a href="maps/shire.html">карта</a></td><td>5</td><td>35</td><td>5wn</td></tr>
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
 <tr><td>Солас</td><td>Solace</td><td><a href="maps/solace.html">карта</a></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
-<tr><td>Храм Тананды</td><td></td><td></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
+<tr><td>Храм Тананды</td><td></td><td><a href="maps/tananda.html">карта</a></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
 <tr><td>The Walls of Anon</td><td>The Walls of Anon</td><td></td><td>50</td><td>65</td><td>через все Guard Towers в The City of Anon</td></tr>
 <tr><td>The City of Anon</td><td>The City of Anon</td><td><a href="maps/tcwnn.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnw</td></tr>
 <tr><td>Талос</td><td>Thalos</td><td><a href="maps/thalos.html">карта</a></td><td>10</td><td>25</td><td>6e4s3w</td></tr>
 <tr><td>Долина Титанов</td><td>Valley of the Titans</td><td><a href="maps/titan.html">карта</a></td><td>25</td><td>50</td><td>13w2nen</td></tr>
-<tr><td>Храм Фемиды</td><td></td><td></td><td>0</td><td>101</td><td>2se</td></tr>
+<tr><td>Храм Фемиды</td><td></td><td><a href="maps/tofemida.html">карта</a></td><td>0</td><td>101</td><td>2se</td></tr>
 <tr><td>Ад</td><td>Descent to Hell</td><td><a href="maps/tohell.html">карта</a></td><td>32</td><td>51</td><td>6e4s2es2ed3ne4s4wsw2sd2sde2sde2swswswd2edse3s</td></tr>
 <tr><td>Иггдрасиль</td><td>Yggdrasil</td><td><a href="maps/tree.html">карта</a></td><td>15</td><td>50</td><td>13ws2wnwuw4neus2eswsdneunds5wn</td></tr>
 <tr><td>Трельские Пещеры</td><td>Trillium Caverns</td><td><a href="maps/trilium.html">карта</a></td><td>55</td><td>90</td><td>13w2n2edw</td></tr>
