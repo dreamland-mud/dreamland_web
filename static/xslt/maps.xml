@@ -79,7 +79,7 @@
 <tr><td>Замок Драконов</td><td>Dragon Tower</td><td><a href="maps/draconia.html">карта</a></td><td>5</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать дракончика</td></tr>
 <tr><td>Пик Драконов</td><td>Dragon Spyre</td><td><a href="maps/dragon2.html">карта</a></td><td>30</td><td>65</td><td>4e3n2w3ne2n4esu</td></tr>
 <tr><td>Остров Дракири</td><td>Drakyri Isle</td><td><a href="maps/drakyri.html">карта</a></td><td>65</td><td>90</td><td>7w2sese3s</td></tr>
-<tr><td>Machine Dreams</td><td>Machine Dreams</td><td></td><td>1</td><td>5</td><td>3e2swsu</td></tr>
+<tr><td>Machine Dreams</td><td>Machine Dreams</td><td><a href="maps/dream.html">карта</a></td><td>1</td><td>5</td><td>3e2swsu</td></tr>
 <tr><td>Город Дроу</td><td>Drow City</td><td><a href="maps/drow.html">карта</a></td><td>15</td><td>25</td><td>6e4s2es2edws2d</td></tr>
 <tr><td>Королевство Гномов</td><td>Dwarven Kingdom</td><td><a href="maps/dwarven.html">карта</a></td><td>10</td><td>25</td><td>6e3n2e</td></tr>
 <tr><td>Зона Дилана</td><td>Dylan&apos;s Area</td><td><a href="maps/dylan.html">карта</a></td><td>15</td><td>25</td><td>6se3sws4us</td></tr>
@@ -124,7 +124,7 @@
 <tr><td>Миден&apos;нир</td><td>Miden&apos;nir</td><td><a href="maps/midennir.html">карта</a></td><td>5</td><td>15</td><td>3e8s2w2s</td></tr>
 <tr><td>Мидгаард</td><td>Midgaard</td><td><a href="maps/midgaard.html">карта</a></td><td>1</td><td>100</td><td>войти в портал в храме своего города</td></tr>
 <tr><td>Лихолесье</td><td>Mirkwood</td><td><a href="maps/mirkwd2.html">карта</a></td><td>5</td><td>15</td><td>4e3n2w2n3edn</td></tr>
-<tr><td>Королевство Зеркал</td><td>Mirror of Realm</td><td></td><td>20</td><td>50</td><td>6e2ne</td></tr>
+<tr><td>Королевство Зеркал</td><td>Mirror of Realm</td><td><a href="maps/mirror2.html">карта</a></td><td>20</td><td>50</td><td>6e2ne</td></tr>
 <tr><td>Старый Мидгаард</td><td>Old Midgaard</td><td><a href="maps/mirror.html">карта</a></td><td>1</td><td>30</td><td>2nu3s;enter portal;d</td></tr>
 <tr><td>Мория</td><td>Moria</td><td><a href="maps/moria.html">карта</a></td><td>5</td><td>15</td><td>6e3n</td></tr>
 <tr><td>Гора Смерти</td><td>Kurgan Mount Doom</td><td><a href="maps/mtdoom.html">карта</a></td><td>45</td><td>65</td><td>13w2n2edn</td></tr>
@@ -155,7 +155,7 @@
 <tr><td>Деревня Смурфов</td><td>Smurfville</td><td><a href="maps/smurf.html">карта</a></td><td>1</td><td>10</td><td>7en</td></tr>
 <tr><td>Солас</td><td>Solace</td><td><a href="maps/solace.html">карта</a></td><td>5</td><td>35</td><td>6e5nwn от Рыночной Площади Старого Мидгаарда</td></tr>
 <tr><td>Храм Тананды</td><td></td><td><a href="maps/tananda.html">карта</a></td><td>1</td><td>101</td><td>8swn и за южными воротами Нового Талоса</td></tr>
-<tr><td>The Walls of Anon</td><td>The Walls of Anon</td><td></td><td>50</td><td>65</td><td>через все Guard Towers в The City of Anon</td></tr>
+<tr><td>The Walls of Anon</td><td>The Walls of Anon</td><td><a href="maps/tcwnn2.html">карта</a></td><td>50</td><td>65</td><td>через все Guard Towers в The City of Anon</td></tr>
 <tr><td>The City of Anon</td><td>The City of Anon</td><td><a href="maps/tcwnn.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnw</td></tr>
 <tr><td>Талос</td><td>Thalos</td><td><a href="maps/thalos.html">карта</a></td><td>10</td><td>25</td><td>6e4s3w</td></tr>
 <tr><td>Долина Титанов</td><td>Valley of the Titans</td><td><a href="maps/titan.html">карта</a></td><td>25</td><td>50</td><td>13w2nen</td></tr>
