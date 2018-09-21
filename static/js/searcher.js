@@ -98,6 +98,7 @@
                         { "data": "hr" },
                         { "data": "dr" },
                         { "data": "hp" },
+                        { "data": "mana" },
                         { "data": "armor" },
                         { "data": "saves" },
                         { "data": "stat_str" },
