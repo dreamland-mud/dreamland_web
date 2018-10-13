@@ -45,6 +45,7 @@
                                                         <p class="lead">В этом разделе собрана информация о путях к большинству зон (арий) Мира Грез. По умолчанию путь указан от Рыночной Площади Мидгаарда. Подробнее смотреть help run, help movement и все связанные разделы. Также читайте help areas, чтобы узнать, как отобразить все зоны на свой уровень или найти зону по имени.</p>
 						</div>
                                                 <div class="feature">
+
 <table class="table" id="areatable">
 <thead><tr><th>Имя зоны</th><th>Исходное имя</th><th>Карта</th><th>Мин</th><th>Макс</th><th>Путь</th></tr></thead>
 <tr><td>Ааракокран</td><td>Aarakokran City</td><td><a href="maps/aarak2.html">карта</a></td><td>15</td><td>30</td><td>6e4s2es2eds4und4ne3neu</td></tr>
@@ -63,7 +64,7 @@
 <tr><td>Blight</td><td>Blight</td><td><a href="maps/blight.html">карта</a></td><td>35</td><td>50</td><td>6e10n2e7nw</td></tr>
 <tr><td>Камелот</td><td>Camelot</td><td><a href="maps/camelot.html">карта</a></td><td>20</td><td>52</td><td>4e3n2w3ne2n5e</td></tr>
 <tr><td>Каньон Стихий</td><td>Elemental Canyon</td><td><a href="maps/canyon.html">карта</a></td><td>5</td><td>30</td><td>6e4s2es2eds</td></tr>
-<tr><td>Казино</td><td></td><td><a href="maps/casino.html">карта</a></td><td>1</td><td>100</td><td>3e2n3en</td></tr>
+<tr><td>Казино</td><td></td><td><a href="maps/casino.html">карта</a></td><td>1</td><td>100</td><td>3e2n3wn</td></tr>
 <tr><td>Подземелья Дварфов</td><td>Dwarven Catacombs</td><td><a href="maps/catacomb.html">карта</a></td><td>10</td><td>20</td><td>6e3n2e3n3w2d</td></tr>
 <tr><td>Подземелье Часовни</td><td>Chapel</td><td><a href="maps/chapel.html">карта</a></td><td>15</td><td>25</td><td>3e7sw6s</td></tr>
 <tr><td>Шахматная Доска</td><td>Chessboard</td><td><a href="maps/chess2.html">карта</a></td><td>10</td><td>35</td><td>3w2sw</td></tr>
@@ -100,6 +101,7 @@
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
 <tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
 <tr><td>Храм Зава</td><td></td><td><a href="maps/hram-zav.html">карта</a></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
+<tr><td>Окрестности Города Дроу</td><td></td><td><a href="maps/htdrow.html">карта</a></td><td>1</td><td>100</td><td>6e4s2es2edws2de</td></tr>
 <tr><td>Пригород Герихельма</td><td></td><td><a href="maps/htgerighelm.html">карта</a></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
 <tr><td>Городская Свалка</td><td></td><td><a href="maps/htmidgaard.html">карта</a></td><td>1</td><td>100</td><td>4sw</td></tr>
 <tr><td>Пригород Нового Офкола</td><td></td><td><a href="maps/htnewofcol.html">карта</a></td><td>1</td><td>100</td><td>на восток Золотой Цитадели Нового Офкола</td></tr>
