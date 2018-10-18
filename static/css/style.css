@@ -35,7 +35,7 @@ body {
     font-family: 'Montserrat', sans-serif;
 	font-size: 15px;
     font-weight: 400;
-    color: #798696;
+    color: #5e6063;
 	overflow-x:hidden;
 }
 
@@ -43,28 +43,28 @@ h1,h2,h3,h4,h5,h6 {
 	margin-top: 12px;
 	margin-bottom: 15px;
 	font-weight: 600;
-	color: #374050;
+	color: #969ead;
 }
 
 h1 {
-	font-size:38px;
+	font-size:36px;
 }
 
 h2 {
-	font-size:30px;
+	font-size:28px;
 }
 
 h3 {
-	font-size:24px;
+	font-size:22px;
 }
 
 h4 {
-	font-size:18px;
+	font-size:16px;
 }
 
 a {
 /*	font-family: 'Lato', sans-serif; */
-	color: #374050;
+	color: #596e92;
 /*	font-weight: 700; */
 }
 
@@ -72,7 +72,7 @@ a:hover,
 a:focus{
     text-decoration: none;
     outline: none;
-	color: #374050;
+	color: #243f6e;
 	opacity: 0.9;
 }
 
@@ -87,7 +87,7 @@ ul.links-list > li {
 }
 
 .white-text {
-	color: #FFF;
+	color: rgb(168, 130, 130);
 }
 
 blockquote {
@@ -95,7 +95,7 @@ blockquote {
 	margin: 20px 0px;
 	padding: 20px 20px 20px 60px;
 	border-left: none;
-	color: #374050;
+	color: #193970;
 }
 
 blockquote:before{
