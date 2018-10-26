@@ -293,6 +293,17 @@
                                             </div>
                                         </div>
                                 </div>                                                
+                                <div class="row">
+					<div class="col-xs-12">
+                                            <div class="feature">
+                                                    <i class="feature-icon fab fa-trello"></i>
+                                                    <div class="feature-content">
+                                                            <h4>DreamLand roadmap</h4>
+                                                            <p>Планы и мечты: <a target="_blank" href="https://trello.com/b/pZ1H0xD7/dreamland-roadmap">https://trello.com/b/pZ1H0xD7/dreamland-roadmap</a></p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>                                                
 
 
 				<hr/>
