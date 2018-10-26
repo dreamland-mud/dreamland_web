@@ -71,11 +71,11 @@
 					<div class="row">
 						<div class="col-md-3 col-sm-3 col-xs-6 col-lg-2 col-lg-offset-2 ">
 							<div class="course">
-								<a href="guide.html" class="course-img">
+								<a href="https://github.com/dreamland-mud/dreamland_code/wiki/DreamLand-FAQ" class="course-img">
 									<img src="./img/miyunur/ship1.png" alt=""/>
 									<i class="course-link-icon fa fa-link"></i>
 								</a>
-								<a class="course-title" href="guide.html">Учебник новичка</a>
+								<a class="course-title" href="https://github.com/dreamland-mud/dreamland_code/wiki/DreamLand-FAQ">Часто задаваемые вопросы</a>
 							</div>
 						</div>
 						<div class="col-md-3 col-sm-3 col-xs-6 col-lg-2 ">
