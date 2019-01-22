@@ -72,9 +72,32 @@ class MagicItemViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend,filters.OrderingFilter,filters.SearchFilter)
     search_fields = ('spells',)
 
+#
+# Pet
+#
+class PetFilter(FilterSet):
+    level__range = RangeFilter(name='level')
+#    wclass = ChoiceFilter(choices=Weapon.WCLASS_CHOICES)
+    class Meta:
+        model = Pet
+        fields = ['level__range']
+
+class PetSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pet 
+        fields = '__all__'
+
+class PetViewSet(viewsets.ModelViewSet):
+    queryset = Pet.objects.all()
+    serializer_class = PetSerializer
+    filter_class = PetFilter
+    filter_backends = (DjangoFilterBackend,filters.OrderingFilter,filters.SearchFilter)
+    search_fields = ('name',)
+
 api_router = routers.DefaultRouter()
 api_router.register(r'item', ItemViewSet)
 api_router.register(r'weapon', WeaponViewSet)
 api_router.register(r'magicItem', MagicItemViewSet)
+api_router.register(r'pet', PetViewSet)
 
 urlpatterns = api_router.urls
