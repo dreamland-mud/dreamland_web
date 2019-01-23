@@ -26,7 +26,7 @@ export PYTHONPATH=..
 ./manage.py runserver  [0.0.0.0:port]
 
 # edit models, then run
-./manage.py makemigration
+./manage.py makemigrations
 ./manage.py migrate
 
 # edit api_urls, urls

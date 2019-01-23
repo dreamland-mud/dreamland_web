@@ -141,3 +141,18 @@ class MagicItem(models.Model):
     def __repr__ (self):
         return u"<magicItem vnum=%s lvl=%s type=%s>" % (self.vnum, self.level, self.itemtype)
 
+class Pet(models.Model):
+
+# Header: vnum,name,level,act,aff,off,area
+
+    vnum = models.IntegerField(db_index=True, unique=True)
+    name = models.CharField(max_length=100)
+    level = models.IntegerField()
+    act = models.CharField(max_length=256, default='')
+    aff = models.CharField(max_length=256, default='')
+    off = models.CharField(max_length=256, default='')
+    area = models.CharField(max_length=256, default='')
+    
+    def __repr__ (self):
+        return u"<pet vnum=%s lvl=%s>" % (self.vnum, self.level)
+

@@ -147,6 +147,15 @@
                         { "data": "where" },
                     ]);
 
+            // Initialize pets table.
+            initTable('pet', '/pet', [
+                        { "data": "name" }, 
+                        { "data": "level" },
+                        { "data": "act" },
+                        { "data": "aff" },
+                        { "data": "off" },
+                        { "data": "area" },
+                    ]);
 
             // Custom key-pressed event handlers. Triggered by user input events.
             
@@ -236,6 +245,23 @@
 
                 tab.trigger('query-items', params);
             });
+
+            // Query all pets given level range, names.
+            $('#pet').bind('key-pressed', function(e) {
+                var tab=$(this), error = tab.find('.myerror');
+                var search = tab.find('#name').val(),
+                    levelMin = tab.find('#levelMin').val(),
+                    levelMax = tab.find('#levelMax').val(),
+                    params = {
+                      'level__range_0': levelMin,
+                      'level__range_1': levelMax,
+                      'search': search
+                    };
+                
+
+                tab.trigger('query-items', params);
+            });
+
         }
 })(jQuery);
 
