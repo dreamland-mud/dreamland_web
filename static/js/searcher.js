@@ -261,6 +261,8 @@
 
                 tab.trigger('query-items', params);
             });
+            // Populate pets table immediately.
+            $('#pet').trigger('key-pressed');
 
         }
 })(jQuery);

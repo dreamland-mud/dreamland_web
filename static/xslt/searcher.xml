@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF8"?>
 <page>
         <head>
-                <title>DreamLand MUD - Мир Грёз, Поиск вещей</title>
+                <title>DreamLand MUD - Мир Грёз, Поисковик</title>
                 <link type="text/css" rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"/>
         </head>
         
@@ -18,7 +18,7 @@
                                                         <li><a href="index.html">Home</a></li>
                                                         <li>Searcher</li>
                                                 </ul>
-                                                <h1 class="white-text">Поиск вещей</h1>
+                                                <h1 class="white-text">Поисковик</h1>
                                         </div>
                                 </div>
                         </div>
@@ -31,14 +31,14 @@
                                 <!-- row -->
                                 <div class="row">
                                         <div id="main" class="col-md-12">
-                                                <h1>Поиск вещей</h1>
+                                                <h1>Поисковик</h1>
                                                 <p class="lead">Здесь вы найдете поисковики по различным типам предметов, которые встречаются в мире. Помните, что отображаются далеко не все свойства: самую полную информацию о предмете можно узнать с помощью заклинаний 'опознание' или у мудрецов.</p>
 
                                                 <ul class="nav nav-tabs">
                                                         <li class="active"><a data-toggle="tab" href="#armor">Доспехи</a></li>
                                                         <li><a data-toggle="tab" href="#weapon">Оружие</a></li>
                                                         <li><a data-toggle="tab" href="#magicItem">Магия</a></li>
-                                                        <li><a data-toggle="tab" href="#pet">Петы</a></li>
+                                                        <li><a data-toggle="tab" href="#pet">Питомцы</a></li>
                                                 </ul>
                                                 <div class="tab-content">
                                                         <div id="armor" class="tab-pane fade in active">
@@ -291,8 +291,8 @@
                                                         </div> <!-- magic tab-pane -->
 
                                                         <div id="pet" class="tab-pane fade in active">
-                                                                <h3>Петы</h3>
-                                                                <p>Можно искать петов.</p>
+                                                                <h3>Питомцы</h3>
+                                                                <p>В этой таблице представлены все домашние питомцы (pets, очары), которых можно купить в магазинах Дримленда. Уровень -1 означает, что питомец покупается на уровень персонажа, и его параметры будут автоматически соответствовать уровню. Колонка "Профессии" показывает специализацию питомца. У warrior больше атак, они умеют спасать хозяина, если им приказать. Mage, cleric, undead владеют различными заклинаниями. Некоторые умения из колонки "Приемы" тоже можно указывать явно, остальные выполняются автоматически. Подробнее читайте в справке: help pets, help order.</p>
 
                                                                 <div class="section" width="80%" style="width:80%;">
                                                                         <div class="container">
@@ -329,9 +329,9 @@
                                                                                         <thead><tr>
                                                                                                 <th>Имя</th>        
                                                                                                 <th>Ур</th>        
-                                                                                                <th>Акты</th>        
-                                                                                                <th>Афекты</th>        
-                                                                                                <th>приемы</th>        
+                                                                                                <th>Профессии</th>        
+                                                                                                <th>Аффекты</th>        
+                                                                                                <th>Приемы</th>        
                                                                                                 <th>Зона</th>        
                                                                                         </tr></thead>
                                                                                         <tbody class="data-target"></tbody>
@@ -351,6 +351,6 @@
         <footer>
                 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
                 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/searcher.js"></script>
+		<script type="text/javascript" src="js/searcher.js?1"></script>
         </footer> 
 </page>
