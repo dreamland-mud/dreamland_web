@@ -1,16 +1,9 @@
 #!/bin/bash
 
-DLHOME="/path/to/DL/runtime"
-
+DLHOME="/home/dreamland/runtime"
 NEWSFILE=$DLHOME"/var/db/notes/news/all-web.xml"
 cd xslt
-echo "Converting $NEWSFILE:"
-echo -n ">>> converting to utf-8..."
-iconv -c -f koi8-r -t utf-8 $NEWSFILE > news-dump.xml
-echo "done"
-echo -n ">>> replacing encoding..."
-sed -e 's/encoding="KOI8-R"/encoding="UTF8"/' -i news-dump.xml
-echo "done"
+cp $NEWSFILE news-dump.xml
 echo -n ">>> translating with XSLT..."
 xsltproc main.xslt news.xml > ../news.html
 echo "done"
