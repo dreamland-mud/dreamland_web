@@ -1,0 +1,15 @@
+{
+    "name": "dreamland-api",
+    "description": "Dreamland API",
+    "version": "0.0.1",
+    "devDependencies": {},
+    "dependencies": {
+        "cheerio": "latest",
+        "fs": "latest",
+        "iconv-lite": "latest",
+        "ejs": "latest"
+    },
+    "scripts": {
+        "helpgen": "node helpgen.js"
+    }
+}

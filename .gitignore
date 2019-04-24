@@ -12,3 +12,5 @@ pip-delete-this-directory.txt
 local_settings.py
 db.sqlite3
 
+# VSCode
+*.code-workspace

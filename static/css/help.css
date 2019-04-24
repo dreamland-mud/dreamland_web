@@ -1,0 +1,64 @@
+body {
+    color: #d3d7cf;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #353535;
+    box-sizing: content-box;
+}
+
+.wrapper {
+  display: flex;  
+  flex-flow: row wrap;
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+header.header {
+    padding: 0px;
+}
+
+.navbar-nav > li > .dropdown-menu { 
+    background-color: #343a40; 
+}
+
+@media all and (min-width: 800px) {
+  .aside { flex: 1 0 0; }
+}
+
+@media all and (min-width: 1200px) {
+  .main    { flex: 3 0px; }
+  .aside-1 { order: 1; } 
+  .main    { order: 2; }
+  .aside-2 { order: 3; }
+  .footer  { order: 4; }
+}
+
+a, a:visited {
+    color: lightgreen;
+    text-decoration: none;
+}
+
+a:hover {
+    color: darkgreen;
+}
+
+.help_panel {
+    display: block;
+    white-space: pre-wrap;
+    padding: 20px;
+    background-color: #2e3436;
+
+    margin: 0px 0px 8px 0px;
+    border: 1px solid #999;
+}
+
+.help_article {
+    padding-top: 1em;
+}
+
+.help_title {
+    font-weight: 700;
+}
+
