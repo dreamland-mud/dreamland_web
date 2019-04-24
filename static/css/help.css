@@ -35,12 +35,12 @@ header.header {
   .footer  { order: 4; }
 }
 
-a, a:visited {
+a, a:visited, a.dropdown-item, a.dropdown-item:visited {
     color: lightgreen;
     text-decoration: none;
 }
 
-a:hover {
+a:hover, a.dropdown-item:hover {
     color: darkgreen;
 }
 
