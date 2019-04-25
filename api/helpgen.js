@@ -6,7 +6,8 @@ const ejs = require('ejs')
 
 /** Generate unique link for a help article, in the form '/help/<category>.html#h<id>' */
 function linkToArticle(article) {
-    var entry = dictionary[article]
+    var entry = dictionary[article.toLowerCase()]
+    
     if (!entry)
         return undefined
 
@@ -75,5 +76,9 @@ fs.readdirSync(srcDir).forEach(filename => {
     )    
 })
 
+// Render and save index page.
+ejs.renderFile('templates/help-index.ejs', function(err, str) {
+    fs.writeFileSync(destDir + '/index.html', str)
+})
 
 
