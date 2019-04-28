@@ -8,8 +8,10 @@ const ejs = require('ejs')
 function linkToArticle(article) {
     var entry = dictionary[article.toLowerCase()]
     
-    if (!entry)
+    if (!entry) {
+        console.log('Link not found for', article)
         return undefined
+    }
 
     var articleID = entry['id']
     var articleLabel = entry['labels'][0]

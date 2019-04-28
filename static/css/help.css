@@ -62,3 +62,26 @@ a:hover, a.dropdown-item:hover {
     font-weight: 700;
 }
 
+a.help_title {
+    display: block;
+    position: relative;
+    top: -5em;
+    visibility: hidden;
+}
+
+#topics {
+  width: 300px;
+}
+
+.autocomplete-suggestions { 
+  border: 1px solid #999; 
+  background: #343a40; 
+  overflow: auto; 
+  cursor: pointer;
+}
+.autocomplete-suggestion { padding: 2px 5px; /*white-space: nowrap; */overflow: auto; }
+.autocomplete-selected { background: #5a6269; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+

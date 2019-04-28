@@ -4,10 +4,10 @@
     "version": "0.0.1",
     "devDependencies": {},
     "dependencies": {
-        "cheerio": "latest",
-        "fs": "latest",
-        "iconv-lite": "latest",
-        "ejs": "latest"
+        "cheerio": "^1.0.0-rc.3",
+        "ejs": "^2.6.1",
+        "fs": "0.0.1-security",
+        "iconv-lite": "^0.4.24"
     },
     "scripts": {
         "helpgen": "node helpgen.js"
