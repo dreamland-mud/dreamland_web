@@ -44,6 +44,7 @@ a:hover, a.dropdown-item:hover {
     color: darkgreen;
 }
 
+
 .help_panel {
     display: block;
     white-space: pre-wrap;
@@ -69,8 +70,20 @@ a.help_title {
     visibility: hidden;
 }
 
-#topics {
-  width: 300px;
+.search-box {
+  position: fixed;
+  top: 12px;
+  right: 0px;
+}
+
+.search-box > input {
+  width: 200px;
+}
+
+@media all and (max-width: 991px) {
+  .navbar-brand {
+    display: none;
+  }
 }
 
 .autocomplete-suggestions { 
@@ -79,7 +92,7 @@ a.help_title {
   overflow: auto; 
   cursor: pointer;
 }
-.autocomplete-suggestion { padding: 2px 5px; /*white-space: nowrap; */overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; overflow: auto; }
 .autocomplete-selected { background: #5a6269; }
 .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
 .autocomplete-group { padding: 2px 5px; }
