@@ -167,8 +167,13 @@
 				<div class="row">
 
 					<div class="col-md-8 col-md-offset-2 text-center">
-						<h2 class="white-text">Как связаться с создателями</h2>
-                                                <p class="lead white-text">По всем вопросам пишите на <a href="mailto:ruffina.koza@gmail.com"><b>почту</b></a>, или же внутриигровой почтой (<b>note to immortal</b>). Также можно оставить сообщение на <a href="https://www.facebook.com/DreamLand-MUD-268700330534658/"><b>нашей странице в Facebook</b></a>.</p>
+						<h2 class="white-text">Как связаться с создателями и другими игроками</h2>
+                        <ul>
+                            <li class="lead white-text"><a href="https://www.facebook.com/pg/dreamland.mud"><b>Официальная страница в Facebook</b></a></li>
+                            <li class="lead white-text"><a href="https://www.facebook.com/groups/dreamland.mud"><b>Группа в Facebook</b></a></li>
+                            <li class="lead white-text"><a href="mailto:ruffina.koza@gmail.com"><b>Почта ruffina.koza@gmail.com</b></a></li>
+                            <li class="lead white-text"><a href="https://discord.gg/RPaz6ut"><b>Чат на Discord</b></a></li>
+                        </ul>
 					</div>
 				</div>
 			</div>
