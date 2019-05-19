@@ -24,7 +24,7 @@
                         </div>
                 </div>
                 <!-- /Hero-area -->
-
+                <a name="top"></a>
                 <div class="section">
                         <!-- container -->
                         <div class="container">
@@ -36,7 +36,7 @@
                                                 <p class="lead"></p>
 -->
                                                 <ul class="nav nav-tabs">
-                                                        <li class="active"><a data-toggle="tab" href="#char">Персонаж</a></li>
+                                                        <li title="Наверх страницы" class="active"><a data-toggle="tab" href="#char">Персонаж</a></li>
                                                         <li><a data-toggle="tab" href="#obj">Предмет</a></li>
                                                         <li><a data-toggle="tab" href="#room">Комната</a></li>
                                                         <li><a data-toggle="tab" href="#indexdata">Прототипы</a></li>
@@ -46,13 +46,40 @@
                                                 </ul>
                                                 <div class="tab-content">
                                                         <div id="char" class="tab-pane fade in active">
-                                                                <h3>Персонаж: моб или игрок</h3>
-                                                                <p></p>
-
-                                                                <h4>Поля, доступные только для чтения [ro] и для записи [rw]</h4>
+                                                                <h2>Персонаж: моб или игрок</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="#char_fields">Поля персонажа</a></li>
+                                                                                <li><a href="#char_methods">Методы персонажа</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><strong>eval ptc(api())</strong></li>
+                                                                                <li><strong>eval ptc(get_char_world("xxx").api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">См. также</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-char-triggers">Список всех триггеров для персонажей</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <a name="char_fields"></a>
+                                                                <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="char_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="char_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th class="th-status">Статус</th>        
                                                                                                 <th>Поле</th>        
@@ -60,30 +87,60 @@
                                                                                         </tr></thead>
                                                                                         <tbody>%char_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#char_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- char container -->
                                                                 </div><!-- char section -->
 
-                                                                <h4>Методы</h4>
+                                                                <a name="char_methods"></a>
+                                                                <h3>Методы</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="char_methods" class="table table-striped table-bordered" width="100%" data-page-length="50">
+                                                                                <table id="char_methods" class="table table-striped table-bordered" width="100%" data-page-length="-1">
                                                                                         <thead><tr>
                                                                                                 <th>Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%char_methods%</tbody>
                                                                                 </table>
+                                                                                <a href="#char_methods"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- char container -->
                                                                 </div><!-- char section -->
                                                         </div> <!-- char tab-pane -->
-                                                        <div id="obj" class="tab-pane fade in">
-                                                                <h3>Предмет, объект</h3>
-                                                                <p></p>
 
-                                                                <h4>Поля, доступные только для чтения [ro] и для записи [rw]</h4>
+                                                        <div id="obj" class="tab-pane fade in">
+                                                                <h2>Предмет, объект</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="#obj_fields">Поля предмета</a></li>
+                                                                                <li><a href="#obj_methods">Методы предмета</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><strong>eval ptc(get_obj_world("barrel").api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">См. также</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-obj-triggers">Список всех триггеров для предметов</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <a name="obj_fields"></a>
+                                                                <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="obj_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="obj_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th class="th-status">Статус</th>        
                                                                                                 <th>Поле</th>        
@@ -91,30 +148,60 @@
                                                                                         </tr></thead>
                                                                                         <tbody>%obj_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#obj_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- obj container -->
                                                                 </div><!-- obj section -->
 
-                                                                <h4>Методы</h4>
+                                                                <a name="obj_methods"></a>
+                                                                <h3>Методы</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="obj_methods" class="table table-striped table-bordered" width="100%" data-page-length="50">
+                                                                                <table id="obj_methods" class="table table-striped table-bordered" width="100%" data-page-length="-1">
                                                                                         <thead><tr>
                                                                                                 <th>Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%obj_methods%</tbody>
                                                                                 </table>
+                                                                                <a href="#obj_methods"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- obj container -->
                                                                 </div><!-- obj section -->
                                                         </div> <!-- obj tab-pane -->
-                                                        <div id="room" class="tab-pane fade in">
-                                                                <h3>Комната</h3>
-                                                                <p></p>
 
-                                                                <h4>Поля, доступные только для чтения [ro] и для записи [rw]</h4>
+                                                        <div id="room" class="tab-pane fade in">
+                                                                <h2>Комната</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="#room_fields">Поля комнаты</a></li>
+                                                                                <li><a href="#room_methods">Методы комнаты</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><strong>eval ptc(in_room.api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">См. также</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-room-triggers">Список всех триггеров для комнаты</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <a name="room_fields"></a>
+                                                                <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="room_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="room_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th class="th-status">Статус</th>        
                                                                                                 <th>Поле</th>        
@@ -122,60 +209,121 @@
                                                                                         </tr></thead>
                                                                                         <tbody>%room_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#room_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- room container -->
                                                                 </div><!-- room section -->
 
-                                                                <h4>Методы</h4>
+                                                                <a name="room_methods"></a>
+                                                                <h3>Методы</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="room_methods" class="table table-striped table-bordered" width="100%" data-page-length="50">
+                                                                                <table id="room_methods" class="table table-striped table-bordered" width="100%" data-page-length="-1">
                                                                                         <thead><tr>
                                                                                                 <th>Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%room_methods%</tbody>
                                                                                 </table>
+                                                                                <a href="#room_methods"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- room container -->
                                                                 </div><!-- room section -->
                                                         </div> <!-- room tab-pane -->
-                                                        <div id="indexdata" class="tab-pane fade in">
-                                                                <h3>Прототипы предметов и мобов</h3>
-                                                                <p>Все поля доступны только для чтения.</p>
 
-                                                                <h4>Поля и методы прототипа предмета (obj index data)</h4>
+                                                        <div id="indexdata" class="tab-pane fade in">
+                                                                <h2>Прототипы предметов и мобов</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="#obj_index_fields">Прототип предмета</a></li>
+                                                                                <li><a href="#mob_index_fields">Прототип моба</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><strong>eval ptc(get_char_world("mermaid").pIndexData.api())</strong></li>
+                                                                                <li><strong>eval ptc(get_obj_world("barrel").pIndexData.api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">См. также</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-char-triggers">Список всех триггеров для персонажа</a></li>
+                                                                                <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-obj-triggers">Список всех триггеров для предмета</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Примечание</h4>
+                                                                        <p class="list-group-item-text">Все поля прототипов доступны только для чтения. </p>
+                                                                    </div>
+                                                                </div>
+                                                                <a name="obj_index_fields"></a>
+                                                                <h3>Поля и методы прототипа предмета (obj index data)</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="obj_index_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="obj_index_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%obj_index_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#obj_index_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- obj_index container -->
                                                                 </div><!-- obj_index section -->
 
-                                                                <h4>Поля и методы прототипа моба (mob index data)</h4>
+                                                                <a name="mob_index_fields"></a>
+                                                                <h3>Поля и методы прототипа моба (mob index data)</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="mob_index_fields" class="table table-striped table-bordered" width="100%" data-page-length="50">
+                                                                                <table id="mob_index_fields" class="table table-striped table-bordered" width="100%" data-page-length="-1">
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%mob_index_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#mob_index_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- mob_index container -->
                                                                 </div><!-- mob_index section -->
                                                         </div> <!-- indexdata tab-pane -->
                                                         <div id="root" class="tab-pane fade in">
-                                                                <h3>Корневой объект (root)</h3>
-                                                                <p></p>
-
-                                                                <h4>Поля, доступные только для чтения [ro] и для записи [rw]</h4>
+                                                                <h2>Корневой объект (root)</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><a href="#root_fields">Поля корневого объекта</a></li>
+                                                                                <li><a href="#root_methods">Методы корневого объекта</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><strong>eval ptc(.api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Примечание</h4>
+                                                                        <p class="list-group-item-text">Поля и методы корневого объекта начинаются с точки.</p>
+                                                                    </div>
+                                                                </div>
+                                                                <a name="root_fields"></a>
+                                                                <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="root_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="root_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th class="th-status">Статус</th>        
                                                                                                 <th>Поле</th>        
@@ -183,179 +331,249 @@
                                                                                         </tr></thead>
                                                                                         <tbody>%root_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#root_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- root container -->
                                                                 </div><!-- root section -->
 
-                                                                <h4>Методы</h4>
+                                                                <a name="root_methods"></a>
+                                                                <h3>Методы</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="root_methods" class="table table-striped table-bordered" width="100%" data-page-length="50">
+                                                                                <table id="root_methods" class="table table-striped table-bordered" width="100%" data-page-length="-1">
                                                                                         <thead><tr>
                                                                                                 <th>Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%root_methods%</tbody>
                                                                                 </table>
+                                                                                <a href="#root_methods"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- root container -->
                                                                 </div><!-- root section -->
                                                         </div> <!-- root tab-pane -->
-                                                        <div id="struct" class="tab-pane fade in">
-                                                                <h3>Различные структуры</h3>
-                                                                <p></p>
 
-                                                                <h4>Affect: аффект, поля и методы</h4>
+                                                        <div id="struct" class="tab-pane fade in">
+                                                                <h2>Различные структуры</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                             <li><a href="#affect_fields">Affect</a></li>
+                                                                             <li><a href="#command_fields">Command</a></li>
+                                                                             <li><a href="#area_fields">Area</a></li>
+                                                                             <li><a href="#hometown_fields">Hometown</a></li>
+                                                                             <li><a href="#profession_fields">Profession</a></li>
+                                                                             <li><a href="#race_fields">Race</a></li>
+                                                                             <li><a href="#clan_fields">Clan</a></li>
+                                                                             <li><a href="#craftprofession_fields">CraftProfession</a></li>
+                                                                             <li><a href="#liquid_fields">Liquid</a></li>
+                                                                             <li><a href="#skill_fields">Skill</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">Можно посмотреть API для каждой структуры, создав ее и вызвав метод api(), например:
+                                                                            <ul>
+                                                                                <li><strong>eval ptc(.Affect("none").api())</strong></li>
+                                                                                <li><strong>eval ptc(.Profession("cleric").api())</strong></li>
+                                                                                <li><strong>eval ptc(.Liquid("wine").api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <a name="affect_fields"></a>
+                                                                <h3>Affect: аффект, поля и методы</h3>
                                                                 <p>Все поля доступны для чтения и записи.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="affect_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="affect_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%affect_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- affect container -->
                                                                 </div><!-- affect section -->
 
-                                                                <h4>Command: команда, поля и методы</h4>
+                                                                <a name="command_fields"></a>
+                                                                <h3>Command: команда, поля и методы</h3>
                                                                 <p>Все поля доступны для чтения и записи.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="command_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="command_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%command_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- command container -->
                                                                 </div><!-- command section -->
 
-                                                                <h4>Area: зона</h4>
+                                                                <a name="area_fields"></a>
+                                                                <h3>Area: зона</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="area_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="area_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%area_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- area container -->
                                                                 </div><!-- area section -->
 
-                                                                <h4>Hometown: родной город</h4>
+                                                                <a name="hometown_fields"></a>
+                                                                <h3>Hometown: родной город</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="hometown_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="hometown_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%hometown_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- hometown container -->
                                                                 </div><!-- hometown section -->
 
-                                                                <h4>Profession: класс персонажа</h4>
+                                                                <a name="profession_fields"></a>
+                                                                <h3>Profession: класс персонажа</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="profession_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="profession_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%profession_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- profession container -->
                                                                 </div><!-- profession section -->
 
-                                                                <h4>Race: раса персонажа</h4>
+                                                                <a name="race_fields"></a>
+                                                                <h3>Race: раса персонажа</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="race_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="race_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%race_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- race container -->
                                                                 </div><!-- race section -->
 
-                                                                <h4>Clan: клан</h4>
+                                                                <a name="clan_fields"></a>
+                                                                <h3>Clan: клан</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="clan_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="clan_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%clan_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- clan container -->
                                                                 </div><!-- clan section -->
 
-                                                                <h4>CraftProfession: дополнительная профессия</h4>
+                                                                <a name="craftprofession_fields"></a>
+                                                                <h3>CraftProfession: дополнительная профессия</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="craftprofession_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="craftprofession_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%craftprofession_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- craftprofession container -->
                                                                 </div><!-- craftprofession section -->
 
-                                                                <h4>Liquid: жидкость</h4>
+                                                                <a name="liquid_fields"></a>
+                                                                <h3>Liquid: жидкость</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="liquid_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="liquid_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%liquid_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- liquid container -->
                                                                 </div><!-- liquid section -->
 
-                                                                <h4>Skill: умение или заклинание</h4>
+                                                                <a name="skill_fields"></a>
+                                                                <h3>Skill: умение или заклинание</h3>
                                                                 <p>Все поля доступны только для чтения.</p>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="skill_fields" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="skill_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Поле/Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%skill_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- skill container -->
                                                                 </div><!-- skill section -->
+
                                                         </div> <!-- struct tab-pane -->
                                                         <div id="string" class="tab-pane fade in">
-                                                                <h3>Строка</h3>
-
-                                                                <h4>Методы</h4>
+                                                                <h2>Строка</h2>
+                                                                <div class="list-group">
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Содержание</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                             <li><a href="#string_fields">Методы строки</a></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="list-group-item">
+                                                                        <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
+                                                                        <p class="list-group-item-text">
+                                                                            <ul>
+                                                                                <li><strong>eval ptc("".api())</strong></li>
+                                                                            </ul>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <h3>Методы</h3>
                                                                 <div class="section">
                                                                         <div class="container">
-                                                                                <table id="string_methods" class="table table-striped table-bordered"  width="100%" data-page-length="50" >
+                                                                                <table id="string_methods" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
                                                                                         <thead><tr>
                                                                                                 <th>Метод</th>        
                                                                                                 <th>Описание</th>        
                                                                                         </tr></thead>
                                                                                         <tbody>%string_fields%</tbody>
                                                                                 </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- string container -->
                                                                 </div><!-- string section -->
                                                         </div> <!-- indexdata tab-pane -->
