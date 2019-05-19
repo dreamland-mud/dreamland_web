@@ -126,14 +126,15 @@
 								<h4>Игровые особенности</h4>
                                                                 <ul>
                                                                     <li>- 26 рас с уникальными расовыми умениями</li>
-                                                                    <li>- 13 профессий, в том числе "универсальная" профессия, чьи навыки основаны на дереве умений</li>
+                                                                    <li>- 12 классов</li>
+                                                                    <li>- дополнительные профессии</li>
                                                                     <li>- 12 кланов, со своей историей, философией и умениями; клановые зоны и дипломатия; возможности кланового строительства</li>
                                                                     <li>- 140+ зон, с более чем 9500 комнат (игровых локаций)</li>
                                                                     <li>- гибкая система ПК (PvP): варианты no-PK, ограниченного PK, полного PK</li>
                                                                     <li>- разнообразные автоматические персональные квесты, учитывающие профессию и характер персонажа</li>
                                                                     <li>- групповые/глобальные квесты</li>
                                                                     <li>- гибкая система ремортов (перерождение после 100го уровня)</li>
-                                                                    <li>- все предметы сохраняются между перезагрузками; нет платы за 'постой'</li>
+                                                                    <li>- все предметы в мире сохраняются между перезагрузками; нет платы за 'постой'</li>
                                                                     <li>- много возможностей для ролевого самовыражения: персонализация вещей, cоциалов, умений и заклинаний</li>
                                                                     <li>- постройка личных домов</li>
                                                                     <li>- мобы с искусственным интеллектом</li>
@@ -146,23 +147,12 @@
 							<i class="feature-icon fa fa-check"></i>
 							<div class="feature-content">
 								<h4>Кодовая база</h4>
+                                                                <p>DreamLand - это проект с открытым исходным кодом, в разработке которого могут принять участие все желающие. Подробности читайте в разделе <a href="#why-us">Чем помочь проекту</a>.</p>
                                                                 <ul>
                                                                     <li>- 99% игровой логики меняется на лету, без перезагрузки, благодаря системе плагинов</li>
                                                                     <li>- уникальный скриптовый язык Fenia</li>
                                                                     <li>- внутриигровой редактор зон</li>
                                                                     <li>- состояние мира и скриптовой машины сохраняется между ребутами</li>
-                                                                </ul>
-							</div>
-						</div>
-
-						<div class="feature">
-							<i class="feature-icon fa fa-check"></i>
-							<div class="feature-content">
-								<h4>Скриптовый язык</h4>
-                                                                <p>Позволяет описывать ту же логику (команды, умения, поведение), что и в основном коде, от простых 'мобпрог' до сложных игровых подсистем. Ниже приведено  несколько примеров.</p>
-                                                                <ul>
-                                                                    <li>- <a href="https://dreamland.rocks/fenia/nanny.html">Сложный пример</a>: "няня", отвечающая за создание новых персонажей и вход в мир старых.</li>
-                                                                    <li>- <a href="https://dreamland.rocks/fenia/fire.html">Простой пример</a>: добавляет возможность поджигать предметы спичками и палить костры, без предварительной поддержки этих процессов со стороны кода.</li> 
                                                                 </ul>
 							</div>
 						</div>
@@ -274,17 +264,6 @@
                                 <div class="row">
 					<div class="col-xs-12">
                                             <div class="feature">
-                                                    <i class="feature-icon fab fa-docker"></i>
-                                                    <div class="feature-content">
-                                                            <h4>DreamLand на Docker Hub</h4>
-                                                            <p>Готовые Docker контейнеры с сервером: <a target="_blank" href="https://hub.docker.com/r/dreamland">https://hub.docker.com/r/dreamland</a></p>
-                                                    </div>
-                                            </div>
-                                        </div>
-                                </div>                                                
-                                <div class="row">
-					<div class="col-xs-12">
-                                            <div class="feature">
                                                     <i class="feature-icon fab fa-trello"></i>
                                                     <div class="feature-content">
                                                             <h4>DreamLand на Trello</h4>
@@ -300,6 +279,17 @@
                                                     <div class="feature-content">
                                                             <h4>DreamLand roadmap</h4>
                                                             <p>Планы и мечты: <a target="_blank" href="https://trello.com/b/pZ1H0xD7/dreamland-roadmap">https://trello.com/b/pZ1H0xD7/dreamland-roadmap</a></p>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                </div>                                                
+                                <div class="row">
+					<div class="col-xs-12">
+                                            <div class="feature">
+                                                    <i class="feature-icon fab fa-docker"></i>
+                                                    <div class="feature-content">
+                                                            <h4>DreamLand на Docker Hub</h4>
+                                                            <p>Готовые Docker контейнеры с сервером: <a target="_blank" href="https://hub.docker.com/r/dreamland">https://hub.docker.com/r/dreamland</a></p>
                                                     </div>
                                             </div>
                                         </div>

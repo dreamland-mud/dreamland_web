@@ -1,0 +1,6 @@
+Options -Indexes 
+ErrorDocument 404 /error_pages/map404.html
+Header set Cache-Control "max-age=300, public"
+
+Redirect 301 /maps/dreamland_eastern_en.txt /maps/dreamland_eastern.html
+Redirect 301 /maps/dreamland_northern_en.txt /maps/dreamland_northern.html
