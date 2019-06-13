@@ -147,7 +147,8 @@ blockquote:before{
 }
 
 .bg-image.bg-parallax.overlay {
-	background-image:url(../img/home2-background.jpg);
+	background-image:url(../img/home3-background.jpg);
+    background-color: #002200;
 }
 
 .bg-image.overlay:after {
