@@ -2,7 +2,7 @@
 <page>
     <head>
         <title>DreamLand MUD - Мир Грёз, Легенды</title>
-        <link type="text/css" rel="stylesheet" href="css/terminal.css"/>
+        <link type="text/css" rel="stylesheet" href="css/terminal.css?2"/>
     </head>
     
     <header/>
