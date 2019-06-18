@@ -203,6 +203,12 @@
     </xsl:apply-templates>
 </xsl:template>
 
+<xsl:template match="samurai-dump">
+    <xsl:apply-templates select="document('samurai-dump.xml')/NoteBucket/node" mode="story">
+            <xsl:sort select="id" order="ascending" /> 
+    </xsl:apply-templates>
+</xsl:template>
+
 <!-- Legends -->
 <xsl:template match="legends-dump">
     <xsl:apply-templates select="document('legends-dump.xml')/book/node" mode="content">

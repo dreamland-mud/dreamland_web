@@ -15,8 +15,20 @@ then
         echo "Found stories-dump.xml"
 fi
 
+if [ -e /tmp/story1.xml ]; 
+then
+        (cat /tmp/story1.xml |
+        sed -E  -e 's!<(text|subject)>!<\1><c t="x">!g' \
+            -e 's!\{([xdrgybmcw])!</c><c t="fgd\1">!g' \
+            -e 's!\{([DRGYBMCW])!</c><c t="fgb\1">!g' \
+            -e 's!</(text|subject)>!</c></\1>!g' 
+        ) > samurai-dump.xml
+
+        echo "Found samurai-dump.xml"
+fi
+
 echo ">>> Translating with XSLT:"
-for i in 'index' 'guide' 'links' 'maps' 'stories' 'legends' 'searcher' 'dev' 'feniaapi';
+for i in 'index' 'guide' 'links' 'maps' 'stories' 'samurai' 'legends' 'searcher' 'dev' 'feniaapi';
 do
         echo -n "...$i "
         xsltproc main.xslt $i.xml > ../$i.html

@@ -34,6 +34,7 @@
 							<p class="lead">Содержание:
 								<ul class="list-group" style="width: 400px;">
   									<li class="list-group-item"><a href="/stories.html"><h4>Истории новой эпохи</h4></a></li>
+  									<li class="list-group-item"><a href="/samurai.html"><h4>Самурайские истории</h4></a></li>
   									<li class="list-group-item"><a href="/legends.html"><h4>Древние легенды</h4></a></li>
 								</ul>
 							</p>
