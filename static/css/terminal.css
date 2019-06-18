@@ -6,7 +6,7 @@
 .fg-ansi-dark-color-4, .fgdb { color: #3465a4; } /* b */
 .fg-ansi-dark-color-5, .fgdm { color: #75507b; } /* m */
 .fg-ansi-dark-color-6, .fgdc { color: #06989a; } /* c */
-.fg-ansi-dark-color-7, .fgdw { color: #d3d7cf; } /* w, d */
+.fg-ansi-dark-color-7, .fgdw, .fgdx { color: #d3d7cf; } /* w, d */
 /* bright: */
 .fg-ansi-bright-color-0, .fgbd { color: #555753; } /* D */
 .fg-ansi-bright-color-1, .fgbr { color: #ed2330; } /* R */
@@ -16,7 +16,6 @@
 .fg-ansi-bright-color-5, .fgbm { color: #d384cb; } /* M */
 .fg-ansi-bright-color-6, .fgbc { color: #2cf4eb; } /* C */
 .fg-ansi-bright-color-7, .fgbw { color: #eeeeec; } /* W */
-
 
 .fg-ansi-bold {
     font-weight: bold;
@@ -58,8 +57,25 @@ pre.terminal {
    color: #d3d7cf;
    font-size: 1.3em;
    background-color: #2e3436;
+   padding: 30px;
 }
 
+/*
+ * Stories panel
+ */
+.story-title {
+   color: white; 
+   font-weight: 600;
+}
+.story-author {
+   color: cyan; 
+   font-weight: 600;   
+}
+.story-body {
+   color: #d3d7cf; 
+   font-family: 'Roboto Mono', monospace; 
+   font-size: 1em;
+}
 /*
  * Legends Table Of Contents
  */

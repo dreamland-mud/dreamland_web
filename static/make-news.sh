@@ -1,7 +1,6 @@
 #!/bin/bash
 
-DLHOME="/home/dreamland/runtime"
-NEWSFILE=$DLHOME"/var/db/notes/news/all-web.xml"
+NEWSFILE="/tmp/news.xml"
 cd xslt
 cp $NEWSFILE news-dump.xml
 echo -n ">>> translating with XSLT..."

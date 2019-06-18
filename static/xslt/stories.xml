@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF8"?>
 <page>
-        <head>
-                 <title>DreamLand MUD - Мир Грёз, Легенды</title>
-		<link type="text/css" rel="stylesheet" href="css/terminal.css"/>
-        </head>
-        
-        <header/>
+	<head>
+		<title>DreamLand MUD - Мир Грёз, Легенды</title>
+		<link type="text/css" rel="stylesheet" href="css/terminal.css?1"/>
+	</head>
+	
+	<header/>
 
-        <content>
+	<content>
 		<div class="hero-area section">
 			<div class="bg-image bg-parallax overlay"></div>
 
@@ -19,7 +19,6 @@
 							<li>Stories</li>
 						</ul>
 						<h1 class="white-text">Легенды</h1>
-
 					</div>
 				</div>
 			</div>
@@ -27,75 +26,28 @@
 
 		<div id="links" class="section">
 			<div class="container">
-				<div class="row">
-                                        
+				<div class="row">                                        
 					<div id="main" class="col-md-12">
-
 						<div class="section-header">
-							<h2>Сказки, истории и легенды Мира Грёз</h2>
-                                                        <p class="lead">Книгу легенд можно найти в библиотеке Мидгаарда (на улице Вязов). В ней собраны истории, написанные в период с 1998 до 2001 года. Более свежие истории читайте прямо в мире по команде <b>story list</b>('<b>истории список</b>').<br/>Вот как выглядит эта книга:</p>
-                                                    </div>
-                                                    <pre class="terminal">
-# см                                                        
-<span class="tag-ww">Хранилище</span>
-Напоминает школьную аудиторию: просторная комната со стеллажами вдоль стен.
-Все полки от пола до потолка уставлены книгами. 
-
-[Выходы: восток]
-    <span class="tag-g">Деревянный стеллаж (stand) с книгами тянется вдоль северной стены.
-    </span>(<span class="tag-m">Пылает</span>) <span class="tag-g">Третий выпуск (edition) еженедельника 'Мечтать не вредно' висит в золотой рамке.
-    Удобный стул (chair) стоит в углу.
-</span>
-# см в стел
-Деревянный стеллаж содержит:
-( 3) истории и легенды Мира Грез (DreamLand)
-( 3) лист из книги
-[...]
-# вз леген стел
-Ты берешь истории и легенды Мира Грез (DreamLand) из деревянного стеллажа.
-
-# инв
-Ты несешь:
-     истории и легенды Мира Грез (DreamLand)
-     свиток пергамента
-     хрустальный шар 
-
-# см легенд
-Ты держишь в руках огромный растрепанный том. Кажется, он весь  составлен
-из разных кусочков, листик за листиком заботливо собраны и подклеены друг
-к  другу.  Страницы  пожелтели от старости, строки,  когда-то  написанные
-разноцветными  чернилами, потускнели - цветов совсем не разобрать. Однако
-обложка  оформлена  яркими красками,  видимо,  переплет совсем  новый. На
-обложке ты читаешь надпись:
-
-                 <span class="tag-cc">С</span><span class="tag-c">казки, </span><span class="tag-cc">и</span><span class="tag-c">стории и </span><span class="tag-cc">л</span><span class="tag-c">егенды </span><span class="tag-cc">М</span><span class="tag-c">ира </span><span class="tag-cc">Г</span><span class="tag-c">рез
-
-      Собранные здесь истории принадлежат перу самых разных существ,
-      населявщих когда-то этот Мир.  За давностью лет эти истории не
-      сохранились  нигде,  кроме  личных архивов и  коллекций.  Этот
-      сборник составлен по  мотивам одной из таких коллекций, долгое
-      время  хранившейся у  Дваркина. Оглавление  сборника читайте с
-      помощью <span class="tag-cc">read content</span>(<span class="tag-cc">читать оглавление</span>).</span>
-# чит оглав
-<span class="tag-ww">Оглавление</span>
-<table class="toc">
-    <legends-toc />
-</table>
-                                                    </pre>
-<p>Кликайте на название истории, чтобы ее прочитать.</p>                                             
-<h3>Все истории</h3>
-<legends-dump />
-                                        </div>
-                                        <!-- main -->
-				</div>
-				<!-- row -->
-
-			</div>
-			<!-- container -->
-
-		</div>
-
+							<h1>Сказки, истории и легенды Мира Грёз</h1>
+							<p class="lead">Содержание:
+								<ul class="list-group" style="width: 400px;">
+  									<li class="list-group-item"><a href="/stories.html"><h4>Истории новой эпохи</h4></a></li>
+  									<li class="list-group-item"><a href="/legends.html"><h4>Древние легенды</h4></a></li>
+								</ul>
+							</p>
+							<br/>
+							<h2>Истории новой эпохи</h2>
+							<p class="lead">Здесь собраны истории, написанные игроками с апреля 2018 года. Полный список можно посмотреть в мире командой <b>story list</b>(<b>истории список</b>).
+							</p>
+						</div><!-- section-header -->
+						<stories-dump />
+					</div><!-- main -->
+				</div><!-- row -->
+			</div><!-- container -->
+		</div><!-- section -->
 	</content>
-        <footer />
+
+	<footer />
 </page>
 

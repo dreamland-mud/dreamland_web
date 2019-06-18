@@ -162,14 +162,13 @@
    </script>
 </xsl:template>
 
+<!-- Replace color pseudo-tags "c" with span and color classes. -->
 <xsl:template match="c">
-    <!--    <span class="tag-{@t}">-->
-        <xsl:value-of select="."/>
-        <!--</span>-->
+    <span class="{@t}"><xsl:value-of select="."/></span>
 </xsl:template>
 
 <!-- News -->
-<xsl:template match="node">
+<xsl:template match="node" mode="news">
 <pre class="for-panel">
     <div class="panel panel-default">
         <div class="panel-heading"><span class="news-date"><xsl:apply-templates select="date"/>&#160;<xsl:apply-templates select="from"/></span>&#160;<span class="news-subject"><xsl:value-of select="subject"/></span></div>
@@ -179,10 +178,30 @@
 </xsl:template>
 
 <xsl:template match="news-dump">
-    <xsl:apply-templates select="document('news-dump.xml')/NoteBucket/node">
+    <xsl:apply-templates select="document('news-dump.xml')/NoteBucket/node" mode="news">
             <xsl:sort select="id" order="descending" /> 
     </xsl:apply-templates>
 </xsl:template>                                            
+
+<!-- Stories. -->
+<xsl:template match="node" mode="story">
+<pre class="terminal">
+    <div>
+        <span class="story-author">[<xsl:value-of select="date"/><xsl:text>] </xsl:text><xsl:value-of select="from"/>:<xsl:text> </xsl:text></span> 
+        <span class="story-title"><xsl:value-of select="subject"/></span>
+    </div>
+    <br/>
+    <div class="story-text">
+        <xsl:apply-templates select="text"/>
+    </div>
+</pre>
+</xsl:template>
+
+<xsl:template match="stories-dump">
+    <xsl:apply-templates select="document('stories-dump.xml')/NoteBucket/node" mode="story">
+            <xsl:sort select="id" order="ascending" /> 
+    </xsl:apply-templates>
+</xsl:template>
 
 <!-- Legends -->
 <xsl:template match="legends-dump">
