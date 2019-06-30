@@ -61,7 +61,7 @@
 <tr><td>Астрал</td><td>Astral Plane</td><td><a href="maps/astral.html">карта</a></td><td>10</td><td>35</td><td>n2un2u</td></tr>
 <tr><td>Бангзуйские Сады</td><td>Bangzui Gardens</td><td><a href="maps/bangzui.html">карта</a></td><td>90</td><td>100</td><td>6se3sws4use2ne2ndnu</td></tr>
 <tr><td>Базар</td><td>Bazaar</td><td><a href="maps/bazaar.html">карта</a></td><td>4</td><td>100</td><td>21e4s2w2s3wn</td></tr>
-<tr><td>Blight</td><td>Blight</td><td><a href="maps/blight.html">карта</a></td><td>35</td><td>50</td><td>6e10n2e7nw</td></tr>
+<tr><td>Запустение</td><td>Blight</td><td><a href="maps/blight.html">карта</a></td><td>35</td><td>50</td><td>6e10n2e7nw</td></tr>
 <tr><td>Камелот</td><td>Camelot</td><td><a href="maps/camelot.html">карта</a></td><td>20</td><td>52</td><td>4e3n2w3ne2n5e</td></tr>
 <tr><td>Каньон Стихий</td><td>Elemental Canyon</td><td><a href="maps/canyon.html">карта</a></td><td>5</td><td>30</td><td>6e4s2es2eds</td></tr>
 <tr><td>Казино</td><td></td><td><a href="maps/casino.html">карта</a></td><td>1</td><td>100</td><td>3e2n3wn</td></tr>
@@ -80,13 +80,13 @@
 <tr><td>Замок Драконов</td><td>Dragon Tower</td><td><a href="maps/draconia.html">карта</a></td><td>5</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать дракончика</td></tr>
 <tr><td>Пик Драконов</td><td>Dragon Spyre</td><td><a href="maps/dragon2.html">карта</a></td><td>30</td><td>65</td><td>4e3n2w3ne2n4esu</td></tr>
 <tr><td>Остров Дракири</td><td>Drakyri Isle</td><td><a href="maps/drakyri.html">карта</a></td><td>65</td><td>90</td><td>7w2sese3s</td></tr>
-<tr><td>Machine Dreams</td><td>Machine Dreams</td><td><a href="maps/dream.html">карта</a></td><td>1</td><td>5</td><td>3e2swsu</td></tr>
+<tr><td>Машинные мечты</td><td>Machine Dreams</td><td><a href="maps/dream.html">карта</a></td><td>1</td><td>5</td><td>3e2swsu</td></tr>
 <tr><td>Город Дроу</td><td>Drow City</td><td><a href="maps/drow.html">карта</a></td><td>15</td><td>25</td><td>6e4s2es2edws2d</td></tr>
 <tr><td>Королевство Гномов</td><td>Dwarven Kingdom</td><td><a href="maps/dwarven.html">карта</a></td><td>10</td><td>25</td><td>6e3n2e</td></tr>
 <tr><td>Зона Дилана</td><td>Dylan&apos;s Area</td><td><a href="maps/dylan.html">карта</a></td><td>15</td><td>25</td><td>6se3sws4us</td></tr>
 <tr><td>Пески Скорби</td><td>Sands of Sorrow</td><td><a href="maps/eastern.html">карта</a></td><td>10</td><td>20</td><td>3s2e2s3e</td></tr>
 <tr><td>Изумрудный Лес</td><td>Emerald Forest</td><td><a href="maps/emerald.html">карта</a></td><td>15</td><td>60</td><td>3w8s2e3swsw</td></tr>
-<tr><td>Faerie Ring</td><td>Faerie Ring</td><td><a href="maps/faeriering.html">карта</a></td><td>10</td><td>15</td><td>3e8s2w2s2e2se</td></tr>
+<tr><td>Кольцо Фей</td><td>Faerie Ring</td><td><a href="maps/faeriering.html">карта</a></td><td>10</td><td>15</td><td>3e8s2w2s2e2se</td></tr>
 <tr><td>Огненная Гора</td><td>Firetop Mountain</td><td><a href="maps/firetop2.html">карта</a></td><td>10</td><td>20</td><td>4e3n2w5nwnw2ue4nenenesesw3n</td></tr>
 <tr><td>Вольная Гавань</td><td>Freeport</td><td><a href="maps/freeport.html">карта</a></td><td>8</td><td>53</td><td>34en3e</td></tr>
 <tr><td>Галактика</td><td>Galaxy</td><td><a href="maps/galaxy.html">карта</a></td><td>20</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать вход в таверну</td></tr>
@@ -99,7 +99,7 @@
 <tr><td>Город Призраков</td><td>Ghost Town</td><td><a href="maps/gtown.html">карта</a></td><td>45</td><td>65</td><td>21e5sden</td></tr>
 <tr><td>Леса Королевства Хаон</td><td>Haon Dor</td><td><a href="maps/haon.html">карта</a></td><td>5</td><td>10</td><td>5w</td></tr>
 <tr><td>High Tower of Sorcery</td><td>High Tower of Sorcery</td><td><a href="maps/hitower.html">карта</a></td><td>10</td><td>30</td><td>3s2e2s6wnwn3wnw2n; искать adventurer</td></tr>
-<tr><td>Dangerous Neighborhood</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
+<tr><td>Опасный Район</td><td>Dangerous Neighborhood</td><td><a href="maps/hood.html">карта</a></td><td>5</td><td>15</td><td>6se3se</td></tr>
 <tr><td>Храм Зава</td><td></td><td><a href="maps/hram-zav.html">карта</a></td><td>10</td><td>50</td><td>13w2ne2ne</td></tr>
 <tr><td>Окрестности Города Дроу</td><td></td><td><a href="maps/htdrow.html">карта</a></td><td>1</td><td>100</td><td>6e4s2es2edws2de</td></tr>
 <tr><td>Пригород Герихельма</td><td></td><td><a href="maps/htgerighelm.html">карта</a></td><td>1</td><td>100</td><td>за восточными воротами Герихельма</td></tr>
@@ -172,8 +172,8 @@
 <tr><td>Valley of the Elves</td><td>Valley of the Elves</td><td><a href="maps/valley.html">карта</a></td><td>5</td><td>20</td><td>4e3n2w5nwn</td></tr>
 <tr><td>The Village of Anon</td><td>The Village of Anon</td><td><a href="maps/villa.html">карта</a></td><td>1</td><td>65</td><td>6e4s4w3s4wnws8w</td></tr>
 <tr><td>Тайное Убежище Колдуна</td><td>The Keep of The Warlock</td><td><a href="maps/warkeep.html">карта</a></td><td>20</td><td>30</td><td>6e2nw от Рыночной Площади Старого Мидгаарда</td></tr>
-<tr><td>Cannabis</td><td>Cannabis</td><td><a href="maps/weed.html">карта</a></td><td>40</td><td>60</td><td>13w2ne2n4wn2w2n2w5s2wn</td></tr>
-<tr><td>Westland</td><td>Westland</td><td><a href="maps/westland.html">карта</a></td><td>40</td><td>90</td><td>13w2ne3n</td></tr>
+<tr><td>Каннабис</td><td>Cannabis</td><td><a href="maps/weed.html">карта</a></td><td>40</td><td>60</td><td>13w2ne2n4wn2w2n2w5s2wn</td></tr>
+<tr><td>Вестландия</td><td>Westland</td><td><a href="maps/westland.html">карта</a></td><td>40</td><td>90</td><td>13w2ne3n</td></tr>
 <tr><td>Вивернова башня</td><td>Wyvern&apos;s Tower</td><td><a href="maps/wyvern.html">карта</a></td><td>5</td><td>30</td><td>6e4s2es2ede</td></tr>
 <tr><td>Мидгаардский Зоопарк</td><td></td><td><a href="maps/zoo3.html">карта</a></td><td>1</td><td>15</td><td>8sesu</td></tr>
 <tr><td>Музей Зоологии</td><td>Zoology Museum</td><td><a href="maps/zoology.html">карта</a></td><td>1</td><td>10</td><td>2nue</td></tr>
