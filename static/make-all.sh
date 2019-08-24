@@ -21,7 +21,9 @@ then
         sed -E  -e 's!<(text|subject)>!<\1><c t="x">!g' \
             -e 's!\{([xdrgybmcw])!</c><c t="fgd\1">!g' \
             -e 's!\{([DRGYBMCW])!</c><c t="fgb\1">!g' \
-            -e 's!</(text|subject)>!</c></\1>!g' 
+            -e 's!</(text|subject)>!</c></\1>!g' \
+            -e 's!╓!ё!g' \
+	    -e 's!╙!Ё!g'
         ) > samurai-dump.xml
 
         echo "Found samurai-dump.xml"
