@@ -31,7 +31,7 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     level = models.IntegerField()
     wearloc = models.CharField(
-            max_length=16, 
+            max_length=16,
             choices=WEARLOC_CHOICES,
             default='none',)
     itemtype = models.CharField(max_length=16, default='unknown')
@@ -41,21 +41,20 @@ class Item(models.Model):
     mana = models.IntegerField(default=0)
     move = models.IntegerField(default=0)
     saves = models.IntegerField(default=0)
-    armor = models.IntegerField(default=0)
     stat_str = models.IntegerField(default=0)
     stat_int = models.IntegerField(default=0)
     stat_wis = models.IntegerField(default=0)
     stat_dex = models.IntegerField(default=0)
     stat_con = models.IntegerField(default=0)
     stat_cha = models.IntegerField(default=0)
-    stat_size = models.IntegerField(default=0)
+    align = models.CharField(max_length=16, default='')
     affects = models.CharField(max_length=256, default='')
     area = models.CharField(max_length=256, default='')
     where = models.CharField(max_length=256, default='')
     limit = models.IntegerField(default=-1)
-    
+
     def __repr__ (self):
-        return u"<item vnum=%s lvl=%s armor=%s>" % (self.vnum, self.level, self.armor)
+        return u"<item vnum=%s lvl=%s>" % (self.vnum, self.level)
 
 
 
@@ -79,7 +78,7 @@ class Weapon(models.Model):
         ( 'stone',   'камень' ),
     )
 
-# Header: vnum,name,level,weaponclass,special,d1,d2,ave,hr,dr,hp,mana,saves,ac,str,int,wis,dex,con,area,where,limit
+# Header: vnum,name,level,weaponclass,special,d1,d2,ave,hr,dr,hp,mana,saves,str,int,wis,dex,con,align,area,where,limit
 
     vnum = models.IntegerField(db_index=True, unique=True)
     name = models.CharField(max_length=100)
@@ -97,12 +96,12 @@ class Weapon(models.Model):
     hp = models.IntegerField(default=0)
     mana = models.IntegerField(default=0)
     saves = models.IntegerField(default=0)
-    armor = models.IntegerField(default=0)
     stat_str = models.IntegerField(default=0)
     stat_int = models.IntegerField(default=0)
     stat_wis = models.IntegerField(default=0)
     stat_dex = models.IntegerField(default=0)
     stat_con = models.IntegerField(default=0)
+    align = models.CharField(max_length=16, default='')
     area = models.CharField(max_length=256, default='')
     where = models.CharField(max_length=256, default='')
     limit = models.IntegerField(default=-1)
