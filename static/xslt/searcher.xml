@@ -44,9 +44,36 @@
                                                         <div id="armor" class="tab-pane fade in active">
                                                                 <h3>Доспехи, светильники, одежда</h3>
                                                                 <p>Можно искать вещи по имени, задав ключевое слово в строке поиска, а также по тому, куда надевается эта вещь. Результаты поиска можно ограничить, задав интересующий диапазон уровней.</p>
-                                                                <p>Обозначения колонок: HR (hitroll, точность), DR (damroll, повреждения), HP (hitpoints, здоровье), MN (mana, энергия), SVS (saves vs spell, защита от заклинаний), STR (сила), INT (ум), WIS (мудрость), DEX (ловкость), CON (сложение), CHA (харизма), ALG (C каким характером рарешается носить).</p>
-                                                                <p>Названия вещей, число которых ограничено по количеству (лимиты), выделены <i>курсивом</i>.</p>
-
+                                                                <h5>Обозначения колонок</h5>
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <ul>
+                                                                            <li>HR: точность, hitroll</li>
+                                                                            <li>DR: урон, damroll</li>
+                                                                            <li>HP: здоровье, hitpoints</li>
+                                                                            <li>MN: энергия, mana</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <ul>
+                                                                            <li>SVS: защита от заклинаний, saves vs spell</li>
+                                                                            <li>STR: сила, strength</li>
+                                                                            <li>INT: ум, intelligence</li>
+                                                                            <li>WIS: мудрость, wisdom</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <ul>
+                                                                            <li>DEX: ловкость, dexterity</li>
+                                                                            <li>CON: сложение, constitution</li>
+                                                                            <li>CHA: харизма, charisma</li>
+                                                                            <li>ALG: характер, align</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <br/>
+                                                                <p><b>Лимиты</b>: названия вещей, число которых ограничено по количеству (лимиты), выделены <i>курсивом</i>.</p>
+                                                                <p><b>Характер</b>: если колонка пустая, носить можно всем. G - только для хороших, N - только для нейтралов, E - только для злых.</p>
                                                                 <div class="section" width="80%" style="width:80%;">
                                                                         <div class="container">
                                                                                 <!-- row -->
@@ -136,8 +163,40 @@
                                                         <div id="weapon" class="tab-pane fade">
                                                                 <h3>Оружие</h3>
                                                                 <p>Можно искать оружие по имени, задав ключевое слово в строке поиска, а также по типу оружия. Результаты поиска можно ограничить, задав интересующий диапазон уровней.</p>
-                                                                <p>Повреждение от оружия определяется броском кубиков. Кубик с заданным числом граней бросают заданное число раз и вычисляют среднее. Обозначения колонок: D1 (сколько раз бросать кубики), D2 (сколько граней у кубика), AVE (average, средние повреждения), HR (hitroll, точность), DR (damroll, повреждения), HP (hitpoints, здоровье), MAN (мана, энергия), SVS (saves vs spell, защита от заклинаний), STR (сила), INT (ум), WIS (мудрость), DEX (ловкость), CON (сложение), ALG (С каким характером разрешается носить). </p>
-                                                                <p>Названия вещей, число которых ограничено по количеству (лимиты), выделены <i>курсивом</i>.</p>
+                                                                <h5>Обозначения колонок</h5>
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <ul>
+                                                                            <li>D1: сколько раз бросать кубики</li>
+                                                                            <li>D2: сколько граней у кубика</li>
+                                                                            <li>AVE: средние повреждения, average</li>
+                                                                            <li>HR: точность, hitroll</li>
+                                                                            <li>DR: урон, damroll</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <ul>
+                                                                            <li>HP: здоровье, hitpoints</li>
+                                                                            <li>MN: энергия, mana</li>
+                                                                            <li>SVS: защита от заклинаний, saves vs spell</li>
+                                                                            <li>STR: сила, strength</li>
+                                                                            <li>INT: ум, intelligence</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <ul>
+                                                                            <li>WIS: мудрость, wisdom</li>
+                                                                            <li>DEX: ловкость, dexterity</li>
+                                                                            <li>CON: сложение, constitution</li>
+                                                                            <li>CHA: харизма, charisma</li>
+                                                                            <li>ALG: характер, align</li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <br/>
+                                                                <p><b>Кубики</b>: Повреждение от оружия определяется броском кубиков. Кубик с заданным числом граней (D2) бросают заданное число раз (D1) и вычисляют среднее.</p>
+                                                                <p><b>Лимиты</b>: названия вещей, число которых ограничено по количеству (лимиты), выделены <i>курсивом</i>.</p>
+                                                                <p><b>Характер</b>: если колонка пустая, носить можно всем. G - только для хороших, N - только для нейтралов, E - только для злых.</p>
 
                                                                 <div class="section" width="80%" style="width:80%">
                                                                         <!-- container -->
@@ -350,6 +409,6 @@
         <footer>
                 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
                 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/searcher.js?1"></script>
+		<script type="text/javascript" src="js/searcher.js?2"></script>
         </footer> 
 </page>
