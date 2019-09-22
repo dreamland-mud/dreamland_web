@@ -31,6 +31,7 @@ pip install django-cors-headers
 sudo apt-get install git
 git clone https://github.com/dreamland-mud/dreamland_web.git
 cd dreamland_web/website
+./manage.py makemigrations searcher
 ./manage.py migrate
 ```
 Создать локального админа:
