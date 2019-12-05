@@ -6,8 +6,23 @@
 <body>
     <div class="wrapper">
         <%- include('help-menu'); %>
-        <div class="main"><%- main %></div>
-        <div class="aside aside-2"><%- aside2 %></div>
+        <div class="main">
+            
+            <% for (var i = 0; i < topics.length; i++) { %>
+                <div class="help_panel rounded"><a class="help_title" name="h<%= topics[i].id %>"></a><span class="help_title"><%= topics[i].kw %></span><div class="help_article"><%- topics[i].text %></div></div>
+            <% } %>
+        
+        </div>
+        <div class="aside aside-2">
+            <div class="help_menu">
+                <h2><%= title %></h2>
+                <ul>
+                    <% for (var i = 0; i < topics.length; i++) { %>
+                        <li><a href="#h<%= topics[i].id %>"> <%= topics[i].title %> </a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
         <%- include('footer'); %>
     </div>
     <%- include('foot'); %>

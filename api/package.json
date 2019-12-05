@@ -5,11 +5,12 @@
     "devDependencies": {},
     "dependencies": {
         "cheerio": "^1.0.0-rc.3",
-        "ejs": "^2.6.1",
-        "fs": "0.0.1-security",
+        "ejs": "^3.0.1",
+        "fast-xml-parser": "^3.12.20",
         "iconv-lite": "^0.4.24"
     },
     "scripts": {
-        "helpgen": "node helpgen.js"
+        "help": "node help.js",
+        "maps": "node maps.js"
     }
 }
