@@ -144,13 +144,33 @@ saveCategory(['language'], 'Языки');
 // +config, +client, +misc
 // +group
 
-
-        
-
-
 ejs.renderFile('templates/help-index.ejs', function(err, str) {
     fs.writeFileSync(destDir + '/index.html', str)
 })
+
+
+/*
+ * typeahead.json is used by the quick search box in the header and by webclient help widget:
+ * [ {"l": "xxxx.html#h333", "n": "TOPIC NAME"}, ... ]
+ * 
+ * /tmp/hedit.json is used by the 'hedit' web editor, quick search box.
+ * All helps are there, even immortal ones and those without any labels or IDs, so those 2 files
+ * need to be kept separate for now.
+ * [ {"id": 333, "kw": "TOPIC NAME"}, ... ]
+ */
+var typeahead = dictionary.map(
+    function(topic) {
+        if (topic.labels) 
+            return {
+                'n': topic.kw.join(' '),
+                'l': '/help/' + topic.labels[0] + '.html#h' + topic.id,
+                'id': topic.id
+            }
+        else
+            console.log('Skipping from typehead.json', topic.kw)
+    })
+
+fs.writeFileSync(destDir + '/typeahead.json', JSON.stringify(typeahead))
 
 
 
