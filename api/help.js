@@ -71,7 +71,8 @@ function transformText(text) {
         $(this).replaceWith(span)
     })
 
-    return $('body').html();    
+    return $('body').html().replace(
+        /\[map=([-0-9a-z_]{1,15})\.are\]/g, '');
 }
 
 function saveCategory(labels, title) {
@@ -80,7 +81,7 @@ function saveCategory(labels, title) {
         let topic = dictionary[i]
 
         if (!topic.labels || topic.labels.length == 0) {
-            console.log('No labels found for', topic.id, topic.kw.join(' '))
+//            console.log('No labels found for', topic.id, topic.kw.join(' '))
             continue
         }
 
@@ -118,6 +119,7 @@ saveCategory(['religion'], 'Религии');
 saveCategory(['clan'], 'Кланы');
 saveCategory(['skill'], 'Умения');
 saveCategory(['spell'], 'Заклинания');
+saveCategory(['skillgroup'], 'Группы умений и заклинаний');
 saveCategory(['area'], 'Зоны');
 saveCategory(['social'], 'Социалы');
 saveCategory(['cmd'], 'Все команды');
