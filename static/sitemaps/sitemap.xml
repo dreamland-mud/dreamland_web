@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://dreamland.rocks/</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/index.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/mudjs/</loc>
+  <lastmod>2018-09-13T18:58:53+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/searcher.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/news.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/stories.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/links.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/guide.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/fenia/nanny.html</loc>
+  <lastmod>2018-05-12T21:03:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/fenia/fire.html</loc>
+  <lastmod>2018-05-12T21:03:46+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev.html</loc>
+  <lastmod>2018-09-21T09:41:32+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/aarak2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/abyss2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/air.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/alice.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/amber_area.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/amber_floor1.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/antharia.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/arachnos.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/arcadia.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/armagddn.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/astral.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/bangzui.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/bazaar.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/blight.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/camelot.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/canyon.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/casino.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/catacomb.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/chapel.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/chess2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/chocolate.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/ciquala2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/circus.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/cloudymt.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/coven.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/crystal2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dark2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/daycare.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/divsouls.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/draconia.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dragon2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/drakyri.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dream.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/drow.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dwarven.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dylan.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/eastern.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/emerald.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/faeriering.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/firetop2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/freeport.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/galaxy.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/geometry.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/gerghlm2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/gnome.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/grave.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/grove.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/gstrong.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/gtown.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/haon.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/hitower.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/hood.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/hram-zav.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/htgerighelm.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/htmidgaard.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/htnewofcol.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/htnewthalos.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/htoldmidgaard.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/htsolace.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/httitan.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/hut.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/isles.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/jher.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/king2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/lake.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/library.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/lich.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/magicfor.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mahntor.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mansion.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/marsh.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/masquerade.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mgoose.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/midennir.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/midgaard.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mirkwd2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mirror2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mirror.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/moria.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/mtdoom.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/nation.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/newbie2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/newthalos.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/nirvana.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/ofcol2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/ofcol.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/olympus.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/park.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/plains.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/prairie.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/prison2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/prison.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/pyramid.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/quifael.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/rat.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/redferne.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/ryzen2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/satyr.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/school.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/sewer.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/shalafi.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/shaolin.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/ship.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/shire.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/smurf.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/solace.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/tananda.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/tcwnn2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/tcwnn.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/thalos.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/titan.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/tofemida.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/tohell.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/tree.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/trilium.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/trollden.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/troy.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/under2.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/unholy.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/valley.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/villa.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/warkeep.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/weed.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/westland.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/wyvern.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/zoo3.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/zoology.html</loc>
+  <lastmod>2018-09-27T00:21:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dreamland_northern.html</loc>
+  <lastmod>2018-06-13T11:02:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dreamland_eastern.html</loc>
+  <lastmod>2018-06-13T11:02:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/maps/dreamland_western.html</loc>
+  <lastmod>2018-06-13T11:02:39+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/mudjs/index.html</loc>
+  <lastmod>2018-09-13T18:58:53+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/</loc>
+  <lastmod>2018-06-10T00:52:58+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/translate.html</loc>
+  <lastmod>2018-05-22T09:57:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/mapedit/</loc>
+  <lastmod>2018-07-04T12:44:22+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/olc.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/ed.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/cs.html</loc>
+  <lastmod>2018-06-10T00:52:58+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/log001.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/log002.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/fenia-trigger-item.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/fenia-trigger-mob.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/fenia-syntax.html</loc>
+  <lastmod>2018-06-08T20:33:47+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/casinoCubes.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/htsolace.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/httitan.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/librarian.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/shalafiBonsai.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/titanDevilbox.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/nanny.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://dreamland.rocks/dev/example/jew.html</loc>
+  <lastmod>2018-06-09T07:19:41+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>
