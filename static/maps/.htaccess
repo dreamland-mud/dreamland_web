@@ -4,3 +4,4 @@ Header set Cache-Control "max-age=300, public"
 
 Redirect 301 /maps/dreamland_eastern_en.txt /maps/dreamland_eastern.html
 Redirect 301 /maps/dreamland_northern_en.txt /maps/dreamland_northern.html
+Redirect 301 /maps/ship.html /maps/galeon.html
