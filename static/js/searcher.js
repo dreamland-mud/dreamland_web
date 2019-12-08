@@ -162,7 +162,7 @@
             $('#armor').bind('key-pressed', function(e) {
                 var tab=$(this), error = tab.find('.myerror');
                 var wearloc = tab.find('#wearloc').find('option:selected').val(),
-                    search = tab.find('#name').val(),
+                    search = tab.find('#name').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
                     params = {
@@ -191,7 +191,7 @@
             $('#weapon').bind('key-pressed', function(e) {
                 var tab=$(this), error = tab.find('.myerror');
                 var wclass = tab.find('#wclass').find('option:selected').val(),
-                    search = tab.find('#name').val(),
+                    search = tab.find('#name').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
                     params = {
@@ -220,7 +220,7 @@
             $('#magicItem').bind('key-pressed', function(e) {
                 var tab=$(this), error = tab.find('.myerror');
                 var itemtype = tab.find('#itemtype').find('option:selected').val(),
-                    search = tab.find('#spells').val(),
+                    search = tab.find('#spells').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
                     params = {
@@ -248,7 +248,7 @@
             // Query all pets given level range, names.
             $('#pet').bind('key-pressed', function(e) {
                 var tab=$(this), error = tab.find('.myerror');
-                var search = tab.find('#name').val(),
+                var search = tab.find('#name').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
                     params = {
