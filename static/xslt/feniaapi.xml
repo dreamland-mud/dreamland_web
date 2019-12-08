@@ -43,6 +43,7 @@
                                                         <li><a data-toggle="tab" href="#root">Корневой</a></li>
                                                         <li><a data-toggle="tab" href="#struct">Структуры</a></li>
                                                         <li><a data-toggle="tab" href="#string">Строка</a></li>
+                                                        <li><a data-toggle="tab" href="#tables">Таблицы</a></li>
                                                 </ul>
                                                 <div class="tab-content">
                                                         <div id="char" class="tab-pane fade in active">
@@ -362,12 +363,15 @@
                                                                              <li><a href="#command_fields">Command</a></li>
                                                                              <li><a href="#area_fields">Area</a></li>
                                                                              <li><a href="#hometown_fields">Hometown</a></li>
+                                                                             <li><a href="#bonus_fields">Bonus</a></li>
+                                                                             <li><a href="#religion_fields">Religion</a></li>
                                                                              <li><a href="#profession_fields">Profession</a></li>
                                                                              <li><a href="#race_fields">Race</a></li>
                                                                              <li><a href="#clan_fields">Clan</a></li>
                                                                              <li><a href="#craftprofession_fields">CraftProfession</a></li>
                                                                              <li><a href="#liquid_fields">Liquid</a></li>
                                                                              <li><a href="#skill_fields">Skill</a></li>
+                                                                             <li><a href="#feniaskill_fields">FeniaSkill</a></li>
                                                                             </ul>
                                                                         </p>
                                                                     </div>
@@ -445,6 +449,38 @@
                                                                                 <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- hometown container -->
                                                                 </div><!-- hometown section -->
+
+                                                                <a name="bonus_fields"></a>
+                                                                <h3>Bonus: календарный или религиозные бонус</h3>
+                                                                <p>Все поля доступны только для чтения.</p>
+                                                                <div class="section">
+                                                                        <div class="container">
+                                                                                <table id="bonus_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                                                                        <thead><tr>
+                                                                                                <th>Поле/Метод</th>        
+                                                                                                <th>Описание</th>        
+                                                                                        </tr></thead>
+                                                                                        <tbody>%bonus_fields%</tbody>
+                                                                                </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                                                        </div><!-- bonus container -->
+                                                                </div><!-- bonus section -->
+
+                                                                <a name="religion_fields"></a>
+                                                                <h3>Religion: религия</h3>
+                                                                <p>Все поля доступны только для чтения.</p>
+                                                                <div class="section">
+                                                                        <div class="container">
+                                                                                <table id="religion_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                                                                        <thead><tr>
+                                                                                                <th>Поле/Метод</th>        
+                                                                                                <th>Описание</th>        
+                                                                                        </tr></thead>
+                                                                                        <tbody>%religion_fields%</tbody>
+                                                                                </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                                                        </div><!-- religion container -->
+                                                                </div><!-- religion section -->
 
                                                                 <a name="profession_fields"></a>
                                                                 <h3>Profession: класс персонажа</h3>
@@ -542,6 +578,22 @@
                                                                         </div><!-- skill container -->
                                                                 </div><!-- skill section -->
 
+                                                                <a name="feniaskill_fields"></a>
+                                                                <h3>FeniaSkill: новое умение или заклинание, созданное в фене</h3>
+                                                                <p>Поля доступны и для записи, и для чтения.</p>
+                                                                <div class="section">
+                                                                        <div class="container">
+                                                                                <table id="skill_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                                                                        <thead><tr>
+                                                                                                <th>Поле/Метод</th>        
+                                                                                                <th>Описание</th>        
+                                                                                        </tr></thead>
+                                                                                        <tbody>%feniaskill_fields%</tbody>
+                                                                                </table>
+                                                                                <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                                                        </div><!-- feniaskill container -->
+                                                                </div><!-- feniaskill section -->
+
                                                         </div> <!-- struct tab-pane -->
                                                         <div id="string" class="tab-pane fade in">
                                                                 <h2>Строка</h2>
@@ -576,7 +628,26 @@
                                                                                 <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                                                         </div><!-- string container -->
                                                                 </div><!-- string section -->
-                                                        </div> <!-- indexdata tab-pane -->
+                                                        </div> <!-- string tab-pane -->
+
+                                                        <div id="tables" class="tab-pane fade in">
+                                                                <h2>Таблицы</h2>
+                                                                
+                                                                <p>Доступ ко всем таблицам флагов или значений осущестляется через поле корневого объекта <b>.tables</b>. Список 
+таблиц также можно увидеть по команде <b>olchelp</b>.</p>
+                                                                <h3>Методы всех таблиц (.tables)</h3>
+                                                                <ul>
+                                                                <li><b>.tables.api()</b>: вывести список всех полей .tables, то есть всех доступных таблиц</li>
+                                                                </ul>
+                                                                <h3>Методы отдельной таблицы (например, .tables.affect_flags)</h3>
+                                                                <p>Каждая из таблиц имеет такие методы:</p>
+                                                                <ul>
+                                                                   <li><b>.tables.affect_flag.api()</b>: вывести список всех полей таблицы и их русский перевод.</li>
+                                                                   <li><b>.tables.affect_flag.names(число)</b>: вернет строку из названий флагов, которым соответствует это число.</li>
+                                                                   <li><b>.tables.affect_flag.values(строка)</b>: вернет числовое значение флага (флагов) по их английскому названию в строке .</li>
+                                                                   <li><b>.tables.affect_flag.флаг</b>: численное значени того или иного флага, например, .tables.affect_flag.curse.</li>
+                                                                </ul>
+                                                        </div> <!-- string tab-pane -->
 
                                                 </div> <!-- tab-content-->
                                         </div><!-- main-->
