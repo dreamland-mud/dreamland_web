@@ -91,7 +91,7 @@
                                     <li><a href="index.html#why-us">Разработка</a></li>
                                     <li class="hidden-md hidden-sm"><a href="news.html">Новости</a></li>
                                     <li class="hidden-md hidden-sm"><a href="stories.html">Легенды</a></li>
-                                    <li class="hidden-md hidden-sm"><a href="links.html">Ссылки</a></li>
+                                    <li class="hidden-md hidden-sm"><a href="/help">Справка</a></li>
                             </ul>
                     </nav>
             </div>
@@ -119,6 +119,7 @@
                                                     <li><a href="index.html#why-us">Разработка</a></li>
                                                     <li><a href="news.html">Новости</a></li>
                                                     <li><a href="stories.html">Легенды</a></li>
+                                                    <li><a href="/help">Справка</a></li>
                                                     <li><a href="links.html">Ссылки</a></li>
                                                     <li><a href="index.html#contact">Контакт</a></li>
 						</ul>
