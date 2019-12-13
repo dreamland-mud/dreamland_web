@@ -9,7 +9,6 @@
         "fast-xml-parser": "^3.12.20"
     },
     "scripts": {
-        "help": "node help.js",
-        "maps": "node maps.js"
+        "help": "node help.js"
     }
 }

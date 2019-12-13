@@ -4,7 +4,7 @@
   "description": "DreamLand website generator",
   "main": "main.js",
   "scripts": {
-    "create": "node main.js",
+    "website": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
