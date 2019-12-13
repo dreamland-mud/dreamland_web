@@ -6,8 +6,7 @@
     "dependencies": {
         "cheerio": "^1.0.0-rc.3",
         "ejs": "^3.0.1",
-        "fast-xml-parser": "^3.12.20",
-        "iconv-lite": "^0.4.24"
+        "fast-xml-parser": "^3.12.20"
     },
     "scripts": {
         "help": "node help.js",
