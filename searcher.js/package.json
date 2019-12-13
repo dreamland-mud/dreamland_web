@@ -1,0 +1,31 @@
+{
+  "name": "searcher",
+  "version": "1.0.0",
+  "description": "Query DreamLand items and pets from the website",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dreamland-mud/dreamland_web.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mud",
+    "mudserver"
+  ],
+  "author": "Ruffina Koza",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/dreamland-mud/dreamland_web/issues"
+  },
+  "homepage": "https://github.com/dreamland-mud/dreamland_web#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
+}
