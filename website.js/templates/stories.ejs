@@ -1,0 +1,44 @@
+<html lang="ru">
+<head>
+    <%- include('head'); %>
+    <title>DreamLand MUD - Мир Грёз, Истории новой эпохи</title>
+    <link type="text/css" rel="stylesheet" href="css/terminal.css?2"/>
+</head>
+
+<body>
+    <%- include('header'); %>
+    <%- include('hero', {breadcrumb: 'Stories', title: 'Истории новой эпохи'}) %>
+
+    <div id="links" class="section">
+        <div class="container">
+            <div class="row">                                        
+                <div id="main" class="col-md-12">
+                    <div class="section-header">
+                        <h1>Сказки, истории и легенды Мира Грёз</h1>
+                        <p class="lead">Содержание:
+                            <ul class="list-group" style="width: 400px;">
+                                <li class="list-group-item"><a href="/stories.html"><h4>Истории новой эпохи</h4></a></li>
+                                <li class="list-group-item"><a href="/samurai.html"><h4>Самурайские истории</h4></a></li>
+                                <li class="list-group-item"><a href="/legends.html"><h4>Древние легенды Второй Эпохи</h4></a></li>
+                            </ul>
+                        </p>
+                        <br/>
+							<h2>Истории новой эпохи</h2>
+							<p class="lead">Здесь собраны истории, написанные игроками с апреля 2018 года. Полный список можно посмотреть в мире командой <b>story list</b>(<b>истории список</b>).
+							</p>
+                    </div><!-- section-header -->
+<% for (let i = 0; i < notes.length; i++) { %>
+<% let note = notes[i]; %>
+<pre class="terminal">
+    <div><span class="story-author">[<%= note.date %>] <%=note.from %>: </span><span class="story-title"><%- note.subject %></span></div>
+    <div class="story-text"><%- note.text %></div>
+</pre>
+<% } %>
+                </div><!-- main -->
+            </div><!-- row -->
+        </div><!-- container -->
+    </div><!-- section -->
+<%- include('footer'); %>
+<%- include('foot'); %>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "DreamLand website generator",
+  "main": "main.js",
+  "scripts": {
+    "create": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com/dreamland-mud/dreamland_web.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mud",
+    "mudserver"
+  ],
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "ejs": "^3.0.1",
+    "fast-xml-parser": "^3.15.1",
+    "he": "^1.2.0"
+  }
+}

@@ -1,0 +1,13 @@
+
+    <% for (let i = 0; i < apiList.length; i++) { -%>
+    <%  let api = apiList[i]; -%>
+        <tr>
+    <%    if (api.ro) {-%>
+            <td>ro</td>
+    <%    } else {-%>
+            <td>rw</td>
+    <%    } -%>
+            <td><%=api.name%></td>
+            <td><%=api.help%></td>
+        </tr>
+    <% } -%>
