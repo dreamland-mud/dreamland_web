@@ -80,7 +80,7 @@ app.get('/searcher-api/magicItem', (req, res) => {
     );
 });
 
-app.listen(8001, () => {
+app.listen(8001, '127.0.0.1', () => {
     console.log('Searcher app listening on port 8001');
 });
 
