@@ -12,6 +12,8 @@ if (fs.existsSync(areaDir + '/share/DL/areas'))
 else    
     areaDir = areaDir + '/share/DL/areas.local'    
 
+// Folder where this file lives.
+process.chdir(__dirname)
 var srcMapDir = '../static/maps/sources' 
 var destDir = '../static/'
 var destMapDir = '../static/maps'

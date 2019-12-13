@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
 
+process.chdir(__dirname)
+
 var destDir = process.argv[2]
 !fs.existsSync(destDir) && fs.mkdirSync(destDir)
 
@@ -22,7 +24,7 @@ var linksById = new Map(
 )
 var linksByKeyword = new Map()
 for (var i = 0; i < dictionary.length; i++)
-    dictionary[i].kw.forEach(kw => {
+    dictionary[i].kwList.forEach(kw => {
         if (linksByKeyword.get(kw))
             console.log('Duplicated keyword', kw, 'for id', dictionary[i].id, 'and', linksByKeyword.get(kw).id)
         else
@@ -89,7 +91,7 @@ function saveCategory(labels, title) {
             continue
 
         let t = {}
-        t.kw = topic.kw.join(' ')
+        t.kw = topic.kw
         t.title = topic.titles[labels[0]]
         t.text = transformText(topic.text)
         t.id = topic.id
@@ -162,7 +164,7 @@ var typeahead = dictionary.map(
     function(topic) {
         if (topic.labels) 
             return {
-                'n': topic.kw.join(' '),
+                'n': topic.kw,
                 'l': '/help/' + topic.labels[0] + '.html#h' + topic.id,
                 'id': topic.id
             }
