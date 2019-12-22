@@ -12,7 +12,7 @@ var destDir = process.argv[2]
  * Dictionary structure:
  *
  * [
- *   { id="333", kw=[ААА, БББ], text="dolor sit amet", labels=[skill,cmd], titles={skill: "xxx", cmd: "yyy"} },
+ *   { id="333", kw="ААА 'Б Б Б'", kwList=["AAA", "Б Б Б"], text="dolor sit amet", labels=[skill,cmd], titles={skill: "xxx", cmd: "yyy"} },
  *   ...   
  * ]
  */
@@ -77,6 +77,12 @@ function transformText(text) {
         /\[map=([-0-9a-z_]{1,15})\.are\]/g, '');
 }
 
+function topicTitle(topic, labels) {
+    for (var i = 0; i < labels.length; i++)
+        if (topic.titles[labels[i]])
+           return topic.titles[labels[i]];
+}
+
 function saveCategory(labels, title) {
     let topics = [];
     for (var i = 0; i < dictionary.length; i++) {        
@@ -92,7 +98,7 @@ function saveCategory(labels, title) {
 
         let t = {}
         t.kw = topic.kw
-        t.title = topic.titles[labels[0]]
+        t.title = topicTitle(topic, labels)
         t.text = transformText(topic.text)
         t.id = topic.id
         topics.push(t)
@@ -103,16 +109,18 @@ function saveCategory(labels, title) {
         return
     }
 
-    ejs.renderFile(
-        'templates/help-category.ejs', 
-        {
-            title: title,
-            topics: topics
-        }, 
-        function(err, str) {
-            fs.writeFileSync(destDir + '/' + labels[0] + '.html', str)
-        }
-    )    
+    labels.forEach(label =>    
+       ejs.renderFile(
+           'templates/help-category.ejs', 
+           {
+               title: title,
+               topics: topics
+           }, 
+           function(err, str) {
+               fs.writeFileSync(destDir + '/' + label + '.html', str)
+           }
+       )    
+    )
 }
 
 saveCategory(['race'], 'Расы');
@@ -165,12 +173,13 @@ var typeahead = dictionary.map(
         if (topic.labels) 
             return {
                 'n': topic.kw,
-                'l': '/help/' + topic.labels[0] + '.html#h' + topic.id,
+                'l': topic.labels[0] + '.html#h' + topic.id,
                 'id': topic.id
             }
         else
             console.log('Skipping from typehead.json', topic.kw)
     })
+    .filter(t => t != null)
 
 fs.writeFileSync(destDir + '/typeahead.json', JSON.stringify(typeahead))
 
