@@ -1,7 +1,7 @@
 (function($) {
 	"use strict"
 
-        var appUrl = 'https://dreamland.rocks:8443/searcher-api';
+        var appUrl = 'https://dreamland.rocks/searcher-api';
 //        var appUrl = 'http://127.0.0.1:8000/searcher-api';
 
         $(document).ready(function() {

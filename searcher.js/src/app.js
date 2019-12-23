@@ -68,13 +68,13 @@ app.get('/searcher-api/magicItem', (req, res) => {
     let lvl0 = number(req.query.level__range_0, -1);
     let lvl1 = number(req.query.level__range_1, 200);
     let search = string(req.query.search);
-    let type = req.query.itemtype;
+    let itemtype = req.query.itemtype;
 
     res.send( 
         db_magic.filter(i => 
             i.level >= lvl0
             && i.level <= lvl1
-            && (!type || i.type === type)
+            && (!itemtype || i.itemtype === itemtype)
             && (!search || i.spells.includes(search))
         )
     );
