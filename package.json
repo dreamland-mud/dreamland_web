@@ -1,0 +1,14 @@
+{
+  "name": "webdev",
+  "version": "1.0.0",
+  "description": "DreamLand website development",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^0.20.0"
+  }
+}

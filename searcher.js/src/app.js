@@ -1,5 +1,5 @@
 const express = require('express')
-const app = express();
+const app = express()
 
 const db_magic = require('/tmp/db_magic.json')
 const db_pets = require('/tmp/db_pets.json')
