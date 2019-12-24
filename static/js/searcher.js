@@ -1,8 +1,7 @@
 (function($) {
 	"use strict"
 
-        var appUrl = 'https://dreamland.rocks/searcher-api';
-//        var appUrl = 'http://localhost:8001/searcher-api';
+        var appUrl = '/searcher-api';
 
         var areas = {};
 
