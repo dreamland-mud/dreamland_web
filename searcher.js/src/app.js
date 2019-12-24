@@ -1,5 +1,5 @@
 const express = require('express')
-const app = express();
+const app = express()
 
 const db_magic = require('/tmp/db_magic.json')
 const db_pets = require('/tmp/db_pets.json')
@@ -68,19 +68,19 @@ app.get('/searcher-api/magicItem', (req, res) => {
     let lvl0 = number(req.query.level__range_0, -1);
     let lvl1 = number(req.query.level__range_1, 200);
     let search = string(req.query.search);
-    let type = req.query.itemtype;
+    let itemtype = req.query.itemtype;
 
     res.send( 
         db_magic.filter(i => 
             i.level >= lvl0
             && i.level <= lvl1
-            && (!type || i.type === type)
+            && (!itemtype || i.itemtype === itemtype)
             && (!search || i.spells.includes(search))
         )
     );
 });
 
-app.listen(8001, () => {
+app.listen(8001, '127.0.0.1', () => {
     console.log('Searcher app listening on port 8001');
 });
 

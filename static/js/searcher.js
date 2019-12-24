@@ -1,13 +1,27 @@
 (function($) {
 	"use strict"
 
-        var appUrl = 'https://dreamland.rocks:8443/searcher-api';
-//        var appUrl = 'http://127.0.0.1:8000/searcher-api';
+        var appUrl = '/searcher-api';
+
+        var areas = {};
 
         $(document).ready(function() {
           spinner();
           render();
+          initAreas();
         });
+
+        function initAreas() {
+            $.get("/maps/index.json", function(data) { 
+                console.log('Retrieved', data.length, 'areas.');
+               
+                $.each(data, function(index, value) {
+                    areas[value.name] = value.map;
+                });
+            }, 'json').fail(function() {
+                console.log('Cannot retrieve area info.');
+            }); 
+        }
 
         // Display "Loading..." progress status.
         function spinner() {
@@ -44,7 +58,7 @@
                 spinner.show();
                 
                 // Request data from back-end.
-                $.get(url, params).done(function(items) {
+                $.get(url, params, function(items) {
                     console.log('success:', items.length, 'items');
                     spinner.hide();
                     
@@ -55,10 +69,15 @@
                     for (var i = 0; i < items.length; i++) {
                         if (items[i]['limit'] > 0) 
                             items[i]['name'] = "<i>" + items[i]['name'] + "</i>";
+
+                        var map = areas[items[i]['area']];
+                        if (map)
+                            items[i]['area'] = "<a target='_blank' href='/maps/" + map + "'>" + items[i]['area'] + "</a>";
+
                         table.DataTable().row.add(items[i]).draw();
                     }
 
-                }).fail(function(e, err, params) {
+                }, 'json').fail(function(e, err, params) {
                     console.log('failure', e, err, params);
                     spinner.hide();
                     error.text('Что-то пошло не так, попробуйте позже.');

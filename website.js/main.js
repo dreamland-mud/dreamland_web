@@ -12,6 +12,8 @@ if (fs.existsSync(areaDir + '/share/DL/areas'))
 else    
     areaDir = areaDir + '/share/DL/areas.local'    
 
+// Folder where this file lives.
+process.chdir(__dirname)
 var srcMapDir = '../static/maps/sources' 
 var destDir = '../static/'
 var destMapDir = '../static/maps'
@@ -43,7 +45,6 @@ fs.writeFileSync(destMapDir + '/index.json', JSON.stringify(areaList))
 console.log('Generating maps...')
 areaList.forEach(area => {
     let mapPath = path.resolve(srcMapDir, area.map)
-    console.log('Checking', mapPath)
     if (fs.existsSync(mapPath)) {
         let map = fs.readFileSync(mapPath)
         ejs.renderFile('templates/map.ejs', { map: map, area: area }, function(err, str) {
