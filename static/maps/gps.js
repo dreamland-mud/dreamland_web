@@ -34,6 +34,16 @@ if('BroadcastChannel' in window) {
     };
 
     $(document).ready(function() {
+        var $follow = $('#follow');
+
+        if ($follow.length) {	    
+	    $follow[0].checked = localStorage.getItem('follow') === 'true' ? true : false;
+    	    $follow.change(function() {
+	        console.log('Save new autofollow choice', $follow.is(":checked"));
+	        localStorage.setItem('follow', $follow.is(":checked"));
+	    });
+        }		
+
         bc.postMessage({ what: 'where am i' });
     });
 }
