@@ -184,6 +184,7 @@ $(document).ready(function() {
             }
         }
 
+        $('#vnum').val('');
         updateActive();
     });
 
@@ -198,9 +199,15 @@ $(document).ready(function() {
                 e.preventDefault();
                 $target = null;
                 $('#text').val(range.toString());
-                if(lastLocation) {
+
+                if ($('#vnum').val() !== '') {
+                    console.log('vnum', 'using saved value', $('#vnum').val());
+                }
+                else if(lastLocation) {
+                    console.log('vnum', 'resetting to', lastLocation.vnum);
                     $('#vnum').val(lastLocation.vnum);
                 } else {
+                    console.log('vnum', 'clearing');
                     $('#vnum').val('');
                 }
                 $('#props-modal').modal('show');
@@ -220,8 +227,11 @@ $(document).ready(function() {
                     .get()
                     .join(' ')
                 );
-
-            $('#props-modal').modal('show');
+            console.log('vnum', 'saving', $('#vnum').val());
+//            $('#props-modal').modal('show');
+        } else {
+            console.log('vnum', 'deleting', $('#vnum').val());
+            $('#vnum').val('');
         }
     });
 
