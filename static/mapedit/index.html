@@ -4,12 +4,12 @@
         <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <script src="mapedit.js"></script>
+        <script src="mapedit.js?1"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"></link>
         <link href="../mudjs/css/bootstrap.min.css" rel="stylesheet" type="text/css" ></link>
-        <link href="mapedit.css" rel="stylesheet" type="text/css" ></link>
+        <link href="mapedit.css?1" rel="stylesheet" type="text/css" ></link>
     </head>
     <body>
         <div id="props-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -31,10 +31,7 @@
         </div>
         <div id="contents" class="container-fluid">
             <div class="row">
-                <div class="col-2">
-                  <a href="/" target=_blank>[Главная]</a>&nbsp;&nbsp; <a href="/maps.html" target=_blank>[Карты]</a>
-               </div>
-                <div class="col-2 offset-2">
+                <div class="col-3 offset-1">
                     <select class="form-control" id="area-file">
                     </select>
                 </div>
@@ -44,7 +41,7 @@
                 <div class="col-3">
                     <input type="file" id="load-button"></input>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <a id="save-button" href="#" class="btn btn-sm btn-ctrl btn-outline-primary">
                         <i class="fa fa-save"></i>
                     </a>
@@ -57,6 +54,22 @@
                 </div>
             </div>
             <div id="map" tabindex="1" contenteditable="true">
+                <div>
+                    <h4>Разметка</h4>
+                    <ul>
+                        <li>Выбери зону из списка. Уже размеченные комнаты будут <font style="color:lightgreen;">ярко-зелеными</font>, твое текущее положение - <font style="color:red;">красным</font>, все остальные - серым.</li>
+                        <li>В соседней вкладке браузера, в вебклиенте, стань в ту комнату, которую хочешь разметить.</li>
+                        <li>На карте выдели имя комнаты и нажми Enter. В поле ввода согласись с предложенным внумом или введи свой.</li>
+                        <li>Нажми на иконку <em>Сохранить</em> в конце работы, чтобы не потерять результаты трудов.</li>
+                    </ul>
+                     
+                     <h4>Перевод</h4>
+                     <ul>
+                        <li>Выбери зону из списка.</li>
+                        <li>Впиши русское имя комнаты поверх английского, убедись, что ничего не съехало, и восстанови разметку, если слетела, как описано выше.</li>
+                        <li>Сохрани результат в конце работы.</li>
+                     </ul>
+                </div>
             </div>
         </div>
     </body>
