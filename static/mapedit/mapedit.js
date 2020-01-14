@@ -3,23 +3,23 @@ $(document).ready(function() {
     var $target, range, $saveButton, lastLocation;
 
     function scrollToActive() {
-	var $active = $('.room.active'),
-	    $follow = $('#follow');
+        var $active = $('.room.active'),
+            $follow = $('#follow');
 
-	if($active.length && $follow.length && $follow[0].checked) {
-	    var off = $active.offset(),
-		$vp = $('html, body');
+        if($active.length && $follow.length && $follow[0].checked) {
+            var off = $active.offset(),
+                $vp = $('html, body');
 
-	    $vp.scrollTop(off.top-$(window).height()/2);
-	    $vp.scrollLeft(off.left-$(window).width()/2);
-	}
+            $vp.scrollTop(off.top-$(window).height()/2);
+            $vp.scrollLeft(off.left-$(window).width()/2);
+        }
     }
 
     function updateActive() {
         $('.room').removeClass('active');
 
-	if(!lastLocation)
-	    return;
+        if(!lastLocation)
+            return;
 
         $('.room-' + lastLocation.vnum).addClass('active');
     }
@@ -31,16 +31,16 @@ $(document).ready(function() {
             if(ev.data.what !== 'location')
                 return;
     
-	    lastLocation = ev.data.location;
+            lastLocation = ev.data.location;
 
-	    updateActive();
+            updateActive();
 
-	    if(lastLocation) {
-	        $('#currentLocationBlock')
-	    	    .text('Положение персонажа: ' + lastLocation.area + ', ' + lastLocation.vnum)
-		    .show();
+            if(lastLocation) {
+                $('#currentLocationBlock')
+                    .text('Положение персонажа: ' + lastLocation.area + ', ' + lastLocation.vnum)
+                    .show();
             } else {
-	        $('#currentLocationBlock').hide();
+                $('#currentLocationBlock').hide();
             }
         };
     
@@ -51,7 +51,7 @@ $(document).ready(function() {
         $('#map')
             .empty()
             .append($('<pre>').append(html));
-	
+        
         updateActive();
     }
 
@@ -73,10 +73,10 @@ $(document).ready(function() {
 
         if(arefile) {
             mapfile = arefile.replace(/\.are$/, '') + '.html';
-	} else {
-	    var files = $('#load-button')[0].files;
+        } else {
+            var files = $('#load-button')[0].files;
 
-	    if(files) {
+            if(files) {
                 mapfile = files[0].name;
             }
         }
@@ -138,18 +138,18 @@ $(document).ready(function() {
 
         $('#area-file').prop('disabled', 'disabled');
         $.ajax({
-                url: '/maps/' + mapfile,
-                dataType: 'text'
-            })
-            .then(function(html) {
-                setMap($('<html></html>').append(html).find('pre')[0].innerHTML);
-            })
-            .fail(function(xhr) {
-                console.log('oops', arguments);
-            })
-	    .always(function() {
-                $('#area-file').prop('disabled', false);
-	    });
+            url: '/maps/' + mapfile,
+            dataType: 'text'
+        })
+        .then(function(html) {
+            setMap($('<html></html>').append(html).find('pre')[0].innerHTML);
+        })
+        .fail(function(xhr) {
+            console.log('oops', arguments);
+        })
+        .always(function() {
+            $('#area-file').prop('disabled', false);
+        });
     });
 
     $('#props-modal #vnum').on('keypress', function(e) {
@@ -184,7 +184,7 @@ $(document).ready(function() {
             }
         }
 
-	updateActive();
+        updateActive();
     });
 
     $('#props-modal').on('shown.bs.modal', function () {
@@ -198,7 +198,7 @@ $(document).ready(function() {
                 e.preventDefault();
                 $target = null;
                 $('#text').val(range.toString());
-		if(lastLocation) {
+                if(lastLocation) {
                     $('#vnum').val(lastLocation.vnum);
                 } else {
                     $('#vnum').val('');
@@ -226,7 +226,7 @@ $(document).ready(function() {
     });
 
     function changeFontSize(delta) {
-	var terminal = $('#map pre');
+        var terminal = $('#map pre');
         var style = terminal.css('font-size'); 
         var fontSize = parseFloat(style); 
         terminal.css('font-size', (fontSize + delta) + 'px');
