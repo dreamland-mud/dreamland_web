@@ -167,20 +167,26 @@ $(document).ready(function() {
                 .addClass('room ' + vnums.map(function(s) { return 'room-' + s; } ).join(' '));
 
             if($target) {
+                console.log('ok-button', 'target was', $target.text(), $target);
                 $span.text($target.text());
                 $target.replaceWith($span);
+                console.log('ok-button', 'target now', $target.text(), $target);
             } else {
                 $span.text(range.toString());
+                console.log('ok-button', 'range was', range.toString());
                 range.extractContents();
                 range.insertNode($span[0]);
+                console.log('ok-button', 'range now', range.toString());
             }
         } else { // clear vnum info
             if($target) {
                 $target.replaceWith($target.text()); 
+                console.log('ok-button', 'target cleared to', $target.text(), $target);
             } else {
                 var text = range.toString();
                 range.extractContents();
                 range.insertNode(document.createTextNode(text));
+                console.log('ok-button', 'range cleared to', range.toString());
             }
         }
 
