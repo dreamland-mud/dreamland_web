@@ -1412,3 +1412,13 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 #dev a {
     text-decoration: underline;
 }    
+
+/*
+ * Map page: map banner in the middle of the screen.
+ */
+.map-terra {
+    max-width: 100%; 
+    height: auto; 
+    width: auto;
+}
+
