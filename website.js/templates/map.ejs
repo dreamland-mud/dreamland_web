@@ -4,16 +4,14 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DreamLand MUD - Карта <%= area.name %></title>
+    <title>DreamLand MUD - Карта зоны <%= area.name %></title>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="gps.js?2"></script>
     <link href="gps.css" rel="stylesheet" type="text/css"></link>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&amp;subset=cyrillic" rel="stylesheet"></link>
 </head>
 <body>
-    <a href="/">DreamLand</a>&nbsp;/&nbsp;<a href="/maps.html">Карты</a>&nbsp;/&nbsp;<%= area.name %>
-
-    <h1>Карта зоны <%= area.name %>, уровни <%=area.levMin%>-<%=area.levMax%></h1> 
+    <h1><%= area.name %>, уровни <%=area.levMin%>-<%=area.levMax%></h1> 
     <div class="alert alert-dark" role="alert">
         Путь <%if (area.msm){%>от Рыночной Площади Мидгаарда <%}%><%=area.sw%> 
     </div>    
