@@ -16,6 +16,7 @@ $(document).ready(function() {
     }
 
     function updateActive() {
+	$('font').replaceWith(function() { return this.innerText; });
         $('.room').removeClass('active');
 
         if(!lastLocation)
@@ -165,6 +166,8 @@ $(document).ready(function() {
         if(vnums) {
             var $span = $('<span>')
                 .addClass('room ' + vnums.map(function(s) { return 'room-' + s; } ).join(' '));
+		
+	    console.log('ok-button', 'prepared span', $span);
 
             if($target) {
                 console.log('ok-button', 'target was', $target.text(), $target);
@@ -173,10 +176,15 @@ $(document).ready(function() {
                 console.log('ok-button', 'target now', $target.text(), $target);
             } else {
                 $span.text(range.toString());
-                console.log('ok-button', 'range was', range.toString());
-                range.extractContents();
-                range.insertNode($span[0]);
-                console.log('ok-button', 'range now', range.toString());
+		if (range.commonAncestorContainer && range.commonAncestorContainer.parentElement && range.commonAncestorContainer.parentElement.innerText === range.toString()) {
+			console.log('ok-button', 'deleting extra parent', range.commonAncestorContainer.parentElement);
+			$(range.commonAncestorContainer.parentElement).replaceWith($span);
+		} else {
+			console.log('ok-button', 'range was', range, 'span', $span);
+			range.extractContents();
+			range.insertNode($span[0]);
+		}
+		console.log('ok-button', 'range now', range);
             }
         } else { // clear vnum info
             if($target) {
@@ -235,7 +243,7 @@ $(document).ready(function() {
                 );
             console.log('vnum', 'saving', $('#vnum').val());
 //            $('#props-modal').modal('show');
-        } else {
+        } else if (!$('#props-modal').is(':visible')) {
             console.log('vnum', 'deleting', $('#vnum').val());
             $('#vnum').val('');
         }
