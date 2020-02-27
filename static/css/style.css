@@ -81,6 +81,11 @@ ul,ol{
     list-style: none
 }
 
+ul.list {
+    list-style: disc;
+    list-style-position: inside;
+}
+
 ul.links-list > li {
     margin: 8px 0px;
 }
