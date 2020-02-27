@@ -127,6 +127,11 @@ ejs.renderFile('templates/links.ejs', function(err, str) {
     fs.writeFileSync(destDir + '/links.html', str)
 })
 
+ejs.renderFile('templates/gallery.ejs', function(err, str) {
+    !err || console.log(err)
+    fs.writeFileSync(destDir + '/gallery.html', str)
+})
+
 ejs.renderFile('templates/searcher.ejs', function(err, str) {
     !err || console.log(err)
     fs.writeFileSync(destDir + '/searcher.html', str)
