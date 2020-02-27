@@ -45,4 +45,3 @@ To generate News section, the following files are needed:
 ```
 Again, either run `webdump news`, `webdump story` on your local server, or ask admins for samples.
 
-**TODO**: change website.js code so that these files are optional.
