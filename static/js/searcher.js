@@ -68,7 +68,7 @@
                     // Render received data.
                     for (var i = 0; i < items.length; i++) {
                         if (items[i]['limit'] > 0) 
-                            items[i]['name'] = "<i>" + items[i]['name'] + "</i>";
+                            items[i]['name'] = "<i class='fas fa-gem fa-fw' aria-hidden='true' title='Лимит'></i><span class='sr-only'>Лимит&nbsp;</span>" + items[i]['name'] + "";
 
                         var map = areas[items[i]['area']];
                         if (map)

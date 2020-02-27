@@ -1422,3 +1422,11 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
     width: auto;
 }
 
+/*
+ * Searcher: custom limited item icon
+ */
+.fa-limited:before {
+    font-weight: bold;
+    content: "(Л)";    
+}	
+
