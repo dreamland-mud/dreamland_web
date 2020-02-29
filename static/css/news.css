@@ -8,13 +8,33 @@ pre.for-panel {
    white-space: -pre-wrap;      /* Opera 4-6 */
    white-space: -o-pre-wrap;    /* Opera 7 */
    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+   hyphens: auto;
+   word-break: normal;
 }
-.for-panel .panel-heading { text-align: center; }
-.for-panel .panel-body { 
+
+.for-panel .panel-default {
+  border-color: #2e3436;
+  color: #d3d7cf;
+  font-size: 1.3em;
+  background-color: #2e3436;
+  font-family: 'Roboto Mono', monospace; 
+}
+
+.for-panel .panel-default > .panel-body { 
+  border-color: #2e3436;
    padding: 0px 15px 0px 15px;
 }
+
+.for-panel .panel-default > .panel-heading {
+  border-color: #2e3436;
+  color: cyan;
+  font-size: 1.3em;
+  background-color: #2e3436;
+  font-family: 'Roboto Mono', monospace; 
+}
+
 span.news-date { float: left; }
-span.news-subject { }
+span.news-subject { color: white; }
 span.tag-x { color: white; }
 span.tag-r { color: red; }
 span.tag-y { color: yellow; }
