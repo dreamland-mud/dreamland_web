@@ -133,7 +133,7 @@ $(document).ready(function() {
 
         $('#load-button').val('');
 
-        var mapfile = arefile.replace(/\.are$/, '') + '.html?1';
+        var mapfile = arefile.replace(/\.are$/, '') + '.html?2';
         
         $('#map').empty();
 
