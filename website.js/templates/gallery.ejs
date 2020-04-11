@@ -2,19 +2,6 @@
 <head>
     <%- include('head'); %>
     <title>DreamLand MUD - Мир Грёз, Галерея</title>
-    <style>
-      ul {         
-          padding:0 0 0 0;
-          margin:0 0 0 0;
-      }
-      ul li {     
-          list-style:none;
-          margin-bottom:25px;           
-      }
-      ul li img {
-          cursor: pointer;
-      }
-    </style>
 </head>
 
 <body>
@@ -146,6 +133,28 @@
         </div>
     </div>
 
+    <div class="section">
+        <div class="container">
+
+            <div class="row justify-content-center" style="padding:0 0 20px 0; margin-bottom:40px;">
+                <div class="col-lg-12">
+                    <h2>Описания персонажей</h2>
+                    <p>Примеры описаний для некоторых рас.</p>
+                </div>
+            </div>
+            <% for (let i = 0; i < gallery.length; i++) { %>
+                <% let sect = gallery[i]; %>
+                <h3><%= sect.section %></h3>
+                <%for (let j = 0; j < sect.portraits.length; j++) { %>
+                    <% let p = sect.portraits[j]; %>
+                    <pre class="terminal">
+                        <div><%= p.name %></div>
+                        <div><%- p.text %></div></pre>
+                <% } %>
+                <br/>
+            <% } %>                    
+        </div>
+    </div>
 
     <%- include('footer'); %>
     <%- include('foot'); %>
