@@ -1380,3 +1380,6 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
     content: "(Л)";    
 }	
 
+.dataTables_wrapper {
+	overflow-x: auto;
+}
