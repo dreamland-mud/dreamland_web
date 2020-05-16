@@ -98,7 +98,7 @@ app.get('/searcher-api/magicItem', (req, res) => {
             i.level >= lvl0
             && i.level <= lvl1
             && (!itemtype || i.itemtype === itemtype)
-            && (!search || i.spells.includes(search))
+            && (!search || i.spells.includes(search) || match(search, i.name))
         )
     );
 
