@@ -78,7 +78,7 @@ app.get('/searcher-api/pet', (req, res) => {
         require('/tmp/db_pets.json').filter(pet => 
             pet.level >= lvl0
             && pet.level <= lvl1
-            && match(search, pet.name)
+            && (match(search, pet.name) || match(search, pet.off))
         )
     );
 
@@ -98,7 +98,7 @@ app.get('/searcher-api/magicItem', (req, res) => {
             i.level >= lvl0
             && i.level <= lvl1
             && (!itemtype || i.itemtype === itemtype)
-            && (!search || i.spells.includes(search))
+            && (!search || i.spells.includes(search) || match(search, i.name))
         )
     );
 
