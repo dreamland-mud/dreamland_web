@@ -78,7 +78,7 @@ app.get('/searcher-api/pet', (req, res) => {
         require('/tmp/db_pets.json').filter(pet => 
             pet.level >= lvl0
             && pet.level <= lvl1
-            && match(search, pet.name)
+            && (match(search, pet.name) || match(search, pet.off))
         )
     );
 
