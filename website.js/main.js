@@ -32,9 +32,10 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
             file: fn.replace(/\.xml/, ''),
             map: fn.replace(/\.are\.xml/, '.html'),
             sw: area.speedwalk,
-            msm: area.speedwalk.match(/^[0-9nsweud]+ *$/i) ? 'true' : 'false',
+            msm: area.speedwalk.match(/^[0-9nsweud]+ *$/i) ? true : false,
             levMin: area.levelLow,
-            levMax: area.levelHigh
+            levMax: area.levelHigh,
+            showLevels: area.levelHigh == '0' ? false : true
         })
     }
 })

@@ -11,9 +11,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&amp;subset=cyrillic" rel="stylesheet"></link>
 </head>
 <body>
-    <h1><%= area.name %>, уровни <%=area.levMin%>-<%=area.levMax%></h1> 
+    <h1><%= area.name %><%if (area.showLevels){%>, уровни <%=area.levMin%>-<%=area.levMax%><%}%></h1> 
     <div class="alert alert-dark" role="alert">
-        Путь <%if (area.msm){%>от Рыночной Площади Мидгаарда <%}%><%=area.sw%> 
+        Путь<%if (area.msm){%> от Рыночной Площади Мидгаарда <%}%>: <%=area.sw%> 
     </div>    
 
     Автоматически двигать карту <input type="checkbox" id="follow"></input><br/>
