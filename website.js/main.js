@@ -18,6 +18,12 @@ var srcMapDir = '../static/maps/sources'
 var destDir = '../static/'
 var destMapDir = '../static/maps'
 
+const stripTags = s => {
+    return s.replace(/\{[xYy]/g, '')
+            .replace(/\{h[cx]/g, '')
+            .replace(/\{hh\d*/g, '')
+}
+
 // Generate index.json file, to use in map editor online tool and for map generation here.
 console.log('Reading areas from', areaDir)
 var areaList = [];
@@ -26,13 +32,15 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
     var areaObj = xmlParser.parse(areaXml, {})
     var area = areaObj.area.areadata
     if (area.speedwalk) {
+        let speedwalk = stripTags(area.speedwalk)
+
         areaList.push({
             name: area.name.replace(/{[a-zA-Z]/g, ''),
             credits: area.credits,
             file: fn.replace(/\.xml/, ''),
             map: fn.replace(/\.are\.xml/, '.html'),
-            sw: area.speedwalk,
-            msm: area.speedwalk.match(/^[0-9nsweud]+ *$/i) ? true : false,
+            sw: speedwalk,
+            msm: speedwalk.match(/^[0-9nsweud]+ *$/i) ? true : false,
             levMin: area.levelLow,
             levMax: area.levelHigh,
             showLevels: area.levelHigh == '0' ? false : true
