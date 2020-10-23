@@ -1,6 +1,8 @@
 /*.html
 /maps/*.html
+!/maps/*-v2.html
 /maps/*.txt
+/maps/index.json
 help
 mudjs
 mudjs-vue
