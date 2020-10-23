@@ -20,7 +20,7 @@ var destMapDir = '../static/maps'
 
 const stripTags = s => {
     return s.replace(/\{[xYy]/g, '')
-            .replace(/\{h[cx]/g, '')
+            .replace(/\{h[cxs]/g, '')
             .replace(/\{hh\d*/g, '')
 }
 
