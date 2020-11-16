@@ -67,6 +67,8 @@
                     table.DataTable().clear();
                     // Render received data.
                     for (var i = 0; i < items.length; i++) {
+                        items[i]['name'] = items[i]['name'].replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
                         if (items[i]['limit'] > 0) 
                             items[i]['name'] = "<i class='fas fa-gem fa-fw' aria-hidden='true' title='Лимит'></i><span class='sr-only'>Лимит&nbsp;</span>" + items[i]['name'] + "";
 
