@@ -35,7 +35,7 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
         let speedwalk = stripTags(area.speedwalk)
 
         areaList.push({
-            name: area.name.replace(/{[a-zA-Z]/g, ''),
+            name: he.decode(area.name.replace(/{[a-zA-Z]/g, '')),
             credits: area.credits,
             file: fn.replace(/\.xml/, ''),
             map: fn.replace(/\.are\.xml/, '.html'),
