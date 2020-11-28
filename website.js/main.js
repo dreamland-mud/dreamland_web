@@ -25,7 +25,7 @@ const stripTags = s => {
 }
 
 // Generate index.json file, to use in map editor online tool and for map generation here.
-console.log('Reading areas from', areaDir)
+//console.log('Reading areas from', areaDir)
 var areaList = [];
 fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
     var areaXml = fs.readFileSync(path.resolve(areaDir, fn), {encoding: 'utf-8'})
