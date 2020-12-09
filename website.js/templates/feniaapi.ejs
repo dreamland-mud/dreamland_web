@@ -212,7 +212,7 @@
                             </div> <!-- room tab-pane -->
 
                             <div id="indexdata" class="tab-pane fade in">
-                                <h2>Прототипы предметов и мобов</h2>
+                                <h2>Прототипы предметов, мобов и зон</h2>
                                 <div class="list-group">
                                     <div class="list-group-item">
                                     <h4 class="list-group-item-heading">Содержание</h4>
@@ -220,6 +220,7 @@
                                         <ul>
                                         <li><a href="#obj_index_fields">Прототип предмета</a></li>
                                         <li><a href="#mob_index_fields">Прототип моба</a></li>
+                                        <li><a href="#area_index_fields">Прототип зоны</a></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -227,8 +228,9 @@
                                     <h4 class="list-group-item-heading">Доступ к API изнутри мира</h4>
                                     <p class="list-group-item-text">
                                         <ul>
-                                        <li><strong>eval ptc(get_char_world("mermaid").pIndexData.api())</strong></li>
-                                        <li><strong>eval ptc(get_obj_world("barrel").pIndexData.api())</strong></li>
+                                        <li><strong>eval ptc(.get_mob_index(3000).api())</strong></li>
+                                        <li><strong>eval ptc(.get_obj_index(3000).api())</strong></li>
+                                        <li><strong>eval ptc(.get_area_index("midgaard.are").api())</strong></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -238,6 +240,7 @@
                                         <ul>
                                         <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-char-triggers">Список всех триггеров для персонажа</a></li>
                                         <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-obj-triggers">Список всех триггеров для предмета</a></li>
+                                        <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-area-triggers">Список всех триггеров для зон</a></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -275,6 +278,22 @@
                                         <a href="#mob_index_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- mob_index container -->
                                 </div><!-- mob_index section -->
+
+                                <a name="area_index_fields"></a>
+                                <h3>Поля и методы прототипа зоны (area index data)</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="area_index_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['area_index_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#area_index_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- area_index container -->
+                                </div><!-- area_index section -->
+
                             </div> <!-- indexdata tab-pane -->
                             <div id="root" class="tab-pane fade in">
                                 <h2>Корневой объект (root)</h2>
