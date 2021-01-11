@@ -2,7 +2,7 @@
 <head>
     <%- include('head'); %>
     <title>DreamLand MUD - Мир Грёз, Новости и Изменения</title>
-    <link type="text/css" rel="stylesheet" href="css/news.css?1"/>
+    <link type="text/css" rel="stylesheet" href="css/news.css?4"/>
 </head>
 
 <body>
@@ -22,8 +22,7 @@
                     <% for (var i = 0; i < notes.length; i++) {%>
                     <%     let news = notes[i];  %>
                             <pre class="for-panel">
-                                <div class="panel panel-default"><div class="panel-heading"><span class="news-date">[<%= news.date %>]&#160;<%= news.from %>:</span>&#160;<span class="news-subject"><%= news.subject %></span></div><div class="panel-body"><%- news.text %></div></div>
-                            </pre>
+                                <div class="panel panel-default"><div class="panel-heading"><span class="news-date">[<%= news.date %>] <%= news.from %>: </span><span class="news-subject"><%= news.subject %></span></div><div class="panel-body"><%- news.text %></div></div></pre>
                     <% } %>
                 </div>
             </div>

@@ -8,8 +8,16 @@ pre.for-panel {
    white-space: -pre-wrap;      /* Opera 4-6 */
    white-space: -o-pre-wrap;    /* Opera 7 */
    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-   hyphens: auto;
-   word-break: normal;
+   overflow-wrap: break-word;
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
+
+ -ms-word-break: break-all;
+     word-break: break-all;
+
+     /* Non standard for WebKit */
+     word-break: break-word;	
 }
 
 .for-panel .panel-default {
@@ -28,7 +36,6 @@ pre.for-panel {
 .for-panel .panel-default > .panel-heading {
   border-color: #2e3436;
   color: cyan;
-  font-size: 1.3em;
   background-color: #2e3436;
   font-family: 'Roboto Mono', monospace; 
 }
