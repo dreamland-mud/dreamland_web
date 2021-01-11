@@ -76,9 +76,6 @@
                         if (map)
                             items[i]['area'] = "<a target='_blank' href='/maps/" + map + "'>" + items[i]['area'] + "</a>";
 
-                        if (items[i]['rand'] !== 'normal')
-                            items[i]['special'] = 'СЛУЧАЙНОЕ';
-
                         table.DataTable().row.add(items[i]).draw();
                     }
 
