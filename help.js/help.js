@@ -17,7 +17,7 @@ var destDir = process.argv[2]
  * ]
  */
 var dictionary = JSON.parse(fs.readFileSync('/tmp/helps.json'))
-console.log('Loaded', dictionary.length, 'help topics.');
+//console.log('Loaded', dictionary.length, 'help topics.');
 
 var linksById = new Map(
     dictionary.map(entry => [entry.id, entry])
@@ -26,13 +26,13 @@ var linksByKeyword = new Map()
 for (var i = 0; i < dictionary.length; i++) 
     if (dictionary[i].kwList)
         dictionary[i].kwList.forEach(kw => {
-            if (linksByKeyword.get(kw))
-                console.log('Duplicated keyword', kw, 'for id', dictionary[i].id, 'and', linksByKeyword.get(kw).id)
-            else
+            if (linksByKeyword.get(kw)) {
+                //console.log('Duplicated keyword', kw, 'for id', dictionary[i].id, 'and', linksByKeyword.get(kw).id)
+	    } else
                 linksByKeyword.set(kw, dictionary[i])
         })
 
-console.log('Created', linksById.size, 'mappings from id to topic, and', linksByKeyword.size, ' - from keyword to topic');
+//console.log('Created', linksById.size, 'mappings from id to topic, and', linksByKeyword.size, ' - from keyword to topic');
 
 function transformText(text) {
     let $ = cheerio.load(
@@ -54,7 +54,7 @@ function transformText(text) {
                     .attr('href', '/help/' + link.labels[0] + '.html#h' + link.id)
                     .append(article))
         } else {
-            console.log('No link or label for id [' + id + '] and text', article)
+            //console.log('No link or label for id [' + id + '] and text', article)
             $(this).replaceWith(article)
         }
     })
@@ -109,7 +109,7 @@ function saveCategory(labelsInclude, labelsExclude, title) {
     }
 
     if (topics.length == 0) {
-        console.log("No topics found for labels", labelsInclude)
+        //console.log("No topics found for labels", labelsInclude)
         return
     }
 
@@ -148,7 +148,7 @@ saveCategory(['fight'], [], 'Битва');
 saveCategory(['magic'], [], 'Магия');
 saveCategory(['note'], [], 'Переписка');
 saveCategory(['comm', 'family'], [], 'Общение и семья'); 
-saveCategory(['genericskill'], ['language'], 'Профессиональные навыки');
+saveCategory(['exoticskill','genericskill'], ['language'], 'Профессиональные навыки');
 saveCategory(['raceaptitude'], [], 'Расовые навыки');
 saveCategory(['clanskill'], [], 'Клановые навыки');
 saveCategory(['craftskill'], [], 'Крафт');
@@ -210,8 +210,9 @@ var typeahead = dictionary.map(
                 'l': topic.labels[0] + '.html#h' + topic.id,
                 'id': topic.id
             }
-        else
-            console.log('Skipping from typehead.json', topic.kw)
+        else {
+            //console.log('Skipping from typehead.json', topic.kw)
+	}
     })
     .filter(t => t != null)
 
