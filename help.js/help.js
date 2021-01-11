@@ -204,15 +204,16 @@ ejs.renderFile('templates/landing-clanskill.ejs', function(err, str) {
  */
 var typeahead = dictionary.map(
     function(topic) {
-        if (topic.labels) 
+        if (topic.labels) {
             return {
                 'n': topic.kw,
                 'l': topic.labels[0] + '.html#h' + topic.id,
-                'id': topic.id
+                'id': topic.id,
+                't': topic.titles ? topic.titles[topic.labels[0]] : topic.kw
             }
-        else {
-            //console.log('Skipping from typehead.json', topic.kw)
-	}
+        } else {
+            console.log('Skipping from typehead.json', topic.kw)
+	    }
     })
     .filter(t => t != null)
 

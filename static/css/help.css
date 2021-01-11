@@ -92,7 +92,7 @@ a.help_title {
   overflow: auto; 
   cursor: pointer;
 }
-.autocomplete-suggestion { padding: 2px 5px; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; overflow: auto; border-top: 1px solid; }
 .autocomplete-selected { background: #5a6269; }
 .autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
 .autocomplete-group { padding: 2px 5px; }

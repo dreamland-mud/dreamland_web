@@ -6,7 +6,10 @@
 $(document).ready(function() {
     $.get("/help/typeahead.json", function(data) {
         var topics = $.map(data, function(dataItem) {
-            return {value: dataItem.n, data: dataItem.l};
+            return {
+                value: dataItem.n, 
+                data: { link: dataItem.l, title: dataItem.t }
+            };
         });
         $('#topics').autocomplete({
             lookup: topics,
@@ -14,10 +17,16 @@ $(document).ready(function() {
             autoSelectFirst: true,
             showNoSuggestionNotice: true,
             noSuggestionNotice: 'Справка не найдена',
+            formatResult: function(suggestion, currentValue) {
+                let s = {};
+                s.data = suggestion.data;
+                s.value = "[" + currentValue + "] " + suggestion.data.title;
+                return $.Autocomplete.defaults.formatResult(s, currentValue);
+            },
             onSelect: function(suggestion) {
                 $('.navbar-collapse').hide();
                 $('#topics').val('');
-                window.location.href = '/help/' + suggestion.data;
+                window.location.href = '/help/' + suggestion.data.link;
             }
         });
     }, 'json');
