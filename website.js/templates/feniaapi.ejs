@@ -22,6 +22,7 @@
                             <li><a data-toggle="tab" href="#room">Комната</a></li>
                             <li><a data-toggle="tab" href="#indexdata">Прототипы</a></li>
                             <li><a data-toggle="tab" href="#root">Корневой</a></li>
+                            <li><a data-toggle="tab" href="#skillspell">Умение</a></li>
                             <li><a data-toggle="tab" href="#struct">Структуры</a></li>
                             <li><a data-toggle="tab" href="#string">Строка</a></li>
                             <li><a data-toggle="tab" href="#tables">Таблицы</a></li>
@@ -370,8 +371,6 @@
                                          <li><a href="#clan_fields">Clan</a></li>
                                          <li><a href="#craftprofession_fields">CraftProfession</a></li>
                                          <li><a href="#liquid_fields">Liquid</a></li>
-                                         <li><a href="#skill_fields">Skill</a></li>
-                                         <li><a href="#feniaskill_fields">FeniaSkill</a></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -561,9 +560,26 @@
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- liquid container -->
                                 </div><!-- liquid section -->
+                            </div> <!-- struct tab-pane -->
+
+                            <div id="skillspell" class="tab-pane fade in">
+                                <h2>Умения</h2>
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                    <h4 class="list-group-item-heading">Содержание</h4>
+                                    <p class="list-group-item-text">
+                                        <ul>
+                                         <li><a href="#skill_fields">Умение: .Skill()</a></li>
+                                         <li><a href="#feniaskill_fields">Умение, созданное в фене: .FeniaSkill()</a></li>
+                                         <li><a href="#spell_fields">Заклинание: .Spell()</a></li>
+                                         <li><a href="#spellcontext_fields">Контекст вызова заклинания</a></li>
+                                        </ul>
+                                    </p>
+                                    </div>
+                                </div>
 
                                 <a name="skill_fields"></a>
-                                <h3>Skill: умение или заклинание</h3>
+                                <h3>Умение: .Skill()</h3>
                                 <p>Все поля доступны только для чтения.</p>
                                 <div class="section">
                                     <div class="container">
@@ -579,7 +595,7 @@
                                 </div><!-- skill section -->
 
                                 <a name="feniaskill_fields"></a>
-                                <h3>FeniaSkill: новое умение или заклинание, созданное в фене</h3>
+                                <h3>Умение, созданное в фене: .FeniaSkill()</h3>
                                 <p>Поля доступны и для записи, и для чтения.</p>
                                 <div class="section">
                                     <div class="container">
@@ -594,7 +610,39 @@
                                     </div><!-- feniaskill container -->
                                 </div><!-- feniaskill section -->
 
-                            </div> <!-- struct tab-pane -->
+                                <a name="spell_fields"></a>
+                                <h3>Заклинание: .Spell()</h3>
+                                <p>Все поля доступны только для чтения.</p>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="spell_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['spell_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- spell container -->
+                                </div><!-- spell section -->
+
+                                <a name="spellcontext_fields"></a>
+                                <h3>Контекст вызова заклинания (что доступно изнутри runChar, runObj)</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="spellcontext_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['spellcontext_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- spell contextcontainer -->
+                                </div><!-- spellcontext section -->
+
+                            </div> <!-- skillspell tab-pane -->
+
                             <div id="string" class="tab-pane fade in">
                                 <h2>Строка</h2>
                                 <div class="list-group">
