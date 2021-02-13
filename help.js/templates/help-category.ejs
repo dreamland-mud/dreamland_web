@@ -9,7 +9,7 @@
         <div class="main">
             
             <% for (var i = 0; i < topics.length; i++) { %>
-                <div class="help_panel rounded"><a class="help_title" name="h<%= topics[i].id %>"></a><span class="help_title"><%= topics[i].kw %></span><div class="help_article"><%- topics[i].text %></div></div>
+                <div class="help_panel rounded"><a class="help_title" name="h<%= topics[i].id %>"></a><span class="help_title"><%= topics[i].title %></span><div class="help_article"><%- topics[i].text %></div></div>
             <% } %>
         
         </div>
