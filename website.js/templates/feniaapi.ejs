@@ -573,6 +573,7 @@
                                          <li><a href="#feniaskill_fields">Умение, созданное в фене: .FeniaSkill()</a></li>
                                          <li><a href="#spell_fields">Заклинание: .Spell()</a></li>
                                          <li><a href="#spellcontext_fields">Контекст вызова заклинания</a></li>
+                                         <li><a href="#affecthandler_fields">Обработчик аффекта: .AffectHandler()</a></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -638,8 +639,23 @@
                                             <tbody><%- include('fenia-methods', {apiList: api['spellcontext_methods']}) %></tbody>
                                         </table>
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
-                                    </div><!-- spell contextcontainer -->
+                                    </div><!-- spellcontext container -->
                                 </div><!-- spellcontext section -->
+
+                                <a name="affecthandler_fields"></a>
+                                <h3>Обработчик аффекта: .AffectHandler()</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="affecthandler_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['affecthandler_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- affecthandler container -->
+                                </div><!-- affecthandler section -->
 
                             </div> <!-- skillspell tab-pane -->
 
