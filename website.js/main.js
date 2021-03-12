@@ -5,6 +5,11 @@ const ejs = require('ejs')
 const xmlParser = require('fast-xml-parser')
 const he = require('he')
 
+if (process.argv.length <= 2) {
+    console.log('Specify full path to DL runtime.');
+    process.exit();
+}
+
 // Folder where area files can be found. 
 var areaDir = process.argv[2];
 if (fs.existsSync(areaDir + '/share/DL/areas'))
@@ -23,6 +28,67 @@ const stripTags = s => {
             .replace(/\{h[cxs]/g, '')
             .replace(/\{hh\d*/g, '')
 }
+
+/** Analyze current line and the following one, to see if a forced line break can be safely removed. */
+const needsLineBreak = (line, nextline) => {
+    let punct = line.match(/[\.\?!:] *$/) != null;
+    let nextcap = nextline !== undefined && (nextline.match(/^[А-ЯA-Z]/) != null);
+    let nextspace = nextline !== undefined && (
+            nextline.match(/^ *[-\*\[] */) != null ||
+            nextline.match(/^\s*$/) != null ||
+            nextline.match(/^   /) != null);
+
+    // If line ends in punctuation mark and next one begins with a space/asterix, assume it's a break.
+    if (punct && nextspace)
+        return true;
+
+    // Always keep empty lines as they were.
+    if (line.match(/^ *$/) != null)
+        return true;
+
+    // If next line starts with a space/asterix, assume a break is required.
+    if (nextspace)
+        return true;
+
+    // Join all other lines.
+    return false;
+};
+
+/** Transform node.text, removing extra line breaks added for the sake of 80-character width displays,
+  * thus making the text responsive. 
+  */
+const newsTransformer = nodes => {
+    return nodes.map(node => {
+        let lines = node.text.split('\n');
+        let newtext = '';
+
+        for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            let nextline = i+1 < lines.length ? lines[i+1] : undefined;
+
+            newtext += line.trimEnd();
+            if (needsLineBreak(line, nextline)) {
+                newtext += '\n';
+            } else if (nextline && !nextline.match(/^ /)) {
+                newtext += ' ';
+            }
+        }
+
+        node.text = newtext;
+        return node; 
+    });
+};
+
+/** Render a single page applying specified sort order and text transformer. */
+const render = (keyword, array, sorter, nodesTransformer) => 
+    ejs.renderFile
+        ('templates/' + keyword + '.ejs', 
+        { notes: nodesTransformer(array.sort(sorter)) }, 
+        function(err, str) {
+            !err || console.log(err)
+            fs.writeFileSync(destDir + '/' + keyword + '.html', str)
+        }
+    )
 
 // Generate index.json file, to use in map editor online tool and for map generation here.
 //console.log('Reading areas from', areaDir)
@@ -77,8 +143,14 @@ const colourConv = text => {
 }
 
 console.log('Reading news...')
-var newsXml = fs.readFileSync('/tmp/news.xml', {encoding: 'utf-8'})
-var newsObj = xmlParser.parse(newsXml, {})
+let newsPath = '/tmp/news.xml';
+if (fs.existsSync(newsPath)) {
+    var newsXml = fs.readFileSync(newsPath, {encoding: 'utf-8'})
+    var newsObj = xmlParser.parse(newsXml, {})
+    render('news', newsObj.NoteBucket.node, (a,b) => b.id - a.id, newsTransformer);
+} else {
+    console.log('File ', newsPath, 'not found, generate it with \'webdump news\' command.');
+}
 
 console.log('Reading legends...')
 var legendsXml = fs.readFileSync('data/legends-dump.xml', {encoding: 'utf-8'})
@@ -89,42 +161,59 @@ var legendsObj = xmlParser.parse(legendsXml, {
     attrNodeName: "attr",
     textNodeName: "text"
 })
+render('legends', legendsObj.book.node, (a,b) => a.attr.keyword > b.attr.keyword, nodes => nodes);
 
 
 console.log('Reading modern stories...')
-var storiesXml = fs.readFileSync('/tmp/story2.xml', {encoding: 'utf-8'})
-const stories = 
-    xmlParser
-    .parse(storiesXml, {stopNodes: ['text']})
-    .NoteBucket.node
-    .map(n => {
-        n.text = colourConv(n.text)
-        n.subject = colourConv(n.subject)
-        return n;
-    });
-
+let storiesPath = '/tmp/story2.xml';
+if (fs.existsSync(storiesPath)) {
+    var storiesXml = fs.readFileSync(storiesPath, {encoding: 'utf-8'})
+    const stories = 
+        xmlParser
+        .parse(storiesXml, {stopNodes: ['text']})
+        .NoteBucket.node
+        .map(n => {
+            n.text = colourConv(n.text)
+            n.subject = colourConv(n.subject)
+            return n;
+        });
+    render('stories', stories, (a,b) => a.id - b.id, nodes => nodes);
+} else {
+    console.log('File ', storiesPath, 'not found, generate it with \'webdump story\' command.');
+}
 
 console.log('Reading samurai stories...')
-var samuraiXml = fs.readFileSync('/tmp/story1.xml', {encoding: 'utf-8'})
-const samurai = 
-    xmlParser
-    .parse(samuraiXml, {stopNodes: ['text']})
-    .NoteBucket.node
-    .map(n => {
-        n.text = colourConv(n.text)
-        n.subject = colourConv(n.subject)
-        return n;
-    });
+let samuraiPath = '/tmp/story1.xml';
+if (fs.existsSync(storiesPath)) {
+    var samuraiXml = fs.readFileSync(samuraiPath, {encoding: 'utf-8'})
+    const samurai = 
+        xmlParser
+        .parse(samuraiXml, {stopNodes: ['text']})
+        .NoteBucket.node
+        .map(n => {
+            n.text = colourConv(n.text)
+            n.subject = colourConv(n.subject)
+            return n;
+        });
+    render('samurai', samurai, (a,b) => a.id - b.id, nodes => nodes);
+} else {
+    console.log('File ', samuraiPath, 'not found, generate it with \'webdump story\' command.');
+}
 
 console.log('Reading Fenia API...')
-var feniaApi = require('/tmp/feniaapi.json')
+let feniaApiPath = '/tmp/feniaapi.json';
+if (fs.existsSync(feniaApiPath)) {
+    var feniaApi = require('/tmp/feniaapi.json')
 
-console.log('Generating HTML files...')
+    ejs.renderFile('templates/feniaapi.ejs', { api: feniaApi }, function(err, str) {
+        !err || console.log(err)
+        fs.writeFileSync(destDir + '/feniaapi.html', str)
+    })
+} else {
+    console.log('File ', feniaApiPath, 'not found, it will be generated on first DL run.');
+}
 
-ejs.renderFile('templates/feniaapi.ejs', { api: feniaApi }, function(err, str) {
-    !err || console.log(err)
-    fs.writeFileSync(destDir + '/feniaapi.html', str)
-})
+console.log('Generating HTMLs...');
 
 ejs.renderFile('templates/index.ejs', function(err, str) {
     !err || console.log(err)
@@ -157,69 +246,5 @@ ejs.renderFile('templates/maps.ejs', { areaList: areaList }, function(err, str) 
     fs.writeFileSync(destDir + '/maps.html', str)
 })
 
-/** Analyze current line and the following one, to see if a forced line break can be safely removed. */
-const needsLineBreak = (line, nextline) => {
-    let punct = line.match(/[\.\?!:] *$/) != null;
-    let nextcap = nextline !== undefined && (nextline.match(/^[А-ЯA-Z]/) != null);
-    let nextspace = nextline !== undefined && (
-            nextline.match(/^ *[-\*\[] */) != null ||
-            nextline.match(/^\s*$/) != null ||
-            nextline.match(/^   /) != null);
-
-    // If line ends in punctuation mark and next one begins with a space/asterix, assume it's a break.
-    if (punct && nextspace)
-        return true;
-
-    // Always keep empty lines as they were.
-    if (line.match(/^ *$/) != null)
-        return true;
-
-    // If next line starts with a space/asterix, assume a break is required.
-    if (nextspace)
-        return true;
-
-    // Join all other lines.
-    return false;
-};
-
-/** Transform node.text, removing extra line breaks added for the sake of 80-character width displays,
-  * thus making the text responsive. 
-  */
-const newsTransformer = nodes => {
-    return nodes.map(node => {
-        let lines = node.text.split('\n');
-        let newtext = '';
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i];
-            let nextline = i+1 < lines.length ? lines[i+1] : undefined;
-
-            newtext += line.trimEnd();
-            if (needsLineBreak(line, nextline)) {
-                newtext += '\n';
-            } else if (nextline && !nextline.match(/^ /)) {
-                newtext += ' ';
-            }
-        }
-
-        node.text = newtext;
-        return node; 
-    });
-};
-
-const render = (keyword, array, sorter, nodesTransformer) => 
-    ejs.renderFile
-        ('templates/' + keyword + '.ejs', 
-        { notes: nodesTransformer(array.sort(sorter)) }, 
-        function(err, str) {
-            !err || console.log(err)
-            fs.writeFileSync(destDir + '/' + keyword + '.html', str)
-        }
-    )
-
-render('legends', legendsObj.book.node, (a,b) => a.attr.keyword > b.attr.keyword, nodes => nodes);
-render('news',    newsObj.NoteBucket.node, (a,b) => b.id - a.id, newsTransformer)
-render('samurai', samurai, (a,b) => a.id - b.id, nodes => nodes);
-render('stories', stories, (a,b) => a.id - b.id, nodes => nodes);
 
 console.log('Done')
