@@ -33,13 +33,25 @@ app.get('/searcher-api/item', (req, res) => {
     let lvl0 = number(req.query.level__range_0, -1);
     let lvl1 = number(req.query.level__range_1, 200);
     let wearloc = req.query.wearloc;
+    let str = req.query.str;
+    let int = req.query.int;
+    let wis = req.query.wis;
+    let dex = req.query.dex;
+    let con = req.query.con;
+    let cha = req.query.cha;
     let search = string(req.query.search);
 
     res.send( 
         require('/tmp/db_armor.json').filter(item => 
             item.level >= lvl0
             && item.level <= lvl1
-            && (!wearloc || item.wearloc === wearloc)
+            && ((!wearloc || wearloc == 'all') || item.wearloc === wearloc)
+            && (!str || item.stat_str > 0)
+            && (!int || item.stat_int > 0)
+            && (!wis || item.stat_wis > 0)
+            && (!dex || item.stat_dex > 0)
+            && (!con || item.stat_con > 0)
+            && (!cha || item.stat_cha > 0)
             && match(search, item.name)
         )
     );
