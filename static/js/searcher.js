@@ -186,10 +186,22 @@
                     search = tab.find('#name').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
+                    str = tab.find('#str:checked').val(),
+                    int = tab.find('#int:checked').val(),
+                    wis = tab.find('#wis:checked').val(),
+                    dex = tab.find('#dex:checked').val(),
+                    con = tab.find('#con:checked').val(),
+                    cha = tab.find('#cha:checked').val(),
                     params = {
                       'level__range_0': levelMin,
                       'level__range_1': levelMax,
-                      'search': search
+                      'search': search,
+                      'str': str,
+                      'int': int,
+                      'wis': wis,
+                      'dex': dex,
+                      'con': con,
+                      'cha': cha
                     };
 
                 if (wearloc !== 'undef') {
