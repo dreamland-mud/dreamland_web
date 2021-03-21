@@ -109,7 +109,7 @@
         // Display item results area and bind triggers.
         function render() {
             // Deselect dropdown values on page reload.
-            $('select').val('undef').prop('selected', true);
+            $('select').val('all').prop('selected', true);
             
             // Initialize armor table.
             initTable('armor', '/item', [ 
@@ -192,7 +192,9 @@
                     dex = tab.find('#dex:checked').val(),
                     con = tab.find('#con:checked').val(),
                     cha = tab.find('#cha:checked').val(),
+                    searchCheckbox = tab.find('.searchCheckbox input:checkbox').is(':checked'),
                     params = {
+                      'wearloc': wearloc,                        
                       'level__range_0': levelMin,
                       'level__range_1': levelMax,
                       'search': search,
@@ -204,15 +206,9 @@
                       'cha': cha
                     };
 
-                if (wearloc !== 'undef') {
-                    params['wearloc'] = wearloc;
-                } else if (search === '' && levelMin === '' && levelMax === '') {
-                    params['wearloc'] = wearloc;
-                }
-
                 // Disallow requests for all items.
-                if (wearloc === 'undef' && search === '') {
-                    error.text('Выберите, куда надевается предмет, или задайте строку поиска.');
+                if (wearloc === 'all' && search === '' && !searchCheckbox) {
+                    error.text('Выберите, куда надевается предмет, либо задайте критерии поиска.');
                     error.show();
                     return;
                 }
@@ -233,14 +229,14 @@
                       'search': search
                     };
 
-                if (wclass !== 'undef') {
+                if (wclass !== 'all') {
                     params['wclass'] = wclass;
                 } else if (search === '' && levelMin === '' && levelMax === '') {
                     params['wclass'] = wclass;
                 }
 
                 // Disallow requests for all weapons.
-                if (wclass === 'undef' && search === '') {
+                if (wclass === 'all' && search === '') {
                     error.text('Выберите тип оружия или задайте строку поиска.');
                     error.show();
                     return;
@@ -262,14 +258,14 @@
                       'search': search
                     };
                 
-                if (itemtype !== 'undef') {
+                if (itemtype !== 'all') {
                     params['itemtype'] = itemtype;
                 } else if (search === '' && levelMin === '' && levelMax === '') {
                     params['itemtype'] = itemtype;
                 }
 
                 // Disallow requests for all items.
-                if (itemtype === 'undef' && search === '') {
+                if (itemtype === 'all' && search === '') {
                     error.text('Выберите тип предмета или укажите заклинание.');
                     error.show();
                     return;

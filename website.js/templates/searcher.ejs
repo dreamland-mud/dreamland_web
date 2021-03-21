@@ -77,7 +77,7 @@
                                             <div class="form-group col-md-3 col-sm-3">
                                                 <label for="wearloc">Надевается</label>
                                                 <select id="wearloc" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
-                                                    <option value="undef" selected="selected">(выбрать)</option>
+                                                    <option value="all" selected="selected">(любое место)</option>
                                                     <option value="light">свет</option>
                                                     <option value="finger">палец</option>
                                                     <option value="neck">шея</option>
@@ -106,7 +106,7 @@
                                             <div class="col-md-1">
                                                 <button id="submit" type="button" class="btn btn-lg btn-primary" style="margin-top: 20px;">Искать</button>
                                             </div>
-                                            <div class="form-group col-md-3 col-sm-3 searchCheckbox" >
+                                            <div class="form-group col-sm-12 searchCheckbox" >
                                                 <label for="str">STR</label>
                                                 <input type="checkbox" id="str"> 
                                                 <label for="int">INT</label>
@@ -216,7 +216,7 @@
                                             <div class="form-group col-md-3 col-sm-3">
                                                 <label for="wclass">Тип оружия</label>
                                                 <select id="wclass" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
-                                                    <option value="undef" selected="selected">(выбрать)</option>
+                                                    <option value="all" selected="selected">(выбрать)</option>
                                                     <option value="exotic">экзотика (exotic)</option> 
                                                     <option value="sword">меч (sword)</option> 
                                                     <option value="dagger">кинжал (dagger)</option> 
@@ -303,7 +303,7 @@
                                             <div class="form-group col-md-3 col-sm-3">
                                                 <label for="itemtype">Тип предмета</label>
                                                 <select id="itemtype" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
-                                                    <option value="undef" selected="selected">(выбрать)</option>
+                                                    <option value="all" selected="selected">(выбрать)</option>
                                                     <option value="potion">зелье (potion)</option> 
                                                     <option value="pill">лекарство (pill)</option> 
                                                     <option value="scroll">свиток (scroll)</option> 
@@ -404,6 +404,6 @@
 <%- include('foot'); %>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-<script type="text/javascript" src="js/searcher.js?12"></script>
+<script type="text/javascript" src="js/searcher.js?13"></script>
 </body>
 </html>
