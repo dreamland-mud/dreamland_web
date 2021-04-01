@@ -45,7 +45,7 @@ app.get('/searcher-api/item', (req, res) => {
         require('/tmp/db_armor.json').filter(item => 
             item.level >= lvl0
             && item.level <= lvl1
-            && ((!wearloc || wearloc == 'all') || item.wearloc === wearloc)
+            && ((!wearloc || wearloc.includes('all')) || wearloc.includes(item.wearloc))
             && (!str || item.stat_str > 0)
             && (!int || item.stat_int > 0)
             && (!wis || item.stat_wis > 0)
@@ -120,4 +120,5 @@ app.get('/searcher-api/magicItem', (req, res) => {
 app.listen(8001, '127.0.0.1', () => {
     console.log('Searcher app listening on port 8001');
 });
+
 

@@ -73,52 +73,44 @@
                                                     <label for="levelMax">... по</label>
                                                     <input type="text" class="form-control" id="levelMax" placeholder=""/>
                                                 </div>
+                                                <div class="form-group col-md-4 col-sm-4">
+                                                    <label for="name">Название</label>
+                                                    <input type="text" class="form-control" id="name" placeholder=""/>
+                                                </div>
                                             </div>
-                                            <div class="form-group col-md-3 col-sm-3">
-                                                <label for="wearloc">Надевается</label>
-                                                <select id="wearloc" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
-                                                    <option value="all" selected="selected">(любое место)</option>
-                                                    <option value="light">свет</option>
-                                                    <option value="finger">палец</option>
-                                                    <option value="neck">шея</option>
-                                                    <option value="body">вокруг тела</option>
-                                                    <option value="head">голова</option>
-                                                    <option value="legs">бедра</option>
-                                                    <option value="feet">ноги</option>
-                                                    <option value="hands">руки</option>
-                                                    <option value="arms">плечи</option>
-                                                    <option value="shield">щит</option>
-                                                    <option value="torso">на тело</option>
-                                                    <option value="waist">талия</option>
-                                                    <option value="wrist">запястье</option>
-                                                    <option value="hold">в руках</option>
-                                                    <option value="float">кружится</option>
-                                                    <option value="face">лицо</option>
-                                                    <option value="ears">уши</option>
-                                                    <option value="horse">лошадиное тело</option>
-                                                    <option value="hooves">копыта</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4 col-sm-4">
-                                                <label for="name">Название</label>
-                                                <input type="text" class="form-control" id="name" placeholder=""/>
+                                            <div class="form-group col-sm-7 wearlocCheckbox" id="wearloc" style='align-items: center;'>
+                                                <div class="form-group row-sm-5">
+                                                    <label for="light">свет <input id="light" type="checkbox" value='light'></label>
+                                                    <label for="finger">палец <input id="finger" type="checkbox" value='finger'></label>
+                                                    <label for="neck">шея <input id="neck" type="checkbox" value='neck'></label>
+                                                    <label for="body">вокруг тела <input id="body" type="checkbox" value='body'></label>
+                                                    <label for="head">голова <input id="head" type="checkbox" value='head'></label>
+                                                    <label for="legs">бедра <input id="legs" type="checkbox" value='legs'></label>
+                                                    <label for="feet">ноги <input id="feet" type="checkbox" value='feet'></label>
+                                                    <label for="hands">руки <input id="hands" type="checkbox" value='hands'></label>
+                                                    <label for="arms">плечи <input id="arms" type="checkbox" value='arms'></label>
+                                                    <label for="shield">щит <input id="shield" type="checkbox" value='shield'></label>
+                                                    <label for="torso">на тело <input id="torso" type="checkbox" value='torso'></label>
+                                                    <label for="waist">талия <input id="waist" type="checkbox" value='waist'></label>
+                                                    <label for="wrist">запястье <input id="wrist" type="checkbox" value='wrist'></label>
+                                                    <label for="hold">в руках <input id="hold" type="checkbox" value='hold'></label>
+                                                    <label for="float">кружится <input id="float" type="checkbox" value='float'></label>
+                                                    <label for="face">лицо <input id="face" type="checkbox" value='face'></label>
+                                                    <label for="ears">уши <input id="ears" type="checkbox" value='ears'></label>
+                                                    <label for="horse">лошадиное тело <input id="horse" type="checkbox" value='horse'></label>
+                                                    <label for="hooves">копыта <input id="hooves" type="checkbox" value='hooves'></label>
+                                                </div>
                                             </div>
                                             <div class="col-md-1">
                                                 <button id="submit" type="button" class="btn btn-lg btn-primary" style="margin-top: 20px;">Искать</button>
                                             </div>
-                                            <div class="form-group col-sm-12 searchCheckbox" >
-                                                <label for="str">STR</label>
-                                                <input type="checkbox" id="str"> 
-                                                <label for="int">INT</label>
-                                                <input type="checkbox" id="int">
-                                                <label for="wis">WIS</label>
-                                                <input type="checkbox" id="wis">
-                                                <label for="dex">DEX</label>
-                                                <input type="checkbox" id="dex">
-                                                <label for="con">CON</label>
-                                                <input type="checkbox" id="con">
-                                                <label for="cha">CHA</label>
-                                                <input type="checkbox" id="cha">
+                                            <div class="form-group col-sm-12 paramCheckbox" >
+                                                <label for="str">STR <input type="checkbox" id="str"> </label>
+                                                <label for="int">INT <input type="checkbox" id="int"></label>
+                                                <label for="wis">WIS <input type="checkbox" id="wis"></label>
+                                                <label for="dex">DEX <input type="checkbox" id="dex"></label>
+                                                <label for="con">CON <input type="checkbox" id="con"></label>
+                                                <label for="cha">CHA <input type="checkbox" id="cha"></label>
                                             </div>
                                         </form>
                                         <div class="row"><div class="col-md-10 loading" style="text-align:center;">Работаю...</div></div>

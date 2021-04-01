@@ -43,7 +43,10 @@
 
             // Initialize DataTable with provided column names.
             table.DataTable( { 
-                    "paging": false, 
+                    "paging": true, 
+                    "pagingType": 'numbers',
+                    "pageLenght": 50,
+                    "lengthMenu": [50, 75, 100],
                     "searching": false, 
                     "info": false,
                     "responsive": false,
@@ -65,6 +68,12 @@
                     // Clean up old data.
                     dataTarget.empty();
                     table.DataTable().clear();
+                    //Hide pagination if it not needed
+                    if (items.length <= table.DataTable().page.info()["length"]) {
+                        document.querySelector("div.dataTables_paginate").hidden = true;
+                    } else {
+                        document.querySelector("div.dataTables_paginate").hidden = false;
+                    }
                     // Render received data.
                     for (var i = 0; i < items.length; i++) {
                         items[i]['name'] = items[i]['name'].replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -76,8 +85,9 @@
                         if (map)
                             items[i]['area'] = "<a target='_blank' href='/maps/" + map + "'>" + items[i]['area'] + "</a>";
 
-                        table.DataTable().row.add(items[i]).draw();
+                        table.DataTable().row.add(items[i]);
                     }
+                    table.DataTable().draw();
 
                 }, 'json').fail(function(e, err, params) {
                     console.log('failure', e, err, params);
@@ -182,8 +192,15 @@
             // Query all items with given level range, search string and wearloc.
             $('#armor').bind('key-pressed', function(e) {
                 var tab=$(this), error = tab.find('.myerror');
-                var wearloc = tab.find('#wearloc').find('option:selected').val(),
-                    search = tab.find('#name').val().toLowerCase(),
+                const wearloc = ['all']
+                const wear = document.querySelector("#wearloc").querySelectorAll('input:checked');
+                if (wear.length && (wear.length !== document.querySelector("#wearloc").querySelectorAll('input').length)) {
+                    wearloc.splice(0, wearloc.length);
+                    for (let i of wear) {
+                        wearloc.push(i.getAttribute('value'))
+                    } 
+                }
+                var search = tab.find('#name').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
                     str = tab.find('#str:checked').val(),
@@ -192,7 +209,7 @@
                     dex = tab.find('#dex:checked').val(),
                     con = tab.find('#con:checked').val(),
                     cha = tab.find('#cha:checked').val(),
-                    searchCheckbox = tab.find('.searchCheckbox input:checkbox').is(':checked'),
+                    searchCheckbox = tab.find('.paramCheckbox input:checkbox').is(':checked'),
                     params = {
                       'wearloc': wearloc,                        
                       'level__range_0': levelMin,
@@ -207,7 +224,7 @@
                     };
 
                 // Disallow requests for all items.
-                if (wearloc === 'all' && search === '' && !searchCheckbox) {
+                if (wearloc.includes('all') && search === '' && !searchCheckbox) {
                     error.text('Выберите, куда надевается предмет, либо задайте критерии поиска.');
                     error.show();
                     return;
@@ -294,4 +311,5 @@
 
         }
 })(jQuery);
+
 

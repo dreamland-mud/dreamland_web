@@ -1384,6 +1384,10 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	overflow-x: auto;
 }
 
-.searchCheckbox input {
+.paramCheckbox input {
+	margin-right: 10px;
+}
+
+.wearlocCheckbox label {
 	margin-right: 10px;
 }
