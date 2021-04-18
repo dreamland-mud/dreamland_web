@@ -574,6 +574,8 @@
                                          <li><a href="#spell_fields">Заклинание: .Spell()</a></li>
                                          <li><a href="#spellcontext_fields">Контекст вызова заклинания</a></li>
                                          <li><a href="#affecthandler_fields">Обработчик аффекта: .AffectHandler()</a></li>
+                                         <li><a href="#skillcommand_fields">Команда умения: .SkillCommand()</a></li>
+                                         <li><a href="#commandcontext_fields">Контекст вызова команды</a></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -656,6 +658,37 @@
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- affecthandler container -->
                                 </div><!-- affecthandler section -->
+
+                                <a name="skillcommand_fields"></a>
+                                <h3>Команда умения: .SkillCommand()</h3>
+                                <p>Все поля доступны только для чтения.</p>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="skillcommand_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['skillcommand_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- skillcommand container -->
+                                </div><!-- skillcommand section -->
+
+                                <a name="commandcontext_fields"></a>
+                                <h3>Контекст вызова команды (что доступно изнутри метода run)</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="commandcontext_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['commandcontext_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- commandcontext container -->
+                                </div><!-- commandcontext section -->
 
                             </div> <!-- skillspell tab-pane -->
 
