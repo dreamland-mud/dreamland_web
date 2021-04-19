@@ -236,24 +236,37 @@
             // Query all weapons with given level range, search string and weapon class.
             $('#weapon').bind('key-pressed', function(e) {
                 var tab=$(this), error = tab.find('.myerror');
-                var wclass = tab.find('#wclass').find('option:selected').val(),
-                    search = tab.find('#name').val().toLowerCase(),
+                const wclass = ['all']
+                const weapon = document.querySelector("#wclass").querySelectorAll('input:checked');
+                if (weapon.length && (weapon.length !== document.querySelector("#wclass").querySelectorAll('input').length)) {
+                    wclass.splice(0, weapon.length);
+                    for (let i of weapon) {
+                        wclass.push(i.getAttribute('value'))
+                    } 
+                }
+                var search = tab.find('#name').val().toLowerCase(),
                     levelMin = tab.find('#levelMin').val(),
                     levelMax = tab.find('#levelMax').val(),
+                    str = tab.find('#weaponStr:checked').val(),
+                    int = tab.find('#weaponInt:checked').val(),
+                    wis = tab.find('#weaponWis:checked').val(),
+                    dex = tab.find('#weaponDex:checked').val(),
+                    con = tab.find('#weaponCon:checked').val(),       
+                    searchCheckbox = tab.find('.weaponStatsCheckbox input:checkbox').is(':checked'),
                     params = {
+                      'wclass': wclass,
                       'level__range_0': levelMin,
                       'level__range_1': levelMax,
-                      'search': search
+                      'search': search,
+                      'str': str,
+                      'int': int,
+                      'wis': wis,
+                      'dex': dex,
+                      'con': con
                     };
 
-                if (wclass !== 'all') {
-                    params['wclass'] = wclass;
-                } else if (search === '' && levelMin === '' && levelMax === '') {
-                    params['wclass'] = wclass;
-                }
-
-                // Disallow requests for all weapons.
-                if (wclass === 'all' && search === '') {
+                // Disallow requests for all items.
+                if (wclass.includes('all') && search === '' && !searchCheckbox) {
                     error.text('Выберите тип оружия или задайте строку поиска.');
                     error.show();
                     return;
