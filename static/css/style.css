@@ -1391,3 +1391,11 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 .wearlocCheckbox label {
 	margin-right: 10px;
 }
+
+.weaponTypeCheckbox label {
+	margin-right: 10px;
+}
+
+.weaponStatsCheckbox input {
+	margin-right: 10px;
+}

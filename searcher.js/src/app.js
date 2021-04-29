@@ -66,12 +66,22 @@ app.get('/searcher-api/weapon', (req, res) => {
     let lvl1 = number(req.query.level__range_1, 200);
     let wclass = req.query.wclass;
     let search = string(req.query.search);
+    let str = req.query.str;
+    let int = req.query.int;
+    let wis = req.query.wis;
+    let dex = req.query.dex;
+    let con = req.query.con;
 
     res.send( 
         require('/tmp/db_weapon.json').filter(item => 
             item.level >= lvl0
             && item.level <= lvl1
-            && (!wclass || item.wclass === wclass)
+            && ((!wclass || wclass.includes('all')) || wclass.includes(item.wclass))
+            && (!str || item.stat_str > 0)
+            && (!int || item.stat_int > 0)
+            && (!wis || item.stat_wis > 0)
+            && (!dex || item.stat_dex > 0)
+            && (!con || item.stat_con > 0)
             && match(search, item.name)
         )
     );

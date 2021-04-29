@@ -205,31 +205,36 @@
                                                     <input type="text" class="form-control" id="levelMax" placeholder=""/>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-3 col-sm-3">
-                                                <label for="wclass">Тип оружия</label>
-                                                <select id="wclass" class="form-control" style="height: calc(2.875rem + 9px); margin-top: 1px;">
-                                                    <option value="all" selected="selected">(выбрать)</option>
-                                                    <option value="exotic">экзотика (exotic)</option> 
-                                                    <option value="sword">меч (sword)</option> 
-                                                    <option value="dagger">кинжал (dagger)</option> 
-                                                    <option value="spear">копье, посох (spear)</option> 
-                                                    <option value="mace">булава (mace)</option> 
-                                                    <option value="axe">топор (axe)</option> 
-                                                    <option value="flail">цеп (flail)</option> 
-                                                    <option value="whip">плетка (whip)</option> 
-                                                    <option value="polearm">алебарда (polearm)</option> 
-                                                    <option value="bow">лук (bow)</option> 
-                                                    <option value="arrow">стрела (arrow)</option> 
-                                                    <option value="lance">пика (lance)</option> 
-                                                    <option value="stone">камень (stone)</option>
-                                                </select>
-                                            </div>
                                             <div class="form-group col-md-4 col-sm-4">
                                                 <label for="name">Название</label>
                                                 <input type="text" class="form-control" id="name" placeholder=""/>
                                             </div>
+                                            <div class="form-group col-sm-7 weaponTypeCheckbox" id="wclass" style='align-items: center;'>
+                                                <div class="form-group row-sm-5">
+                                                    <label for="exotic">экзотика (exotic) <input id="exotic" type="checkbox" value='exotic'></label>
+                                                    <label for="sword">меч (sword) <input id="sword" type="checkbox" value='sword'></label>
+                                                    <label for="dagger">кинжал (dagger) <input id="dagger" type="checkbox" value='dagger'></label>
+                                                    <label for="spear">копье, посох (spear) <input id="spear" type="checkbox" value='spear'></label>
+                                                    <label for="mace">булава (mace) <input id="mace" type="checkbox" value='mace'></label>
+                                                    <label for="axe">топор (axe) <input id="axe" type="checkbox" value='axe'></label>
+                                                    <label for="flail">цеп (flail) <input id="flail" type="checkbox" value='flail'></label>
+                                                    <label for="whip">плетка (whip) <input id="whip" type="checkbox" value='whip'></label>
+                                                    <label for="polearm">алебарда (polearm) <input id="polearm" type="checkbox" value='polearm'></label>
+                                                    <label for="bow">лук (bow) <input id="bow" type="checkbox" value='bow'></label>
+                                                    <label for="arrow">стрела (arrow) <input id="arrow" type="checkbox" value='arrow'></label>
+                                                    <label for="lance">пика (lance) <input id="lance" type="checkbox" value='lance'></label>
+                                                    <label for="stone">камень (stone) <input id="stone" type="checkbox" value='stone'></label>
+                                                </div>
+                                            </div>
                                             <div class="col-md-1">
                                                 <button id="submit" type="button" class="btn btn-lg btn-primary" style="margin-top: 20px;">Искать</button>
+                                            </div>
+                                            <div class="form-group col-sm-12 weaponStatsCheckbox" >
+                                                <label for="str">STR <input type="checkbox" id="weaponStr"> </label>
+                                                <label for="int">INT <input type="checkbox" id="weaponInt"></label>
+                                                <label for="wis">WIS <input type="checkbox" id="weaponWis"></label>
+                                                <label for="dex">DEX <input type="checkbox" id="weaponDex"></label>
+                                                <label for="con">CON <input type="checkbox" id="weaponCon"></label>
                                             </div>
                                         </form>
                                         <div class="row"><div class="col-md-10 loading" style="text-align:center;">Работаю...</div></div>
