@@ -77,9 +77,41 @@
                     // Render received data.
                     for (var i = 0; i < items.length; i++) {
                         items[i]['name'] = items[i]['name'].replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
                         if (items[i]['limit'] > 0) 
                             items[i]['name'] = "<i class='fas fa-gem fa-fw' aria-hidden='true' title='Лимит'></i><span class='sr-only'>Лимит&nbsp;</span>" + items[i]['name'] + "";
+                        
+                        if (typeof items[i]['level'] !== 'undefined')
+                            items[i]['level'] = `<div role='img' aria-label='уровень ${items[i]['level']}'>${items[i]['level']}</div>`
+                        if (typeof items[i]['hr'] !== 'undefined')
+                            items[i]['hr'] = `<div role='img' aria-label='HR ${items[i]['hr']}'>${items[i]['hr']}</div>`
+                        if (typeof items[i]['dr'] !== 'undefined')
+                            items[i]['dr'] = `<div role='img' aria-label='DR ${items[i]['dr']}'>${items[i]['dr']}</div>`
+                        if (typeof items[i]['hp'] !== 'undefined')
+                            items[i]['hp'] = `<div role='img' aria-label='HP ${items[i]['hp']}'>${items[i]['hp']}</div>`
+                        if (typeof items[i]['mana'] !== 'undefined')
+                            items[i]['mana'] = `<div role='img' aria-label='мана ${items[i]['mana']}'>${items[i]['mana']}</div>`
+                        if (typeof items[i]['saves'] !== 'undefined')
+                            items[i]['saves'] = `<div role='img' aria-label='SVS ${items[i]['saves']}'>${items[i]['saves']}</div>`
+                        if (typeof items[i]['stat_str'] !== 'undefined')
+                            items[i]['stat_str'] = `<div role='img' aria-label='STR ${items[i]['stat_str']}'>${items[i]['stat_str']}</div>`
+                        if (typeof items[i]['stat_int'] !== 'undefined')
+                            items[i]['stat_int'] = `<div role='img' aria-label='INT ${items[i]['stat_int']}'>${items[i]['stat_int']}</div>`
+                        if (typeof items[i]['stat_wis'] !== 'undefined')
+                            items[i]['stat_wis'] = `<div role='img' aria-label='WIS ${items[i]['stat_wis']}'>${items[i]['stat_wis']}</div>`
+                        if (typeof items[i]['stat_dex'] !== 'undefined')
+                            items[i]['stat_dex'] = `<div role='img' aria-label='DEX ${items[i]['stat_dex']}'>${items[i]['stat_dex']}</div>`
+                        if (typeof items[i]['stat_con'] !== 'undefined')
+                            items[i]['stat_con'] = `<div role='img' aria-label='CON ${items[i]['stat_con']}'>${items[i]['stat_con']}</div>`
+                        if (typeof items[i]['stat_cha'] !== 'undefined')
+                            items[i]['stat_cha'] = `<div role='img' aria-label='CHA ${items[i]['stat_cha']}'>${items[i]['stat_cha']}</div>`
+                        if (typeof items[i]['align'] !== 'undefined')   
+                            items[i]['align'] = `<div role='img' aria-label='Характер ${items[i]['align']}'>${items[i]['align']}</div>`
+                        if (typeof items[i]['d1'] !== 'undefined') 
+                            items[i]['d1'] = `<div role='img' aria-label='D1 ${items[i]['d1']}'>${items[i]['d1']}</div>`
+                        if (typeof items[i]['d2'] !== 'undefined')
+                            items[i]['d2'] = `<div role='img' aria-label='D2 ${items[i]['d2']}'>${items[i]['d2']}</div>`
+                        if (typeof items[i]['ave'] !== 'undefined')
+                            items[i]['ave'] = `<div role='img' aria-label='Среднее ${items[i]['ave']}'>${items[i]['ave']}</div>`
 
                         var map = areas[items[i]['area']];
                         if (map)
