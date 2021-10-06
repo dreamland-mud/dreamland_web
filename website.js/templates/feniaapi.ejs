@@ -371,6 +371,7 @@
                                          <li><a href="#clan_fields">Clan</a></li>
                                          <li><a href="#craftprofession_fields">CraftProfession</a></li>
                                          <li><a href="#liquid_fields">Liquid</a></li>
+                                         <li><a href="#material_fields">Material</a></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -560,6 +561,22 @@
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- liquid container -->
                                 </div><!-- liquid section -->
+
+                                <a name="material_fields"></a>
+                                <h3>Material: материал(ы)</h3>
+                                <p>Все поля доступны только для чтения.</p>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="material_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['material_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- material container -->
+                                </div><!-- material section -->
                             </div> <!-- struct tab-pane -->
 
                             <div id="skillspell" class="tab-pane fade in">
@@ -570,6 +587,7 @@
                                     <p class="list-group-item-text">
                                         <ul>
                                          <li><a href="#skill_fields">Умение: .Skill()</a></li>
+                                         <li><a href="#skillgroup_fields">Группа умений: .SkillGroup()</a></li>
                                          <li><a href="#feniaskill_fields">Умение, созданное в фене: .FeniaSkill()</a></li>
                                          <li><a href="#spell_fields">Заклинание: .Spell()</a></li>
                                          <li><a href="#spellcontext_fields">Контекст вызова заклинания</a></li>
@@ -596,6 +614,22 @@
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- skill container -->
                                 </div><!-- skill section -->
+
+                                <a name="skillgroup_fields"></a>
+                                <h3>Группа умений: .SkillGroup()</h3>
+                                <p>Все поля доступны только для чтения.</p>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="skill_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['skillgroup_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- skillgroup container -->
+                                </div><!-- skillgroup section -->
 
                                 <a name="feniaskill_fields"></a>
                                 <h3>Умение, созданное в фене: .FeniaSkill()</h3>
