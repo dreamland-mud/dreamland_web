@@ -172,14 +172,14 @@ saveCategory(['necromancer-skills'], [], 'Все умения некромант
 saveCategory(['vampire-skills'], [], 'Все умения вампира');
 saveCategory(['druid-skills'], [], 'Все умения друида');
 
-saveCategory(['lion-skills'], [], 'Навыки клана Львов (Lion)');
-saveCategory(['battlerager-skills'], [], 'Навыки клана Ярости (Battlerager)');
-saveCategory(['knight-skills'], [], 'Навыки клана Рыцарей (Knight)');
-saveCategory(['chaos-skills'], [], 'Навыки клана Хаоса (Chaos)');
-saveCategory(['shalafi-skills'], [], 'Навыки клана Шалафи (Shalafi)');
-saveCategory(['ruler-skills'], [], 'Навыки клана Правителей (Ruler)');
-saveCategory(['invader-skills'], [], 'Навыки клана Захватчиков (Invader)');
-saveCategory(['hunter-skills'], [], 'Навыки клана Охотников (Hunter)');
+saveCategory(['lion-skills'], [], 'Умения клана Львов (Lion)');
+saveCategory(['battlerager-skills'], [], 'Умения клана Ярости (Battlerager)');
+saveCategory(['knight-skills'], [], 'Умения клана Рыцарей (Knight)');
+saveCategory(['chaos-skills'], [], 'Умения клана Хаоса (Chaos)');
+saveCategory(['shalafi-skills'], [], 'Умения клана Шалафи (Shalafi)');
+saveCategory(['ruler-skills'], [], 'Умения клана Правителей (Ruler)');
+saveCategory(['invader-skills'], [], 'Умения клана Захватчиков (Invader)');
+saveCategory(['hunter-skills'], [], 'Умения клана Охотников (Hunter)');
 
 ejs.renderFile('templates/help-index.ejs', function(err, str) {
     fs.writeFileSync(destDir + '/index.html', str)
