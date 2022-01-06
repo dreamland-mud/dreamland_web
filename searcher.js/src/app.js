@@ -21,6 +21,8 @@ nocache('/tmp/db_weapon.json')
 const match = (s1, s2) => !s1 || s2.toLowerCase().includes(s1);
 const number = (value, dflt) => value ? parseInt(value) : dflt;
 const string = s => s ? s.toLowerCase() : s;
+const ruRegexp = /[а-яё]/;
+const isRussian = s => s ? ruRegexp.test(s.toLowerCase()) : true
 
 /* Profiling/logging routines. */
 const timeLabel = req => req.route.path + ' ' + JSON.stringify(req.query);
@@ -114,14 +116,19 @@ app.get('/searcher-api/magicItem', (req, res) => {
     let lvl1 = number(req.query.level__range_1, 200);
     let search = string(req.query.search);
     let itemtype = req.query.itemtype;
+    let ru = isRussian(search)
 
     res.send( 
         require('/tmp/db_magic.json').filter(i => 
             i.level >= lvl0
             && i.level <= lvl1
             && (!itemtype || i.itemtype === itemtype)
-            && (!search || i.spells.includes(search) || match(search, i.name))
-        )
+            && (!search || i.spells.includes(search) || i.ruspells.includes(search) || match(search, i.name))
+        ).map(i => {
+            // Display English spell names only for users that typed search query in English.
+            if (ru) i.spells = i.ruspells;
+            return i;
+        })
     );
 
     timeEnd(req);
