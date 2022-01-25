@@ -1,0 +1,17 @@
+    
+    <% for (let tabname in apiList) { -%>
+    <%  let table = apiList[tabname]; -%>
+        <h4><%=tabname%></h4>
+        <table class="table table-striped table-bordered">
+        <tbody>
+        <% for (let i = 0; i < table.length; i++) { -%>
+            <tr>
+                <td><%=table[i].name%></td>
+                <td><%=table[i].msg%></td>
+                <td><%=table[i].value%></td>
+            </tr>
+        <% } -%>
+        </tbody>
+        </table>
+    <% } -%>
+    <br/>
