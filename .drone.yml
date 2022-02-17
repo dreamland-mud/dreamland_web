@@ -27,7 +27,7 @@ steps:
   
 - name: restart_searcher
   commands:
-  - systemctl restart dreamland-searcher.service
+  - sudo systemctl restart dreamland-searcher.service
 
 trigger:
   branch:
