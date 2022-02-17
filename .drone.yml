@@ -16,10 +16,13 @@ steps:
   - cd /var/www/dreamland_web
   - git pull
   - kill -9 $SSH_AGENT_PID
+  
 - name: update_website
   - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime
+  
 - name: update_helps
   - /usr/bin/node /var/www/dreamland_web/help.js/help.js /var/www/dreamland_web/static/help
+  
 - name: restart_searcher
   - systemctl restart dreamland-searcher.service
 
