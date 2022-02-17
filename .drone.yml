@@ -18,12 +18,15 @@ steps:
   - kill -9 $SSH_AGENT_PID
   
 - name: update_website
+  commands:
   - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime
   
 - name: update_helps
+  commands:
   - /usr/bin/node /var/www/dreamland_web/help.js/help.js /var/www/dreamland_web/static/help
   
 - name: restart_searcher
+  commands:
   - systemctl restart dreamland-searcher.service
 
 trigger:
