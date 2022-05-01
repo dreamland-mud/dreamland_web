@@ -1,6 +1,7 @@
 # dreamland_web
 DreamLand MUD: static web site pages and searcher app.
 
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 [![Deploy Status](https://drone.dreamland.rocks/api/badges/dreamland-mud/dreamland_web/status.svg)](https://drone.dreamland.rocks/dreamland-mud/dreamland_web)
 
 
