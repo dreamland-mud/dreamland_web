@@ -225,6 +225,11 @@ ejs.renderFile('templates/links.ejs', function(err, str) {
     fs.writeFileSync(destDir + '/links.html', str)
 })
 
+ejs.renderFile('templates/values.ejs', function(err, str) {
+    !err || console.log(err)
+    fs.writeFileSync(destDir + '/values.html', str)
+})
+
 var gallery = require('./data/gallery.json');
 gallery.forEach(section => {
         section.portraits.forEach(p => {
