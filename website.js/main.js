@@ -90,6 +90,22 @@ const render = (keyword, array, sorter, nodesTransformer) =>
         }
     )
 
+/** Given a phrase of several words, some of them with gram cases listed with "|",
+  * return the same phrase with all words in nominative case. 
+  */
+const nominativeCase = phrase =>
+    phrase.split(" ").map(word => {
+        let matches = word.match(/(.*)\|(.*)\|(.*)\|(.*)\|(.*)\|(.*)\|(.*)/);
+        if (!matches)
+            return word;
+        
+        let root = matches[1];
+        let ending = matches[2]; // This can be enhanced to return 1+gcase ending for requested grammar case
+        return root + ending;
+
+    }).join(" ");
+
+
 // Generate index.json file, to use in map editor online tool and for map generation here.
 //console.log('Reading areas from', areaDir)
 var areaList = [];
@@ -101,7 +117,7 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
         let speedwalk = stripTags(area.speedwalk)
 
         areaList.push({
-            name: he.decode(area.name.replace(/{[a-zA-Z]/g, '')),
+            name: he.decode(nominativeCase(area.name).replace(/{[a-zA-Z12]/g, '')),
             credits: area.credits,
             file: fn.replace(/\.xml/, ''),
             map: fn.replace(/\.are\.xml/, '.html'),
