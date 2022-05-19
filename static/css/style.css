@@ -5,7 +5,7 @@ Author: yaminncco
 Colors:
 	Body 		: #798696
 	Headers 	: #374050
-	Primary 	: #FF6700
+	Primary 	: #bb86fc (changed from #FF6700)
 	Grey 		: #EBEBEB
 
 Fonts: Lato & Montserrat
@@ -117,7 +117,7 @@ blockquote:before{
 	position:absolute;
 	left:0;
 	top:0;
-	color: #FF6700;
+	color: #bb86fc;
 	width:40px;
 	height:40px;
 	line-height:40px;
@@ -189,7 +189,7 @@ blockquote:before{
 	position:relative;
 	display:inline-block;
 	padding:10px 30px;
-	background-color: #FF6700;
+	background-color: #bb86fc;
 	border: 2px solid transparent;
 	border-radius: 40px;
 	color: #FFF;
@@ -200,8 +200,8 @@ blockquote:before{
 
 .main-button:hover , .main-button:focus {
 	background-color:#fff;
-	border: 2px solid #FF6700;
-	color:#FF6700;
+	border: 2px solid #bb86fc;
+	color:#bb86fc;
 }
 
 .main-button.icon-button:hover , .main-button.icon-button:focus {
@@ -243,7 +243,7 @@ textarea {
 }
 
 input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="number"]:focus, input[type="date"]:focus, input[type="url"]:focus, input[type="tel"]:focus, textarea:focus {
-	border-color:#FF6700;
+	border-color:#bb86fc;
 }
 
 /*------------------------------------*\
@@ -308,7 +308,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	content:"";
 	display:block;
 	height:2px;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 	width:100%;
 	-webkit-transform: translateY(5px);
 	    -ms-transform: translateY(5px);
@@ -502,7 +502,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	border-radius: 50%;
 	font-size:30px;
 	border:1px solid #EBEBEB;
-	color:#FF6700;
+	color:#bb86fc;
 }
 
 .feature-content {
@@ -552,7 +552,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .about-video:hover .play-icon {
-	color:#FF6700;
+	color:#bb86fc;
 }
 
 @-webkit-keyframes play-animation {
@@ -584,7 +584,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	right:0;
 	bottom:0;
 	top:0;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 	opacity:0.7;
 }
 
@@ -616,7 +616,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	right:0;
 	bottom:0;
 	top:0;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 	opacity:0;
 	-webkit-transition:0.2s opacity;
 	transition:0.2s opacity;
@@ -675,7 +675,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .course .course-details .course-price.course-premium {
-	color: #FF6700;
+	color: #bb86fc;
 }
 
 .center-btn {
@@ -724,14 +724,14 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .footer-nav li a:hover , .footer-nav li a:focus {
-	color:#FF6700;
+	color:#bb86fc;
 }
 
 .footer-nav li a:after {
 	content:"";
 	display:block;
 	height:2px;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 	width:100%;
 	-webkit-transform: translateY(5px);
 	    -ms-transform: translateY(5px);
@@ -824,7 +824,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .contact-details li i {
-	color: #FF6700;
+	color: #bb86fc;
 	margin-right: 15px;
 	border: 1px solid #EBEBEB;
 	border-radius: 50%;
@@ -871,7 +871,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	top:0;
 	bottom:0;
 	right:0;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 	opacity:0;
 	-webkit-transition:0.2s opacity;
 	transition:0.2s opacity;
@@ -888,7 +888,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .single-blog .blog-meta .blog-meta-author > a {
-	color: #FF6700;
+	color: #bb86fc;
 }
 
 .single-blog .blog-meta .blog-meta-comments {
@@ -935,7 +935,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .post-pagination .pages li:hover  , .post-pagination .pages li.active {
-	background-color: #FF6700;
+	background-color: #bb86fc;
 	color:#FFF;
 }
 
@@ -957,7 +957,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 
 .pagination-next:hover  , .pagination-back:hover  {
 	color:#FFF;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 }
 
 .pagination-next:after {
@@ -999,7 +999,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .widget.search-widget .input:focus + button {
-	color:#FF6700;
+	color:#bb86fc;
 }
 
 /*-- Category --*/
@@ -1020,7 +1020,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	width: 4px;
 	height: 4px;
 	border-radius: 50%;
-	background-color: #FF6700;
+	background-color: #bb86fc;
 	margin-right:10px;
 }
 
@@ -1063,7 +1063,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 	top:0;
 	bottom:0;
 	right:0;
-	background-color:#FF6700;
+	background-color:#bb86fc;
 	opacity:0;
 	-webkit-transition:0.2s opacity;
 	transition:0.2s opacity;
@@ -1089,8 +1089,8 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .tags-widget .tag:hover {
-	background-color:#FF6700;
-	border-color:#FF6700;
+	background-color:#bb86fc;
+	border-color:#bb86fc;
 	color:#FFF;
 }
 
@@ -1115,7 +1115,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 }
 
 .blog-post-meta .blog-meta-author > a {
-	color: #FF6700;
+	color: #bb86fc;
 }
 
 /* --- Blog Share --- */
