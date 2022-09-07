@@ -11,11 +11,11 @@
 }
 
 .map-bg-parallax {
-/*	background-attachment:fixed; */
+	background-attachment:fixed; /* keeping it parallaxed after expanding the height */
 }
 
 .map-overlay {
-    background-color: #002200;
+    background-color: #bb86fc;
 }
 
 .map-overlay:after {
@@ -25,8 +25,8 @@
 	right:0;
 	top:0;
 	bottom:0;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#374050), to(#798696));
-	background-image: linear-gradient(to bottom, #374050 0%, #798696 100%);
-	opacity: 0.5;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#bb86fc), to(#798696));
+	background-image: linear-gradient(to bottom, #bb86fc 0%, #798696 100%);
+	opacity: 0.3;
 }
 
