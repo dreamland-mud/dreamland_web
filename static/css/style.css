@@ -171,9 +171,9 @@ blockquote:before{
 	right:0;
 	top:0;
 	bottom:0;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#374050), to(#798696));
-	background-image: linear-gradient(to bottom, #374050 0%, #798696 100%);
-	opacity: 0.5;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#bb86fc), to(#798696));
+	background-image: linear-gradient(to bottom, #bb86fc 0%, #798696 100%);
+	opacity: 0.3;
 }
 
 /* Attempt to fix bg image blurriness on retina displays (cover+fixed doesn't work?) */
@@ -435,7 +435,7 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
 .hero-area {
 	position:relative;
 	padding-top: 80px;
-	padding-bottom: 80px;
+	padding-bottom: 200px; /* quick fix banner height, TO-DO: do this better */
 }
 
 #home.hero-area {
