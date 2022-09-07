@@ -2,12 +2,24 @@
 <head>
     <%- include('head'); %>
     <link href="gps.css?2" rel="stylesheet" type="text/css"></link>
+    <%if (hasBanner){%>
+        <link href="maphero.css?3" rel="stylesheet" type="text/css"></link>
+        <style type="text/css">
+          .map-overlay {
+            background-image:url('/maps/banners/<%=banner%>');
+          }
+        </style>
+    <%}%>
     <title>DreamLand MUD - Карта зоны <%= area.name %></title>
 </head>
 
 <body>
     <%- include('header'); %>
-    <%- include('hero', {breadcrumb: 'Maps', title: area.name }) %>
+    <%if (hasBanner){%>
+        <%- include('maphero', {title: area.name }) %>
+    <%} else {%>
+        <%- include('hero', {breadcrumb: 'Maps', title: area.name }) %>
+    <%}%>
     <div class="mapwrapper">
         <%if (area.showLevels){%><div>Уровни <%=area.levMin%>-<%=area.levMax%></div><%}%>
         <div>Путь<%if (area.msm){%> от Рыночной Площади Мидгаарда <%}%>: <%=area.sw%></div>    
