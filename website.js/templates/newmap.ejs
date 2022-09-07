@@ -1,0 +1,33 @@
+<html lang="ru">
+<head>
+    <%- include('head'); %>
+    <title>DreamLand MUD - Карта зоны <%= area.name %></title>
+</head>
+
+<body>
+    <%- include('header'); %>
+    <%- include('hero', {breadcrumb: 'Maps', title: '<%= area.name %>'}) %>
+
+    <div class="section">
+        <div class="container">
+	    <%if (area.showLevels){%><div>Уровни <%=area.levMin%>-<%=area.levMax%></div><%}%>
+	    <div class="alert alert-dark" role="alert">
+		Путь<%if (area.msm){%> от Рыночной Площади Мидгаарда <%}%>: <%=area.sw%> 
+	    </div>    
+            <div>
+	        Автоматически двигать карту <input type="checkbox" id="follow"></input><br/>
+	    </div>
+	    <pre>
+	    <%- map %>
+	    </pre>
+	</div>
+    </div>
+
+
+    <%- include('footer'); %>
+    <%- include('foot'); %>
+    <script src="gps.js?2"></script>
+    <link href="gps.css" rel="stylesheet" type="text/css"></link>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&amp;subset=cyrillic" rel="stylesheet"></link>
+</body>
+</html>
