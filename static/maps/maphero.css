@@ -11,7 +11,7 @@
 }
 
 .map-bg-parallax {
-	background-attachment:fixed; /* keeping it parallaxed after expanding the height */
+	/* background-attachment:fixed; /* keeping it parallaxed after expanding the height */
 }
 
 .map-overlay {
