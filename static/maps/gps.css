@@ -4,7 +4,6 @@
 }
 
 body {
-    background-color: #2e3436;
     color: #d3d7cf;
 }
 
@@ -12,3 +11,17 @@ body pre {
     font-family: 'Roboto Mono', monospace;
     font-size: 1.3em;
 }
+
+.mapwrapper {
+    background-color: #2e3436;
+    padding: 1em;
+}
+
+pre.map {
+    border: 0; 
+    background-color: transparent;
+    color: #d3d7cf;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1.3em;
+}
+

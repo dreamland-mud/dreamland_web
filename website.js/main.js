@@ -138,7 +138,7 @@ areaList.forEach(area => {
     let mapPath = path.resolve(srcMapDir, area.map)
     if (fs.existsSync(mapPath)) {
         let map = fs.readFileSync(mapPath)
-        ejs.renderFile('templates/map.ejs', { map: map, area: area }, function(err, str) {
+        ejs.renderFile('templates/newmap.ejs', { map: map, area: area }, function(err, str) {
             !err || console.log(err)
             fs.writeFileSync(destMapDir + '/' + area.map, str)
         })        

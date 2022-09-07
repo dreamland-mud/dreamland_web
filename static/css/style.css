@@ -177,12 +177,14 @@ blockquote:before{
 }
 
 /* Attempt to fix bg image blurriness on retina displays (cover+fixed doesn't work?) */
+/*
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
    .bg-image.bg-parallax {
         -webkit-background-size: auto 150%;
         background-attachment: scroll;
     }
 }
+*/
 
 /* --- Buttons --- */
 .main-button {

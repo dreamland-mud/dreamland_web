@@ -6,23 +6,13 @@
 
 <body>
     <%- include('header'); %>
-    <%- include('hero', {breadcrumb: 'Maps', title: '<%= area.name %>'}) %>
-
-    <div class="section">
-        <div class="container">
-	    <%if (area.showLevels){%><div>Уровни <%=area.levMin%>-<%=area.levMax%></div><%}%>
-	    <div class="alert alert-dark" role="alert">
-		Путь<%if (area.msm){%> от Рыночной Площади Мидгаарда <%}%>: <%=area.sw%> 
-	    </div>    
-            <div>
-	        Автоматически двигать карту <input type="checkbox" id="follow"></input><br/>
-	    </div>
-	    <pre>
-	    <%- map %>
-	    </pre>
-	</div>
+    <%- include('hero', {breadcrumb: 'Maps', title: area.name }) %>
+    <div class="mapwrapper">
+        <%if (area.showLevels){%><div>Уровни <%=area.levMin%>-<%=area.levMax%></div><%}%>
+        <div>Путь<%if (area.msm){%> от Рыночной Площади Мидгаарда <%}%>: <%=area.sw%></div>    
+        <div>Автоматически двигать карту <input type="checkbox" id="follow"></input><br/></div>
+        <pre class="map"><%- map %></pre>
     </div>
-
 
     <%- include('footer'); %>
     <%- include('foot'); %>
