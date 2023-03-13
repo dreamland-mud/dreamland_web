@@ -1,0 +1,32 @@
+/* --- Background banner for map pages --- */
+
+.map-bg-image {
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background-position:center;
+	background-size:cover;
+}
+
+.map-bg-parallax {
+	/* background-attachment:fixed; /* keeping it parallaxed after expanding the height */
+}
+
+.map-overlay {
+    background-color: #bb86fc;
+}
+
+.map-overlay:after {
+	content:"";
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#bb86fc), to(#798696));
+	background-image: linear-gradient(to bottom, #bb86fc 0%, #798696 100%);
+	opacity: 0.3;
+}
+

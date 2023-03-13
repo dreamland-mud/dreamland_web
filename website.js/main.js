@@ -20,6 +20,7 @@ else
 // Folder where this file lives.
 process.chdir(__dirname)
 var srcMapDir = '../static/maps/sources' 
+var bannerMapDir = '../static/maps/banners'
 var destDir = '../static/'
 var destMapDir = '../static/maps'
 
@@ -134,11 +135,24 @@ console.log('Found', areaList.length, 'areas, creating index.json')
 fs.writeFileSync(destMapDir + '/index.json', JSON.stringify(areaList))
 
 console.log('Generating maps...')
+const findMapBanner = (areafile, exts) => {
+    for (e in exts) {
+        let banner = areafile+ '.' + exts[e];
+        let bannerPath = path.resolve(bannerMapDir, banner);
+        if (fs.existsSync(bannerPath))
+            return banner;
+    }
+    return undefined;
+};
+
 areaList.forEach(area => {
     let mapPath = path.resolve(srcMapDir, area.map)
     if (fs.existsSync(mapPath)) {
         let map = fs.readFileSync(mapPath)
-        ejs.renderFile('templates/newmap.ejs', { map: map, area: area }, function(err, str) {
+        let banner = findMapBanner(area.file, [ 'png', 'jpg' ]);
+        let hasBanner = !!banner;
+        console.log(area.file, banner, hasBanner);
+        ejs.renderFile('templates/newmap.ejs', { map, area, hasBanner, banner }, function(err, str) {
             !err || console.log(err)
             fs.writeFileSync(destMapDir + '/' + area.map, str)
         })        
