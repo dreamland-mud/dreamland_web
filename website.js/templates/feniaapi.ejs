@@ -361,8 +361,9 @@
                                     <p class="list-group-item-text">
                                         <ul>
                                          <li><a href="#affect_fields">Affect</a></li>
-                                         <li><a href="#command_fields">Command</a></li>
+                                         <li><a href="#command_fields">FeniaCommand</a></li>
                                          <li><a href="#area_fields">Area</a></li>
+                                         <li><a href="#areaquest_fields">AreaQuest</a></li>
                                          <li><a href="#hometown_fields">Hometown</a></li>
                                          <li><a href="#bonus_fields">Bonus</a></li>
                                          <li><a href="#religion_fields">Religion</a></li>
@@ -403,8 +404,8 @@
                                 </div><!-- affect section -->
 
                                 <a name="command_fields"></a>
-                                <h3>Command: команда, поля и методы</h3>
-                                <p>Все поля доступны для чтения и записи.</p>
+                                <h3>FeniaCommand: команда, поля и методы</h3>
+                                <p>Все поля доступны только для чтения.</p>
                                 <div class="section">
                                     <div class="container">
                                         <table id="command_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
@@ -433,6 +434,42 @@
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- area container -->
                                 </div><!-- area section -->
+
+                                <a name="areaquest_fields"></a>
+                                <h3>AreaQuest: арийный квест</h3>
+                                <p>Шаг квеста, доступный через метод step(0), step(1), имеет такие поля:
+<pre>
+info - строка с подсказкой по шагу
+rewardQp - награда за шаг в qp
+rewardGold - награда за шаг в золоте
+rewardExp - награда за шаг в опыте
+rewardVnum - награда за шаг в виде предмета
+</pre>
+</p>
+<p>Информация о выполняемых квестах для персонажа ch хранится в его аттрибуте 'areaquest'. Это массив, в котором ключом служит vnum квеста, а значением - структура с полями.
+<pre>
+Структура ch.attribute("areaquest")[6000] имеет поля:
+
+total          - сколько раз за все жизни выполнили данный квест
+thisLife       - сколько раз выполнили за эту жизнь
+step           - текущий шаг или -1, если квест не активен
+timestart      - когда начался активный квест или 0, если квест не активен
+timeend        - когда закончился предыдущий квест или 0, если уже запущен
+</pre>
+</p>
+
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="areaquest_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['areaquest_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- areaquest container -->
+                                </div><!-- areaquest section -->
 
                                 <a name="hometown_fields"></a>
                                 <h3>Hometown: родной город</h3>
@@ -588,7 +625,6 @@
                                         <ul>
                                          <li><a href="#skill_fields">Умение: .Skill()</a></li>
                                          <li><a href="#skillgroup_fields">Группа умений: .SkillGroup()</a></li>
-                                         <li><a href="#feniaskill_fields">Умение, созданное в фене: .FeniaSkill()</a></li>
                                          <li><a href="#spell_fields">Заклинание: .Spell()</a></li>
                                          <li><a href="#spellcontext_fields">Контекст вызова заклинания</a></li>
                                          <li><a href="#affecthandler_fields">Обработчик аффекта: .AffectHandler()</a></li>
@@ -630,22 +666,6 @@
                                         <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- skillgroup container -->
                                 </div><!-- skillgroup section -->
-
-                                <a name="feniaskill_fields"></a>
-                                <h3>Умение, созданное в фене: .FeniaSkill()</h3>
-                                <p>Поля доступны и для записи, и для чтения.</p>
-                                <div class="section">
-                                    <div class="container">
-                                        <table id="skill_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
-                                            <thead><tr>
-                                                <th>Поле/Метод</th>    
-                                                <th>Описание</th>    
-                                            </tr></thead>
-                                            <tbody><%- include('fenia-methods', {apiList: api['feniaskill_methods']}) %></tbody>
-                                        </table>
-                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
-                                    </div><!-- feniaskill container -->
-                                </div><!-- feniaskill section -->
 
                                 <a name="spell_fields"></a>
                                 <h3>Заклинание: .Spell()</h3>
