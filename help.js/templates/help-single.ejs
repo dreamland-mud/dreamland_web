@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/html" lang="ru">
+  <head>
+    <%- include('head'); %>
+    <title>Справка DreamLand: <%= title %></title>
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Справка DreamLand: <%= title %>" />
+    <meta
+      property="og:description"
+      content="<%= text.substring(0, 200).replace(/<\/?[^>]+(>|$)/g, '') %>..."
+    />
+    <meta
+      property="og:url"
+      content="https://dreamland.rocks/help/<%= id %>.html"
+    />
+    <meta property="og:image" content="" />
+
+    <!-- Twitter Card meta tags (Telegram також використовує ці теги) -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Справка DreamLand: <%= title %>" />
+    <meta
+      name="twitter:description"
+      content="<%= text.substring(0, 200).replace(/<\/?[^>]+(>|$)/g, '') %>..."
+    />
+    <meta name="twitter:image" content="" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <%- include('help-menu'); %>
+      <div class="main">
+        <div class="help_panel rounded">
+          <a class="help_title" name="h<%= id %>"></a>
+          <span class="help_title"><%= title %></span>
+          <div class="help_article"><%- text %></div>
+        </div>
+      </div>
+      <%- include('footer'); %>
+    </div>
+    <%- include('foot'); %>
+  </body>
+</html>
