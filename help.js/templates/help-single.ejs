@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" lang="ru">
   <head>
     <%- include('head'); %>
@@ -29,8 +30,7 @@
     <div class="wrapper">
       <%- include('help-menu'); %>
       <div class="main">
-        <div class="help_panel rounded">
-          <a class="help_title" name="h<%= id %>"></a>
+        <div class="help_single_panel rounded">
           <span class="help_title"><%= title %></span>
           <div class="help_article"><%- text %></div>
         </div>
