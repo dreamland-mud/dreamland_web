@@ -70,6 +70,16 @@ a.dropdown-item:hover {
   border: 1px solid #999;
 }
 
+.help_single_panel {
+  display: block;
+  white-space: pre-wrap;
+  padding: 0px 20px;
+  background-color: #2e3436;
+
+  margin: 0px 0px 8px 0px;
+  border: 1px solid #999;
+}
+
 .help_article {
   padding-top: 1em;
 }
