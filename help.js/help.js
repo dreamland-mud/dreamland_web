@@ -8,6 +8,8 @@ process.chdir(__dirname);
 var destDir = process.argv[2];
 !fs.existsSync(destDir) && fs.mkdirSync(destDir);
 
+var debug = false;
+
 /*
  * Dictionary structure:
  *
@@ -17,7 +19,6 @@ var destDir = process.argv[2];
  * ]
  */
 var dictionary = JSON.parse(fs.readFileSync('/tmp/helps.json'));
-//console.log('Loaded', dictionary.length, 'help topics.');
 
 var linksById = new Map(dictionary.map(entry => [entry.id, entry]));
 var linksByKeyword = new Map();
@@ -25,13 +26,11 @@ for (var i = 0; i < dictionary.length; i++)
   if (dictionary[i].kwList)
     dictionary[i].kwList.forEach(kw => {
       if (linksByKeyword.get(kw)) {
-        //console.log('Duplicated keyword', kw, 'for id', dictionary[i].id, 'and', linksByKeyword.get(kw).id)
+        debug && console.log('Duplicated keyword', kw, 'for id', dictionary[i].id, 'and', linksByKeyword.get(kw).id)
       } else {
         linksByKeyword.set(kw, dictionary[i]);
       }
     });
-
-//console.log('Created', linksById.size, 'mappings from id to topic, and', linksByKeyword.size, ' - from keyword to topic');
 
 function transformText(text) {
   let $ = cheerio.load(text, { decodeEntities: false });
@@ -54,7 +53,7 @@ function transformText(text) {
           .append(article)
       );
     } else {
-      //console.log('No link or label for id [' + id + '] and text', article);
+      debug && console.log('No link or label for id [' + id + '] and text', article);
       $(this).replaceWith(article);
     }
   });
@@ -79,18 +78,13 @@ function transformText(text) {
     .replace(/\[map=([-0-9a-z_]{1,15})\.are\]/g, '');
 }
 
-function topicTitle(topic, labels) {
-  for (var i = 0; i < labels.length; i++)
-    if (topic.titles[labels[i]]) return topic.titles[labels[i]];
-}
-
 function saveCategory(labelsInclude, labelsExclude, title) {
   let topics = [];
   for (var i = 0; i < dictionary.length; i++) {
     let topic = dictionary[i];
 
     if (!topic.labels || topic.labels.length == 0) {
-      //            console.log('No labels found for', topic.id, topic.kw.join(' '));
+      debug && console.log('No labels found for', topic.id, topic.kw);
       continue;
     }
 
@@ -100,14 +94,15 @@ function saveCategory(labelsInclude, labelsExclude, title) {
 
     let t = {};
     t.kw = topic.kw;
-    t.title = topicTitle(topic, labelsInclude);
+    t.title = topic.title;
+    t.toc = topic.toc;
     t.text = transformText(topic.text);
     t.id = topic.id;
     topics.push(t);
   }
 
   if (topics.length == 0) {
-    //console.log("No topics found for labels", labelsInclude);
+    debug && console.log("No topics found for labels", labelsInclude);
     return;
   }
 
@@ -127,7 +122,7 @@ function saveCategory(labelsInclude, labelsExclude, title) {
 
 function saveIndividualPage(topic) {
   let content = {
-    title: topicTitle(topic, topic.labels),
+    title: topic.title,
     text: transformText(topic.text),
     id: topic.id,
   };
@@ -241,7 +236,7 @@ var typeahead = dictionary
         t: topic.titles ? topic.titles[topic.labels[0]] : topic.kw,
       };
     } else {
-      console.log('Skipping from typehead.json', topic.kw);
+      debug && console.log('Skipping from typehead.json', topic.kw);
     }
   })
   .filter(t => t != null);

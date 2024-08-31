@@ -30,10 +30,7 @@
     <div class="wrapper">
       <%- include('help-menu'); %>
       <div class="main">
-        <div class="help_single_panel rounded">
-          <span class="help_title"><%= title %></span>
-          <div class="help_article"><%- text %></div>
-        </div>
+        <div class="help_single_panel rounded"><%if (title) {%><span class="help_title"><%= title %></span><% } %><div class="help_article"><%- text %></div></div>
       </div>
       <%- include('footer'); %>
     </div>
