@@ -25,8 +25,12 @@ var linksByKeyword = new Map();
 for (var i = 0; i < dictionary.length; i++)
   if (dictionary[i].kwList)
     dictionary[i].kwList.forEach(kw => {
-      if (linksByKeyword.get(kw)) {
-        debug && console.log('Duplicated keyword', kw, 'for id', dictionary[i].id, 'and', linksByKeyword.get(kw).id)
+      kw = kw.toUpperCase();
+      var existingEntry = linksByKeyword.get(kw);
+
+      if (existingEntry) {
+        var thisId = dictionary[i].id;
+        debug && existingEntry.id !== thisId && console.log('Duplicated keyword', kw, 'for id', thisId, 'and', existingEntry.id)
       } else {
         linksByKeyword.set(kw, dictionary[i]);
       }
@@ -144,6 +148,8 @@ function saveIndividualPage(topic) {
 dictionary.forEach(topic => {
   if (topic.labels && topic.labels.length > 0) {
     saveIndividualPage(topic);
+  } else {
+    debug && console.log("No individual page for", topic.id, " - no labels");
   }
 });
 
