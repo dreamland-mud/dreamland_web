@@ -6,10 +6,10 @@
 
     <!-- Open Graph meta tags -->
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="Справка DreamLand: <%= title %>" />
+    <meta property="og:title" content="Справка DreamLand<%if (title){%>: <% }%><%= title %>" />
     <meta
       property="og:description"
-      content="<%= text.substring(0, 200).replace(/<\/?[^>]+(>|$)/g, '') %>..."
+      content="<%= text %>"
     />
     <meta
       property="og:url"
@@ -19,10 +19,10 @@
 
     <!-- Twitter Card meta tags (Telegram також використовує ці теги) -->
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Справка DreamLand: <%= title %>" />
+    <meta name="twitter:title" content="Справка DreamLand<%if (title){%>: <% }%><%= title %>" />
     <meta
       name="twitter:description"
-      content="<%= text.substring(0, 200).replace(/<\/?[^>]+(>|$)/g, '') %>..."
+      content="<%= text %>"
     />
     <meta name="twitter:image" content="" />
   </head>

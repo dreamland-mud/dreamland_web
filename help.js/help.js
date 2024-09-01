@@ -2,6 +2,10 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
 const ejs = require('ejs');
+const truncate = require('truncate-html');
+
+// Meta-tags in individual pages will contain text preview of this size:
+truncate.setup({ stripTags: true, length: 300 });
 
 process.chdir(__dirname);
 
@@ -127,7 +131,7 @@ function saveCategory(labelsInclude, labelsExclude, title) {
 function saveIndividualPage(topic) {
   let content = {
     title: topic.title,
-    text: transformText(topic.text),
+    text: truncate(transformText(topic.text)),
     id: topic.id,
   };
 

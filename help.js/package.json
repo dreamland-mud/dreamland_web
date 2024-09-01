@@ -2,11 +2,11 @@
     "name": "dreamland-api",
     "description": "Dreamland API",
     "version": "0.0.1",
-    "devDependencies": {},
     "dependencies": {
         "cheerio": "^1.0.0-rc.12",
         "ejs": "^3.1.7",
-        "fast-xml-parser": "^4.2.4"
+        "fast-xml-parser": "^4.2.4",
+        "truncate-html": "^1.1.2"
     },
     "scripts": {
         "help": "node help.js"
