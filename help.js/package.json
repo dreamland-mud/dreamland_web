@@ -3,7 +3,7 @@
     "description": "Dreamland API",
     "version": "0.0.1",
     "dependencies": {
-        "cheerio": "^1.0.0-rc.12",
+        "cheerio": "1.0.0-rc.12",
         "ejs": "^3.1.7",
         "fast-xml-parser": "^4.2.4",
         "truncate-html": "^1.1.2"

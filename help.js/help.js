@@ -129,9 +129,11 @@ function saveCategory(labelsInclude, labelsExclude, title) {
 }
 
 function saveIndividualPage(topic) {
+  let text = transformText(topic.text);
   let content = {
     title: topic.title,
-    text: truncate(transformText(topic.text)),
+    truncated_text: truncate(text),
+    text: text,	
     id: topic.id,
   };
 
