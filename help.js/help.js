@@ -186,7 +186,7 @@ saveCategory(
   'Профессиональные умения'
 );
 saveCategory(['raceaptitude'], [], 'Расовые умения');
-saveCategory(['clanskill'], [], 'Клановые умения');
+saveCategory(['clanskill','clanorgskill'], [], 'Клановые умения');
 saveCategory(['craftskill'], [], 'Крафт');
 saveCategory(['craft'], [], 'Крафт');
 saveCategory(['cardskill'], [], 'Умения картежника');
