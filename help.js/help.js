@@ -191,6 +191,7 @@ saveCategory(['craftskill'], [], 'Крафт');
 saveCategory(['craft'], [], 'Крафт');
 saveCategory(['cardskill'], [], 'Умения картежника');
 saveCategory(['language'], [], 'Языки');
+saveCategory(['basicskill'], [], 'Разные умения');
 // +config, +client, +misc
 // +group
 
