@@ -26,6 +26,7 @@
                             <li><a data-toggle="tab" href="#struct">Структуры</a></li>
                             <li><a data-toggle="tab" href="#string">Строка</a></li>
                             <li><a data-toggle="tab" href="#tables">Таблицы</a></li>
+                            <li><a data-toggle="tab" href="#behavior">Поведение</a></li>
                         </ul>
                         <div class="tab-content">
                             <div id="char" class="tab-pane fade in active">
@@ -801,6 +802,31 @@ timeend        - когда закончился предыдущий квест
                                 </ul>
                                 <h3>Все таблицы</h3>
                                 <div><%- include('fenia-tables', {apiList: api['tables']}) %></div>
+                            </div> <!-- string tab-pane -->
+
+                            <div id="behavior" class="tab-pane fade in">
+                                <h2>Поведение</h2>
+                                
+                                <p>У mob/obj/room index data в поле behaviors хранится список всех назначенных поведений. Все поведения видны в OLC по команде 'bedit list'.</p>
+
+<p>Проверить, висит ли поведение на конкретном мобе, предмете или комнате, можно с помощью метода hasBehavior: например, eval ptc(get_obj_here("bells").hasBehavior("eqset_morris")).</p>
+<p>Каждое поведение имеет свой набор свойств, описанных в поле props поведения. Это JSON-объект, который можно посмотреть через API: eval ptc(.Behavior("eqset_noriva").props.total_count).</p>
+<p>Поле props на mob/obj/room index data представляет из себя JSON-объект, где ключом будет название поведения, а значением - его поле props. Это позволяет иметь много поведений на одном
+объекте или мобе, при этом их свойства не путаются между собой.  Доступ к props на index data: eval ptc(.get_obj_index(11876).props.noriva.total_count). 
+</p>
+                                <h3>Поля и методы поведения</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="behavior_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th>Поле/Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['behavior_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- behavior container -->
+                                </div><!-- behaivor section -->
                             </div> <!-- string tab-pane -->
 
                         </div> <!-- tab-content-->
