@@ -38,6 +38,8 @@
                                         <ul>
                                         <li><a href="#char_fields">Поля персонажа</a></li>
                                         <li><a href="#char_methods">Методы персонажа</a></li>
+                                        <li><a href="#player_fields">Поля игрока оффлайн</a></li>
+                                        <li><a href="#player_methods">Методы игрока оффлайн</a></li>
                                         </ul>
                                 </p>
                                 </div>
@@ -47,6 +49,7 @@
                                         <ul>
                                         <li><strong>eval ptc(api())</strong></li>
                                         <li><strong>eval ptc(get_char_world("xxx").api())</strong></li>
+                                        <li><strong>eval ptc(.Player("xxx").api())</strong></li>
                                         </ul>
                                     </p>
                                     </div>
@@ -89,6 +92,37 @@
                                         <a href="#char_methods"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
                                     </div><!-- char container -->
                                 </div><!-- char section -->
+
+                                <a name="player_fields"></a>
+                                <h3>Поля игрока (.Player), доступные оффлайн</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="player_fields" class="table table-striped table-bordered"  width="100%" data-page-length="-1" >
+                                            <thead><tr>
+                                                <th class="th-status">Статус</th>    
+                                                <th>Поле</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-fields', {apiList: api['player_fields']}) %></tbody>
+                                        </table>
+                                        <a href="#player_fields"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- player container -->
+                                </div><!-- player section -->
+
+                                <a name="player_methods"></a>
+                                <h3>Методы игрока (.Player), доступные оффлайн</h3>
+                                <div class="section">
+                                    <div class="container">
+                                        <table id="player_methods" class="table table-striped table-bordered" width="100%" data-page-length="-1">
+                                            <thead><tr>
+                                                <th>Метод</th>    
+                                                <th>Описание</th>    
+                                            </tr></thead>
+                                            <tbody><%- include('fenia-methods', {apiList: api['player_methods']}) %></tbody>
+                                        </table>
+                                        <a href="#player_methods"><i title="Наверх таблицы" class="fa fa-2x fa-angle-double-up"></i></a> <a href="#top"><i title="Наверх страницы" class="fa fa-2x fa-arrow-circle-up"></i></a>
+                                    </div><!-- player container -->
+                                </div><!-- player section -->
                             </div> <!-- char tab-pane -->
 
                             <div id="obj" class="tab-pane fade in">
