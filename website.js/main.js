@@ -114,12 +114,12 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
     var areaXml = fs.readFileSync(path.resolve(areaDir, fn), {encoding: 'utf-8'})
     var areaObj = xmlParser.parse(areaXml, {})
     var area = areaObj.area.areadata
-    if (area.speedwalk) {
-        let speedwalk = stripTags(area.speedwalk)
+    if (area.speedwalk && area.speedwalk.length > 1) {
+        let speedwalk = stripTags(area.speedwalk[1])
 
         areaList.push({
-            name: he.decode(nominativeCase(area.name).replace(/{[a-zA-Z12]/g, '')),
-            credits: area.credits,
+            name: he.decode(nominativeCase(area.name[1]).replace(/{[a-zA-Z12]/g, '')),
+            credits: area.name[0],
             file: fn.replace(/\.xml/, ''),
             map: fn.replace(/\.are\.xml/, '.html'),
             sw: speedwalk,
