@@ -24,11 +24,15 @@ var bannerMapDir = '../static/maps/banners'
 var destDir = '../static/'
 var destMapDir = '../static/maps'
 
-const stripTags = s => {
-    return s.replace(/\{[xYy]/g, '')
-            .replace(/\{h[cxs]/g, '')
-            .replace(/\{hh\d*/g, '')
-}
+// Strip MUD markup the way the engine's parse_color_web does: it consumes a {
+// and the char after it, emitting nothing for a colour/format code -- and even
+// for an unknown one (e.g. a {d typo), which it silently eats. Mirror that for
+// the web table: pull the {h help-anchor family first (so {hh1234 leaves no
+// tail), then any { followed by a letter/digit or a {* {+ {/ special.
+const stripTags = s => (s || '')
+    .replace(/\{hh\d*/g, '')
+    .replace(/\{h[cxs]/g, '')
+    .replace(/\{[a-zA-Z0-9*+\/]/g, '')
 
 /** Analyze current line and the following one, to see if a forced line break can be safely removed. */
 const needsLineBreak = (line, nextline) => {
@@ -118,8 +122,8 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
         let speedwalk = stripTags(area.speedwalk[1])
 
         areaList.push({
-            name: he.decode(nominativeCase(area.name[1]).replace(/{[a-zA-Z12]/g, '')),
-            credits: area.name[0],
+            name: he.decode(stripTags(nominativeCase(area.name[1]))),
+            credits: he.decode(stripTags(area.name[0])),
             file: fn.replace(/\.xml/, ''),
             map: fn.replace(/\.are\.xml/, '.html'),
             sw: speedwalk,
