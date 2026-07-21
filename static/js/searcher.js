@@ -5,6 +5,15 @@
 
         var areas = {};
 
+        // The maps index (/maps/index.json) keeps the area name straight from
+        // the area file, which uses the modifier-letter apostrophe U+02BC (e.g.
+        // "Махʼн-Тор"), while the item search API returns the same name with a
+        // plain ASCII apostrophe ("Мах'н-Тор"). Fold every apostrophe variant to
+        // ASCII on both sides so the zone -> map lookup matches.
+        function normalizeAreaName(s) {
+            return (s || '').replace(/[ʼ’‘`´]/g, "'");
+        }
+
         $(document).ready(function() {
           spinner();
           render();
@@ -16,7 +25,7 @@
                 console.log('Retrieved', data.length, 'areas.');
                
                 $.each(data, function(index, value) {
-                    areas[value.name] = value.map;
+                    areas[normalizeAreaName(value.name)] = value.map;
                 });
             }, 'json').fail(function() {
                 console.log('Cannot retrieve area info.');
@@ -113,7 +122,7 @@
                         if (typeof items[i]['ave'] !== 'undefined')
                             items[i]['ave'] = `<div role='img' aria-label='Среднее ${items[i]['ave']}'>${items[i]['ave']}</div>`
 
-                        var map = areas[items[i]['area']];
+                        var map = areas[normalizeAreaName(items[i]['area'])];
                         if (map)
                             items[i]['area'] = "<a target='_blank' href='/maps/" + map + "'>" + items[i]['area'] + "</a>";
 
