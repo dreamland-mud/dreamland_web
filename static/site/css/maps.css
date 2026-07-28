@@ -103,6 +103,10 @@ a.asciilink[hidden] { display: none; }
 .mapstage {
     --map-chrome: 196px;
     position: relative; overflow: hidden;
+    /* Hand every touch gesture to the pan/pinch code in maps.js. Without this
+       the browser keeps them for page scroll and page zoom, and the map cannot
+       be moved with a finger at all. */
+    touch-action: none;
     background: #121212;
     border: 1px solid var(--stone-700); border-radius: var(--radius);
     height: calc(100vh - var(--map-chrome));
