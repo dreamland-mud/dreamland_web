@@ -63,6 +63,7 @@
         noExits:  { en: 'no exits',     ua: 'виходів немає' },
         toZone:   { en: 'to another zone', ua: 'в іншу зону' },
         nothing:  { en: 'Nothing found', ua: 'Нічого не знайдено' },
+        bandPick: { en: 'Level range',  ua: 'Діапазон рівнів' },
         allZones: { en: 'zones',        ua: 'зон' },
         unnamed:  { en: 'unnamed room', ua: 'кімната без назви' },
         walk:     { en: 'How to get there', ua: 'Як дістатися' },
@@ -141,6 +142,40 @@
         }).sort(bandSort);
     }
 
+    /* Under 900px the rail turns into one native <select>, the same device the
+       help and news pages use: stacked, even five collapsed headings plus the
+       open one pushed the map about 1700px down the page, so you scrolled past
+       the whole rail to reach the thing you came for. Native on purpose -- a
+       screen reader drives it unaided, and roughly a third of players are blind.
+       The summary is hidden at that width, so nothing can toggle the details
+       open and setBand has to do it. */
+    var mqNarrow = window.matchMedia('(max-width: 900px)');
+    var curBand = null;
+
+    function setBand(key) {
+        var bands = idxEl.querySelectorAll('details.zband');
+        if (!bands.length) return;
+        var hit = false, i;
+        for (i = 0; i < bands.length; i++)
+            if (bands[i].getAttribute('data-band') === key) hit = true;
+        if (!hit) key = bands[0].getAttribute('data-band');
+        for (i = 0; i < bands.length; i++) {
+            var on = bands[i].getAttribute('data-band') === key;
+            bands[i].classList.toggle('zband--active', on);
+            if (mqNarrow.matches) bands[i].open = on;
+        }
+        curBand = key;
+        var pick = document.getElementById('zoneBandPick');
+        if (pick && pick.value !== key) pick.value = key;
+    }
+
+    mqNarrow.addEventListener('change', function () {
+        // Leaving narrow hands the bands back to the desktop rule: shut, except
+        // the one holding the zone on screen.
+        if (mqNarrow.matches) setBand(curBand);
+        else drawZoneList(searchEl ? searchEl.value : '');
+    });
+
     /* Bands are collapsed on arrival except the one holding the current zone --
        156 zones is a rail nobody reads, five headings is a menu. A search opens
        every band it matched, since a hit inside a shut band reads as no hit. */
@@ -157,9 +192,15 @@
             byKey[b.key].items.push(z);
         });
 
-        idxEl.innerHTML = groups.map(function (g) {
+        var opts = '', wanted = null;
+        var html = groups.map(function (g) {
+            var key = String(g.band.key);
             var holdsCurrent = g.items.some(function (z) { return z.file === here; });
-            return '<details class="zband"' + (searching || holdsCurrent ? ' open' : '') + '><summary>' +
+            if (holdsCurrent && wanted === null) wanted = key;
+            opts += '<option value="' + key + '">' + esc(g.band[L()]) +
+                ' (' + g.items.length + ')</option>';
+            return '<details class="zband" data-band="' + key + '"' +
+                (searching || holdsCurrent ? ' open' : '') + '><summary>' +
                 '<span class="zband__name">' + esc(g.band[L()]) + '</span>' +
                 '<span class="zband__n">' + g.items.length + '</span></summary>' +
                 g.items.map(function (z) {
@@ -170,6 +211,14 @@
                         '<span class="zone__lv">' + esc(lv) + '</span></button>';
                 }).join('') + '</details>';
         }).join('');
+
+        idxEl.innerHTML = '<select class="catpick" id="zoneBandPick" aria-label="' +
+            esc(t('bandPick')) + '">' + opts + '</select>' + html;
+        var pick = document.getElementById('zoneBandPick');
+        if (pick) pick.addEventListener('change', function () { setBand(pick.value); });
+        // A search re-groups everything, so the band held before may be gone;
+        // setBand falls back to the first one that survived.
+        setBand(wanted !== null ? wanted : curBand);
     }
 
     // ---- geometry helpers -------------------------------------------------
