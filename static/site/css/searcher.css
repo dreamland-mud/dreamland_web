@@ -1,0 +1,136 @@
+/* Searcher-specific styles (loaded on top of theme.css) */
+
+
+/* tabs */
+.tabbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 0 0 30px; }
+.tab {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 600; font-size: .98rem; letter-spacing: .03em;
+    color: var(--text-dim); cursor: pointer; padding: 12px 22px; border-radius: 999px;
+    background: linear-gradient(180deg, var(--stone-800), var(--stone-950));
+    border: 1px solid var(--stone-600); transition: all .18s;
+}
+.tab:hover { color: var(--gold-bright); border-color: var(--gold-dim); }
+.tab .tgem { width: 16px; height: 16px; border-radius: 3px;
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); flex: none; }
+.tab[aria-selected="true"] {
+    color: #1a130a;
+    background: radial-gradient(130% 130% at 50% 0%, var(--gold-bright), var(--gold) 60%, var(--gold-dim));
+    border-color: var(--gold-deep);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.6), 0 4px 14px rgba(0,0,0,.5);
+}
+.tgem--ruby{background:var(--ruby)} .tgem--emerald{background:var(--emerald)}
+.tgem--sapphire{background:var(--sapphire)} .tgem--amethyst{background:var(--amethyst)}
+
+/* filter form — one control height shared by inputs, selects and buttons */
+.filters { --ctl-h: 46px; padding: 24px; margin-bottom: 22px; }
+.filters .row { display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-end; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-family: var(--display); font-size: .74rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--gold); }
+.field input[type=text], .field input[type=number], .field select {
+    font-family: var(--body); font-size: 1rem; color: var(--text);
+    background: #0c0a12; border: 1px solid var(--stone-600); border-radius: 5px;
+    height: var(--ctl-h); padding: 0 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,.6);
+}
+.filters .btn { height: var(--ctl-h); padding: 0 28px; font-size: 1.02rem; }
+.field input:focus, .field select:focus { outline: none; border-color: var(--gold);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.6), 0 0 0 2px rgba(201,162,75,.2); }
+/* the two level bounds read as one control: single label, 4px apart */
+.lvlrange { display: flex; gap: 4px; }
+.lvlrange input { width: 78px; }
+.field--name input { width: min(320px, 60vw); }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.chip {
+    display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;
+    font-size: .86rem; color: var(--text-dim); padding: 6px 12px; border-radius: 999px;
+    background: var(--stone-900); border: 1px solid var(--stone-700); transition: all .15s;
+}
+.chip:hover { border-color: var(--gold-dim); color: var(--text); }
+.chip input { position: absolute; opacity: 0; width: 0; height: 0; }
+.chip.on { color: #1a130a; border-color: var(--gold-deep);
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold)); }
+.chips-label { font-family: var(--display); font-size: .74rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--gold); margin: 16px 0 2px; }
+
+/* Bonuses / usable-by / limited share one band. The bonus group carries eleven
+   chips so it takes the slack; the other two sit at their natural width. Tops
+   align rather than bottoms, so the labels stay on one line when the bonus
+   chips wrap to a second. */
+.filters .row--groups { align-items: flex-start; gap: 0 26px; }
+.ctrlgroup { flex: 0 0 auto; min-width: 0; }
+.ctrlgroup--wide { flex: 1 1 320px; }
+/* the spacer label earns its keep only while the groups really sit side by
+   side -- alone, or once the row has wrapped them into a stack, it is a hole */
+.ctrlgroup--limit:only-child .chips-label { display: none; }
+@media (max-width: 1100px) { .ctrlgroup--limit .chips-label { display: none; } }
+/* a chip that carries its own icon: alignment, and the limited toggle */
+.chip--icon svg { width: 15px; height: 15px; flex: none; fill: currentColor; }
+.chip--icon .alignicon { margin: 0; }
+.chip:not(.on) .align-G { color: #b08a2a; }
+.chip:not(.on) .align-N { color: #8a7a4a; }
+.chip:not(.on) .align-E { color: #a04050; }
+.chip--limit:not(.on) svg { fill: var(--text-faint); }
+.chip--limit.on { color: #1a130a; border-color: #5c3a86;
+    background: linear-gradient(180deg, #c9a7f2, #a878e0); }
+.chip--limit.on svg { fill: #3a1d5c; }
+
+.result-meta { display: flex; align-items: baseline; gap: 12px; margin: 0 2px 12px;
+    color: var(--text-dim); font-size: .92rem; }
+.result-meta b { color: var(--gold-bright); font-family: var(--display); }
+
+/* results table on parchment. On desktop the container is wide enough that
+   cells wrap instead of scrolling; the min-width + scroll only kicks in on
+   narrow screens, where columns genuinely cannot fit. */
+.tablewrap { border-radius: 6px;
+    border: 1px solid var(--parch-edge); box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+@media (max-width: 720px) { .tablewrap { overflow-x: auto; } }
+table.results {
+    width: 100%; border-collapse: collapse;
+    background: linear-gradient(175deg, var(--parchment), var(--parchment-2)); color: var(--ink);
+    font-size: .96rem;
+}
+table.results thead th {
+    font-family: var(--display); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase;
+    text-align: left; color: #4a3a1e; padding: 12px 14px; position: sticky; top: 0;
+    background: linear-gradient(180deg, #d8c496, #cdb684); border-bottom: 2px solid var(--parch-edge);
+    white-space: nowrap;
+}
+table.results tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(150,120,70,.25);
+    vertical-align: top; overflow-wrap: anywhere; }
+@media (max-width: 720px) { table.results { min-width: 640px; } }
+table.results tbody tr:nth-child(even) { background: rgba(150,120,70,.07); }
+table.results tbody tr:hover { background: rgba(120,90,50,.14); }
+.i-name { font-weight: 600; color: #2a1d0d; }
+/* limited items -- only N exist in the world at once -- read as arcane, not as
+   an error: purple name, purple diamond. #7a3597, not the UI's --arcane, which
+   is tuned for the dark chrome and washes out on parchment. */
+.i-name--limit { color: #7a3597; }
+.i-limit { width: 11px; height: 11px; display: inline-block; vertical-align: 1px;
+    fill: #7a3597; margin-left: 5px; }
+.i-lvl { font-family: var(--mono); font-weight: 600; color: #5a4420; }
+.i-bonus { color: #3a2c15; font-size: .9rem; }
+.i-bonus .b { display: inline-block; margin: 0 6px 3px 0; padding: 1px 7px; border-radius: 4px;
+    background: rgba(70,50,20,.10); border: 1px solid rgba(120,90,50,.25); white-space: nowrap;
+    font-family: var(--mono); font-size: .82rem; }
+.i-dim { color: var(--ink-dim); }
+/* the zone is a door to its map */
+.i-zone { color: #7a3b2a; border-bottom: 1px solid rgba(122,59,42,.35); }
+.i-zone:hover { color: #b8324f; border-bottom-color: #b8324f; }
+/* alignment reads as an icon: sun / scales / skull. The icons never wrap: a
+   good/neutral item broken across two lines reads as two separate things. */
+.i-align { white-space: nowrap; }
+.alignicon { width: 19px; height: 19px; display: inline-block; vertical-align: -3px;
+    fill: currentColor; margin-right: 4px; }
+.align-G { color: #d8ae2e; }
+.align-N { color: #7a6a3a; }
+.align-E { color: #8f1f30; }
+
+.empty { text-align: center; padding: 40px; color: var(--ink-dim);
+    background: linear-gradient(175deg, var(--parchment), var(--parchment-2)); }
+
+.legend { margin-top: 16px; color: var(--text-faint); font-size: .84rem; }
+.legend code { font-size: .8em; }
+
+.hidden { display: none !important; }

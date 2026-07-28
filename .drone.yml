@@ -24,7 +24,20 @@ steps:
 - name: update_helps
   commands:
   - /usr/bin/node /var/www/dreamland_web/help.js/help.js /var/www/dreamland_web/static/help
-  
+
+# Data for the English/Ukrainian site, straight from the game's own dumps. The
+# searcher and help dumps rewrite themselves every few hours and on boot, so
+# there is nothing to trigger in game first; news.xml is the exception and only
+# updates when someone runs 'webdump news'. Order matters: maps writes the index
+# that zonehelp reports against.
+- name: update_site_data
+  commands:
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-help.js /tmp/helps.json
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-maps.js /home/dreamland/dreamland_mapper/public/data
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-zonehelp.js /tmp/helps.json
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-news.js /tmp/news.xml
+  - cp /tmp/db_armor.json /tmp/db_weapon.json /tmp/db_magic.json /tmp/db_pets.json /var/www/dreamland_web/static/data/
+
 - name: restart_searcher
   commands:
   - sudo systemctl restart dreamland-searcher.service

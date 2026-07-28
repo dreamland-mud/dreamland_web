@@ -1,0 +1,83 @@
+/* Help browser (loaded on top of theme.css) */
+
+.pagehead--help { padding-bottom: 30px; }
+
+/* ---------- search ---------- */
+.hsearch { position: relative; max-width: 640px; margin: 24px auto 0; }
+.hsearch__row { display: flex; gap: 10px; align-items: stretch; }
+.hsearch input {
+    flex: 1 1 auto; min-width: 0; height: 48px; padding: 0 16px;
+    font-family: var(--body); font-size: 1.02rem; color: var(--text);
+    background: #0c0a12; border: 1px solid var(--gold-dim); border-radius: 999px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.7);
+}
+.hsearch input:focus { outline: none; border-color: var(--gold-bright);
+    box-shadow: inset 0 2px 6px rgba(0,0,0,.7), 0 0 0 3px rgba(198,162,78,.16); }
+/* one throw of the dice into 1340 articles — most of the corpus is stuff you
+   would never think to search for */
+.hrandom {
+    flex: none; height: 48px; padding: 0 20px; cursor: pointer;
+    font-family: var(--display); font-weight: 600; font-size: .95rem;
+    color: var(--gold-bright); background: linear-gradient(180deg, var(--stone-850), var(--stone-950));
+    border: 1px solid var(--gold-dim); border-radius: 999px; transition: all .18s;
+}
+.hrandom:hover { color: #1c1206; border-color: var(--gold-deep);
+    background: radial-gradient(130% 130% at 50% 0%, var(--gold-bright), var(--gold) 58%, var(--gold-dim)); }
+
+.hsearch__results {
+    position: absolute; z-index: 20; left: 0; right: 0; top: calc(100% + 8px);
+    max-height: 60vh; overflow-y: auto; text-align: left;
+    background: linear-gradient(180deg, var(--stone-850), var(--stone-950));
+    border: 1px solid var(--gold-dim); border-radius: 10px;
+    box-shadow: 0 20px 44px rgba(0,0,0,.65);
+}
+.hsearch__results a { display: block; padding: 9px 16px; color: var(--text);
+    border-bottom: 1px solid rgba(133,102,50,.16); }
+.hsearch__results a:last-child { border-bottom: 0; }
+.hsearch__results a:hover { background: rgba(187,134,252,.1); color: #fff; }
+.hsearch__results b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.02rem;
+    color: var(--gold-bright); }
+.hsearch__results span { font-family: var(--mono); font-size: .72rem; color: var(--text-faint); }
+
+/* ---------- layout ---------- */
+.helpwrap { display: grid; grid-template-columns: 290px 1fr; gap: 26px;
+    padding-top: 30px; padding-bottom: 70px; align-items: start; }
+
+/* ---------- category rail ---------- */
+.helpnav { position: sticky; top: 66px; max-height: calc(100vh - 90px); overflow-y: auto;
+    padding-right: 4px; }
+details.hcat { border-bottom: 1px solid var(--stone-700); }
+details.hcat > summary { cursor: pointer; list-style: none; display: flex; align-items: center;
+    gap: 10px; padding: 12px 6px; font-family: var(--body); font-weight: 700; font-size: .78rem;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--gold-bright); }
+details.hcat > summary::-webkit-details-marker { display: none; }
+details.hcat > summary:hover { color: #fff; }
+.hcat__n { margin-left: auto; font-family: var(--mono); font-size: .68rem;
+    color: var(--text-faint); font-weight: 400; letter-spacing: 0; }
+details.hcat ul { list-style: none; margin: 0 0 12px; padding: 0 0 0 6px; }
+details.hcat li { margin: 0; }
+details.hcat li a { display: block; padding: 5px 8px; border-radius: 5px;
+    color: var(--text-dim); font-size: .95rem; line-height: 1.35; }
+details.hcat li a:hover { background: rgba(187,134,252,.1); color: var(--arcane); }
+
+/* The article itself (.hart*) and the terminal palette live in helpart.css —
+   the maps page renders the same articles in its zone sidebar. */
+
+/* ---------- states ---------- */
+.help-empty { padding: 30px; text-align: center; color: var(--text-faint); }
+
+@media (max-width: 900px) {
+    .helpwrap { grid-template-columns: 1fr; gap: 18px; }
+    .helpnav { position: static; max-height: none; }
+    /* the picker IS the disclosure here: one band in the rail, the rest gone,
+       so the article starts a thumb-flick from the top instead of a screen down */
+    details.hcat { display: none; }
+    details.hcat.hcat--active { display: block; border-bottom: 0; }
+    details.hcat.hcat--active > summary { display: none; }
+    /* a category can still run to hundreds of articles -- the list scrolls in
+       place so the article below it stays within a flick of the top */
+    details.hcat.hcat--active ul {
+        margin-bottom: 0; max-height: 44vh; overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

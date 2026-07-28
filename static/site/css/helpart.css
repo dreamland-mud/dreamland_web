@@ -1,0 +1,46 @@
+/* A help article on parchment, plus the terminal palette its markup carries.
+   Shared: the help browser renders articles in the main column, the maps page
+   renders the zone's own article in its right sidebar. Both go through
+   js/helpmarkup.js, so both need these classes. */
+
+.hart {
+    padding: 34px 40px 40px; border-radius: 5px; color: var(--ink);
+    background: var(--noise), linear-gradient(172deg, var(--parchment), var(--parchment-2));
+    background-blend-mode: multiply, normal;
+    border: 1px solid var(--parch-edge);
+    box-shadow: 0 14px 34px rgba(0,0,0,.5), inset 0 0 60px rgba(120,95,50,.16);
+}
+.hart h1 { font-family: var(--display); font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    color: #241809; margin: 0 0 18px; line-height: 1.12;
+    padding-bottom: 14px; border-bottom: 1px solid rgba(150,120,70,.3); }
+.hart__body { font-size: 1.04rem; line-height: 1.62; }
+.hart__body p { margin: 0 0 .85em; }
+.hart__body p.hbullet { margin: 0 0 .3em; padding-left: 1.1em; text-indent: -1.1em; }
+.hart__body p.hbullet b { color: #8a6a10; }
+.hart__body pre {
+    font-family: var(--mono); font-size: .84rem; line-height: 1.45; color: #3a2f18;
+    background: rgba(70,50,20,.08); border: 1px solid rgba(120,90,50,.22);
+    border-radius: 4px; padding: 14px 16px; margin: 0 0 1em;
+    overflow-x: auto; white-space: pre;
+}
+.hart__body a.hlink { color: #7a3b2a; border-bottom: 1px solid rgba(122,59,42,.4); }
+.hart__body a.hlink:hover { color: #b8324f; border-bottom-color: #b8324f; }
+.hart__body code.hcmd { font-family: var(--mono); font-size: .84em; color: #5c4a1e;
+    background: rgba(70,50,20,.1); border: 1px solid rgba(120,90,50,.24);
+    padding: 1px 6px; border-radius: 4px; }
+
+/* mudjs terminal palette remapped for ink-on-parchment: the originals are tuned
+   for a black background and several of them are invisible here */
+.c-fgdx, .c-fgdw { color: inherit; }
+.c-fgbw, .c-fgbx { color: #171104; font-weight: 600; }
+.c-fgby { color: #8a6a10; font-weight: 600; } .c-fgdy { color: #7a5f14; }
+.c-fgbg { color: #3f6b1c; font-weight: 600; } .c-fgdg { color: #4c6a24; }
+.c-fgbr { color: #a3202c; font-weight: 600; } .c-fgdr { color: #93242e; }
+.c-fgbc { color: #17696e; font-weight: 600; } .c-fgdc { color: #1c6468; }
+.c-fgbb { color: #2a55a0; font-weight: 600; } .c-fgdb { color: #2f5691; }
+.c-fgbm { color: #7a3597; font-weight: 600; } .c-fgdm { color: #6f4184; }
+.c-fgbd { color: #6b6250; } .c-fgdd { color: #5a5344; }
+
+@media (max-width: 900px) {
+    .hart { padding: 24px 20px 30px; }
+}
