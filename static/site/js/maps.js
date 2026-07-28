@@ -470,9 +470,22 @@
     /* The floor has to clear the widest zone's true fit scale (Midgaard needs
        0.05), or zooming out can no longer reach the whole of it -- and since Fit
        now stops at a legible scale, zooming out is the only way there. */
-    function zoomBy(f) {
-        view.scale = Math.min(2.2, Math.max(0.04, view.scale * f));
+    /* Zoom about a point in stage coordinates, so whatever sits under the
+       cursor or between two fingers stays put. The pan group is
+       translate(view.x,view.y) scale(view.scale), so a stage point a maps from
+       model point m as a = view.x + m*scale; holding a fixed across a scale
+       change of f gives view.x' = a - (a - view.x)*f. */
+    function zoomAt(f, ax, ay) {
+        var s = Math.min(2.2, Math.max(0.04, view.scale * f));
+        f = s / view.scale;              // the clamp changes the effective factor
+        view.x = ax - (ax - view.x) * f;
+        view.y = ay - (ay - view.y) * f;
+        view.scale = s;
         applyView();
+    }
+    // The zoom buttons have no pointer to aim at, so they work off the middle.
+    function zoomBy(f) {
+        zoomAt(f, stageEl.clientWidth / 2, stageEl.clientHeight / 2);
     }
     /* Fit measures the drawing itself, not the 90px of padding around it, and
        then pushes a notch past that -- exact fit leaves the room names a hair
@@ -513,23 +526,84 @@
        back on the first zoom-in. A 12px label at 10% is not a label. */
     function openView() { fit(); }
 
-    var drag = null;
-    stageEl.addEventListener('mousedown', function (ev) {
-        if (ev.button !== 0) return;
-        drag = { x: ev.clientX, y: ev.clientY, vx: view.x, vy: view.y, moved: false };
-        stageEl.classList.add('mapstage--drag');
+    /* Pointer events rather than mouse ones: a single code path covers a mouse,
+       a finger and a pen, and two live pointers give pinch-zoom. The stage also
+       needs touch-action:none in the CSS -- without it the browser claims the
+       gesture for page scrolling and the map never moves under a finger at all,
+       which is exactly how this shipped. */
+    var pointers = {};
+    var drag = null;     // one pointer down: pan
+    var pinch = null;    // two pointers down: pinch-zoom
+    var moved = false;   // outlives pointerup so the click handler can see it
+
+    function livePointers() {
+        var out = [], id;
+        for (id in pointers) out.push(pointers[id]);
+        return out;
+    }
+    function stageXY(clientX, clientY) {
+        var r = stageEl.getBoundingClientRect();
+        return { x: clientX - r.left, y: clientY - r.top };
+    }
+    function pinchFrom(a, b) {
+        var mid = stageXY((a.x + b.x) / 2, (a.y + b.y) / 2);
+        return {
+            dist: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)),
+            mx: mid.x, my: mid.y
+        };
+    }
+
+    stageEl.addEventListener('pointerdown', function (ev) {
+        if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+        pointers[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
+        if (stageEl.setPointerCapture) stageEl.setPointerCapture(ev.pointerId);
+        moved = false;
+        var p = livePointers();
+        if (p.length === 1) {
+            drag = { x: ev.clientX, y: ev.clientY, vx: view.x, vy: view.y };
+            pinch = null;
+            stageEl.classList.add('mapstage--drag');
+        } else if (p.length === 2) {
+            drag = null;
+            pinch = pinchFrom(p[0], p[1]);
+        }
     });
-    window.addEventListener('mousemove', function (ev) {
-        if (!drag) return;
-        var dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
-        if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
-        view.x = drag.vx + dx; view.y = drag.vy + dy;
-        applyView();
+    window.addEventListener('pointermove', function (ev) {
+        if (!(ev.pointerId in pointers)) return;
+        pointers[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
+        var p = livePointers();
+        if (pinch && p.length >= 2) {
+            // Two fingers both zoom and pan: the map should follow the hand.
+            var now = pinchFrom(p[0], p[1]);
+            view.x += now.mx - pinch.mx;
+            view.y += now.my - pinch.my;
+            zoomAt(now.dist / pinch.dist, now.mx, now.my);
+            pinch = now;
+            moved = true;
+        } else if (drag) {
+            var dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
+            if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+            view.x = drag.vx + dx; view.y = drag.vy + dy;
+            applyView();
+        }
     });
-    window.addEventListener('mouseup', function () {
-        if (drag) stageEl.classList.remove('mapstage--drag');
-        drag = null;
-    });
+    function endPointer(ev) {
+        if (!(ev.pointerId in pointers)) return;
+        delete pointers[ev.pointerId];
+        var p = livePointers();
+        if (p.length < 2) pinch = null;
+        if (p.length === 1) {
+            // Lifting one of two fingers hands the gesture back to the other,
+            // rebased on where the map is now -- otherwise it jumps.
+            drag = { x: p[0].x, y: p[0].y, vx: view.x, vy: view.y };
+        } else if (p.length === 0) {
+            drag = null;
+            stageEl.classList.remove('mapstage--drag');
+        }
+    }
+    window.addEventListener('pointerup', endPointer);
+    window.addEventListener('pointercancel', endPointer);
+
     /* Zoom follows the SIZE of the gesture, not the number of events. A wheel
        click sends one event of ~100px and a trackpad sends a stream of small
        ones; a fixed 12% per event made two fingers rocket through the whole
@@ -538,7 +612,8 @@
         if (!document.getElementById('mapSvg')) return;
         ev.preventDefault();
         var d = Math.max(-120, Math.min(120, ev.deltaY));
-        zoomBy(Math.exp(-d * 0.00075));
+        var at = stageXY(ev.clientX, ev.clientY);
+        zoomAt(Math.exp(-d * 0.00075), at.x, at.y);
     }, { passive: false });
 
     // ---- room selection ---------------------------------------------------
@@ -566,7 +641,7 @@
         if (ev.target.id === 'roomClose') { cardEl.hidden = true; selected = null; render(); }
     });
     stageEl.addEventListener('click', function (ev) {
-        if (drag && drag.moved) return;
+        if (moved) return;   // a drag that ends over a room must not select it
         var g = ev.target.closest ? ev.target.closest('.room') : null;
         if (g) selectRoom(+g.getAttribute('data-vnum'));
     });
