@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DreamLand — Maps</title>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="stylesheet" href="site/css/theme.css"/>
+<link rel="stylesheet" href="site/css/helpart.css"/>
+<link rel="stylesheet" href="site/css/maps.css"/>
+</head>
+<body>
+
+<header class="topbar scrolled" id="topbar">
+    <div class="navpill" id="navpill">
+        <a class="brand" href="index.html"><img src="site/assets/logo-alt.png" alt="DreamLand"/></a>
+        <nav class="topnav">
+            <a class="navlink" href="index.html#start" lang="en">Start</a><a class="navlink" href="index.html#start" lang="uk">Старт</a>
+            <a class="navlink" href="searcher.html" lang="en">Items</a><a class="navlink" href="searcher.html" lang="uk">Речі</a>
+            <a class="navlink" href="maps.html" lang="en">Maps</a><a class="navlink" href="maps.html" lang="uk">Карти</a>
+            <a class="navlink" href="help.html" lang="en">Help</a><a class="navlink" href="help.html" lang="uk">Довідка</a>
+            <a class="navlink" href="news.html" lang="en">News</a><a class="navlink" href="news.html" lang="uk">Новини</a>
+        </nav>
+    </div>
+    <div class="langswitch" role="group" aria-label="Language">
+        <button type="button" data-setlang="en">EN</button>
+        <button type="button" data-setlang="uk">UA</button>
+        <a class="lang-out" href="/ru/maps.html" title="Русская версия сайта">RU</a>
+    </div>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="navpill">
+        <span lang="en" class="sr-only">Menu</span><span lang="uk" class="sr-only">Меню</span>
+        <i></i><i></i><i></i>
+    </button>
+</header>
+
+<section class="pagehead pagehead--tight">
+    <div class="wrap">
+        <h1 lang="en">Maps</h1><h1 lang="uk">Карти</h1>
+        <p lang="en">Every zone in Thera, drawn from the same data the in-game map uses. Rooms are placed by their real exits, so the shape you see is the shape you walk.</p>
+        <p lang="uk">Кожна зона Тери, намальована з тих самих даних, що й карта у грі. Кімнати розставлені за справжніми виходами, тож форма, яку ти бачиш, — це форма, якою ти ходиш.</p>
+    </div>
+</section>
+
+<div class="maps" id="maps">
+    <aside class="zones" id="zones" aria-label="Zones">
+        <div class="zones__search">
+            <input type="search" id="zoneSearch" autocomplete="off"
+                   placeholder="Search by zone name" aria-label="Search zones"/>
+        </div>
+        <div class="zones__list" id="zoneList"></div>
+    </aside>
+
+    <main class="mapmain" id="mapmain">
+        <div class="maptools" id="maptools" hidden>
+            <div class="maptools__title">
+                <h2 id="zoneName"></h2>
+                <span class="maptools__meta" id="zoneMeta"></span>
+            </div>
+            <div class="maptools__ctl">
+                <div class="layers" id="layers" role="group" aria-label="Levels"></div>
+                <div class="zoombar" role="group" aria-label="Zoom">
+                    <button type="button" id="zoomOut" aria-label="Zoom out">&minus;</button>
+                    <button type="button" id="zoomFit">
+                        <span lang="en">Fit</span><span lang="uk">Вписати</span>
+                    </button>
+                    <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+                </div>
+                <button type="button" class="viewtoggle" id="viewToggle" aria-pressed="false">
+                    <span lang="en">Text view</span><span lang="uk">Текстом</span>
+                </button>
+                <!-- the old site's hand-drawn ASCII map of the same zone -->
+                <a class="viewtoggle asciilink" id="asciiLink" href="#" hidden
+                   target="_blank" rel="noopener">ASCII</a>
+            </div>
+        </div>
+
+        <div class="mapstage" id="mapStage">
+            <p class="mapstage__hint" id="mapHint">
+                <span lang="en">Pick a zone on the left.</span>
+                <span lang="uk">Обери зону ліворуч.</span>
+            </p>
+        </div>
+
+        <div class="maptext" id="mapText" hidden></div>
+
+        <aside class="roomcard" id="roomCard" hidden aria-live="polite"></aside>
+    </main>
+
+    <aside class="zonehelp" id="zoneHelp" aria-label="About this zone"></aside>
+</div>
+
+<footer class="footer" style="padding:40px 0 30px;">
+    <div class="wrap footer__bottom" style="margin:0;padding-top:0;border:0;">
+        <span lang="en">DreamLand MUD · <a href="index.html">back home</a> · zone layouts are regenerated from the world every night</span>
+        <span lang="uk">DreamLand MUD · <a href="index.html">на головну</a> · розкладки зон перебудовуються зі світу щоночі</span>
+    </div>
+</footer>
+
+<script src="site/js/nav.js"></script>
+<script src="site/js/i18n.js"></script>
+<script src="site/js/helpmarkup.js"></script>
+<script src="site/js/maps.js"></script>
+</body>
+</html>

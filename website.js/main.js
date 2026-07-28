@@ -23,6 +23,19 @@ var srcMapDir = '../static/maps/sources'
 var bannerMapDir = '../static/maps/banners'
 var destDir = '../static/'
 var destMapDir = '../static/maps'
+var ruDir = '../static/ru'
+
+// The Russian edition lives in its own directory, but the templates mix
+// root-absolute asset links (/css/style.css) with relative ones (maps/x.html,
+// img/..., css/news.css). Give /ru its own view of the shared directories
+// instead of hunting every relative reference through twenty templates.
+fs.mkdirSync(ruDir, { recursive: true })
+;['css', 'js', 'img', 'maps', 'downloads'].forEach(dir => {
+    var link = ruDir + '/' + dir
+    if (fs.lstatSync(link, { throwIfNoEntry: false }))
+        fs.rmSync(link, { recursive: true, force: true })
+    fs.symlinkSync('../' + dir, link)
+})
 
 // Strip MUD markup the way the engine's parse_color_web does: it consumes a {
 // and the char after it, emitting nothing for a colour/format code -- and even
@@ -84,14 +97,26 @@ const newsTransformer = nodes => {
     });
 };
 
+/** Write a generated page. Everything this generator makes is Russian, so it all
+  * lands under /ru, the Russian edition of the site. Four of these pages have an
+  * English/Ukrainian replacement at the root -- those exist only under /ru now.
+  * The rest are also written to the root so no published URL breaks. */
+const ownedByNewSite = new Set(['index', 'searcher', 'maps', 'news'])
+
+const writePage = (keyword, str) => {
+    fs.writeFileSync(ruDir + '/' + keyword + '.html', str)
+    if (!ownedByNewSite.has(keyword))
+        fs.writeFileSync(destDir + '/' + keyword + '.html', str)
+}
+
 /** Render a single page applying specified sort order and text transformer. */
-const render = (keyword, array, sorter, nodesTransformer) => 
+const render = (keyword, array, sorter, nodesTransformer) =>
     ejs.renderFile
-        ('templates/' + keyword + '.ejs', 
-        { notes: nodesTransformer(array.sort(sorter)) }, 
+        ('templates/' + keyword + '.ejs',
+        { notes: nodesTransformer(array.sort(sorter)) },
         function(err, str) {
             !err || console.log(err)
-            fs.writeFileSync(destDir + '/' + keyword + '.html', str)
+            writePage(keyword, str)
         }
     )
 
@@ -241,7 +266,7 @@ if (fs.existsSync(feniaApiPath)) {
 
     ejs.renderFile('templates/feniaapi.ejs', { api: feniaApi }, function(err, str) {
         !err || console.log(err)
-        fs.writeFileSync(destDir + '/feniaapi.html', str)
+        writePage('feniaapi', str)
     })
 } else {
     console.log('File ', feniaApiPath, 'not found, it will be generated on first DL run.');
@@ -251,17 +276,17 @@ console.log('Generating HTMLs...');
 
 ejs.renderFile('templates/index.ejs', function(err, str) {
     !err || console.log(err)
-    fs.writeFileSync(destDir + '/index.html', str)
+    writePage('index', str)
 })
 
 ejs.renderFile('templates/links.ejs', function(err, str) {
     !err || console.log(err)
-    fs.writeFileSync(destDir + '/links.html', str)
+    writePage('links', str)
 })
 
 ejs.renderFile('templates/values.ejs', function(err, str) {
     !err || console.log(err)
-    fs.writeFileSync(destDir + '/values.html', str)
+    writePage('values', str)
 })
 
 var gallery = require('./data/gallery.json');
@@ -272,17 +297,17 @@ gallery.forEach(section => {
     });    
 ejs.renderFile('templates/gallery.ejs', { gallery }, function(err, str) {
     !err || console.log(err)
-    fs.writeFileSync(destDir + '/gallery.html', str)
+    writePage('gallery', str)
 })
 
 ejs.renderFile('templates/searcher.ejs', function(err, str) {
     !err || console.log(err)
-    fs.writeFileSync(destDir + '/searcher.html', str)
+    writePage('searcher', str)
 })
 
 ejs.renderFile('templates/maps.ejs', { areaList: areaList }, function(err, str) {
     !err || console.log(err)
-    fs.writeFileSync(destDir + '/maps.html', str)
+    writePage('maps', str)
 })
 
 

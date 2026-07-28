@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DreamLand — Help &amp; lore</title>
+<meta name="description" content="Every help article from DreamLand MUD: commands, classes, skills, spells, races, religions, clans and thirty years of piled-up lore."/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="stylesheet" href="site/css/theme.css"/>
+<link rel="stylesheet" href="site/css/helpart.css"/>
+<link rel="stylesheet" href="site/css/help.css"/>
+</head>
+<body>
+
+<header class="topbar scrolled" id="topbar">
+    <div class="navpill" id="navpill">
+        <a class="brand" href="index.html"><img src="site/assets/logo-alt.png" alt="DreamLand"/></a>
+        <nav class="topnav">
+            <a class="navlink" href="index.html#start" lang="en">Start</a><a class="navlink" href="index.html#start" lang="uk">Старт</a>
+            <a class="navlink" href="searcher.html" lang="en">Items</a><a class="navlink" href="searcher.html" lang="uk">Речі</a>
+            <a class="navlink" href="maps.html" lang="en">Maps</a><a class="navlink" href="maps.html" lang="uk">Карти</a>
+            <a class="navlink" href="help.html" lang="en">Help</a><a class="navlink" href="help.html" lang="uk">Довідка</a>
+            <a class="navlink" href="news.html" lang="en">News</a><a class="navlink" href="news.html" lang="uk">Новини</a>
+        </nav>
+    </div>
+    <div class="langswitch" role="group" aria-label="Language">
+        <button type="button" data-setlang="en">EN</button>
+        <button type="button" data-setlang="uk">UA</button>
+        <a class="lang-out" href="/help/" title="Русская версия справки">RU</a>
+    </div>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="navpill">
+        <span lang="en" class="sr-only">Menu</span><span lang="uk" class="sr-only">Меню</span>
+        <i></i><i></i><i></i>
+    </button>
+</header>
+
+<section class="pagehead pagehead--help">
+    <div class="wrap">
+        <h1 lang="en">Help &amp; lore</h1><h1 lang="uk">Довідка й лор</h1>
+        <p lang="en">Every article the game itself will show you — how things work, who runs the pantheon, and thirty years of piled-up backstory.</p>
+        <p lang="uk">Усі статті, які покаже сама гра — як усе працює, хто керує пантеоном, і тридцять років нашарованої передісторії.</p>
+
+        <div class="hsearch">
+            <div class="hsearch__row">
+                <input type="search" id="helpSearch" autocomplete="off"
+                       placeholder="Search anything" aria-label="Search help"/>
+                <button type="button" class="hrandom" id="helpRandom">
+                    <span lang="en">Random article</span><span lang="uk">Випадкова стаття</span>
+                </button>
+            </div>
+            <div class="hsearch__results" id="helpResults" hidden></div>
+        </div>
+    </div>
+</section>
+
+<div class="wrap helpwrap">
+    <aside class="helpnav" id="helpIndex" aria-label="Help categories"></aside>
+    <main class="helpmain" id="helpArticle"></main>
+</div>
+
+<footer class="footer" style="padding:40px 0 30px;">
+    <div class="wrap footer__bottom" style="margin:0;padding-top:0;border:0;">
+        <span lang="en">DreamLand MUD · <a href="index.html">back home</a> · help text comes straight from the running game</span>
+        <span lang="uk">DreamLand MUD · <a href="index.html">на головну</a> · текст довідки — просто з гри, що працює</span>
+    </div>
+</footer>
+
+<script src="site/js/nav.js"></script>
+<script src="site/js/i18n.js"></script>
+<script src="site/js/helpmarkup.js"></script>
+<script src="site/js/help.js"></script>
+</body>
+</html>

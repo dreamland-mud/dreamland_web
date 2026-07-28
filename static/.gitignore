@@ -1,8 +1,24 @@
+# Pages written by website.js/main.js at build time.
 /*.html
+# ...except the five pages of the English/Ukrainian site, which are authored by
+# hand and live in git. The generator no longer writes these four names to the
+# root -- they exist only under /ru now.
+!/index.html
+!/searcher.html
+!/maps.html
+!/news.html
+!/help.html
+
 /maps/*.html
 !/maps/*-v2.html
 /maps/*.txt
 /maps/index.json
+
+# Built by site.js/build-*.js from the game's own dumps.
+/data/
+# The Russian edition, generated in full by website.js/main.js.
+/ru/
+
 help
 mudjs
 mudjs-vue

@@ -1,0 +1,32 @@
+/* Two alignment icons must sit side by side, not stack. Finds the rows with the
+   most alignment letters and reports the cell's rendered box + icon rows. */
+const http=require('http'),fs=require('fs'),path=require('path'),puppeteer=require('puppeteer');
+const ROOT=path.resolve(__dirname, '../static');
+const MIME={'.html':'text/html','.css':'text/css','.js':'text/javascript','.json':'application/json','.jpg':'image/jpeg','.png':'image/png'};
+const srv=http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split('?')[0]);if(p==='/')p='/index.html';
+  fs.readFile(path.join(ROOT,p),(e,d)=>{if(e){r.statusCode=404;return r.end('nf')}r.setHeader('Content-Type',MIME[path.extname(p)]||'text/plain');r.end(d)})});
+(async()=>{
+  await new Promise(r=>srv.listen(0,'127.0.0.1',r));
+  const b=await puppeteer.launch({headless:'new',args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage']});
+  const p=await b.newPage(); await p.setViewport({width:1440,height:1000});
+  const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+  await p.goto(`http://127.0.0.1:${srv.address().port}/searcher.html`,{waitUntil:'networkidle0'});
+  await new Promise(r=>setTimeout(r,900));
+  const info=await p.evaluate(()=>{
+    const out=[];
+    document.querySelectorAll('#rows tr').forEach(tr=>{
+      const cell=tr.querySelector('.i-align'); if(!cell) return;
+      const ic=[...cell.querySelectorAll('.alignicon')]; if(ic.length<2) return;
+      const tops=[...new Set(ic.map(s=>Math.round(s.getBoundingClientRect().top)))];
+      if(out.length<5) out.push({name:tr.children[0].innerText.trim().slice(0,26),
+        icons:ic.length, rows:tops.length, cellW:Math.round(cell.getBoundingClientRect().width)});
+    });
+    const zoneLinks=document.querySelectorAll('#rows a.i-zone').length;
+    const zonePlain=[...document.querySelectorAll('#rows tr')].filter(tr=>!tr.querySelector('a.i-zone')).length;
+    return {multi:out, zoneLinks, rowsWithoutZoneLink:zonePlain,
+            lvlMax:document.getElementById('f_hi').getAttribute('max'),
+            lvlPlaceholder:document.getElementById('f_hi').getAttribute('placeholder')};
+  });
+  console.log(JSON.stringify({...info,errors:errs},null,1));
+  await b.close(); srv.close();
+})().catch(e=>{console.error('ERR',e.message);srv.close();process.exit(1)});

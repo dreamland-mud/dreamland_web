@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DreamLand — Item Searcher</title>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="stylesheet" href="site/css/theme.css"/>
+<link rel="stylesheet" href="site/css/searcher.css"/>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="al-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4.4"/>
+        <g stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <path d="M12 1.6v3M12 19.4v3M1.6 12h3M19.4 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M19.4 4.6l-2.1 2.1M6.7 17.3l-2.1 2.1"/>
+        </g>
+    </symbol>
+    <symbol id="al-scales" viewBox="0 0 24 24">
+        <path d="M11 3h2v17h-2z"/><path d="M5 6h14v1.8H5z"/><path d="M7 20h10v1.8H7z"/>
+        <path d="M6 7.4 2.4 14h7.2zM18 7.4 14.4 14h7.2z" fill-opacity=".85"/>
+    </symbol>
+    <!-- One path with evenodd, so the sockets, nose and tooth gaps are CUT OUT
+         and the page shows through. The old skull filled them with the dark page
+         colour, which turned into a solid blob on the light parchment table. -->
+    <symbol id="al-skull" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" d="M12 2.2c-4.6 0-8.1 3.3-8.1 7.8 0 2.6 1.1 4.6 2.9 5.9v2.3c0 1 .8 1.8 1.8 1.8h6.8c1 0 1.8-.8 1.8-1.8v-2.3c1.8-1.3 2.9-3.3 2.9-5.9 0-4.5-3.5-7.8-8.1-7.8Zm-3.1 5.4a2.3 2.3 0 1 1 0 4.6 2.3 2.3 0 0 1 0-4.6Zm6.2 0a2.3 2.3 0 1 1 0 4.6 2.3 2.3 0 0 1 0-4.6ZM12 12.8l1.3 2.6h-2.6L12 12.8Zm-1.4 4.5v2.6H9.2v-2.6h1.4Zm2.8 0v2.6h-1.4v-2.6h1.4Z"/>
+    </symbol>
+    <symbol id="al-limit" viewBox="0 0 24 24">
+        <path d="M12 1.8 22.2 12 12 22.2 1.8 12 12 1.8Z"/>
+    </symbol>
+</svg>
+
+<header class="topbar scrolled" id="topbar">
+    <div class="navpill" id="navpill">
+        <a class="brand" href="index.html"><img src="site/assets/logo-alt.png" alt="DreamLand"/></a>
+        <nav class="topnav">
+            <a class="navlink" href="index.html#start" lang="en">Start</a><a class="navlink" href="index.html#start" lang="uk">Старт</a>
+            <a class="navlink" href="searcher.html" lang="en">Items</a><a class="navlink" href="searcher.html" lang="uk">Речі</a>
+            <a class="navlink" href="maps.html" lang="en">Maps</a><a class="navlink" href="maps.html" lang="uk">Карти</a>
+            <a class="navlink" href="help.html" lang="en">Help</a><a class="navlink" href="help.html" lang="uk">Довідка</a>
+            <a class="navlink" href="news.html" lang="en">News</a><a class="navlink" href="news.html" lang="uk">Новини</a>
+        </nav>
+    </div>
+    <div class="langswitch" role="group" aria-label="Language">
+        <button type="button" data-setlang="en">EN</button>
+        <button type="button" data-setlang="uk">UA</button>
+        <a class="lang-out" href="/ru/searcher.html" title="Русская версия сайта">RU</a>
+    </div>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="navpill">
+        <span lang="en" class="sr-only">Menu</span><span lang="uk" class="sr-only">Меню</span>
+        <i></i><i></i><i></i>
+    </button>
+</header>
+
+<section class="pagehead">
+    <div class="wrap">
+        <h1 lang="en">Item Searcher</h1><h1 lang="uk">Пошук речей</h1>
+        <p lang="en">Every weapon, armor, magic item and pet in the world. Not every property is shown here — the full truth of an item comes from the <code>identify</code> spell or a sage in-game.</p>
+        <p lang="uk">Уся зброя, броня, магія й улюбленці світу. Тут показано не все — повну правду про річ дає заклинання <code>опізнання</code> або мудрець у грі.</p>
+    </div>
+</section>
+
+<div class="wrap wrap--wide" style="padding-top:30px; padding-bottom:70px;">
+    <div class="tabbar" role="tablist" id="tabbar"></div>
+    <div id="panel" class="panel" style="padding:0; background:transparent; border:0; box-shadow:none;"></div>
+</div>
+
+<footer class="footer" style="padding:40px 0 30px;">
+    <div class="wrap footer__bottom" style="margin:0;padding-top:0;border:0;">
+        <span lang="en">DreamLand MUD · <a href="index.html">back home</a> · item data is a live snapshot from the game</span>
+        <span lang="uk">DreamLand MUD · <a href="index.html">на головну</a> · дані про речі — живий зріз зі гри</span>
+    </div>
+</footer>
+
+<script src="site/js/nav.js"></script>
+<script src="site/js/i18n.js"></script>
+<script src="site/js/searcher.js"></script>
+</body>
+</html>

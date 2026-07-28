@@ -1,0 +1,740 @@
+/* ============================================================
+   DreamLand — dark gothic skeuomorphic theme (prototype r2)
+   Arcane purple (from mudjs #bb86fc) + aged gold on obsidian.
+   ============================================================ */
+
+/* ---------- Fonts ----------
+   Playfair Display: classy high-contrast display serif for headings.
+   Alegreya Sans: warm old-style humanist sans for body. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ---------- Tokens ---------- */
+:root {
+    /* base — deep obsidian, mudjs-dark aligned */
+    --obsidian:   #08070c;
+    --stone-950:  #0d0b12;
+    --stone-900:  #131019;
+    --stone-850:  #191521;
+    --stone-800:  #201a2b;
+    --stone-700:  #2b2338;
+    --stone-600:  #3a3049;
+
+    /* arcane purple (mudjs) */
+    --arcane:      #bb86fc;
+    --arcane-lo:   #8043ca;
+    --arcane-deep: #4c2a7a;
+    --arcane-glow: rgba(187,134,252,.55);
+
+    /* aged gold trim */
+    --gold-bright:#e6cd86;
+    --gold:       #c6a24e;
+    --gold-dim:   #856632;
+    --gold-deep:  #55411d;
+
+    /* gems */
+    --ruby: #c0384f; --ruby-lo: #7c1f30;
+    --emerald: #2fa36b; --emerald-lo: #17603d;
+    --sapphire: #4a74d4; --sapphire-lo: #274384;
+    --amethyst: #9159c8;
+
+    /* parchment (reading surfaces) — aged, darker */
+    --parchment:  #e4d6b2;
+    --parchment-2:#d5c398;
+    --parch-edge: #96793f;
+    --ink:        #2b2213;
+    --ink-dim:    #665736;
+
+    /* text on dark */
+    --text:       #e3d8c0;
+    --text-dim:   #a49a84;
+    --text-faint: #6f6857;
+
+    --display: 'Playfair Display', 'Times New Roman', serif;
+    --body:    'Alegreya Sans', 'Segoe UI', sans-serif;
+    --mono:    'JetBrains Mono', ui-monospace, monospace;
+
+    --maxw: 1120px;
+    --radius: 5px;
+
+    /* fractal-noise grain for stone/parchment texture */
+    --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+}
+
+/* ---------- Reset-ish ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    font-family: var(--body);
+    font-size: 18px;
+    line-height: 1.62;
+    color: var(--text);
+    background: var(--obsidian);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--arcane); text-decoration: none; transition: color .15s; }
+a:hover { color: #d9b8ff; }
+h1,h2,h3,h4 {
+    font-family: var(--display); font-weight: 600; line-height: 1.12; margin: 0 0 .5em;
+    letter-spacing: .005em;
+    font-feature-settings: "liga" 1, "dlig" 1, "clig" 1;
+}
+/* No italics anywhere in this design — the display face is only loaded upright,
+   so any stray `italic` would synthesise an ugly slanted fake. */
+em, i { font-style: normal; color: var(--gold-bright); }
+[style*="italic"], .italic { font-style: normal !important; }
+code {
+    font-family: var(--mono); font-size: .8em;
+    background: rgba(0,0,0,.4); color: var(--arcane);
+    padding: .1em .45em; border-radius: 4px;
+    border: 1px solid rgba(187,134,252,.28);
+    white-space: nowrap;
+}
+
+/* dark textured page backdrop with an arcane bloom */
+body::before {
+    content: ""; position: fixed; inset: 0; z-index: -2;
+    background:
+        radial-gradient(1100px 640px at 50% -8%, rgba(76,42,122,.35) 0%, transparent 62%),
+        radial-gradient(820px 820px at 92% 112%, rgba(128,67,202,.16) 0%, transparent 55%),
+        var(--obsidian);
+}
+
+/* ---------- Language visibility ---------- */
+html[data-lang="en"] [lang="uk"] { display: none !important; }
+html[data-lang="uk"] [lang="en"] { display: none !important; }
+
+/* ---------- Layout ---------- */
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+/* A tool page spans the viewport minus the frame gutter instead of the reading
+   column; edge-to-edge on phones. Lives here, not in searcher.css, because the
+   maps page wants the same treatment. */
+.wrap--wide { max-width: none;
+    padding-left: var(--frame-gap); padding-right: var(--frame-gap); }
+@media (max-width: 720px) { .wrap--wide { padding-left: 0; padding-right: 0; } }
+.section { padding: 82px 0; position: relative; }
+.section--tight { padding: 56px 0; }
+
+/* ---------- Filigree divider ---------- */
+.filigree {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin: 0 auto 34px; color: var(--gold);
+}
+.filigree::before, .filigree::after {
+    content: ""; height: 1px; width: min(200px, 24vw);
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+}
+.filigree::after { background: linear-gradient(90deg, var(--gold-dim), transparent); }
+.filigree svg { width: 30px; height: 30px; fill: var(--arcane);
+    filter: drop-shadow(0 0 8px var(--arcane-glow)); flex: none; }
+
+.section-head { text-align: center; max-width: 780px; margin: 0 auto 46px; }
+.section-head h2 { font-size: clamp(2rem, 5vw, 3.1rem); color: #fff;
+    text-shadow: 0 2px 20px rgba(0,0,0,.6); }
+.section-head p { color: var(--text-dim); font-size: 1.1rem; }
+
+/* ============================================================
+   TOP BAR + LANGUAGE TOGGLE
+   ============================================================ */
+/* Frame geometry — the hero's gold rule and the top bar share this inset, so the
+   nav pill and the language switch sit astride the frame line like its hardware.
+   --frame-gap is how far in from the frame's side rules they sit. */
+/* --pill-h keeps the nav oval and the language switch the same height */
+:root { --frame-inset: 26px; --frame-gap: 40px; --pill-h: 34px; }
+
+/* Where the nav hardware sits horizontally. The page's own content starts where
+   the centred .wrap does (--maxw wide, 22px of padding), so on a roomy screen
+   the pills line up with the copy below instead of hugging the frame corner.
+   Once the viewport is too narrow for that centred box to be the constraint, the
+   frame inset takes over again — otherwise the pills would drift OUTSIDE the
+   gold rule, which is drawn at --frame-inset regardless of width.
+   `100%` (not 100vw) on purpose: it resolves against the fixed .topbar, which
+   excludes the scrollbar exactly like the body box .wrap centres inside. */
+:root {
+    --nav-edge: max(
+        calc(var(--frame-inset) + var(--frame-gap)),
+        calc((100% - var(--maxw)) / 2 + 22px)
+    );
+}
+
+.topbar {
+    /* height = pill top offset * 2, so the scrolled band has equal air above
+       and below the pills (they are centred on --frame-inset) */
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    height: calc(var(--frame-inset) * 2);
+    transition: background .3s, box-shadow .3s;
+}
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+
+/* the black/gold oval holding the logotype and the nav */
+.navpill, .langswitch {
+    height: var(--pill-h); border-radius: 999px;
+    background: linear-gradient(180deg, #16110a, #0a0805);
+    border: 1px solid var(--gold-dim);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.85), 0 0 0 3px var(--obsidian),
+        0 2px 10px rgba(0,0,0,.7);
+}
+.navpill {
+    position: absolute; left: var(--nav-edge);
+    top: var(--frame-inset); transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 12px; padding: 0 18px 0 15px;
+}
+.topbar.scrolled {
+    background: linear-gradient(180deg, rgba(8,7,12,.97), rgba(8,7,12,.82));
+    box-shadow: 0 1px 0 var(--arcane-deep), 0 2px 0 rgba(0,0,0,.6), 0 10px 26px rgba(0,0,0,.55);
+    backdrop-filter: blur(7px);
+}
+/* brand is the cursive logotype alone — no repeated wordmark beside it */
+.brand { display: flex; align-items: center; flex: none; }
+.brand img { height: 21px; width: auto; filter: drop-shadow(0 0 6px var(--arcane-glow)); }
+
+/* nav sits immediately right of the logo, inside the same pill */
+.topnav { display: flex; align-items: center; gap: 2px; }
+.topnav a.navlink {
+    display: inline-flex; align-items: center; height: calc(var(--pill-h) - 10px);
+    color: var(--text-dim); font-family: var(--body); font-weight: 700;
+    font-size: .78rem; letter-spacing: .04em; text-transform: uppercase;
+    padding: 0 12px; border-radius: 999px;
+}
+.topnav a.navlink:hover { color: var(--arcane); background: rgba(187,134,252,.08); }
+/* the page you are on, marked the same way the language switch marks the
+   language you are in — nav.js sets aria-current from the URL */
+.topnav a.navlink[aria-current="page"] {
+    color: #1c1206; text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    background: radial-gradient(130% 130% at 50% 0%, var(--gold-bright), var(--gold) 58%, var(--gold-dim));
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.7), 0 0 12px rgba(198,162,78,.35);
+}
+.topnav a.navlink[aria-current="page"]:hover { color: #1c1206; }
+
+/* language switch — matching hardware on the frame's top-right.
+   Absolute against .topbar, which is fixed and untransformed. It must NOT sit
+   inside .navpill: that pill is transformed, which makes it the containing block
+   and would trap the switch inside the oval. nav.js moves the node into the pill
+   only under 720px, where it becomes a row of the hamburger menu. */
+.langswitch {
+    position: absolute; right: var(--nav-edge);
+    top: var(--frame-inset); transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 2px; padding: 0 3px;
+}
+.langswitch button, .langswitch a {
+    display: inline-flex; align-items: center; height: calc(var(--pill-h) - 10px);
+    font-family: var(--body); font-weight: 700; font-size: .78rem; letter-spacing: .04em;
+    color: var(--gold-dim); background: transparent; border: 0; cursor: pointer;
+    padding: 0 13px; border-radius: 999px; line-height: 1; transition: all .18s;
+}
+.langswitch button:hover, .langswitch a:hover { color: var(--gold-bright); }
+.langswitch button[aria-current="true"] {
+    color: #1c1206; text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    background: radial-gradient(130% 130% at 50% 0%, var(--gold-bright), var(--gold) 58%, var(--gold-dim));
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.7), 0 0 12px rgba(198,162,78,.35);
+}
+.langswitch a.lang-out { color: var(--gold-dim); }
+
+/* hamburger — mobile only; it replaces the language switch in the bar and the
+   pill expands downward into a panel holding the nav links *and* the switch */
+.burger {
+    display: none; position: absolute; z-index: 51;
+    right: var(--nav-edge);
+    top: var(--frame-inset); transform: translateY(-50%);
+    width: 44px; height: var(--pill-h); padding: 0; cursor: pointer;
+    flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    border-radius: 999px; border: 1px solid var(--gold-dim);
+    background: linear-gradient(180deg, #16110a, #0a0805);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.85), 0 0 0 3px var(--obsidian),
+        0 2px 10px rgba(0,0,0,.7);
+}
+.burger i { display: block; width: 19px; height: 2px; border-radius: 2px;
+    background: var(--gold-bright); transition: transform .2s, opacity .2s; }
+/* nth-of-type, not nth-child — the button opens with two sr-only <span>s */
+.burger[aria-expanded="true"] i:nth-of-type(1) { transform: translateY(7px) rotate(45deg); }
+.burger[aria-expanded="true"] i:nth-of-type(2) { opacity: 0; }
+.burger[aria-expanded="true"] i:nth-of-type(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 720px) {
+    .burger { display: flex; }
+    .navpill { right: calc(var(--nav-edge) + 54px); }
+    .topnav, .langswitch { display: none; }
+    /* anchor the panel's top edge — centring it on the frame line would make it
+       grow upward off-screen as it fills with rows */
+    body.menu-open .navpill {
+        right: var(--nav-edge);
+        top: 8px; transform: none; height: auto;
+        flex-direction: column; align-items: stretch; gap: 6px;
+        border-radius: 22px; padding: 14px 16px;
+    }
+    body.menu-open .brand { padding: 4px 12px 8px; }
+    body.menu-open .topnav { display: flex; flex-direction: column; align-items: stretch; }
+    body.menu-open .topnav a.navlink { padding: 10px 12px; font-size: 1.1rem; }
+    body.menu-open .langswitch {
+        display: inline-flex; position: static; transform: none; height: var(--pill-h);
+        align-self: flex-start; margin-top: 6px; box-shadow: none;
+        border-color: var(--gold-deep);
+    }
+}
+
+/* ---------- Page header (searcher, help) ---------- */
+.pagehead {
+    padding: 120px 0 40px; position: relative; text-align: center;
+    border-bottom: 2px solid var(--gold-deep);
+    background:
+        linear-gradient(180deg, rgba(13,11,18,.4), rgba(13,11,18,.92)),
+        url('../assets/home-map-bg.jpg') center 30% / cover;
+}
+.pagehead h1 { font-size: clamp(1.9rem, 5vw, 3rem); color: #fff;
+    text-shadow: 0 3px 16px rgba(0,0,0,.8); }
+.pagehead p { color: var(--text-dim); max-width: 640px; margin: 0 auto; }
+
+/* ============================================================
+   HERO — parallax map
+   ============================================================ */
+.hero {
+    position: relative; min-height: 100vh; min-height: 100svh;
+    display: flex; align-items: center;
+    border-bottom: 1px solid var(--arcane-deep);
+    box-shadow: inset 0 -60px 80px -40px #000;
+}
+/* clips the parallax overscan; the hero itself can't, or it would cut the CTA
+   in half where it straddles the frame's bottom rule */
+.hero__bg { position: absolute; inset: 0; overflow: hidden; z-index: -1; }
+.hero__layer {
+    position: absolute; inset: -27% -27% -27% -27%; z-index: 0;
+    background-image: url('../assets/home-map-bg.jpg');
+    background-size: cover; background-position: center;
+    will-change: transform;
+}
+.hero__tint {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background:
+        radial-gradient(115% 85% at 50% 32%, transparent 34%, rgba(6,4,10,.62) 100%),
+        linear-gradient(180deg, rgba(6,4,10,.62) 0%, rgba(6,4,10,.12) 32%, rgba(6,4,10,.42) 62%, var(--obsidian) 100%);
+}
+/* arcane vignette + visible gothic gold frame (double rule) */
+.hero__tint::after {
+    content: ""; position: absolute; inset: var(--frame-inset);
+    border: 2px solid rgba(198,162,78,.55);
+    outline: 1px solid rgba(198,162,78,.28); outline-offset: 4px;
+    box-shadow: inset 0 0 120px rgba(76,42,122,.34), inset 0 0 0 1px rgba(0,0,0,.4),
+        0 0 20px rgba(0,0,0,.5);
+    pointer-events: none;
+}
+.hero__mist {
+    position: absolute; left: -12%; right: -12%; bottom: -6%; height: 52%; z-index: 1;
+    background: radial-gradient(58% 100% at 50% 100%, rgba(128,67,202,.32), transparent 72%);
+    will-change: transform; pointer-events: none;
+}
+/* padding must be symmetric or flex centring lands the block low in the frame */
+.hero__inner { position: relative; flex: 1 1 auto; width: 100%;
+    padding-top: 92px; padding-bottom: 92px; }
+/* breathing room between the gold frame and the copy inside it — collapses on
+   narrow screens, where the frame already eats most of the spare width */
+/* the minimum must clear --frame-inset, or the copy crosses the gold rule */
+/* wide enough that the Ukrainian headline still breaks into three lines — it is
+   the longest of the three languages, so it sets this width, not English */
+.hero__inner .wrap { max-width: var(--maxw); text-align: center;
+    padding-left: clamp(38px, 6vw, 74px); padding-right: clamp(38px, 6vw, 74px); }
+
+.hero__kicker {
+    display: inline-block; font-family: var(--body); font-weight: 500;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--arcane); margin-bottom: clamp(24px, 4.5vh, 52px);
+    padding: 5px 14px; border-radius: 999px;
+    background: rgba(8,7,12,.52); border: 1px solid var(--arcane-deep);
+    backdrop-filter: blur(3px);
+}
+.hero h1 {
+    font-size: clamp(2.6rem, 7.2vw, 5.4rem); font-weight: 700;
+    color: #fbf3e0; margin-bottom: clamp(26px, 5vh, 60px); line-height: 1.04;
+    text-shadow: 0 2px 4px #000, 0 4px 30px rgba(0,0,0,.9);
+}
+/* legible gilded word: solid gold + dark cut + arcane glow */
+.hero h1 .gild {
+    color: #f2d98a;
+    text-shadow:
+        0 0 1px #2a1c00, 1px 1px 0 #2a1c00, -1px 1px 0 #2a1c00,
+        0 2px 3px #000, 0 0 26px var(--arcane-glow);
+    -webkit-text-stroke: .6px rgba(42,28,0,.9);
+}
+.hero__sub {
+    font-size: clamp(1.08rem, 2.2vw, 1.34rem); color: #ece1cb; max-width: 660px;
+    margin: 0 auto; text-shadow: 0 2px 10px rgba(0,0,0,.92); line-height: 1.55;
+}
+.hero__sub code { background: rgba(0,0,0,.55); color: var(--arcane); }
+/* the CTA takes the scroll cue's old place at the foot of the hero */
+/* sits astride the frame's bottom rule, mirroring the hardware on the top one */
+.hero__cta {
+    position: absolute; left: 50%; bottom: var(--frame-inset);
+    transform: translate(-50%, 50%);
+    display: flex; gap: 16px; align-items: center; z-index: 2;
+}
+
+/* ============================================================
+   BUTTONS — faceted gem
+   ============================================================ */
+.btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--display); font-weight: 600; font-size: 1.2rem; letter-spacing: .01em;
+    padding: 13px 30px; border-radius: 3px; border: 0; cursor: pointer;
+    color: #1c1206; position: relative; transition: transform .16s, box-shadow .16s, filter .16s;
+    text-shadow: 0 1px 0 rgba(255,255,255,.3);
+}
+.btn svg { width: 20px; height: 20px; fill: currentColor; }
+.btn--gold {
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.5) 0%, transparent 42%),
+        radial-gradient(140% 140% at 50% 0%, var(--gold-bright) 0%, var(--gold) 52%, var(--gold-dim) 100%);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.8), inset 0 -3px 5px rgba(85,65,29,.65),
+        0 6px 16px rgba(0,0,0,.6), 0 0 0 1px var(--gold-deep), 0 0 22px rgba(198,162,78,.22);
+}
+/* hover lifts and swaps the gold for a darker arcane gradient; the label has to
+   flip light, since a dark one would vanish against the purple */
+.btn--gold:hover, .btn--ghost:hover {
+    color: #f3ecff; text-shadow: 0 1px 2px rgba(0,0,0,.75);
+    transform: translateY(-2px);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.16) 0%, transparent 44%),
+        radial-gradient(140% 140% at 50% 0%, #6c3aa8 0%, var(--arcane-deep) 56%, #24123f 100%);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.28), inset 0 -3px 6px rgba(18,6,40,.75),
+        0 12px 26px rgba(0,0,0,.62), 0 0 0 1px #2a1650, 0 0 30px var(--arcane-glow);
+}
+/* arcane variant */
+.btn--arcane {
+    color: #f3ecff; text-shadow: 0 1px 2px rgba(0,0,0,.6);
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.35) 0%, transparent 44%),
+        radial-gradient(140% 140% at 50% 0%, #c79dff 0%, var(--arcane-lo) 55%, var(--arcane-deep) 100%);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.5), inset 0 -3px 6px rgba(30,10,60,.7),
+        0 6px 16px rgba(0,0,0,.6), 0 0 0 1px #2a1650, 0 0 26px var(--arcane-glow);
+}
+.btn--arcane:hover { transform: translateY(-2px); filter: brightness(1.08);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.6), 0 10px 26px rgba(0,0,0,.6),
+        0 0 0 1px #2a1650, 0 0 34px var(--arcane-glow); }
+.btn--ghost {
+    color: var(--gold-bright); background: rgba(19,16,25,.55); text-shadow: none;
+    border: 1px solid var(--gold-dim);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+.btn--ghost:hover { border-color: #2a1650; }
+.btn--lg { padding: 16px 40px; font-size: 1.34rem; }
+.btn { white-space: nowrap; }
+@media (max-width: 560px) { .btn--lg { padding: 14px 26px; font-size: 1.18rem; } }
+
+/* ============================================================
+   CARVED PANELS + CARDS
+   ============================================================ */
+.panel {
+    position: relative; border-radius: var(--radius);
+    background:
+        var(--noise),
+        linear-gradient(180deg, rgba(187,134,252,.05), transparent 30%),
+        linear-gradient(180deg, var(--stone-800), var(--stone-950));
+    background-blend-mode: overlay, normal, normal;
+    border: 1px solid var(--stone-600);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 0 0 1px rgba(0,0,0,.4),
+        inset 0 0 40px rgba(0,0,0,.35), 0 16px 34px rgba(0,0,0,.5);
+}
+/* gold corner brackets */
+.panel--framed::before, .panel--framed::after {
+    content: ""; position: absolute; width: 24px; height: 24px; pointer-events: none;
+    border: 2px solid var(--gold-dim); opacity: .85;
+}
+.panel--framed::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+.panel--framed::after { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
+
+/* "how to start" trio */
+.steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.step { padding: 32px 28px; text-align: left; overflow: hidden; }
+.step::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--arcane), transparent);
+    opacity: .7;
+}
+.step__rune {
+    width: 40px; height: 40px; margin-bottom: 16px; color: var(--arcane);
+    filter: drop-shadow(0 0 8px var(--arcane-glow));
+}
+.step__rune svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.step h4 { color: var(--gold-bright); font-size: 1.55rem; }
+.step p { color: var(--text-dim); margin: 0; font-size: 1rem; }
+
+/* explore gem cards */
+.gemgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.gemcard {
+    display: block; padding: 34px 26px 30px; text-align: center; position: relative;
+    border-radius: var(--radius); color: var(--text);
+    background:
+        var(--noise),
+        radial-gradient(120% 80% at 50% 0%, rgba(187,134,252,.08), transparent 60%),
+        linear-gradient(180deg, var(--stone-800), var(--stone-950));
+    background-blend-mode: overlay, normal, normal;
+    border: 1px solid var(--stone-600);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 16px 32px rgba(0,0,0,.5);
+    transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.gemcard:hover { transform: translateY(-5px); border-color: var(--arcane-deep); color: var(--text);
+    box-shadow: 0 22px 46px rgba(0,0,0,.6), 0 0 0 1px var(--arcane-deep), 0 0 40px var(--arcane-glow); }
+/* faceted stones — one SVG cut, tinted per card through `color` */
+.gemsvg {
+    width: 66px; height: 66px; margin: 0 auto 20px; display: block;
+    transition: transform .18s, filter .18s;
+}
+.gem--ruby     { color: var(--ruby);     filter: drop-shadow(0 4px 12px rgba(192,56,79,.5)); }
+.gem--emerald  { color: var(--emerald);  filter: drop-shadow(0 4px 12px rgba(47,163,107,.45)); }
+.gem--sapphire { color: var(--sapphire); filter: drop-shadow(0 4px 12px rgba(74,116,212,.45)); }
+.gem--arcane   { color: var(--arcane);   filter: drop-shadow(0 4px 12px var(--arcane-glow)); }
+.gemcard:hover .gemsvg { transform: translateY(-3px) rotate(-6deg); filter: brightness(1.12); }
+.gemcard h4 { color: var(--gold-bright); font-size: 1.6rem; margin-bottom: 6px; }
+.gemcard p { color: var(--text-dim); font-size: 1rem; margin: 0; }
+
+/* ============================================================
+   STATS — DreamLand in numbers
+   ============================================================ */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.stat {
+    position: relative; text-align: center; padding: 30px 18px;
+    border-radius: var(--radius);
+    background:
+        var(--noise),
+        radial-gradient(120% 90% at 50% 0%, rgba(187,134,252,.09), transparent 62%),
+        linear-gradient(180deg, var(--stone-850), var(--stone-950));
+    background-blend-mode: overlay, normal, normal;
+    border: 1px solid var(--stone-700);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.45);
+}
+.stat__num {
+    display: block; font-family: var(--display); font-weight: 800; line-height: 1;
+    font-size: clamp(2.6rem, 6vw, 3.9rem);
+    color: var(--gold-bright);
+    text-shadow: 0 2px 4px #000, 0 0 26px var(--arcane-glow);
+    font-variant-numeric: lining-nums;
+}
+.stat__label { display: block; margin-top: 10px; color: var(--text-dim);
+    font-size: 1.06rem; font-family: var(--display); }
+.stats__note { text-align: center; margin: 30px auto 0; max-width: 640px;
+    color: var(--text-dim); font-size: 1.15rem; font-family: var(--display); }
+.stats__note strong { color: var(--arcane); font-weight: 700; }
+@media (max-width: 680px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* ============================================================
+   PROSE / "what is this" band
+   ============================================================ */
+.band {
+    background:
+        linear-gradient(180deg, rgba(19,16,25,.65), rgba(8,7,12,.65)),
+        radial-gradient(1000px 420px at 50% 0%, rgba(128,67,202,.16), transparent 72%);
+    border-top: 1px solid var(--stone-700); border-bottom: 1px solid var(--stone-700);
+}
+.lede { font-size: 1.34rem; color: var(--text); max-width: 740px; margin: 0 auto; text-align: center;
+    line-height: 1.55; }
+.lede strong { color: var(--arcane); font-weight: 700; }
+
+/* ============================================================
+   PROGRESSIVE DISCLOSURE — nerdy details
+   ============================================================ */
+.scrolls { max-width: 780px; margin: 0 auto; display: grid; gap: 14px; }
+details.scroll {
+    border-radius: var(--radius); overflow: hidden;
+    background: linear-gradient(180deg, var(--stone-850), var(--stone-950));
+    border: 1px solid var(--stone-600);
+    box-shadow: 0 10px 26px rgba(0,0,0,.4);
+}
+details.scroll[open] { border-color: var(--arcane-deep); }
+details.scroll > summary {
+    cursor: pointer; list-style: none; padding: 20px 26px;
+    font-family: var(--display); font-weight: 600; font-size: 1.4rem; color: var(--gold-bright);
+    display: flex; align-items: center; gap: 14px; user-select: none;
+}
+details.scroll > summary::-webkit-details-marker { display: none; }
+details.scroll > summary .chev { margin-left: auto; color: var(--arcane); transition: transform .2s;
+    filter: drop-shadow(0 0 5px var(--arcane-glow)); }
+details.scroll[open] > summary .chev { transform: rotate(90deg); }
+details.scroll > summary:hover { color: #fff; }
+/* height is animated by js/accordion.js; the padding lives on the inner wrapper
+   it injects, because a padded box can't collapse to zero height */
+.scroll__body { overflow: hidden; color: var(--text-dim); font-size: 1.05rem;
+    transition: height .34s cubic-bezier(.4, 0, .2, 1); }
+.scroll__inner { padding: 2px 26px 26px; }
+.scroll__body p:first-child { margin-top: 0; }
+.scroll__body code { color: var(--arcane); }
+
+/* command cheat sheet */
+.cheat { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px 26px; margin: 6px 0 0; }
+.cheat div { display: flex; gap: 12px; align-items: baseline; padding: 6px 0;
+    border-bottom: 1px dashed rgba(187,134,252,.16); }
+.cheat code { flex: none; min-width: 92px; text-align: center; }
+.cheat span { color: var(--text-dim); font-size: 1rem; }
+@media (max-width: 620px) { .cheat { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   NEWS WIDGET — aged parchment
+   ============================================================ */
+.newswrap { max-width: 840px; margin: 0 auto; }
+
+/* --- featured entry: one big parchment sheet that unfolds --- */
+.news-item {
+    position: relative; padding: 28px 32px;
+    color: var(--ink); border-radius: 4px;
+    background:
+        var(--noise),
+        linear-gradient(172deg, var(--parchment), var(--parchment-2));
+    background-blend-mode: multiply, normal;
+    border: 1px solid var(--parch-edge);
+    box-shadow: 0 12px 28px rgba(0,0,0,.5), inset 0 0 44px rgba(120,95,50,.18);
+}
+.news-item::before {
+    content: ""; position: absolute; inset: 0; border-radius: 4px; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.3);
+    background: radial-gradient(120% 60% at 100% 0%, rgba(110,80,40,.12), transparent 55%);
+}
+.news-item__meta { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.news-item__date { font-family: var(--mono); font-size: .74rem; letter-spacing: .04em; color: var(--ink-dim); }
+.news-item__from { font-family: var(--display); font-size: 1rem; color: #7a3b2a; font-weight: 600; }
+.news-item__subject { font-family: var(--display); font-weight: 700; font-size: 1.75rem;
+    color: #241809; margin: 0 0 10px; line-height: 1.1; }
+/* height is driven from JS (px) so the unfold can animate */
+.news-item__text {
+    white-space: pre-wrap; word-wrap: break-word; font-size: 1.04rem; line-height: 1.6;
+    color: var(--ink); overflow: hidden;
+    transition: max-height .5s cubic-bezier(.4,0,.2,1),
+                -webkit-mask-position .4s linear, mask-position .4s linear;
+    -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent);
+            mask-image: linear-gradient(180deg, #000 68%, transparent);
+}
+.news-item.expanded .news-item__text {
+    -webkit-mask-image: none; mask-image: none;
+}
+.news-item__more {
+    display: inline-block; margin-top: 14px; font-family: var(--display);
+    font-weight: 600; font-size: 1rem; color: #7a3b2a; cursor: pointer;
+    background: none; border: 0; padding: 0; border-bottom: 1px solid rgba(122,59,42,.4);
+}
+.news-item__more:hover { color: #b8324f; border-bottom-color: #b8324f; }
+
+/* --- gallery of older entries: date + title only --- */
+.news-gallery {
+    display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 14px) / 4);
+    gap: 14px; margin-top: 22px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    padding-bottom: 10px; scrollbar-width: thin;
+}
+.news-mini {
+    scroll-snap-align: start; text-align: left; cursor: pointer;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 16px 18px; border-radius: 4px; color: var(--text);
+    background: linear-gradient(180deg, var(--stone-850), var(--stone-950));
+    border: 1px solid var(--stone-600);
+    transition: transform .18s, border-color .18s, box-shadow .18s;
+}
+.news-mini:hover, .news-mini:focus-visible {
+    transform: translateY(-4px); border-color: var(--gold-dim); outline: none;
+    box-shadow: 0 12px 24px rgba(0,0,0,.5), 0 0 22px rgba(198,162,78,.14);
+}
+.news-mini[aria-current="true"] { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold-dim); }
+.news-mini__date { font-family: var(--mono); font-size: .7rem; letter-spacing: .04em; color: var(--gold-dim); }
+.news-mini__subject { font-family: var(--display); font-weight: 600; font-size: 1.06rem;
+    line-height: 1.25; color: var(--gold-bright); }
+.news-foot { text-align: center; margin-top: 30px; }
+
+@media (max-width: 900px) { .news-gallery { grid-auto-columns: calc((100% - 14px) / 2); } }
+@media (max-width: 560px) { .news-gallery { grid-auto-columns: 78%; } }
+
+/* ============================================================
+   CATEGORY PICKER  (narrow screens only)
+   Help categories and news years both collapse into one native
+   select instead of a stack of accordions the reader has to
+   scroll past to reach what they came for. Native on purpose:
+   a screen reader drives a <select> with no help from us.
+   ============================================================ */
+.catpick { display: none; }
+@media (max-width: 900px) {
+    .catpick {
+        display: block; width: 100%; margin: 0 0 14px; cursor: pointer;
+        font-family: var(--display); font-weight: 600; font-size: .95rem;
+        color: var(--gold-bright); background-color: var(--stone-900);
+        border: 1px solid var(--gold-dim); border-radius: 999px;
+        padding: 11px 42px 11px 18px;
+        -webkit-appearance: none; appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23c9a24b' stroke-width='2' stroke-linecap='round'/></svg>");
+        background-repeat: no-repeat; background-position: right 18px center;
+    }
+    .catpick:focus { outline: none; border-color: var(--gold-bright);
+        box-shadow: 0 0 0 3px rgba(198,162,78,.16); }
+    /* the popup itself is the OS widget -- give it readable colours */
+    .catpick option { background: var(--stone-950); color: var(--text); }
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer { background: linear-gradient(180deg, var(--stone-950), #05040a);
+    border-top: 1px solid var(--arcane-deep); padding: 62px 0 34px;
+    box-shadow: inset 0 1px 0 rgba(187,134,252,.12); }
+.footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; align-items: start; }
+.footer__brand { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.footer__brand img { height: 42px; filter: drop-shadow(0 0 6px var(--arcane-glow)); }
+.footer__brand span { font-family: var(--display); font-weight: 700; font-size: 1.6rem; color: var(--gold-bright); }
+.footer p { color: var(--text-dim); font-size: 1rem; }
+.footer h5 { font-family: var(--display); color: var(--arcane);
+    font-size: 1.2rem; margin: 0 0 14px; font-weight: 600; }
+.footer ul { list-style: none; margin: 0; padding: 0; }
+.footer li { margin-bottom: 9px; }
+.footer li a { color: var(--text-dim); font-size: 1rem; }
+.footer li a:hover { color: var(--arcane); }
+.footer__git { margin-top: 18px; }
+.footer__bottom { margin-top: 46px; padding-top: 22px; border-top: 1px solid var(--stone-800);
+    text-align: center; color: var(--text-faint); font-size: .9rem; }
+.footer__bottom code { font-size: .82em; }
+/* CC BY requires the attribution to be visible, not buried in a source comment. */
+.footer__credit { margin: 8px 0 0; font-size: .82rem; opacity: .8; }
+.footer__credit a { color: inherit; text-decoration: underline; }
+
+@media (max-width: 780px) {
+    .steps, .gemgrid { grid-template-columns: 1fr; }
+    .footer__grid { grid-template-columns: 1fr; gap: 30px; }
+}
+
+/* ============================================================
+   GOTHIC ORNAMENTS (SVG sprite lives in the HTML)
+   ============================================================ */
+.orn { fill: currentColor; display: inline-block; vertical-align: middle;
+    color: var(--arcane); filter: drop-shadow(0 0 8px var(--arcane-glow)); }
+
+/* flourish above a section heading */
+.flourish { display: flex; justify-content: center; align-items: center; gap: 18px;
+    color: var(--arcane); margin: 0 auto 16px; }
+.flourish::before, .flourish::after { content: ""; height: 1px; width: min(120px, 16vw);
+    background: linear-gradient(90deg, transparent, var(--gold-dim)); }
+.flourish::after { background: linear-gradient(90deg, var(--gold-dim), transparent); }
+.flourish .orn { width: 48px; height: 48px; }
+
+/* ornate thin frame — plain rule, no corner sparkles */
+.framed { position: relative; }
+.framed::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+    border: 1px solid var(--gold-dim);
+    transition: border-color .18s, box-shadow .18s;
+}
+.framed:hover::after { border-color: var(--gold-bright); box-shadow: inset 0 0 24px rgba(187,134,252,.32); }
+
+/* explore-card RPG glyph watermark */
+.gemcard { overflow: hidden; isolation: isolate; }
+.gemcard > .gemsvg, .gemcard > h4, .gemcard > p { position: relative; z-index: 1; }
+.gemcard__glyph { position: absolute; right: -14px; bottom: -18px; width: 122px; height: 122px;
+    color: var(--arcane); opacity: .12; z-index: 0; pointer-events: none; }
+
+/* beefier, glowing framed-panel corners */
+.panel--framed::before, .panel--framed::after { width: 30px; height: 30px;
+    border-color: var(--gold); opacity: .9;
+    filter: drop-shadow(0 0 5px rgba(198,162,78,.4)); }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .hero__layer, .hero__mist { transform: none !important; }
+    .scroll-cue { animation: none !important; }
+    * { transition: none !important; }
+}

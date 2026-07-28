@@ -1,0 +1,209 @@
+/* Maps page — zone rail + SVG stage.
+   The map itself keeps the terminal's own ground (#121212) rather than the
+   site's parchment: it is the game's picture, drawn in the game's colours. */
+
+.pagehead--tight { padding-bottom: 26px; }
+
+/* Full-bleed like the searcher: a map wants every pixel it can get. Three
+   columns — pick a zone, walk it, read about it. */
+.maps {
+    display: grid;
+    grid-template-columns: 270px minmax(0, 1fr) 340px;
+    gap: 0;
+    max-width: none;
+    margin: 0 auto;
+    padding: 30px var(--frame-gap) 70px;
+    align-items: start;
+}
+
+/* ---------- zone rail ---------- */
+/* No inner scroll and no sticky: the column is as tall as its content and the
+   PAGE scrolls. A sticky column with its own scrollbar meant two scrollbars
+   fighting, and with the bands collapsed there is nothing to scroll anyway. */
+.zones {
+    display: flex; flex-direction: column;
+    border-right: 1px solid var(--stone-700);
+    padding-right: 18px;
+}
+.zones__search { padding: 0 0 12px; }
+.zones__search input {
+    width: 100%; padding: 9px 14px;
+    background: var(--stone-900); color: var(--text);
+    border: 1px solid var(--stone-700); border-radius: 999px;
+    font-family: var(--body); font-size: .95rem;
+}
+.zones__search input:focus {
+    outline: none; border-color: var(--arcane-deep);
+    box-shadow: 0 0 0 3px rgba(187,134,252,.16);
+}
+.zones__list { padding-right: 4px; }
+.zones__none { color: var(--text-faint); font-size: .9rem; }
+
+/* level bands, collapsed until you want them */
+details.zband { border-bottom: 1px solid var(--stone-700); }
+details.zband > summary {
+    cursor: pointer; list-style: none; display: flex; align-items: center; gap: 10px;
+    padding: 11px 6px; font-family: var(--body); font-size: .68rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--gold-dim);
+}
+details.zband > summary::-webkit-details-marker { display: none; }
+details.zband > summary:hover { color: var(--gold-bright); }
+details.zband[open] > summary { color: var(--gold-bright); }
+.zband__n { margin-left: auto; font-family: var(--mono); font-size: .68rem;
+    color: var(--text-faint); font-weight: 400; letter-spacing: 0; }
+details.zband > .zone:last-child { margin-bottom: 10px; }
+
+.zone {
+    display: flex; align-items: baseline; gap: 10px; width: 100%;
+    background: transparent; border: 0; cursor: pointer;
+    padding: 6px 10px; border-radius: 6px;
+    font-family: var(--body); font-size: .95rem; color: var(--text-dim);
+    text-align: left; transition: background .15s, color .15s;
+}
+.zone:hover { background: var(--stone-850); color: var(--text); }
+.zone--on { background: var(--arcane-deep); color: #fff; }
+.zone__name { flex: 1 1 auto; }
+.zone__lv { flex: none; font-family: var(--mono); font-size: .72rem; color: var(--text-faint); }
+.zone--on .zone__lv { color: #d9c7f5; }
+
+/* ---------- stage ---------- */
+.mapmain { position: relative; padding-left: 22px; min-width: 0; }
+
+.maptools {
+    display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px;
+    justify-content: space-between; margin-bottom: 12px;
+}
+.maptools__title h2 { margin: 0; font-size: 1.6rem; color: #fff; }
+.maptools__meta {
+    display: block; font-family: var(--mono); font-size: .74rem;
+    color: var(--text-faint); margin-top: 2px;
+}
+.maptools__ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.layers, .zoombar { display: inline-flex; border: 1px solid var(--stone-700); border-radius: 999px; overflow: hidden; }
+.layers button, .zoombar button, .viewtoggle {
+    background: var(--stone-900); color: var(--text-dim); border: 0; cursor: pointer;
+    font-family: var(--body); font-size: .8rem; padding: 6px 13px; line-height: 1.4;
+    transition: background .15s, color .15s;
+}
+.layers button + button, .zoombar button + button { border-left: 1px solid var(--stone-700); }
+.layers button:hover, .zoombar button:hover, .viewtoggle:hover { background: var(--stone-800); color: var(--text); }
+.layer--on { background: var(--arcane-deep) !important; color: #fff !important; }
+.viewtoggle { border: 1px solid var(--stone-700); border-radius: 999px; }
+a.asciilink { display: inline-flex; align-items: center; font-family: var(--mono);
+    font-size: .74rem; letter-spacing: .06em; color: var(--text-dim); }
+a.asciilink[hidden] { display: none; }
+.viewtoggle[aria-pressed="true"] { background: var(--arcane-deep); color: #fff; border-color: var(--arcane-deep); }
+
+/* The stage takes the height the viewport actually leaves once the fixed
+   topbar, the tool bar above it and a little bottom air are paid for. No pixel
+   ceiling: on a tall screen a map should use the screen. The rail beside it
+   keeps its natural height, so the page still scrolls as one -- no second
+   scrollbar (see the note on .zones). */
+.mapstage {
+    --map-chrome: 196px;
+    position: relative; overflow: hidden;
+    background: #121212;
+    border: 1px solid var(--stone-700); border-radius: var(--radius);
+    height: calc(100vh - var(--map-chrome));
+    min-height: 420px;
+    cursor: grab;
+}
+.mapstage--drag { cursor: grabbing; }
+.mapstage svg { width: 100%; height: 100%; display: block; }
+.mapstage__hint {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    margin: 0; color: var(--text-faint); font-size: .95rem; pointer-events: none;
+}
+/* the label IS the tile — mirror the in-game map, where rooms have no boxes */
+.mapstage .room { cursor: pointer; }
+.mapstage .room text {
+    font-family: var(--mono); letter-spacing: .02em;
+    user-select: none; pointer-events: none;
+}
+.mapstage .room:hover text { font-weight: 600; }
+.mapstage .room:focus { outline: none; }
+.mapstage .room:focus text { font-weight: 700; }
+.mapstage .room:focus rect:last-of-type { stroke: var(--arcane); stroke-width: 1.5; }
+
+/* ---------- text view (screen readers, and anyone who prefers prose) ---------- */
+.maptext {
+    background: var(--parchment); color: var(--ink);
+    border: 1px solid var(--parch-edge); border-radius: var(--radius);
+    padding: 22px 26px;
+}
+.maptext .trow { padding: 8px 0; border-bottom: 1px solid rgba(150,121,63,.25); }
+.maptext .trow:last-child { border-bottom: 0; }
+.maptext h4 { margin: 0 0 2px; font-size: 1rem; color: var(--ink); }
+.maptext .trow__sec {
+    font-family: var(--mono); font-size: .68rem; font-weight: 400;
+    color: var(--ink-dim); margin-left: 8px;
+}
+.maptext p { margin: 0; font-size: .88rem; color: var(--ink-dim); }
+
+/* ---------- zone article (right rail) ---------- */
+/* The game's own help entry for this zone, same renderer as the help browser.
+   148 of 156 zones have one; the 8 without are system zones, and there the
+   column simply isn't drawn. */
+.zonehelp { padding-left: 22px; min-width: 0; }
+.maps--noart { grid-template-columns: 270px minmax(0, 1fr); }
+.maps--noart .zonehelp { display: none; }
+.zonehelp .hart { padding: 22px 24px 26px; }
+.zonehelp .hart h1 { font-size: 1.32rem; margin-bottom: 14px;
+    padding-bottom: 12px; border-bottom: 1px solid rgba(150,120,70,.3); }
+.zonehelp .hart__body { font-size: .95rem; line-height: 1.55; }
+.zonehelp .hart__body pre { font-size: .74rem; }
+.zonehelp__more {
+    display: inline-block; margin-top: 14px; font-family: var(--display);
+    font-weight: 600; font-size: .95rem; color: #7a3b2a;
+    border-bottom: 1px solid rgba(122,59,42,.4);
+}
+.zonehelp__more:hover { color: #b8324f; border-bottom-color: #b8324f; }
+
+/* ---------- room card ---------- */
+.roomcard {
+    position: absolute; right: 14px; bottom: 14px; width: 262px; max-width: calc(100% - 28px);
+    background: var(--stone-900); border: 1px solid var(--stone-700);
+    border-radius: var(--radius); padding: 14px 16px 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.6);
+}
+.roomcard h3 { margin: 0 6px 2px 0; font-size: 1.05rem; color: #fff; }
+.roomcard__sec { margin: 0 0 10px; font-family: var(--mono); font-size: .7rem; color: var(--text-faint); }
+.roomcard h5 {
+    margin: 0 0 5px; font-family: var(--body); font-size: .66rem; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--gold-dim);
+}
+.roomcard__ex { list-style: none; margin: 0; padding: 0; font-size: .84rem; }
+.roomcard__ex li { display: flex; gap: 8px; padding: 2px 0; color: var(--arcane); }
+.roomcard__ex li span { color: var(--text-dim); flex: 1 1 auto; }
+.roomcard__none { margin: 0; font-size: .84rem; color: var(--text-faint); }
+.roomcard__x {
+    position: absolute; top: 8px; right: 10px; background: transparent; border: 0;
+    color: var(--text-faint); font-size: 1.2rem; line-height: 1; cursor: pointer; padding: 2px 4px;
+}
+.roomcard__x:hover { color: var(--gold-bright); }
+
+/* Narrow enough that a third column would squeeze the map itself: the article
+   drops underneath, full width, instead of getting thinner. */
+@media (max-width: 1280px) {
+    .maps { grid-template-columns: 250px minmax(0, 1fr); }
+    .zonehelp { grid-column: 1 / -1; padding-left: 0; padding-top: 18px; }
+}
+@media (max-width: 900px) {
+    .maps { grid-template-columns: 1fr; padding: 22px 18px 60px; }
+    .zones {
+        border-right: 0; border-bottom: 1px solid var(--stone-700);
+        padding: 0 0 14px; margin-bottom: 18px;
+    }
+    .mapmain { padding-left: 0; }
+    .mapstage { height: 64vh; }
+    .roomcard { position: static; width: auto; margin-top: 12px; }
+}
+@media (max-width: 720px) { .maps { padding-left: 0; padding-right: 0; } }
+
+/* Zoomed far out, a room name renders a few pixels tall and reads as dirt.
+   Below the detail threshold the tiles become terrain-coloured blocks instead,
+   so the zone still has a legible shape; zooming in brings the names back. */
+.mapstage svg.far .lbl { display: none; }
+.mapstage svg:not(.far) .dot { display: none; }
+.mapstage .dot { pointer-events: none; }
