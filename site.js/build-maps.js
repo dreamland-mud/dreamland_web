@@ -82,7 +82,11 @@ for (const f of files) {
         levelLow: m.levelLow, levelHigh: m.levelHigh,
         authors: m.authors || '',
         flags: m.flags || [],
+        // Most speedwalks are a compass path and read the same everywhere, but
+        // 30 are a sentence, so they localize like a name does.
         speedwalk: m.speedwalk || '',
+        speedwalkEn: (mi.en || {}).speedwalk || '',
+        speedwalkUa: (mi.ua || {}).speedwalk || '',
         rooms: Object.keys(rooms).length,
         ascii: hasAscii ? hasAscii.has(m.file || f.replace(/^area-|\.json$/g, '')) : false,
     };
@@ -105,6 +109,7 @@ for (const f of files) {
         file: meta.file, name: meta.name, nameEn: meta.nameEn, nameUa: meta.nameUa,
         levelLow: meta.levelLow, levelHigh: meta.levelHigh,
         rooms: meta.rooms, flags: meta.flags, speedwalk: meta.speedwalk,
+        speedwalkEn: meta.speedwalkEn, speedwalkUa: meta.speedwalkUa,
         ascii: meta.ascii, layers: slim.zLayers.length,
     });
 }

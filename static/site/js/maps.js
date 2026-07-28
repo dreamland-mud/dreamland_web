@@ -100,6 +100,10 @@
         });
     }
     function zoneName(z) { var l = L(); return (l === 'ua' ? z.nameUa : z.nameEn) || z.name; }
+    /* A speedwalk is normally a compass path and reads the same in any language.
+       Thirty zones carry prose there instead ("enter the portal in your city's
+       temple"), so it localizes like a name, with the same fall back to RU. */
+    function zoneWalk(z) { var l = L(); return (l === 'ua' ? z.speedwalkUa : z.speedwalkEn) || z.speedwalk; }
     function roomName(r) {
         if (!r) return '';
         var l = L();
@@ -748,9 +752,8 @@
         nameEl.textContent = zoneName(m);
         var bits = [m.rooms + ' ' + t('locations')];
         if (m.levelHigh) bits.push(t('levels') + ' ' + m.levelLow + '–' + m.levelHigh);
-        // the speedwalk is a compass path from Midgaard's Market Square; a few
-        // zones carry prose there instead ("through a wandering portal")
-        if (m.speedwalk) bits.push(t('walk') + ': ' + m.speedwalk);
+        var walk = zoneWalk(m);
+        if (walk) bits.push(t('walk') + ': ' + walk);
         metaEl.textContent = bits.join(' · ');
 
         var ascii = document.getElementById('asciiLink');
