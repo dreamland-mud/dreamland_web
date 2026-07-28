@@ -199,6 +199,18 @@ a.asciilink[hidden] { display: none; }
         border-right: 0; border-bottom: 1px solid var(--stone-700);
         padding: 0 0 14px; margin-bottom: 18px;
     }
+    /* The picker IS the disclosure here: one band showing, the rest gone. Five
+       stacked headings plus an open band put the map most of a phone screen
+       down the page, and the map is what the page is for. */
+    details.zband { display: none; }
+    details.zband.zband--active { display: block; }
+    details.zband.zband--active > summary { display: none; }
+    /* A band can hold fifty zones, so the list scrolls in place rather than
+       pushing the map back down where it started. */
+    details.zband.zband--active {
+        max-height: 34vh; overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
     .mapmain { padding-left: 0; }
     .mapstage { height: 64vh; }
     .roomcard { position: static; width: auto; margin-top: 12px; }
