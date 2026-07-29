@@ -33,6 +33,30 @@ if (!fs.existsSync(RAW)) {
 
 const raw = JSON.parse(fs.readFileSync(RAW, 'utf8'));
 
+/* Categories (HELP_IA.md). Resolved here rather than in the browser, because the
+ * source of truth moves: today the dump still carries the labels the game had
+ * when it last loaded its plug-ins, so the override file -- generated from the
+ * same table that relabelled the XML -- is what makes the site correct before the
+ * next reboot. Once the engine emits `cat` itself that field wins and the
+ * override can be deleted. Precedence: dump cat > override > resolve(labels). */
+const CAT = require('./help-category.js');
+const OVERRIDES = (() => {
+    const p = path.join(__dirname, 'help-categories.json');
+    try {
+        return JSON.parse(fs.readFileSync(p, 'utf8'));
+    } catch (e) {
+        console.warn('no help-categories.json (' + e.message + '); using labels only');
+        return {};
+    }
+})();
+
+function categoryOf(a) {
+    if (a.cat) return a.cat;
+    const o = OVERRIDES[String(a.id)];
+    if (o) return o;
+    return CAT.resolve(a.labels || []);
+}
+
 const LANGS = [
     { key: 'ru', text: 'text',   title: 'title',   toc: 'toc'   },
     { key: 'en', text: 'textEn', title: 'titleEn', toc: 'tocEn' },
@@ -52,6 +76,7 @@ for (const a of raw) {
         kw: a.kw || '',
         kwList: a.kwList || [],
         labels: a.labels || [],
+        cat: categoryOf(a),
         title: {},
         toc: {},
     };

@@ -17,40 +17,46 @@
     }
     function t(obj) { return (obj && (obj[L()] || obj.ru)) || ''; }
 
-    // ---- categories: 70 dump labels folded into something a human can scan ----
+    /* ---- categories (HELP_IA.md) -------------------------------------------
+     * The article's category is resolved at build time and shipped as `cat` in
+     * help-index.json, so this file only has to know how to name and order the
+     * categories. It used to fold 70 dump labels into ten sections by hand here,
+     * which put 100+ articles into an "Everything else" bucket; that guesswork
+     * now lives in one place (site.js/help-category.js) shared with the engine.
+     *
+     * Order is the reading order a newcomer wants, not alphabetical: where to
+     * start, then your character, then what you do, then the world around it. */
     var SECTIONS = [
-        { key: 'start',   labels: ['info','system','char','learn','position','move','comm','config','client','note','language','service'],
-          en: 'Getting started',   ua: 'З чого почати' },
-        { key: 'cmd',     labels: ['cmd','combat','fight','group','locks','milking'],
-          en: 'Commands',          ua: 'Команди' },
-        /* spells first: a spell is also tagged with its class's -skills label,
-           and whichever section matches first wins */
-        { key: 'magic',   labels: ['spell','magic'],
-          en: 'Spells & magic',    ua: 'Закляття й магія' },
-        { key: 'classes', labels: ['class','skillgroup'], skillish: true,
-          en: 'Classes & skills',  ua: 'Класи й уміння' },
-        { key: 'races',   labels: ['race','raceaptitude','religion'],
-          en: 'Races & religions', ua: 'Раси й релігії' },
-        { key: 'society', labels: ['clan','family','bank','shop','quest','craft','cityguard'],
-          en: 'Clans & society',   ua: 'Клани й суспільство' },
-        { key: 'items',   labels: ['item','items','food'],
-          en: 'Items',             ua: 'Речі' },
-        { key: 'world',   labels: ['area'],
-          en: 'World & zones',     ua: 'Світ і зони' },
-        { key: 'social',  labels: ['social'],
-          en: 'Socials',           ua: 'Соціали' },
+        { key: 'start',   en: 'Getting started',   ua: 'З чого почати' },
+        { key: 'char',    en: 'Your character',    ua: 'Твій персонаж' },
+        { key: 'skills',  en: 'Skills & learning', ua: 'Вміння й навчання' },
+        { key: 'magic',   en: 'Spells & magic',    ua: 'Закляття й магія' },
+        { key: 'combat',  en: 'Combat',            ua: 'Бій' },
+        { key: 'classes', en: 'Classes',           ua: 'Класи' },
+        { key: 'races',   en: 'Races',             ua: 'Раси' },
+        { key: 'gods',    en: 'Gods & religions',  ua: 'Боги й релігії' },
+        { key: 'items',   en: 'Items & economy',   ua: 'Речі й господарство' },
+        { key: 'world',   en: 'World & travel',    ua: 'Світ і подорожі' },
+        { key: 'quests',  en: 'Quests',            ua: 'Квести' },
+        { key: 'society', en: 'Players & clans',   ua: 'Гравці й клани' },
+        { key: 'comm',    en: 'Communication & settings',
+          ua: 'Спілкування й налаштування' },
+        { key: 'socials', en: 'Socials',           ua: 'Соціали' },
     ];
-    var FALLBACK = { key: 'more', labels: [], en: 'Everything else', ua: 'Решта' };
+    /* Anything the resolver could not place. Should stay empty -- if this band
+       ever appears, an article slipped through and the IA needs a rule, so it is
+       deliberately not given a friendly name. */
+    var FALLBACK = { key: 'more', en: 'Uncategorised', ua: 'Без категорії' };
 
-    function sectionFor(labels) {
-        if (!labels || !labels.length) return FALLBACK;
-        for (var i = 0; i < SECTIONS.length; i++) {
-            var s = SECTIONS[i];
-            for (var j = 0; j < labels.length; j++) {
-                if (s.labels.indexOf(labels[j]) >= 0) return s;
-                if (s.skillish && /skills?$/.test(labels[j])) return s;
-            }
-        }
+    /* Immortal docs, licences and engine-internal articles stay reachable by
+       search and by direct link, but never clutter the browsable index. */
+    var HIDDEN = ['imm', 'credits', 'engine', 'deprecated'];
+
+    function sectionFor(a) {
+        var cat = a && a.cat;
+        if (!cat || HIDDEN.indexOf(cat) >= 0) return null;
+        for (var i = 0; i < SECTIONS.length; i++)
+            if (SECTIONS[i].key === cat) return SECTIONS[i];
         return FALLBACK;
     }
 
@@ -118,7 +124,10 @@
     function buildIndex() {
         var groups = {};
         SECTIONS.concat([FALLBACK]).forEach(function (s) { groups[s.key] = { sec: s, items: [] }; });
-        index.forEach(function (a) { groups[sectionFor(a.labels).key].items.push(a); });
+        index.forEach(function (a) {
+            var s = sectionFor(a);
+            if (s) groups[s.key].items.push(a);   // null = deliberately not indexed
+        });
 
         var html = '', opts = '';
         SECTIONS.concat([FALLBACK]).forEach(function (s) {
