@@ -19,15 +19,17 @@
 .hart__body p { margin: 0 0 .85em; }
 .hart__body p.hbullet { margin: 0 0 .3em; padding-left: 1.1em; text-indent: -1.1em; }
 .hart__body p.hbullet b { color: #8a6a10; }
+/* --article, not --mono: the prose around these blocks is Fira Code, and two
+   different monospace faces inside one article read as a rendering fault */
 .hart__body pre {
-    font-family: var(--mono); font-size: .84rem; line-height: 1.45; color: #3a2f18;
+    font-family: var(--article); font-size: .84rem; line-height: 1.45; color: #3a2f18;
     background: rgba(70,50,20,.08); border: 1px solid rgba(120,90,50,.22);
     border-radius: 4px; padding: 14px 16px; margin: 0 0 1em;
     overflow-x: auto; white-space: pre;
 }
 .hart__body a.hlink { color: #7a3b2a; border-bottom: 1px solid rgba(122,59,42,.4); }
 .hart__body a.hlink:hover { color: #b8324f; border-bottom-color: #b8324f; }
-.hart__body code.hcmd { font-family: var(--mono); font-size: .84em; color: #5c4a1e;
+.hart__body code.hcmd { font-family: var(--article); font-size: .84em; color: #5c4a1e;
     background: rgba(70,50,20,.1); border: 1px solid rgba(120,90,50,.24);
     padding: 1px 6px; border-radius: 4px; }
 
