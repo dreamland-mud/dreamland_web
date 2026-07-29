@@ -5,8 +5,12 @@
 
 /* ---------- Fonts ----------
    Playfair Display: classy high-contrast display serif for headings.
-   Alegreya Sans: warm old-style humanist sans for body. */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap');
+   Alegreya Sans: warm old-style humanist sans for body.
+   Fira Code: the long-form article face -- help bodies and news bodies are
+   game text, so they read as terminal output rather than as web prose. Its
+   cyrillic subset covers Ukrainian (U+0400-045F plus U+0490-0491), and the
+   modifier-letter apostrophe U+02BC ships in the latin subset. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Fira+Code:wght@400;600&display=swap');
 
 /* ---------- Tokens ---------- */
 :root {
@@ -52,6 +56,9 @@
     --display: 'Playfair Display', 'Times New Roman', serif;
     --body:    'Alegreya Sans', 'Segoe UI', sans-serif;
     --mono:    'JetBrains Mono', ui-monospace, monospace;
+    /* long-form game text (help article bodies, news bodies) -- distinct from
+       --mono, which stays JetBrains Mono for code spans and small UI labels */
+    --article: 'Fira Code', ui-monospace, monospace;
 
     --maxw: 1120px;
     --radius: 5px;

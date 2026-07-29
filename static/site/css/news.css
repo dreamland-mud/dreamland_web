@@ -69,7 +69,8 @@ details.nyear > summary:hover { color: #fff; }
 /* posted as plain text, sometimes hand-aligned — keep the author's line breaks */
 .news-full__text {
     white-space: pre-wrap; word-wrap: break-word;
-    font-size: 1.04rem; line-height: 1.62; color: var(--ink);
+    /* .96rem for the same reason as .hart__body: monospace sets wider */
+    font-family: var(--article); font-size: .96rem; line-height: 1.62; color: var(--ink);
 }
 .news-empty { padding: 30px; text-align: center; color: var(--text-faint); }
 

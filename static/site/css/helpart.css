@@ -13,7 +13,9 @@
 .hart h1 { font-family: var(--display); font-size: clamp(1.7rem, 3.4vw, 2.4rem);
     color: #241809; margin: 0 0 18px; line-height: 1.12;
     padding-bottom: 14px; border-bottom: 1px solid rgba(150,120,70,.3); }
-.hart__body { font-size: 1.04rem; line-height: 1.62; }
+/* .96rem, not the 1.04rem this carried under Alegreya Sans: a monospace face
+   sets wider at the same size and would cut the parchment column's line length */
+.hart__body { font-family: var(--article); font-size: .96rem; line-height: 1.62; }
 .hart__body p { margin: 0 0 .85em; }
 .hart__body p.hbullet { margin: 0 0 .3em; padding-left: 1.1em; text-indent: -1.1em; }
 .hart__body p.hbullet b { color: #8a6a10; }
