@@ -50,11 +50,15 @@ const OVERRIDES = (() => {
     }
 })();
 
+const catSource = { dump: 0, override: 0, labels: 0, none: 0 };
+
 function categoryOf(a) {
-    if (a.cat) return a.cat;
+    if (a.cat) { catSource.dump++; return a.cat; }
     const o = OVERRIDES[String(a.id)];
-    if (o) return o;
-    return CAT.resolve(a.labels || []);
+    if (o) { catSource.override++; return o; }
+    const r = CAT.resolve(a.labels || []);
+    if (r) catSource.labels++; else catSource.none++;
+    return r;
 }
 
 const LANGS = [
@@ -116,3 +120,12 @@ for (const L of LANGS)
 console.log(`\n${stats.total} articles · translated: EN ${stats.translated.en}, UA ${stats.translated.ua}`);
 if (!stats.translated.en && !stats.translated.ua)
     console.log('(dump has no per-language keys yet — regenerate it after the next reboot)');
+
+console.log(`categories: ${catSource.dump} from the dump, ${catSource.override} from the ` +
+            `override file, ${catSource.labels} resolved from labels` +
+            (catSource.none ? `, ${catSource.none} UNRESOLVED` : ''));
+if (catSource.dump && catSource.override === 0)
+    console.log('(the engine now sends `cat` for everything — site.js/help-categories.json ' +
+                'is dead weight and can be deleted)');
+if (catSource.none)
+    console.log('(an unresolved article means the IA has no rule for it — see HELP_IA.md §2)');
