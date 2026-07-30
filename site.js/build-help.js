@@ -75,9 +75,12 @@ for (const a of raw) {
     if (!a.id || a.id <= 0) continue;
     stats.total++;
 
+    /* `kw` is dropped on purpose: it is kwList joined into one string, 27% of
+       the index by weight, and the browser only ever searched kwList. Empty
+       title/toc slots are dropped too -- most articles have no authored title,
+       and 1342 copies of {"ru":"","en":"","ua":""} was 8% more. */
     const entry = {
         id: a.id,
-        kw: a.kw || '',
         kwList: a.kwList || [],
         labels: a.labels || [],
         cat: categoryOf(a),
@@ -99,8 +102,8 @@ for (const a of raw) {
             bodies[L.key][a.id] = body;
             stats.translated[L.key]++;
         }
-        entry.title[L.key] = title;
-        entry.toc[L.key] = toc;
+        if (title) entry.title[L.key] = title;
+        if (toc) entry.toc[L.key] = toc;
     }
 
     index.push(entry);
