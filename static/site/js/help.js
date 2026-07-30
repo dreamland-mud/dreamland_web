@@ -16,6 +16,9 @@
         });
     }
     function t(obj) { return (obj && (obj[L()] || obj.ru)) || ''; }
+    /* the index used to carry a joined `kw` string purely as a title fallback;
+       it was 27% of the file, so the first keyword stands in for it */
+    function label(a) { return t(a.toc) || t(a.title) || (a.kwList && a.kwList[0]) || ('#' + a.id); }
 
     /* ---- categories (HELP_IA.md) -------------------------------------------
      * The article's category is resolved at build time and shipped as `cat` in
@@ -142,21 +145,43 @@
             .then(function (d) { overlay = d || {}; });
     }
 
-    Promise.all([
-        fetch('data/help-index.json').then(function (r) { return r.json(); }),
-        fetch('data/help-body-ru.json').then(function (r) { return r.json(); }),
-        loadOverlay(L())
-    ]).then(function (res) {
-        index = res[0]; bodyRu = res[1];
-        index.forEach(function (a) { byId[a.id] = a; });
-        buildKeywordIndex();
-        ready = true;
-        buildIndex();
-        openFromHash();
-    }).catch(function () {
-        artEl.innerHTML = '<p class="help-empty">' +
-            (L() === 'ua' ? 'Не вдалося завантажити довідку.' : 'Could not load the help.') + '</p>';
-    });
+    /* The index is ~0.5 MB and the bodies are ~5 MB across the three languages.
+       Waiting on all of it before doing anything left search and the random
+       button dead for seconds after the page looked ready. Only the index gates
+       the page now; the bodies stream in behind it and an article that is asked
+       for early waits on its own. */
+    var bodiesReady = null;          // Promise, resolved when bodyRu + overlay are in
+    var bodiesIn = false;            // an article's body may legitimately be ''
+    var pendingId = 0;               // article requested before the bodies landed
+
+    function loadBodies() {
+        if (bodiesReady) return bodiesReady;
+        bodiesReady = Promise.all([
+            fetch('data/help-body-ru.json').then(function (r) { return r.json(); }),
+            loadOverlay(L())
+        ]).then(function (res) {
+            bodyRu = res[0];
+            bodiesIn = true;
+            if (pendingId) { var id = pendingId; pendingId = 0; show(id); }
+        });
+        return bodiesReady;
+    }
+
+    fetch('data/help-index.json')
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            index = data;
+            index.forEach(function (a) { byId[a.id] = a; });
+            buildKeywordIndex();
+            ready = true;              // search, random and the rail work from here
+            buildIndex();
+            openFromHash();
+            loadBodies();
+        })
+        .catch(function () {
+            artEl.innerHTML = '<p class="help-empty">' +
+                (L() === 'ua' ? 'Не вдалося завантажити довідку.' : 'Could not load the help.') + '</p>';
+        });
 
     // ---- category index ---------------------------------------------------
     /* Narrow screens get a picker instead of the accordion stack: thirteen
@@ -210,7 +235,7 @@
                 '<span class="hcat__n">' + g.items.length + '</span></summary><ul>' +
                 g.items.map(function (a) {
                     return '<li><a href="#h' + a.id + '" data-hid="' + a.id + '">' +
-                        esc(t(a.toc) || t(a.title) || a.kw) + badge(a) + '</a></li>';
+                        esc(label(a)) + badge(a) + '</a></li>';
                 }).join('') + '</ul></details>';
         });
         idxEl.innerHTML =
@@ -225,6 +250,14 @@
     // ---- article ----------------------------------------------------------
     function show(id) {
         var a = byId[id];
+        if (a && !bodiesIn) {
+            // the bodies are still on the wire -- claim the slot and come back
+            pendingId = id;
+            artEl.innerHTML = '<p class="help-empty">' +
+                (L() === 'ua' ? 'Завантаження...' : 'Loading...') + '</p>';
+            loadBodies();
+            return;
+        }
         if (!a) {
             artEl.innerHTML = '<p class="help-empty">' +
                 (L() === 'ua' ? 'Такої статті немає.' : 'No such article.') + '</p>';
@@ -232,7 +265,7 @@
         }
         artEl.innerHTML =
             '<article class="hart" id="h' + a.id + '">' +
-                '<h1>' + esc(t(a.title) || t(a.toc) || a.kw) + badge(a) + '</h1>' +
+                '<h1>' + esc(label(a)) + badge(a) + '</h1>' +
                 '<div class="hart__body">' +
                     DLMarkup.render(bodyFor(a.id), { resolveLink: resolveLink }) +
                 '</div>' +
@@ -258,7 +291,7 @@
         for (var i = 0; i < index.length && exact.length + partial.length < 60; i++) {
             var a = index[i];
             var kws = (a.kwList || []).map(function (k) { return k.toLowerCase(); });
-            var title = (t(a.toc) || t(a.title) || '').toLowerCase();
+            var title = label(a).toLowerCase();
             if (kws.indexOf(q) >= 0) exact.push(a);
             else if (title.indexOf(q) >= 0 || kws.some(function (k) { return k.indexOf(q) === 0; })) partial.push(a);
         }
@@ -267,7 +300,7 @@
         resEl.innerHTML = hits.length
             ? hits.map(function (a) {
                 return '<a href="#h' + a.id + '" data-hid="' + a.id + '"><b>' +
-                    esc(t(a.toc) || t(a.title) || a.kw) + badge(a) + '</b><span>' +
+                    esc(label(a)) + badge(a) + '</b><span>' +
                     esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span></a>';
               }).join('')
             : '<p class="help-empty">' + (L() === 'ua' ? 'Нічого не знайшлося.' : 'Nothing found.') + '</p>';
@@ -306,6 +339,7 @@
         b.addEventListener('click', function () {
             paintChrome();
             if (!ready) return;
+            bodiesReady = null;
             loadOverlay(L()).then(function () {
                 buildKeywordIndex();
                 buildIndex();
