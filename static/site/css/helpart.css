@@ -15,23 +15,67 @@
     padding-bottom: 14px; border-bottom: 1px solid rgba(150,120,70,.3); }
 /* .96rem, not the 1.04rem this carried under Alegreya Sans: a monospace face
    sets wider at the same size and would cut the parchment column's line length */
-.hart__body { font-family: var(--article); font-size: .96rem; line-height: 1.62; }
+.hart__body { font-family: var(--article); font-size: .96rem; line-height: 1.62;
+    letter-spacing: var(--mono-track); }
 .hart__body p { margin: 0 0 .85em; }
-.hart__body p.hbullet { margin: 0 0 .3em; padding-left: 1.1em; text-indent: -1.1em; }
-.hart__body p.hbullet b { color: #8a6a10; }
 /* --article, not --mono: the prose around these blocks is Fira Code, and two
    different monospace faces inside one article read as a rendering fault */
 .hart__body pre {
     font-family: var(--article); font-size: .84rem; line-height: 1.45; color: #3a2f18;
+    letter-spacing: var(--mono-track);
     background: rgba(70,50,20,.08); border: 1px solid rgba(120,90,50,.22);
     border-radius: 4px; padding: 14px 16px; margin: 0 0 1em;
     overflow-x: auto; white-space: pre;
 }
-.hart__body a.hlink { color: #7a3b2a; border-bottom: 1px solid rgba(122,59,42,.4); }
-.hart__body a.hlink:hover { color: #b8324f; border-bottom-color: #b8324f; }
+.hart__body a.hlink { color: var(--arcane-ink); border-bottom: 1px solid rgba(106,47,166,.38); }
+.hart__body a.hlink:hover { color: var(--arcane-ink-hi); border-bottom-color: var(--arcane-ink-hi); }
+/* A reference the anchor text could not be resolved to an article: still the
+   emphasis the author meant, minus a link that would go nowhere. */
+.hart__body b.hlink-plain { color: #241809; font-weight: 600; }
 .hart__body code.hcmd { font-family: var(--article); font-size: .84em; color: #5c4a1e;
+    letter-spacing: var(--mono-track);
     background: rgba(70,50,20,.1); border: 1px solid rgba(120,90,50,.24);
     padding: 1px 6px; border-radius: 4px; }
+
+/* A speedwalk token (%hs%): the game client walks it, a web page cannot. */
+.hart__body code.hwalk { font-family: var(--article); font-size: .84em; color: #5a5344;
+    letter-spacing: var(--mono-track);
+    background: rgba(70,50,20,.07); border: 1px dashed rgba(120,90,50,.3);
+    padding: 1px 6px; border-radius: 4px; }
+.hart__body a.hlink--ext { word-break: break-all; }
+
+/* Bullets: a real list, so the marker hangs and a screen reader announces one.
+   Was a run of <p>s with a bold • pasted on the front. */
+.hart__body ul.hlist { margin: 0 0 .85em; padding-left: 1.35em; list-style: disc; }
+.hart__body ul.hlist li { margin: 0 0 .25em; }
+.hart__body ul.hlist li::marker { color: #8a6a10; }
+
+/* One call shape per line. The game emits one %FMT% per shape, but they used to
+   be joined into a paragraph -- `sacrifice` read "Format: sacrifice all Format:
+   sacrifice item" on one line. */
+.hart__body p.hfmt { margin: 0 0 .3em; display: flex; gap: .5em; align-items: baseline;
+    flex-wrap: wrap; }
+.hart__body p.hfmt + p:not(.hfmt) { margin-top: .85em; }
+.hart__body .hfmt__label { color: #8a6a10; font-weight: 700; letter-spacing: .02em;
+    text-transform: uppercase; font-size: .78em; flex: none; }
+.hart__body .hfmt__call { font-family: var(--article); font-size: .9em; color: #3a2f18;
+    letter-spacing: var(--mono-track);
+    background: rgba(70,50,20,.1); border: 1px solid rgba(120,90,50,.24);
+    padding: 2px 8px; border-radius: 4px; white-space: pre-wrap; }
+/* the continuation shape lines up under the first, where the label was */
+.hart__body p.hfmt--cont { padding-left: 4.4em; }
+
+/* What kind of thing the article is about, next to its name. The titles used to
+   spell it out ("Skill 'accuracy'"), which sorted the rail by type and repeated
+   the word 800 times. */
+.hkind {
+    font-family: var(--mono); font-size: .62rem; letter-spacing: .06em;
+    text-transform: lowercase; font-weight: 500; vertical-align: middle;
+    padding: .12em .5em; margin-left: .6em; border-radius: 3px;
+    color: var(--ink-dim); background: rgba(70,50,20,.1);
+    border: 1px solid rgba(120,90,50,.26); white-space: nowrap;
+}
+.hart h1 .hkind { font-size: .7rem; vertical-align: .35em; }
 
 /* mudjs terminal palette remapped for ink-on-parchment: the originals are tuned
    for a black background and several of them are invisible here */
