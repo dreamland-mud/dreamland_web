@@ -60,8 +60,75 @@
         return FALLBACK;
     }
 
+    /* ---- type badge --------------------------------------------------------
+     * The article's kind, taken from the facet labels the engine already ships.
+     * The titles used to carry it as a prefix ("Skill 'accuracy'"), which sorted
+     * the rail by type instead of by name and repeated the same word 800 times;
+     * the name now stands alone and the kind is a chip beside it. Order matters
+     * for the same reason it does in the category resolver: spell before skill,
+     * or every spell reads as a skill. */
+    var KINDS = [
+        { label: 'spell',    en: 'spell',    ua: 'закляття' },
+        { label: 'social',   en: 'social',   ua: 'соціал' },
+        { label: 'race',     en: 'race',     ua: 'раса' },
+        { label: 'raceaptitude', en: 'race', ua: 'раса' },
+        { label: 'religion', en: 'religion', ua: 'релігія' },
+        { label: 'class',    en: 'class',    ua: 'клас' },
+        { label: 'skillgroup', en: 'group',  ua: 'група' },
+        { label: 'craftskill', en: 'craft',  ua: 'ремесло' },
+        { label: 'craft',    en: 'craft',    ua: 'ремесло' },
+        { label: 'item',     en: 'behavior', ua: 'поведінка' },
+        { label: 'clanskill', en: 'skill',   ua: 'вміння' },
+        { label: 'cardskill', en: 'skill',   ua: 'вміння' },
+        { label: 'language', en: 'language', ua: 'мова' },
+        { label: 'skill',    en: 'skill',    ua: 'вміння' },
+        { label: 'area',     en: 'zone',     ua: 'зона' },
+        { label: 'cmd',      en: 'command',  ua: 'команда' },
+    ];
+
+    function kindOf(a) {
+        var labels = (a && a.labels) || [];
+        for (var i = 0; i < KINDS.length; i++)
+            if (labels.indexOf(KINDS[i].label) >= 0) return KINDS[i];
+        return null;
+    }
+    function badge(a) {
+        var k = kindOf(a);
+        if (!k) return '';
+        return '<span class="hkind">' + esc(L() === 'ua' ? k.ua : k.en) + '</span>';
+    }
+
     // ---- data -------------------------------------------------------------
     var index = [], byId = {}, bodyRu = {}, overlay = {}, ready = false;
+    var byKeyword = {};
+
+    /* The [square bracket] references in the corpus arrive with no article id
+       (helpformatter.cpp emits a bare {hh), so they are resolved here the same
+       way the game client resolves them: by the anchor text. Keywords first,
+       then the visible title, which is what anchors like "Traveller's Comfort"
+       are actually written against. */
+    function buildKeywordIndex() {
+        byKeyword = {};
+        function put(key, id) {
+            if (!key) return;
+            key = key.trim().toLowerCase();
+            if (key && byKeyword[key] === undefined) byKeyword[key] = id;
+        }
+        index.forEach(function (a) {
+            (a.kwList || []).forEach(function (k) { put(String(k).replace(/^'|'$/g, ''), a.id); });
+        });
+        // second pass: titles never outrank a real keyword
+        index.forEach(function (a) {
+            ['ru', 'en', 'ua'].forEach(function (l) {
+                put((a.toc && a.toc[l]) || '', a.id);
+                put((a.title && a.title[l]) || '', a.id);
+            });
+        });
+    }
+    function resolveLink(text) {
+        var id = byKeyword[String(text || '').trim().toLowerCase()];
+        return id === undefined ? null : id;
+    }
 
     function bodyFor(id) {
         var o = overlay[id];
@@ -82,6 +149,7 @@
     ]).then(function (res) {
         index = res[0]; bodyRu = res[1];
         index.forEach(function (a) { byId[a.id] = a; });
+        buildKeywordIndex();
         ready = true;
         buildIndex();
         openFromHash();
@@ -142,7 +210,7 @@
                 '<span class="hcat__n">' + g.items.length + '</span></summary><ul>' +
                 g.items.map(function (a) {
                     return '<li><a href="#h' + a.id + '" data-hid="' + a.id + '">' +
-                        esc(t(a.toc) || t(a.title) || a.kw) + '</a></li>';
+                        esc(t(a.toc) || t(a.title) || a.kw) + badge(a) + '</a></li>';
                 }).join('') + '</ul></details>';
         });
         idxEl.innerHTML =
@@ -164,8 +232,10 @@
         }
         artEl.innerHTML =
             '<article class="hart" id="h' + a.id + '">' +
-                '<h1>' + esc(t(a.title) || t(a.toc) || a.kw) + '</h1>' +
-                '<div class="hart__body">' + DLMarkup.render(bodyFor(a.id)) + '</div>' +
+                '<h1>' + esc(t(a.title) || t(a.toc) || a.kw) + badge(a) + '</h1>' +
+                '<div class="hart__body">' +
+                    DLMarkup.render(bodyFor(a.id), { resolveLink: resolveLink }) +
+                '</div>' +
             '</article>';
         artEl.scrollTop = 0;
     }
@@ -197,7 +267,7 @@
         resEl.innerHTML = hits.length
             ? hits.map(function (a) {
                 return '<a href="#h' + a.id + '" data-hid="' + a.id + '"><b>' +
-                    esc(t(a.toc) || t(a.title) || a.kw) + '</b><span>' +
+                    esc(t(a.toc) || t(a.title) || a.kw) + badge(a) + '</b><span>' +
                     esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span></a>';
               }).join('')
             : '<p class="help-empty">' + (L() === 'ua' ? 'Нічого не знайшлося.' : 'Nothing found.') + '</p>';
@@ -237,6 +307,7 @@
             paintChrome();
             if (!ready) return;
             loadOverlay(L()).then(function () {
+                buildKeywordIndex();
                 buildIndex();
                 openFromHash();
                 if (searchEl && searchEl.value) searchFor(searchEl.value);

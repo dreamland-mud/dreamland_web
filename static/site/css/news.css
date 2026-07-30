@@ -71,7 +71,11 @@ details.nyear > summary:hover { color: #fff; }
     white-space: pre-wrap; word-wrap: break-word;
     /* .96rem for the same reason as .hart__body: monospace sets wider */
     font-family: var(--article); font-size: .96rem; line-height: 1.62; color: var(--ink);
+    letter-spacing: var(--mono-track);
 }
+/* same parchment purple the help articles use for cross-references */
+.news-full__text a { color: var(--arcane-ink); border-bottom: 1px solid rgba(106,47,166,.38); }
+.news-full__text a:hover { color: var(--arcane-ink-hi); border-bottom-color: var(--arcane-ink-hi); }
 .news-empty { padding: 30px; text-align: center; color: var(--text-faint); }
 
 @media (max-width: 900px) {

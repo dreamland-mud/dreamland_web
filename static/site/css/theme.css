@@ -59,6 +59,17 @@
     /* long-form game text (help article bodies, news bodies) -- distinct from
        --mono, which stays JetBrains Mono for code spans and small UI labels */
     --article: 'Fira Code', ui-monospace, monospace;
+    /* Both monospace faces set noticeably looser than the sans they sit next to;
+       a touch of negative tracking pulls long game text back to a normal
+       reading rhythm without touching the glyphs. Applied wherever --mono or
+       --article is, never to the display or body faces. */
+    --mono-track: -.014em;
+
+    /* Cross-references inside a parchment article. The site accent (--arcane)
+       is tuned for the dark chrome and washes out on this background, so the
+       ink-on-parchment surfaces get their own, darker purple. */
+    --arcane-ink:  #6a2fa6;
+    --arcane-ink-hi: #8f3fd6;
 
     --maxw: 1120px;
     --radius: 5px;
@@ -93,7 +104,7 @@ h1,h2,h3,h4 {
 em, i { font-style: normal; color: var(--gold-bright); }
 [style*="italic"], .italic { font-style: normal !important; }
 code {
-    font-family: var(--mono); font-size: .8em;
+    font-family: var(--mono); font-size: .8em; letter-spacing: var(--mono-track);
     background: rgba(0,0,0,.4); color: var(--arcane);
     padding: .1em .45em; border-radius: 4px;
     border: 1px solid rgba(187,134,252,.28);
