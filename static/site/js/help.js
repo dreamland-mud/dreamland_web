@@ -138,9 +138,33 @@
         return (o != null && o !== '') ? o : (bodyRu[id] || '');
     }
 
+    /* Fetch a data file, preferring the gzipped copy.
+     *
+     * nginx here compresses nothing but text/html (gzip_types is commented out
+     * and the config is root-only), so these JSONs would otherwise travel raw --
+     * about 3 MB for one visit. The .gz is fetched as opaque bytes and inflated
+     * with DecompressionStream, which is the one part of the pipeline we own.
+     * Anything without that API, or any missing .gz, falls back to the plain
+     * file, so this can never be the reason the page fails to load. */
+    function fetchData(name) {
+        var plain = function () {
+            return fetch('data/' + name).then(function (r) {
+                if (!r.ok) throw new Error(name);
+                return r.json();
+            });
+        };
+        if (typeof DecompressionStream !== 'function') return plain();
+
+        return fetch('data/' + name + '.gz').then(function (r) {
+            if (!r.ok || !r.body) throw new Error('no gz');
+            return new Response(
+                r.body.pipeThrough(new DecompressionStream('gzip'))
+            ).json();
+        }).catch(plain);
+    }
+
     function loadOverlay(lang) {
-        return fetch('data/help-body-' + (lang === 'ua' ? 'ua' : 'en') + '.json')
-            .then(function (r) { return r.ok ? r.json() : {}; })
+        return fetchData('help-body-' + (lang === 'ua' ? 'ua' : 'en') + '.json')
             .catch(function () { return {}; })
             .then(function (d) { overlay = d || {}; });
     }
@@ -157,7 +181,7 @@
     function loadBodies() {
         if (bodiesReady) return bodiesReady;
         bodiesReady = Promise.all([
-            fetch('data/help-body-ru.json').then(function (r) { return r.json(); }),
+            fetchData('help-body-ru.json'),
             loadOverlay(L())
         ]).then(function (res) {
             bodyRu = res[0];
@@ -167,8 +191,7 @@
         return bodiesReady;
     }
 
-    fetch('data/help-index.json')
-        .then(function (r) { return r.json(); })
+    fetchData('help-index.json')
         .then(function (data) {
             index = data;
             index.forEach(function (a) { byId[a.id] = a; });

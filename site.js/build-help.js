@@ -22,6 +22,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 
 const ROOT = path.resolve(__dirname, '../static');
 const RAW = process.argv[2] || path.join(ROOT, 'data/helps.raw.json');
@@ -109,11 +110,23 @@ for (const a of raw) {
     index.push(entry);
 }
 
+/* Written twice: plain, and gzipped next to it.
+ *
+ * nginx on this box has `gzip on` but `gzip_types` commented out, so its
+ * default applies and only text/html is ever compressed -- every JSON here goes
+ * over the wire raw. The config is root-owned and sudo is disabled, so the
+ * compression has to happen somewhere we control: the browser fetches the .gz
+ * and inflates it with DecompressionStream. The plain file stays for anything
+ * without that API, and becomes the only one needed the day nginx is fixed. */
 function write(name, data) {
     const p = path.join(ROOT, 'data', name);
     fs.mkdirSync(path.dirname(p), { recursive: true });
-    fs.writeFileSync(p, JSON.stringify(data));
-    return (fs.statSync(p).size / 1024).toFixed(0) + ' KB';
+    const json = JSON.stringify(data);
+    fs.writeFileSync(p, json);
+    fs.writeFileSync(p + '.gz', zlib.gzipSync(json, { level: 9 }));
+    const raw = fs.statSync(p).size / 1024;
+    const gz = fs.statSync(p + '.gz').size / 1024;
+    return raw.toFixed(0) + ' KB (' + gz.toFixed(0) + ' KB gzipped)';
 }
 
 console.log('index          ', write('help-index.json', index));
