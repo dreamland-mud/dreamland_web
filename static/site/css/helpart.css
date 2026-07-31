@@ -43,6 +43,9 @@
     background: rgba(70,50,20,.07); border: 1px dashed rgba(120,90,50,.3);
     padding: 1px 6px; border-radius: 4px; }
 .hart__body a.hlink--ext { word-break: break-all; }
+/* The zone's map, off the article's metadata bullet: a two-word phrase, so it
+   breaks across lines badly and gains nothing from breaking at all. */
+.hart__body a.hlink--map { white-space: nowrap; }
 
 /* Bullets: a real list, so the marker hangs and a screen reader announces one.
    Was a run of <p>s with a bold • pasted on the front. */
