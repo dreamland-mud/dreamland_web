@@ -81,6 +81,21 @@ window.DLMarkup = (function () {
         return /^(https?:\/\/|\/|#)/i.test(u) ? u : null;
     }
 
+    /* [map=<file>.are] is the game's own marker for "the zone this article is
+       about has a map"; the in-game web client turns it into a button. Nothing
+       here knew about it, so on the site it reached the reader as the literal
+       four-word placeholder. Run last, over assembled HTML: esc() leaves every
+       character of the marker alone, and the only markup around it by then is
+       the <li> the metadata bullet became. */
+    var MAP_LABEL = { en: 'open the map', ua: 'відкрити мапу' };
+    function mapLinks(html) {
+        var l = document.documentElement.getAttribute('data-lang') === 'uk' ? 'ua' : 'en';
+        return html.replace(/\[map=([-0-9a-z_]{1,15})\.are\]/g, function (m, file) {
+            return '<a class="hlink hlink--map" href="maps.html#' + file + '">' +
+                esc(MAP_LABEL[l]) + '</a>';
+        });
+    }
+
     function wrapChain(html, chain, base) {
         for (var i = chain.length - 1; i >= 0; i--) {
             var w = chain[i];
@@ -243,7 +258,7 @@ window.DLMarkup = (function () {
             para.push(lineHtml(line, base));
         }
         flushAll();
-        return out.join('\n');
+        return mapLinks(out.join('\n'));
     }
 
     return { render: render, esc: esc };
