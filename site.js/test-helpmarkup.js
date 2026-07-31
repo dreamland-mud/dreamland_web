@@ -23,11 +23,15 @@ function parse(html) {
     const stack = [root];
     const re = /<\/?([a-z]+)([^>]*)>/gi;
     let last = 0, m;
-    const push = n => stack[stack.length - 1].children.push(n);
+    const push = n => (stack[stack.length - 1] || root).children.push(n);
     while ((m = re.exec(html))) {
         if (m.index > last) push({ nodeType: 3, nodeValue: html.slice(last, m.index) });
         last = m.index + m[0].length;
-        if (m[0][1] === '/') { stack.pop(); continue; }
+        /* Real article bodies carry stray closing tags -- mudtags emits a bare
+           </c> where a colour region ends inside another. A browser's innerHTML
+           swallows them, so this has to as well, or the shim only ever works on
+           hand-written fixtures. */
+        if (m[0][1] === '/') { if (stack.length > 1) stack.pop(); continue; }
         const attrs = {};
         m[2].replace(/([a-z-]+)\s*=\s*'([^']*)'/gi, (s, k, v) => { attrs[k] = v; return s; });
         const el = { nodeType: 1, tagName: m[1].toUpperCase(), attrs, children: [] };
