@@ -1,0 +1,264 @@
+/*
+ * DreamLand account broker (Phase 5.1).
+ *
+ * The one server-side component of the passwordless account flow. It holds the
+ * per-surface `web` token (which the browser must never see) and speaks to the MUD
+ * account servlets on its behalf. The flow:
+ *
+ *   1. Visitor proves they own an email  -> /account-api/emailcode + emailverify
+ *   2. On success the broker sets a signed session cookie ("identity proven, no
+ *      character chosen"). This state lives HERE, never in the engine.
+ *   3. The browser asks for the roster    -> /account-api/session
+ *   4. The visitor clicks a character     -> /account-api/enter, which mints a
+ *      one-use entry token (~90s) the browser sends over its own WebSocket as
+ *      `account_enter <token>`. The engine cold-loads the character, no password.
+ *
+ * Only the entry token ever reaches the browser, and only for the moment it takes
+ * to hand it to the game -- exactly like the resume token. The web token and the
+ * cookie secret stay in the process environment.
+ *
+ * Ships dark: with no account_web.token on the MUD host (or the seam un-rebooted)
+ * every MUD call 403s, so the broker is inert until go-public.
+ */
+
+const express = require('express');
+const crypto = require('crypto');
+
+// ---- config ----------------------------------------------------------------
+
+const PORT = parseInt(process.env.ACCOUNT_PORT || '8002', 10);
+// The engine's servlet port on the same host. Servlet paths are registered BARE
+// (/account/emailcode, /eval, ...); the public https://dreamland.rocks/api/* works
+// only because nginx strips the /api prefix. The broker talks to the engine
+// directly (no nginx in between), so its base must NOT carry /api.
+const MUD_API = (process.env.MUD_API || 'http://localhost:1235').replace(/\/+$/, '');
+const WEB_TOKEN = process.env.ACCOUNT_WEB_TOKEN || '';
+const COOKIE_SECRET = process.env.ACCOUNT_COOKIE_SECRET || '';
+
+// A broker without its secrets is either useless or dangerous (a weak default
+// cookie secret is forgeable). Refuse to start rather than run insecurely.
+if (!WEB_TOKEN || !COOKIE_SECRET) {
+    console.error(
+        'account-broker: ACCOUNT_WEB_TOKEN and ACCOUNT_COOKIE_SECRET are required. ' +
+        'Refusing to start.'
+    );
+    process.exit(1);
+}
+
+const COOKIE_NAME = 'dl_acct';
+const SESSION_TTL_MS = 30 * 60 * 1000;   // 30 minutes of "identity proven"
+
+// ---- signed session cookie -------------------------------------------------
+//
+// Value = base64url(payload).base64url(HMAC-SHA256(payload, secret)). The payload
+// is the proven identity plus an expiry. httpOnly so page JS cannot read it, Secure
+// so it only travels over TLS, SameSite=Lax so a cross-site POST cannot ride it.
+
+function b64url(buf) {
+    return Buffer.from(buf).toString('base64')
+        .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function b64urlDecode(s) {
+    return Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+}
+
+function signSession(payload) {
+    const body = b64url(JSON.stringify(payload));
+    const sig = b64url(crypto.createHmac('sha256', COOKIE_SECRET).update(body).digest());
+    return body + '.' + sig;
+}
+
+function verifySession(value) {
+    if (!value || typeof value !== 'string')
+        return null;
+    const dot = value.indexOf('.');
+    if (dot < 0)
+        return null;
+    const body = value.slice(0, dot);
+    const sig = value.slice(dot + 1);
+
+    const expected = b64url(crypto.createHmac('sha256', COOKIE_SECRET).update(body).digest());
+    // Constant-time compare; unequal lengths would throw, so guard first.
+    const a = Buffer.from(sig);
+    const b = Buffer.from(expected);
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b))
+        return null;
+
+    let payload;
+    try {
+        payload = JSON.parse(b64urlDecode(body).toString('utf8'));
+    } catch (e) {
+        return null;
+    }
+    if (!payload || typeof payload.exp !== 'number' || payload.exp < Date.now())
+        return null;
+    return payload;
+}
+
+function setSessionCookie(res, payload) {
+    const value = signSession(payload);
+    const maxAge = Math.floor(SESSION_TTL_MS / 1000);
+    res.setHeader('Set-Cookie',
+        `${COOKIE_NAME}=${value}; Path=/account-api; Max-Age=${maxAge}; ` +
+        `HttpOnly; Secure; SameSite=Lax`);
+}
+
+function clearSessionCookie(res) {
+    res.setHeader('Set-Cookie',
+        `${COOKIE_NAME}=; Path=/account-api; Max-Age=0; HttpOnly; Secure; SameSite=Lax`);
+}
+
+function readSession(req) {
+    const raw = req.headers.cookie;
+    if (!raw)
+        return null;
+    for (const part of raw.split(';')) {
+        const eq = part.indexOf('=');
+        if (eq < 0)
+            continue;
+        if (part.slice(0, eq).trim() === COOKIE_NAME)
+            return verifySession(part.slice(eq + 1).trim());
+    }
+    return null;
+}
+
+// ---- MUD servlet client ----------------------------------------------------
+//
+// Every account servlet takes {token, bottype, args}. We send bottype "web" so the
+// engine's servlet_auth_account_web() seam checks the scoped web token, never the
+// god bot token. A network failure becomes a 502 with no token in the message.
+
+async function mudCall(path, args) {
+    // Reading the body must stay inside the try: if the engine closes the socket
+    // after headers but before the body (a reboot window -- exactly when this sees
+    // traffic), resp.text() rejects, and an unhandled rejection in an async Express
+    // route kills the process.
+    try {
+        const resp = await fetch(MUD_API + path, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: WEB_TOKEN, bottype: 'web', args: args || {} }),
+        });
+        const text = await resp.text();
+        let json = null;
+        if (text) {
+            try { json = JSON.parse(text); } catch (e) { json = null; }
+        }
+        return { status: resp.status, json };
+    } catch (e) {
+        console.error('account-broker: MUD call failed for', path, e.message);
+        return { status: 502, json: null };
+    }
+}
+
+// ---- app -------------------------------------------------------------------
+
+const app = express();
+app.use(express.json({ limit: '8kb' }));
+
+// Light input guards. The engine is the real validator (ascii email, latin name);
+// these just keep obvious junk off the wire.
+const looksEmail = s => typeof s === 'string' && s.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+const looksCode = s => typeof s === 'string' && /^[0-9]{4,8}$/.test(s);
+const looksName = s => typeof s === 'string' && /^[A-Za-z]{1,20}$/.test(s);
+
+// Mail a login code to an address. No session is created here.
+app.post('/account-api/emailcode', async (req, res) => {
+    const email = (req.body && req.body.email || '').trim().toLowerCase();
+    if (!looksEmail(email))
+        return res.status(400).json({ error: 'invalid_email' });
+
+    const r = await mudCall('/account/emailcode', { email });
+    if (r.status === 200 && r.json)
+        return res.json({ sent: !!r.json.sent });
+    if (r.status === 400)
+        return res.status(429).json({ error: 'rate_limited' });
+    return res.status(502).json({ error: 'upstream' });
+});
+
+// Verify a code. On success, if the address already owns an account, start a
+// session and return the roster. An unlinked address returns account:null with no
+// session -- accounts are created only in-game, where a character can own them.
+app.post('/account-api/emailverify', async (req, res) => {
+    const email = (req.body && req.body.email || '').trim().toLowerCase();
+    const code = (req.body && req.body.code || '').trim();
+    if (!looksEmail(email))
+        return res.status(400).json({ error: 'invalid_email' });
+    if (!looksCode(code))
+        return res.status(400).json({ error: 'invalid_code' });
+
+    const r = await mudCall('/account/emailverify', { email, code });
+    if (r.status === 400)
+        return res.status(400).json({ error: 'bad_code' });
+    if (r.status !== 200 || !r.json || !r.json.verified)
+        return res.status(502).json({ error: 'upstream' });
+
+    const verified = r.json.email || email;
+    if (!r.json.account) {
+        // Proven, but no account yet. No cookie; the UI offers the in-game link.
+        return res.json({ account: null, email: verified });
+    }
+
+    setSessionCookie(res, {
+        t: 'email',
+        v: verified,
+        a: r.json.account,
+        exp: Date.now() + SESSION_TTL_MS,
+    });
+    return res.json({
+        account: r.json.account,
+        title: r.json.title || '',
+        chars: Array.isArray(r.json.chars) ? r.json.chars : [],
+    });
+});
+
+// Return the current session's roster, re-fetched fresh so a rename/attach since
+// login shows through. No valid cookie -> account:null (logged out).
+app.get('/account-api/session', async (req, res) => {
+    const sess = readSession(req);
+    if (!sess)
+        return res.json({ account: null });
+
+    const r = await mudCall('/account/info', { identityType: sess.t, value: sess.v });
+    if (r.status !== 200 || !r.json)
+        return res.json({ account: sess.a, title: '', chars: [] });
+    return res.json({
+        account: sess.a,
+        title: r.json.title || '',
+        chars: Array.isArray(r.json.chars) ? r.json.chars : [],
+    });
+});
+
+// Mint a one-use entry token for a chosen character. Requires a session; the engine
+// re-checks that the identity actually owns the character, so a tampered name is
+// refused server-side.
+app.post('/account-api/enter', async (req, res) => {
+    const sess = readSession(req);
+    if (!sess)
+        return res.status(401).json({ error: 'no_session' });
+
+    const char = (req.body && req.body.char || '').trim();
+    if (!looksName(char))
+        return res.status(400).json({ error: 'invalid_char' });
+
+    const r = await mudCall('/account/enter', {
+        identityType: sess.t,
+        value: sess.v,
+        char,
+    });
+    if (r.status === 200 && r.json && r.json.token)
+        return res.json({ char: r.json.char || char, token: r.json.token });
+    if (r.status === 400 || r.status === 404)
+        return res.status(400).json({ error: 'not_owned' });
+    return res.status(502).json({ error: 'upstream' });
+});
+
+app.post('/account-api/logout', (req, res) => {
+    clearSessionCookie(res);
+    res.json({ ok: true });
+});
+
+app.listen(PORT, '127.0.0.1', () => {
+    console.log(`DreamLand account broker ready on 127.0.0.1:${PORT}, MUD ${MUD_API}`);
+});

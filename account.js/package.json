@@ -1,0 +1,28 @@
+{
+  "name": "account-broker",
+  "version": "1.0.0",
+  "description": "DreamLand passwordless account broker: holds the per-surface web token server-side, proves an email/OAuth identity, and mints one-use entry tokens for the game.",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dreamland-mud/dreamland_web.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mud",
+    "accounts"
+  ],
+  "author": "DreamLand",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "express": "^4.22.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.1"
+  }
+}
