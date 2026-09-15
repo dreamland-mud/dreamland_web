@@ -62,7 +62,7 @@ The whole layer ships dark. To turn the broker on:
    [Service]
    Type=simple
    User=dreamland
-   WorkingDirectory=/home/dreamland/dreamland_web/account.js
+   WorkingDirectory=/var/www/dreamland_web/account.js
    EnvironmentFile=/etc/dreamland/account.env
    ExecStart=/home/dreamland/.nodejs/current/bin/node src/app.js
    Restart=on-failure
@@ -71,6 +71,11 @@ The whole layer ships dark. To turn the broker on:
    WantedBy=multi-user.target
    ```
    then `systemctl daemon-reload && systemctl enable --now dreamland-account`.
+   The deploy tree is `/var/www/dreamland_web` (drone pulls the repo there), NOT
+   `/home/dreamland/...`. The node path MUST be the glibc-217 v22 build: the broker
+   uses global `fetch`, and the system `/usr/bin/node` is v16 (the searcher's node),
+   which has no `fetch`. Run `npm install --omit=dev` in the account.js dir first
+   (node_modules is gitignored, so it does not arrive with the drone pull).
 5. **nginx** — add beside the existing `/searcher-api` proxy:
    ```
    location /account-api { proxy_pass http://127.0.0.1:8002; }
