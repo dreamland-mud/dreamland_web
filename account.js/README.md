@@ -15,6 +15,8 @@ It never serves HTML. The UI lives in mudjs `/newui`; this is the token-holder.
 | POST | `/account-api/emailcode` | `{email}` | `{sent}` — mails a 6-digit code |
 | POST | `/account-api/emailverify` | `{email, code}` | sets session cookie if the address owns an account; `{account, title, chars}` or `{account:null}` |
 | POST | `/account-api/telegramverify` | `{tg}` — a Telegram Login Widget payload | sets session cookie if the verified TG id owns an account; `{account, title, chars}` or `{account:null}`; `501` if unconfigured |
+| GET | `/account-api/discord/start` | — | 302 to Discord's OAuth consent (sets a signed anti-CSRF state cookie); dark → 302 `/newui/?acct_error=discord_off` |
+| GET | `/account-api/discord/callback` | `?code&state` | exchanges the code server-side, sets the session cookie if the Discord id owns an account, then 302 to `/newui/`; every failure 302s to `/newui/?acct_error=…` |
 | GET | `/account-api/session` | — | `{account, title, chars}` or `{account:null}` |
 | POST | `/account-api/enter` | `{char}` | `{char, token}` — a one-use entry token for the client's WS |
 | POST | `/account-api/logout` | — | `{ok:true}` |
@@ -41,6 +43,14 @@ Optional:
   unit holds). Enables `/telegramverify`; without it that endpoint returns `501` and
   everything else works. The broker only ever computes `SHA256(token)` from it to
   verify Login Widget signatures — it never talks to Telegram.
+- `DISCORD_CLIENT_ID` / `DISCORD_CLIENT_SECRET` — the Discord OAuth2 app's credentials.
+  Enable the `/discord/*` routes; without them those routes bounce back to `/newui`
+  with an error flag and everything else works. The client id is the Valkyrie bot's
+  application id (`659914892941328423`); the secret is generated in the Developer
+  Portal's OAuth2 tab.
+- `DISCORD_REDIRECT_URI` — default `https://dreamland.rocks/account-api/discord/callback`.
+  Must match the redirect registered in the Discord app EXACTLY (Discord rejects a
+  mismatch), and is sent identically on both `/start` and the token exchange.
 
 ## Go-live checklist (Kit-gated, needs root once)
 
@@ -105,3 +115,21 @@ The account is keyed by the numeric Telegram id (the bot's `/attach` stores
 `String(ctx.from.id)`), which is exactly what the widget signs — so a verified widget
 login maps onto the same account with no code step. A TG id that owns no account
 returns `account:null`; linking still happens in-game (`аккаунт связать` -> bot).
+
+## Discord login go-live (extra, on top of the checklist above)
+
+The `/discord/*` routes and the `/newui` Discord button ship dark until:
+
+1. **Discord Developer Portal** — on the Valkyrie application (`659914892941328423`),
+   OAuth2 tab: generate a **client secret**, and add the redirect
+   `https://dreamland.rocks/account-api/discord/callback` under Redirects (exact match,
+   Discord rejects a mismatch). Scope used is `identify` only (no email).
+2. **Env** — add `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` (and, if it ever differs,
+   `DISCORD_REDIRECT_URI`) to `/etc/dreamland/account.env`, then
+   `systemctl restart dreamland-account`.
+
+Flow: `/discord/start` mints a signed one-use state cookie and bounces to Discord;
+the callback verifies the state (CSRF), exchanges the code for an id server-side (the
+token never reaches the browser), resolves the account by that numeric id — the same
+id the bot's `/attach` keys by — and sets the session cookie. A Discord id that owns
+no account bounces to `/newui/?acct_error=discord_nolink`; linking stays in-game.
