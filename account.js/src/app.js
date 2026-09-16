@@ -45,6 +45,16 @@ if (!WEB_TOKEN || !COOKIE_SECRET) {
     process.exit(1);
 }
 
+// Telegram Login Widget verification key. Optional: without it /telegramverify is
+// inert (501) and email login is unaffected, so the broker still deploys before the
+// bot token and BotFather domain are wired. secret_key = SHA256(bot_token), per
+// https://core.telegram.org/widgets/login#checking-authorization.
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TG_SECRET = TELEGRAM_BOT_TOKEN
+    ? crypto.createHash('sha256').update(TELEGRAM_BOT_TOKEN).digest()
+    : null;
+const TG_AUTH_MAX_AGE_S = 24 * 60 * 60;   // reject a widget payload older than a day (replay)
+
 const COOKIE_NAME = 'dl_acct';
 const SESSION_TTL_MS = 30 * 60 * 1000;   // 30 minutes of "identity proven"
 
@@ -121,6 +131,57 @@ function readSession(req) {
             return verifySession(part.slice(eq + 1).trim());
     }
     return null;
+}
+
+// ---- Telegram Login Widget verification ------------------------------------
+//
+// The widget hands the browser {id, first_name, ...auth_date, hash}, signed with
+// HMAC-SHA256 keyed by SHA256(bot_token). Recompute over the sorted "key=value"
+// lines (hash excluded), constant-time compare, then bound auth_date so a captured
+// payload cannot be replayed. Returns the verified numeric id (as a string) or null.
+
+function verifyTelegramAuth(data) {
+    if (!TG_SECRET || !data || typeof data !== 'object')
+        return null;
+    const hash = data.hash;
+    if (typeof hash !== 'string' || !/^[0-9a-f]{64}$/.test(hash))
+        return null;
+
+    const pairs = [];
+    for (const k of Object.keys(data)) {
+        if (k === 'hash')
+            continue;
+        const val = data[k];
+        // Telegram signs scalar fields only; an object/array value is tampering.
+        if (val === null || typeof val === 'object')
+            return null;
+        const sval = String(val);
+        // A newline in a key or value could re-partition the sorted "key=value" join
+        // into different pairs that HMAC to the same digest -- a canonicalization
+        // collision. Telegram never signs one, but that guarantee lives on their
+        // servers, not in the spec; reject it here so it does not have to.
+        if (k.indexOf('\n') >= 0 || sval.indexOf('\n') >= 0)
+            return null;
+        pairs.push(k + '=' + sval);
+    }
+    pairs.sort();
+
+    const computed = crypto.createHmac('sha256', TG_SECRET)
+        .update(pairs.join('\n')).digest('hex');
+    const a = Buffer.from(computed);
+    const b = Buffer.from(hash);
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b))
+        return null;
+
+    const now = Date.now() / 1000;
+    const authDate = parseInt(data.auth_date, 10);
+    if (!Number.isFinite(authDate) || now - authDate > TG_AUTH_MAX_AGE_S || authDate - now > 300)
+        return null;   // stale (replay) or implausibly future (clock-skew guard)
+
+    const id = String(data.id);
+    if (!/^[0-9]{1,20}$/.test(id))
+        return null;
+    return id;
 }
 
 // ---- MUD servlet client ----------------------------------------------------
@@ -203,6 +264,37 @@ app.post('/account-api/emailverify', async (req, res) => {
     setSessionCookie(res, {
         t: 'email',
         v: verified,
+        a: r.json.account,
+        exp: Date.now() + SESSION_TTL_MS,
+    });
+    return res.json({
+        account: r.json.account,
+        title: r.json.title || '',
+        chars: Array.isArray(r.json.chars) ? r.json.chars : [],
+    });
+});
+
+// Log in with a Telegram Login Widget payload. The widget proves the numeric TG id,
+// and the bot's /attach keys the account by that same id (String(ctx.from.id)), so a
+// verified payload maps straight onto the account -- no code round-trip. A proven id
+// with no linked account returns account:null (the UI points at the in-game link).
+app.post('/account-api/telegramverify', async (req, res) => {
+    if (!TG_SECRET)
+        return res.status(501).json({ error: 'telegram_unconfigured' });
+
+    const id = verifyTelegramAuth(req.body && req.body.tg);
+    if (!id)
+        return res.status(400).json({ error: 'bad_signature' });
+
+    const r = await mudCall('/account/info', { identityType: 'telegram', value: id });
+    if (r.status === 404)
+        return res.json({ account: null });          // proven id, not linked to an account
+    if (r.status !== 200 || !r.json || !r.json.account)
+        return res.status(502).json({ error: 'upstream' });
+
+    setSessionCookie(res, {
+        t: 'telegram',
+        v: id,
         a: r.json.account,
         exp: Date.now() + SESSION_TTL_MS,
     });
