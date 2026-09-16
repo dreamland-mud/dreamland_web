@@ -56,7 +56,12 @@ const TG_SECRET = TELEGRAM_BOT_TOKEN
 const TG_AUTH_MAX_AGE_S = 24 * 60 * 60;   // reject a widget payload older than a day (replay)
 
 const COOKIE_NAME = 'dl_acct';
-const SESSION_TTL_MS = 30 * 60 * 1000;   // 30 minutes of "identity proven"
+// "Identity proven, no character chosen." Kept long so a returning player lands on
+// their roster instead of re-proving every visit -- the cookie is httpOnly + Secure +
+// SameSite=Lax + HMAC-signed, only ever opens characters the account already owns, and
+// the engine re-checks ownership on /enter, so a stale one is low-value. The visible
+// Log out button clears it for shared machines.
+const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;   // 30 days
 
 // Discord OAuth2 (authorization-code flow). Optional, same as Telegram: without a
 // client id + secret both /discord routes bounce back to /newui with an error flag,
