@@ -58,6 +58,23 @@ const TG_AUTH_MAX_AGE_S = 24 * 60 * 60;   // reject a widget payload older than 
 const COOKIE_NAME = 'dl_acct';
 const SESSION_TTL_MS = 30 * 60 * 1000;   // 30 minutes of "identity proven"
 
+// Discord OAuth2 (authorization-code flow). Optional, same as Telegram: without a
+// client id + secret both /discord routes bounce back to /newui with an error flag,
+// so the broker deploys before Kit's OAuth app exists. The redirect_uri must match
+// the one registered in the Discord Developer Portal exactly.
+const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID || '';
+const DISCORD_CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET || '';
+const DISCORD_REDIRECT_URI = process.env.DISCORD_REDIRECT_URI
+    || 'https://dreamland.rocks/account-api/discord/callback';
+const DISCORD_CONFIGURED = !!(DISCORD_CLIENT_ID && DISCORD_CLIENT_SECRET);
+
+// Where the OAuth round-trip lands the browser back. The SPA reads the session
+// cookie via /account-api/session on load, so a bare /newui/ is enough on success.
+const NEWUI = '/newui/';
+
+const OAUTH_STATE_NAME = 'dl_oauth';
+const OAUTH_STATE_TTL_MS = 10 * 60 * 1000;   // the round-trip to Discord and back
+
 // ---- signed session cookie -------------------------------------------------
 //
 // Value = base64url(payload).base64url(HMAC-SHA256(payload, secret)). The payload
@@ -106,20 +123,27 @@ function verifySession(value) {
     return payload;
 }
 
-function setSessionCookie(res, payload) {
+// Cookie string builders (so a single response can set more than one cookie -- the
+// OAuth callback clears the state cookie AND sets the session cookie together).
+function sessionCookieString(payload) {
     const value = signSession(payload);
     const maxAge = Math.floor(SESSION_TTL_MS / 1000);
-    res.setHeader('Set-Cookie',
-        `${COOKIE_NAME}=${value}; Path=/account-api; Max-Age=${maxAge}; ` +
-        `HttpOnly; Secure; SameSite=Lax`);
+    return `${COOKIE_NAME}=${value}; Path=/account-api; Max-Age=${maxAge}; `
+        + `HttpOnly; Secure; SameSite=Lax`;
+}
+function sessionClearString() {
+    return `${COOKIE_NAME}=; Path=/account-api; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
+}
+
+function setSessionCookie(res, payload) {
+    res.setHeader('Set-Cookie', sessionCookieString(payload));
 }
 
 function clearSessionCookie(res) {
-    res.setHeader('Set-Cookie',
-        `${COOKIE_NAME}=; Path=/account-api; Max-Age=0; HttpOnly; Secure; SameSite=Lax`);
+    res.setHeader('Set-Cookie', sessionClearString());
 }
 
-function readSession(req) {
+function readCookie(req, name) {
     const raw = req.headers.cookie;
     if (!raw)
         return null;
@@ -127,10 +151,36 @@ function readSession(req) {
         const eq = part.indexOf('=');
         if (eq < 0)
             continue;
-        if (part.slice(0, eq).trim() === COOKIE_NAME)
-            return verifySession(part.slice(eq + 1).trim());
+        if (part.slice(0, eq).trim() === name)
+            return part.slice(eq + 1).trim();
     }
     return null;
+}
+
+function readSession(req) {
+    const c = readCookie(req, COOKIE_NAME);
+    return c ? verifySession(c) : null;
+}
+
+// ---- OAuth state cookie (CSRF) ---------------------------------------------
+//
+// A one-use signed nonce cookie set on /discord/start and matched on the callback,
+// so a forged callback (attacker's own code) cannot ride a victim's session. Signed
+// with the same HMAC as the session cookie; verifySession enforces the 10-min exp.
+function stateCookieString(nonce) {
+    const value = signSession({ s: nonce, exp: Date.now() + OAUTH_STATE_TTL_MS });
+    return `${OAUTH_STATE_NAME}=${value}; Path=/account-api; Max-Age=`
+        + `${Math.floor(OAUTH_STATE_TTL_MS / 1000)}; HttpOnly; Secure; SameSite=Lax`;
+}
+function stateClearString() {
+    return `${OAUTH_STATE_NAME}=; Path=/account-api; Max-Age=0; HttpOnly; Secure; SameSite=Lax`;
+}
+function readStateNonce(req) {
+    const c = readCookie(req, OAUTH_STATE_NAME);
+    if (!c)
+        return null;
+    const p = verifySession(c);
+    return p && typeof p.s === 'string' ? p.s : null;
 }
 
 // ---- Telegram Login Widget verification ------------------------------------
@@ -210,6 +260,42 @@ async function mudCall(path, args) {
     } catch (e) {
         console.error('account-broker: MUD call failed for', path, e.message);
         return { status: 502, json: null };
+    }
+}
+
+// Exchange a Discord OAuth code for the user's numeric id. Server-side only: the
+// access token never reaches the browser, and we ask for the `identify` scope alone
+// (id + username, no email). Returns the id string, or null on any failure.
+async function discordExchange(code) {
+    try {
+        const form = new URLSearchParams({
+            client_id: DISCORD_CLIENT_ID,
+            client_secret: DISCORD_CLIENT_SECRET,
+            grant_type: 'authorization_code',
+            code,
+            redirect_uri: DISCORD_REDIRECT_URI,
+        });
+        const tokResp = await fetch('https://discord.com/api/oauth2/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: form.toString(),
+        });
+        if (!tokResp.ok)
+            return null;
+        const tok = await tokResp.json();
+        if (!tok || !tok.access_token)
+            return null;
+        const meResp = await fetch('https://discord.com/api/users/@me', {
+            headers: { Authorization: 'Bearer ' + tok.access_token },
+        });
+        if (!meResp.ok)
+            return null;
+        const me = await meResp.json();
+        const id = me && me.id != null ? String(me.id) : '';
+        return /^[0-9]{1,20}$/.test(id) ? id : null;
+    } catch (e) {
+        console.error('account-broker: discord exchange failed', e.message);
+        return null;
     }
 }
 
@@ -303,6 +389,73 @@ app.post('/account-api/telegramverify', async (req, res) => {
         title: r.json.title || '',
         chars: Array.isArray(r.json.chars) ? r.json.chars : [],
     });
+});
+
+// Discord OAuth2, authorization-code flow. /start bounces the browser to Discord;
+// the callback exchanges the code server-side, checks the anti-CSRF state, and on a
+// linked id sets the session cookie and returns to /newui (the SPA reads it via
+// /session). All failures land back on /newui with an ?acct_error flag -- never a
+// raw error page, since the user is mid-navigation. Ships dark: unconfigured -> flag.
+app.get('/account-api/discord/start', (req, res) => {
+    if (!DISCORD_CONFIGURED)
+        return res.redirect(NEWUI + '?acct_error=discord_off');
+    const nonce = crypto.randomBytes(16).toString('hex');
+    res.setHeader('Set-Cookie', stateCookieString(nonce));
+    const url = 'https://discord.com/oauth2/authorize?' + new URLSearchParams({
+        client_id: DISCORD_CLIENT_ID,
+        redirect_uri: DISCORD_REDIRECT_URI,
+        response_type: 'code',
+        scope: 'identify',
+        state: nonce,
+    }).toString();
+    return res.redirect(url);
+});
+
+app.get('/account-api/discord/callback', async (req, res) => {
+    const fail = reason => {
+        res.setHeader('Set-Cookie', stateClearString());
+        return res.redirect(NEWUI + '?acct_error=' + reason);
+    };
+
+    if (!DISCORD_CONFIGURED)
+        return fail('discord_off');
+
+    // CSRF: the returned state must match the one-use signed nonce we set on /start.
+    // The nonce is 32 hex chars, so shape-check `state` to that BEFORE the compare:
+    // timingSafeEqual throws on unequal-length Buffers, and a string-length guard
+    // misses multi-byte input (e.g. 32x "%C3%A9" is 32 chars but 64 bytes) -- which
+    // on this async Express-4 / Node-22 stack would crash the process. Compare on
+    // byte-length Buffers, the way verifySession does above.
+    const expected = readStateNonce(req);
+    const state = typeof req.query.state === 'string' ? req.query.state : '';
+    if (!expected || !/^[0-9a-f]{32}$/.test(state))
+        return fail('discord');
+    const sb = Buffer.from(state), eb = Buffer.from(expected);
+    if (sb.length !== eb.length || !crypto.timingSafeEqual(sb, eb))
+        return fail('discord');
+
+    const code = typeof req.query.code === 'string' ? req.query.code : '';
+    if (!code)
+        return fail('discord');   // user denied consent, or a malformed callback
+
+    const id = await discordExchange(code);
+    if (!id)
+        return fail('discord');
+
+    const r = await mudCall('/account/info', { identityType: 'discord', value: id });
+    if (r.status === 404)
+        return fail('discord_nolink');          // proven id, not linked to an account
+    if (r.status !== 200 || !r.json || !r.json.account)
+        return fail('discord');
+
+    // Success: clear the state cookie and set the session cookie in one response.
+    res.setHeader('Set-Cookie', [
+        stateClearString(),
+        sessionCookieString({
+            t: 'discord', v: id, a: r.json.account, exp: Date.now() + SESSION_TTL_MS,
+        }),
+    ]);
+    return res.redirect(NEWUI);
 });
 
 // Return the current session's roster, re-fetched fresh so a rename/attach since
