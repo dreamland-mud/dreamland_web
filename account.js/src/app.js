@@ -167,8 +167,10 @@ function readSession(req) {
 // A one-use signed nonce cookie set on /discord/start and matched on the callback,
 // so a forged callback (attacker's own code) cannot ride a victim's session. Signed
 // with the same HMAC as the session cookie; verifySession enforces the 10-min exp.
-function stateCookieString(nonce) {
-    const value = signSession({ s: nonce, exp: Date.now() + OAUTH_STATE_TTL_MS });
+function stateCookieString(nonce, popup) {
+    // `p` remembers that the flow began in a popup, so the callback answers with a
+    // postMessage page that closes itself instead of navigating the whole window.
+    const value = signSession({ s: nonce, p: popup ? 1 : 0, exp: Date.now() + OAUTH_STATE_TTL_MS });
     return `${OAUTH_STATE_NAME}=${value}; Path=/account-api; Max-Age=`
         + `${Math.floor(OAUTH_STATE_TTL_MS / 1000)}; HttpOnly; Secure; SameSite=Lax`;
 }
@@ -181,6 +183,42 @@ function readStateNonce(req) {
         return null;
     const p = verifySession(c);
     return p && typeof p.s === 'string' ? p.s : null;
+}
+function readStatePopup(req) {
+    const c = readCookie(req, OAUTH_STATE_NAME);
+    if (!c)
+        return false;
+    const p = verifySession(c);
+    return !!(p && p.p === 1);
+}
+
+// End of the Discord flow. A popup gets a tiny page that posts the result to its
+// opener (the login panel re-reads /session on success) and closes; a full-page
+// flow keeps the original redirect back to /newui. Cookies (state clear, session
+// set) are the caller's to set before calling -- this only writes the body/redirect.
+function popupResultHtml(payload) {
+    // `<` escaped so a reason string can never break out of the inline <script>.
+    const json = JSON.stringify(payload).replace(/</g, '\\u003c');
+    return '<!doctype html><html><head><meta charset="utf-8"><title>Dreamland</title></head>'
+        + '<body style="margin:0;height:100vh;display:flex;align-items:center;'
+        + 'justify-content:center;background:#0b0a0f;color:#c6a24e;'
+        + 'font:14px/1.4 system-ui,sans-serif">'
+        + '<span>Done. You can close this window.</span>'
+        + '<script>(function(){'
+        + 'try{if(window.opener&&!window.opener.closed)'
+        + 'window.opener.postMessage(' + json + ',window.location.origin);}catch(e){}'
+        + 'try{window.close();}catch(e){}'
+        + '})();</script></body></html>';
+}
+function sendDiscordResult(res, popup, ok, reason) {
+    if (popup) {
+        const payload = ok
+            ? { dl: 'discord', ok: true }
+            : { dl: 'discord', ok: false, error: reason };
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.status(200).send(popupResultHtml(payload));
+    }
+    return res.redirect(ok ? NEWUI : (NEWUI + '?acct_error=' + reason));
 }
 
 // ---- Telegram Login Widget verification ------------------------------------
@@ -397,10 +435,11 @@ app.post('/account-api/telegramverify', async (req, res) => {
 // /session). All failures land back on /newui with an ?acct_error flag -- never a
 // raw error page, since the user is mid-navigation. Ships dark: unconfigured -> flag.
 app.get('/account-api/discord/start', (req, res) => {
+    const popup = req.query.popup === '1';
     if (!DISCORD_CONFIGURED)
-        return res.redirect(NEWUI + '?acct_error=discord_off');
+        return sendDiscordResult(res, popup, false, 'discord_off');
     const nonce = crypto.randomBytes(16).toString('hex');
-    res.setHeader('Set-Cookie', stateCookieString(nonce));
+    res.setHeader('Set-Cookie', stateCookieString(nonce, popup));
     const url = 'https://discord.com/oauth2/authorize?' + new URLSearchParams({
         client_id: DISCORD_CLIENT_ID,
         redirect_uri: DISCORD_REDIRECT_URI,
@@ -412,9 +451,10 @@ app.get('/account-api/discord/start', (req, res) => {
 });
 
 app.get('/account-api/discord/callback', async (req, res) => {
+    const popup = readStatePopup(req);
     const fail = reason => {
         res.setHeader('Set-Cookie', stateClearString());
-        return res.redirect(NEWUI + '?acct_error=' + reason);
+        return sendDiscordResult(res, popup, false, reason);
     };
 
     if (!DISCORD_CONFIGURED)
@@ -449,13 +489,15 @@ app.get('/account-api/discord/callback', async (req, res) => {
         return fail('discord');
 
     // Success: clear the state cookie and set the session cookie in one response.
+    // The popup path returns HTML but still carries these cookies, so the opener's
+    // /session (same-origin cookie jar) sees the new session the moment it re-reads.
     res.setHeader('Set-Cookie', [
         stateClearString(),
         sessionCookieString({
             t: 'discord', v: id, a: r.json.account, exp: Date.now() + SESSION_TTL_MS,
         }),
     ]);
-    return res.redirect(NEWUI);
+    return sendDiscordResult(res, popup, true);
 });
 
 // Return the current session's roster, re-fetched fresh so a rename/attach since
