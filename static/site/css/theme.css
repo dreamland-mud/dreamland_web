@@ -650,11 +650,14 @@ details.scroll > summary:hover { color: #fff; }
 /* --- gallery of older entries: date + title only --- */
 .news-gallery {
     display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 14px) / 4);
-    gap: 14px; margin-top: 22px;
+    gap: 14px; margin-top: 0;
     overflow-x: auto; scroll-snap-type: x mandatory;
-    padding-bottom: 10px; scrollbar-width: thin;
+    /* overflow-x:auto forces the vertical axis to clip too, so pad the scrollport
+       enough that a card's hover lift + rail glow aren't cut off top/bottom. */
+    padding: 30px 4px 24px; scrollbar-width: thin;
 }
 .news-mini {
+    position: relative;
     scroll-snap-align: start; text-align: left; cursor: pointer;
     display: flex; flex-direction: column; gap: 8px;
     padding: 16px 18px; border-radius: 4px; color: var(--text);
@@ -664,9 +667,13 @@ details.scroll > summary:hover { color: #fff; }
 }
 .news-mini:hover, .news-mini:focus-visible {
     transform: translateY(-4px); border-color: var(--gold-dim); outline: none;
+    z-index: 2;   /* lift above neighbours so the glow isn't covered by the next card */
     box-shadow: 0 12px 24px rgba(0,0,0,.5), 0 0 22px rgba(198,162,78,.14);
 }
-.news-mini[aria-current="true"] { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold-dim); }
+.news-mini[aria-current="true"] { z-index: 1; border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold-dim); }
+/* the rail treatment on the small gallery cards: widen the padding so the text
+   clears the 22px engraved band. */
+.news-mini.railed { padding: 28px 22px 24px; }
 .news-mini__date { font-family: var(--mono); font-size: .7rem; letter-spacing: .04em; color: var(--gold-dim); }
 .news-mini__subject { font-family: var(--display); font-weight: 600; font-size: 1.06rem;
     line-height: 1.25; color: var(--gold-bright); }

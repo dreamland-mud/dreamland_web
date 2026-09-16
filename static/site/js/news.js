@@ -83,7 +83,7 @@
             if (i === current) return;
             var card = document.createElement('button');
             card.type = 'button';
-            card.className = 'news-mini';
+            card.className = 'news-mini railed';
             card.innerHTML =
                 '<span class="news-mini__date">' + esc(n.date) + '</span>' +
                 '<span class="news-mini__subject">' + esc(n.subject) + '</span>';
