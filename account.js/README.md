@@ -14,6 +14,7 @@ It never serves HTML. The UI lives in mudjs `/newui`; this is the token-holder.
 |---|---|---|---|
 | POST | `/account-api/emailcode` | `{email}` | `{sent}` — mails a 6-digit code |
 | POST | `/account-api/emailverify` | `{email, code}` | sets session cookie if the address owns an account; `{account, title, chars}` or `{account:null}` |
+| POST | `/account-api/telegramverify` | `{tg}` — a Telegram Login Widget payload | sets session cookie if the verified TG id owns an account; `{account, title, chars}` or `{account:null}`; `501` if unconfigured |
 | GET | `/account-api/session` | — | `{account, title, chars}` or `{account:null}` |
 | POST | `/account-api/enter` | `{char}` | `{char, token}` — a one-use entry token for the client's WS |
 | POST | `/account-api/logout` | — | `{ok:true}` |
@@ -36,6 +37,10 @@ Optional:
 - `MUD_API` — default `http://localhost:1235` (the engine's servlet port on the same
   host). No `/api`: servlet paths are registered bare, and only nginx adds `/api` on
   the public `dreamland.rocks/api/*` route. The broker bypasses nginx.
+- `TELEGRAM_BOT_TOKEN` — the `dreamland_mud_bot` token (same value the telegram bot
+  unit holds). Enables `/telegramverify`; without it that endpoint returns `501` and
+  everything else works. The broker only ever computes `SHA256(token)` from it to
+  verify Login Widget signatures — it never talks to Telegram.
 
 ## Go-live checklist (Kit-gated, needs root once)
 
@@ -83,4 +88,20 @@ The whole layer ships dark. To turn the broker on:
    `nginx -t && systemctl reload nginx`.
 
 Redeploy after code changes = `systemctl restart dreamland-account` (no drone; this
-service is not in the mudjs/dreamland_web CI pipelines).
+service is not in the mudjs/dreamland_web CI pipelines). The drone `dreamland_web`
+pipeline `git pull`s the repo into `/var/www/dreamland_web` but does not restart this
+service, so a merge lands the new code on disk and it goes live only on that restart.
+
+## Telegram login go-live (extra, on top of the checklist above)
+
+`/telegramverify` and the `/newui` Telegram button ship dark until:
+
+1. **BotFather `/setdomain`** — set `dreamland_mud_bot`'s domain to `dreamland.rocks`,
+   or the Login Widget refuses to render on the site (this is Kit's, in Telegram).
+2. **`TELEGRAM_BOT_TOKEN`** — add it to `/etc/dreamland/account.env`, then
+   `systemctl restart dreamland-account`. Same token the telegram bot unit uses.
+
+The account is keyed by the numeric Telegram id (the bot's `/attach` stores
+`String(ctx.from.id)`), which is exactly what the widget signs — so a verified widget
+login maps onto the same account with no code step. A TG id that owns no account
+returns `account:null`; linking still happens in-game (`аккаунт связать` -> bot).
