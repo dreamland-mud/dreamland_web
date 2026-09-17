@@ -18,7 +18,7 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://dreamland.rocks/mudjs/</loc>
+  <loc>https://dreamland.rocks/play/</loc>
   <lastmod>2018-09-13T18:58:53+00:00</lastmod>
   <priority>0.80</priority>
 </url>
@@ -718,7 +718,7 @@
   <priority>0.64</priority>
 </url>
 <url>
-  <loc>https://dreamland.rocks/mudjs/index.html</loc>
+  <loc>https://dreamland.rocks/play/index.html</loc>
   <lastmod>2018-09-13T18:58:53+00:00</lastmod>
   <priority>0.64</priority>
 </url>
