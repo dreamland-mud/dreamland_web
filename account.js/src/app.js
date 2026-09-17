@@ -75,7 +75,7 @@ const DISCORD_CONFIGURED = !!(DISCORD_CLIENT_ID && DISCORD_CLIENT_SECRET);
 
 // Where the OAuth round-trip lands the browser back. The SPA reads the session
 // cookie via /account-api/session on load, so a bare /newui/ is enough on success.
-const NEWUI = '/newui/';
+const NEWUI = '/play/';
 
 const OAUTH_STATE_NAME = 'dl_oauth';
 const OAUTH_STATE_TTL_MS = 10 * 60 * 1000;   // the round-trip to Discord and back
