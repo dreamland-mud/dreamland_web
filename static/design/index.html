@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DreamLand Design System</title>
+<meta name="description" content="The shared visual vocabulary of dreamland.rocks and the /play web client — tokens, components, and the rules that keep them in sync."/>
+<meta name="robots" content="noindex,follow"/>
+<meta name="theme-color" content="#0d0b12"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="stylesheet" href="design.css"/>
+</head>
+<body>
+<div class="ds-shell">
+
+  <!-- ============ LEFT RAIL ============ -->
+  <nav class="ds-rail" aria-label="Sections">
+    <div class="ds-rail__brand">
+      <img src="../site/assets/logo.png" alt="DreamLand"/>
+    </div>
+    <p class="ds-rail__tag">Design System</p>
+
+    <span class="ds-rail__grouphd">Foundations</span>
+    <a href="#overview">Overview</a>
+    <a href="#color">Color</a>
+    <a href="#type">Typography</a>
+    <a href="#texture">Texture &amp; shape</a>
+
+    <span class="ds-rail__grouphd">Components</span>
+    <a href="#buttons">Buttons</a>
+    <a href="#focus">Focus</a>
+    <a href="#forms">Form controls</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#cards">Cards &amp; panels</a>
+    <a href="#mapctrls">Map controls</a>
+    <a href="#chips">Chips</a>
+
+    <span class="ds-rail__grouphd">Surfaces</span>
+    <a href="#parchment">Parchment (reading)</a>
+    <a href="#dark">Dark (game)</a>
+    <a href="#ornaments">Ornaments</a>
+
+    <span class="ds-rail__grouphd">The law</span>
+    <a href="#rules">Rules</a>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <main class="ds-main">
+
+    <header class="ds-hero">
+      <h1>DreamLand Design System</h1>
+      <p>One vocabulary, two surfaces: the marketing site (<code>dreamland.rocks</code>) and the
+      <code>/play</code> web client. Aged gold and arcane purple on obsidian; parchment for reading,
+      dark wells for the game. This page is the source of truth — live surfaces migrate onto it.</p>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section class="ds-sec" id="overview">
+      <h2><span class="ds-sec__no">00</span> Overview</h2>
+      <p class="ds-lede">The client was built on the site's vocabulary, so the foundation is already
+      one system — same tokens, same fonts, same gem idea. Where they drifted, the calls below pick a
+      single canon. Tags mark where each thing lives:</p>
+      <p>
+        <span class="ds-tag ds-tag--both">both</span> unified &nbsp;
+        <span class="ds-tag ds-tag--site">site</span> marketing surface &nbsp;
+        <span class="ds-tag ds-tag--client">client</span> /play surface &nbsp;
+        <span class="ds-tag ds-tag--fixed">constraint</span> not up for debate
+      </p>
+
+      <div class="ds-callout ds-callout--warn">
+        <h4>Three constraints that override everything</h4>
+        <p><strong>1.</strong> The terminal, the map, and any panel that renders ANSI game colour stay on a
+        <strong>dark</strong> surface — the ANSI palette and screen-reader contrast are tuned for dark ground.
+        <strong>2.</strong> Parchment is for <strong>reading only</strong> (articles, news, hints, modals), never for game colour.
+        <strong>3.</strong> Colour is <strong>never the only signal</strong> of state — about 30% of players use a screen reader or low vision.</p>
+      </div>
+    </section>
+
+    <!-- COLOR -->
+    <section class="ds-sec" id="color">
+      <h2><span class="ds-sec__no">01</span> Color <span class="ds-tag ds-tag--both">both</span></h2>
+      <p class="ds-lede">The tokens below are shared. The ground, arcane, bright-gold and parchment sets are
+      byte-identical across site and client. The matte-metal surface trio (<code>--gold-metal-*</code>) is the
+      client's; the gems, the ink-purple cross-ref and the article face are the site's. The one thing to
+      remember: <strong>gold splits in two</strong> — bright for <em>text</em> and for a <em>selected/lit</em>
+      state, matte metal for resting control <em>surfaces</em>.</p>
+
+      <h3 class="ds-sub">Ground — obsidian &amp; stone</h3>
+      <div class="ds-swatches" id="sw-ground"></div>
+      <h3 class="ds-sub">Arcane — the accent</h3>
+      <div class="ds-swatches" id="sw-arcane"></div>
+      <h3 class="ds-sub">Gold — text (bright) vs surface (matte metal)</h3>
+      <div class="ds-swatches" id="sw-gold"></div>
+      <p class="ds-note"><strong>The rule:</strong> panel titles, gilded words and links use <code>--gold-bright</code>/<code>--gold</code>.
+      Resting button and control faces use <code>--gold-metal-*</code>. The bright gold also marks a
+      <strong>selected/lit</strong> state (active tab, on-chip, on-switch) — darken the resting surface, never the text or the lit state.</p>
+      <h3 class="ds-sub">Gems — faceted-stone accents</h3>
+      <div class="ds-swatches" id="sw-gem"></div>
+      <h3 class="ds-sub">Parchment &amp; ink — reading surfaces</h3>
+      <div class="ds-swatches" id="sw-parch"></div>
+      <h3 class="ds-sub">Text on dark</h3>
+      <div class="ds-swatches" id="sw-text"></div>
+    </section>
+
+    <!-- TYPE -->
+    <section class="ds-sec" id="type">
+      <h2><span class="ds-sec__no">02</span> Typography <span class="ds-tag ds-tag--both">both</span></h2>
+      <p class="ds-lede">Four faces, each with one job. The resolved call: <strong>game text is Fira Code
+      everywhere</strong> — the terminal and the article bodies now read as the same face.</p>
+
+      <div class="ds-demo ds-demo--col">
+        <div class="ds-spec ds-spec--display">
+          <div class="ds-spec__meta">--display · Playfair Display · headings, gilded titles</div>
+          <div class="ds-spec__sample">The Crown of Durin, lost beneath Old Thalos</div>
+        </div>
+        <div class="ds-spec ds-spec--body">
+          <div class="ds-spec__meta">--body · Alegreya Sans · UI &amp; prose</div>
+          <div class="ds-spec__sample">Type what you do, and a huge living world writes back.</div>
+        </div>
+        <div class="ds-spec ds-spec--article">
+          <div class="ds-spec__meta">--article · Fira Code · GAME TEXT (terminal + article bodies)</div>
+          <div class="ds-spec__sample">You see a rusty short sword here. It glows faintly. (5 damage, level 12)</div>
+        </div>
+        <div class="ds-spec ds-spec--mono">
+          <div class="ds-spec__meta">--mono · JetBrains Mono · UI labels, small code spans</div>
+          <div class="ds-spec__sample">HP 245/245 · MANA 88/120 · MV 40</div>
+        </div>
+      </div>
+
+      <div class="ds-callout">
+        <h4>The ligature rule</h4>
+        <p>Fira Code ships with programming ligatures. In <strong>reading</strong> (article bodies) they stay
+        <strong>ON</strong>. In the <strong>terminal / map / any aligned output</strong> they go
+        <strong>OFF</strong> (<code>font-variant-ligatures: none</code>) — ligatures glue <code>-&gt;</code>,
+        <code>!=</code>, <code>|</code> together and wreck ASCII maps, tables, and prompts.</p>
+      </div>
+      <div class="ds-grid2">
+        <div><span class="ds-label">Article — ligatures ON</span>
+          <div class="ds-demo"><span class="ds-lig-on">|=| -&gt; != &gt;= == |-- --|</span></div></div>
+        <div><span class="ds-label">Terminal — ligatures OFF</span>
+          <div class="ds-demo"><span class="ds-lig-off">|=| -&gt; != &gt;= == |-- --|</span></div></div>
+      </div>
+    </section>
+
+    <!-- TEXTURE -->
+    <section class="ds-sec" id="texture">
+      <h2><span class="ds-sec__no">03</span> Texture &amp; shape <span class="ds-tag ds-tag--both">both</span></h2>
+      <div class="ds-grid2">
+        <div>
+          <span class="ds-label">--noise · fractal grain (stone + parchment)</span>
+          <div class="ds-demo" style="background:var(--noise),var(--stone-800);background-blend-mode:overlay,normal;min-height:90px"></div>
+        </div>
+        <div>
+          <span class="ds-label">--radius · 5px</span>
+          <div class="ds-demo"><div style="width:120px;height:60px;border-radius:var(--radius);background:var(--stone-700);border:1px solid var(--stone-600)"></div></div>
+        </div>
+      </div>
+      <h3 class="ds-sub">The one gem recipe</h3>
+      <p class="ds-note">Every gold control points at these three tokens, so the matte finish can never drift back to glossy.</p>
+      <div class="ds-demo">
+        <div style="width:120px;height:44px;border-radius:3px;background:var(--gem-face);box-shadow:var(--gem-shadow)"></div>
+        <div style="width:120px;height:44px;border-radius:3px;background:var(--gem-face-hover);box-shadow:var(--gem-shadow)"></div>
+      </div>
+      <div class="ds-code">--gem-face:  radial-gradient(140% 140% at 50% 0%, <span class="v">--gold-metal-hi</span>, <span class="v">--gold-metal</span> 55%, <span class="v">--gold-metal-lo</span>);
+--gem-face-hover: radial-gradient(140% 140% at 50% 0%, #6c3aa8, <span class="v">--arcane-deep</span> 60%, #24123f);
+--gem-shadow: inset 0 1px 1px rgba(255,255,255,.6), 0 1px 2px rgba(0,0,0,.5), 0 0 0 1px <span class="v">--gold-deep</span>;</div>
+    </section>
+
+    <!-- BUTTONS -->
+    <section class="ds-sec" id="buttons">
+      <h2><span class="ds-sec__no">04</span> Buttons <span class="ds-tag ds-tag--both">both</span> <span class="ds-tag ds-tag--client">matte finish wins</span></h2>
+      <p class="ds-lede">Faceted gem, <strong>matte antique</strong> gold. Hover swaps to arcane and the label
+      flips light. Three roles, three scales.</p>
+      <div class="ds-demo">
+        <button class="btn">Primary</button>
+        <button class="btn btn--arcane">Accent</button>
+        <button class="btn btn--ghost">Ghost</button>
+        <button class="btn" disabled>Disabled</button>
+      </div>
+      <div class="ds-demo">
+        <button class="btn btn--lg">Large</button>
+        <button class="btn">Base</button>
+        <button class="btn btn--sm">Small</button>
+      </div>
+      <h3 class="ds-sub">Naming — one role, two class sets</h3>
+      <p class="ds-note">The site uses BEM; the client is locked to Bootstrap names (the JSX emits them). The DS
+      names the <em>role</em>; both class sets are aliases for the same look.</p>
+      <table class="ds-table">
+        <thead><tr><th>Role</th><th>Site (BEM)</th><th>Client (Bootstrap)</th></tr></thead>
+        <tbody>
+          <tr><td>Primary — gold gem</td><td><code>.btn--gold</code></td><td><code>.btn</code></td></tr>
+          <tr><td>Accent — arcane</td><td><code>.btn--arcane</code></td><td><code>.btn-primary</code></td></tr>
+          <tr><td>Ghost — outline</td><td><code>.btn--ghost</code></td><td><code>.btn-secondary</code> / <code>.btn-outline-primary</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FOCUS -->
+    <section class="ds-sec" id="focus">
+      <h2><span class="ds-sec__no">05</span> Focus <span class="ds-tag ds-tag--client">orbit wins → both</span></h2>
+      <p class="ds-lede">One focus language across site and client: the arcane <strong>orbit</strong> — purple light
+      that circles a focused field. Click in.</p>
+      <div class="ds-demo">
+        <input class="ds-input" type="text" placeholder="Focus me — watch the orbit" aria-label="Focus demo field"/>
+      </div>
+      <p class="ds-note">Reduced-motion falls back to a steady purple glow. In combat the input border owns red and the orbit stands down.</p>
+    </section>
+
+    <!-- FORMS -->
+    <section class="ds-sec" id="forms">
+      <h2><span class="ds-sec__no">06</span> Form controls <span class="ds-tag ds-tag--client">client-authored</span></h2>
+      <p class="ds-lede">Dark well framed in gold-deep, light text (a typed command echoes the same colour it will
+      print). Switch, segmented control and range come from the client settings — the site had no equivalent, so
+      the client's versions become the canon (re-skinned to these tokens here).</p>
+      <div class="ds-demo ds-demo--col">
+        <div><span class="ds-label" id="lbl-cmd">Text input</span><input class="ds-input" type="text" value="cast 'fireball' orc" aria-labelledby="lbl-cmd"/></div>
+        <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+          <div><span class="ds-label">Switch (off / on)</span>
+            <span style="display:inline-flex;gap:12px">
+              <button type="button" class="ds-switch" aria-pressed="false" aria-label="Example toggle A"><span class="ds-switch__knob"></span></button>
+              <button type="button" class="ds-switch" aria-pressed="true" aria-label="Example toggle B"><span class="ds-switch__knob"></span></button>
+            </span>
+          </div>
+          <div><span class="ds-label">Segmented</span>
+            <span class="ds-seg">
+              <button aria-pressed="true">Map</button>
+              <button aria-pressed="false">Text</button>
+              <button aria-pressed="false">ASCII</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <section class="ds-sec" id="tabs">
+      <h2><span class="ds-sec__no">07</span> Tabs <span class="ds-tag ds-tag--both">both, by context</span></h2>
+      <p class="ds-lede">Branded pill-gem where players look; plain flat tab where builders work.</p>
+      <div class="ds-grid2">
+        <div>
+          <span class="ds-label">Pill-gem — user-facing (searcher, browse)</span>
+          <div class="ds-demo">
+            <div class="ds-tabs-pill" role="tablist">
+              <button type="button" class="ds-tab-pill" role="tab" aria-selected="true"><span class="ds-tgem ds-tgem--ruby"></span>Armor</button>
+              <button type="button" class="ds-tab-pill" role="tab" aria-selected="false"><span class="ds-tgem ds-tgem--emerald"></span>Weapons</button>
+              <button type="button" class="ds-tab-pill" role="tab" aria-selected="false"><span class="ds-tgem ds-tgem--amethyst"></span>Magic</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="ds-label">Flat — dev tools (cs / fenia editor)</span>
+          <div class="ds-demo">
+            <div class="ds-tabs-flat" role="tablist">
+              <button type="button" class="ds-tab-flat" role="tab" aria-selected="true">Script</button>
+              <button type="button" class="ds-tab-flat" role="tab" aria-selected="false">Output</button>
+              <button type="button" class="ds-tab-flat" role="tab" aria-selected="false">Log</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARDS -->
+    <section class="ds-sec" id="cards">
+      <h2><span class="ds-sec__no">08</span> Cards &amp; panels <span class="ds-tag ds-tag--both">both, by surface</span></h2>
+      <p class="ds-lede">Two carved-panel languages, kept on purpose: the marketing card and the app widget card
+      have different jobs. Pick by surface, not by taste.</p>
+      <div class="ds-grid2">
+        <div>
+          <span class="ds-label">Bracket card — site marketing <span class="ds-tag ds-tag--site">site</span></span>
+          <div class="ds-card-bracket">
+            <div class="ds-card__title">Bracket panel</div>
+            <p>Stone gradient, gold corner brackets. Roomy, for landing-page bands and feature blocks.</p>
+          </div>
+        </div>
+        <div>
+          <span class="ds-label">Figma windowlet — app widget <span class="ds-tag ds-tag--client">client</span></span>
+          <div class="ds-card-windowlet">
+            <div class="ds-card__title">Windowlet</div>
+            <p>Masked gradient stroke, chevron ornament along the top, arcane wash. Dense, for who/group/affect panels.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ds-grid2" style="margin-top:18px">
+        <div>
+          <span class="ds-label">Gem card — marketing feature <span class="ds-tag ds-tag--site">site</span></span>
+          <div class="ds-gemcard">
+            <div class="ds-gemcard__stone" style="background:var(--sapphire)"></div>
+            <h4>Explore</h4>
+            <p style="color:var(--text-dim);margin:0">Faceted stone, lifts and blooms on hover.</p>
+          </div>
+        </div>
+        <div>
+          <span class="ds-label">Ornate rail — opt-in feature frame (hero, login) <span class="ds-tag ds-tag--both">both</span></span>
+          <div class="ds-railed">
+            <div class="ds-card__title">Railed</div>
+            <p style="color:var(--text-dim);margin:0">Gold octagon bevel + engraved inner frame. Reserve for the one thing you want framed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAP CONTROLS -->
+    <section class="ds-sec" id="mapctrls">
+      <h2><span class="ds-sec__no">09</span> Map / segmented controls <span class="ds-tag ds-tag--client">gold-gem wins</span></h2>
+      <p class="ds-lede">Zoom, layers, view toggle — all wear the same matte gem as every other button. Active /
+      pressed goes arcane.</p>
+      <div class="ds-demo">
+        <button type="button" class="ds-mapctrl" aria-label="Zoom in">+</button>
+        <button type="button" class="ds-mapctrl" aria-label="Zoom out">&minus;</button>
+        <button type="button" class="ds-mapctrl is-on" aria-pressed="true">z1</button>
+        <button type="button" class="ds-mapctrl" aria-pressed="false">z2</button>
+        <button type="button" class="ds-mapctrl" aria-pressed="false">z3</button>
+      </div>
+      <p class="ds-note">Zoom and layer toggles are loose gold-gem buttons; the active layer presses in and goes arcane.
+      <strong>Which selected-colour?</strong> Branded user-facing controls (tabs, chips, switch) light the selection in
+      <strong>bright gold</strong>; utility toggles (map, segmented control) mark the active one in <strong>arcane</strong>.</p>
+    </section>
+
+    <!-- CHIPS -->
+    <section class="ds-sec" id="chips">
+      <h2><span class="ds-sec__no">10</span> Chips <span class="ds-tag ds-tag--both">two named components</span></h2>
+      <p class="ds-lede">Not one component with two skins — two different jobs. Don't mix them.</p>
+      <div class="ds-grid2">
+        <div>
+          <span class="ds-label">Toggle-chip — interactive filter (off / on)</span>
+          <div class="ds-demo">
+            <button type="button" class="ds-chip" aria-pressed="false">Good</button>
+            <button type="button" class="ds-chip is-on" aria-pressed="true">Neutral</button>
+            <button type="button" class="ds-chip" aria-pressed="false">Evil</button>
+          </div>
+        </div>
+        <div>
+          <span class="ds-label">Data-chip — read-only stat / affect</span>
+          <div class="ds-demo">
+            <span class="ds-datachip"><b>STR</b> <span class="cur">18</span></span>
+            <span class="ds-datachip"><b>sanctuary</b></span>
+            <span class="ds-datachip"><b>haste</b> <span class="cur">12r</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARCHMENT -->
+    <section class="ds-sec" id="parchment">
+      <h2><span class="ds-sec__no">11</span> Parchment — reading surfaces <span class="ds-tag ds-tag--both">both</span></h2>
+      <p class="ds-lede">Aged sheet with a noise multiply, an inner white hairline, and a <code>--parch-edge</code>
+      border. Help articles, news, hints, side-sheet modals. Game colour gets a light-tuned ANSI remap — never
+      the dark palette on parchment.</p>
+      <div class="ds-parch">
+        <h4>On Ereshkigal, the Silent</h4>
+        <div class="ds-parch__body">The temple doors stand <span class="c-fgby">gilded</span> and shut. A
+        <span class="c-fgbm">violet</span> glow leaks from the seam. See also <a href="#">the Eight Paths</a>.</div>
+      </div>
+      <p class="ds-note">Cross-refs on parchment use <code>--arcane-ink</code> (the bright accent washes out on light).</p>
+    </section>
+
+    <!-- DARK -->
+    <section class="ds-sec" id="dark">
+      <h2><span class="ds-sec__no">12</span> Dark — game surfaces <span class="ds-tag ds-tag--fixed">constraint</span></h2>
+      <p class="ds-lede">The terminal well, the map, the ANSI panels. Dark, gold-framed, Fira with ligatures off.
+      This never becomes parchment.</p>
+      <span class="ds-label">Terminal well (80-col game text)</span>
+      <div class="ds-terminal">A <span class="fgby">rusty short sword</span> lies here.
+The <span class="fgbr">orc</span> snarls: <span class="fgbg">"You'll not pass!"</span>
+&gt; <span class="fgbw">kill orc</span></div>
+      <h3 class="ds-sub">ANSI palette (dark ground)</h3>
+      <div class="ds-ansi">
+        <span class="fgdr">r</span><span class="fgdg">g</span><span class="fgdy">y</span><span class="fgdb">b</span>
+        <span class="fgdm">m</span><span class="fgdc">c</span><span class="fgdw">w</span><span class="fgdd">d</span>
+        <span class="fgbr">R</span><span class="fgbg">G</span><span class="fgby">Y</span><span class="fgbb">B</span>
+        <span class="fgbm">M</span><span class="fgbc">C</span><span class="fgbw">W</span><span class="fgbd">D</span>
+      </div>
+      <h3 class="ds-sub">Vital bars — hp / mana / move <span class="ds-tag ds-tag--client">client</span></h3>
+      <div class="ds-demo ds-demo--col">
+        <div class="ds-pbars">
+          <div class="ds-pbarrow"><span class="ds-pbarlab">HP <b>245/300</b></span>
+            <div class="ds-pbar" role="img" aria-label="Health 82 percent"><div class="ds-pbar__fill" style="width:82%"></div></div></div>
+          <div class="ds-pbarrow"><span class="ds-pbarlab">MANA <b>77/120</b></span>
+            <div class="ds-pbar mana" role="img" aria-label="Mana 64 percent"><div class="ds-pbar__fill" style="width:64%"></div></div></div>
+          <div class="ds-pbarrow"><span class="ds-pbarlab">MV <b>18/40</b></span>
+            <div class="ds-pbar move" role="img" aria-label="Movement 45 percent"><div class="ds-pbar__fill" style="width:45%"></div></div></div>
+        </div>
+      </div>
+      <p class="ds-note">Colour is never the only signal — the affects panel and game text carry the real state for screen readers.</p>
+    </section>
+
+    <!-- ORNAMENTS -->
+    <section class="ds-sec" id="ornaments">
+      <h2><span class="ds-sec__no">13</span> Ornaments</h2>
+      <p class="ds-lede">The decorative library. Skeuomorphic ornament rides the chrome; reading text stays clean.</p>
+      <span class="ds-label">Filigree divider <span class="ds-tag ds-tag--site">site</span></span>
+      <div class="ds-demo">
+        <div class="ds-filigree" style="width:100%">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 L15 9 L22 12 L15 15 L12 22 L9 15 L2 12 L9 9 Z"/></svg>
+        </div>
+      </div>
+      <div class="ds-grid2" style="margin-top:16px">
+        <div><span class="ds-label">Corner brackets</span>
+          <div class="ds-card-bracket" style="min-height:70px"></div></div>
+        <div><span class="ds-label">Chevron run (windowlet top)</span>
+          <div class="ds-demo" style="min-height:70px;background:var(--stone-850)">
+            <div style="height:14px;width:100%;background:var(--chevron) repeat-x;opacity:.5"></div></div></div>
+      </div>
+    </section>
+
+    <!-- RULES -->
+    <section class="ds-sec" id="rules">
+      <h2><span class="ds-sec__no">14</span> The rules</h2>
+      <p class="ds-lede">The short version. Break these and the thing stops being one system.</p>
+      <table class="ds-table">
+        <tbody>
+          <tr><td><strong>Dark vs parchment</strong></td><td>Game colour (ANSI, terminal, map, vitals) on dark. Parchment for reading only.</td></tr>
+          <tr><td><strong>Gold surface vs gold text</strong></td><td>Matte <code>--gold-metal-*</code> for resting control faces; bright <code>--gold-bright</code>/<code>--gold</code> for text and for the selected/lit state (active tab, on-chip, on-switch). Darken the resting surface, never the text.</td></tr>
+          <tr><td><strong>One gem recipe</strong></td><td>All resting <em>gold</em> controls point at <code>--gem-face</code> / <code>--gem-shadow</code> — no hand-rolled gold gradients. The arcane accent button is the one lit exception, with its own recipe.</td></tr>
+          <tr><td><strong>Ligatures</strong></td><td>Fira Code ON in article bodies, OFF in the terminal / map / any aligned output.</td></tr>
+          <tr><td><strong>Focus</strong></td><td>Arcane orbit on every focusable field, both surfaces. Reduced-motion → steady glow.</td></tr>
+          <tr><td><strong>Accessibility</strong></td><td>Colour is never the only signal. Native <code>&lt;select&gt;</code> on narrow screens. ~30% of players read by screen reader.</td></tr>
+        </tbody>
+      </table>
+      <p class="ds-note" style="margin-top:22px">Source of truth. Live <code>theme.css</code> (site) and
+      <code>theme-parchment.css</code> (client) migrate onto these decisions in a later, separately-reviewed pass.</p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// swatch renderer — reads the resolved tokens straight off :root so the page can't lie about a value
+(function(){
+  var groups = {
+    'sw-ground':[['--obsidian','#08070c'],['--stone-950','#0d0b12'],['--stone-900','#131019'],['--stone-850','#191521'],['--stone-800','#201a2b'],['--stone-700','#2b2338'],['--stone-600','#3a3049']],
+    'sw-arcane':[['--arcane','#bb86fc'],['--arcane-lo','#8043ca'],['--arcane-deep','#4c2a7a'],['--arcane-ink','#6a2fa6'],['--arcane-ink-hi','#8f3fd6']],
+    'sw-gold':[['--gold-bright','#e6cd86'],['--gold','#c6a24e'],['--gold-dim','#856632'],['--gold-deep','#55411d'],['--gold-metal-hi','#b8973f'],['--gold-metal','#7e6127'],['--gold-metal-lo','#40300f']],
+    'sw-gem':[['--ruby','#c0384f'],['--emerald','#2fa36b'],['--sapphire','#4a74d4'],['--amethyst','#9159c8']],
+    'sw-parch':[['--parchment','#e4d6b2'],['--parchment-2','#d5c398'],['--parch-edge','#96793f'],['--ink','#2b2213'],['--ink-dim','#665736']],
+    'sw-text':[['--text','#e3d8c0'],['--text-dim','#a49a84'],['--text-faint','#6f6857']]
+  };
+  Object.keys(groups).forEach(function(id){
+    var host = document.getElementById(id); if(!host) return;
+    var root = getComputedStyle(document.documentElement);
+    groups[id].forEach(function(t){
+      var hex = (root.getPropertyValue(t[0]) || '').trim() || t[1]; // read the live token; literal is a fallback
+      var el = document.createElement('div'); el.className='ds-swatch';
+      el.innerHTML = '<div class="ds-swatch__chip" style="background:var('+t[0]+')"></div>'+
+        '<div class="ds-swatch__meta"><span class="ds-swatch__name">'+t[0]+'</span>'+
+        '<span class="ds-swatch__hex">'+hex+'</span></div>';
+      host.appendChild(el);
+    });
+  });
+  // interactive demos: switches, chips, tabs, map toggles
+  document.addEventListener('click', function(e){
+    var sw = e.target.closest('.ds-switch');
+    if(sw){ sw.setAttribute('aria-pressed', sw.getAttribute('aria-pressed')==='true'?'false':'true'); return; }
+    var chip = e.target.closest('.ds-chip');
+    if(chip){ var on = chip.classList.toggle('is-on'); chip.setAttribute('aria-pressed', on?'true':'false'); return; }
+    var seg = e.target.closest('.ds-seg button, .ds-tabs-pill .ds-tab-pill, .ds-tabs-flat .ds-tab-flat');
+    if(seg){
+      var group = seg.parentElement;
+      var attr = seg.hasAttribute('aria-selected') ? 'aria-selected' : 'aria-pressed';
+      Array.prototype.forEach.call(group.children, function(c){ if(c.hasAttribute(attr)) c.setAttribute(attr,'false'); });
+      seg.setAttribute(attr,'true'); return;
+    }
+    var mc = e.target.closest('.ds-mapctrl');
+    if(mc && mc.hasAttribute('aria-pressed')){
+      Array.prototype.forEach.call(mc.parentElement.querySelectorAll('.ds-mapctrl[aria-pressed]'), function(b){ b.classList.remove('is-on'); b.setAttribute('aria-pressed','false'); });
+      mc.classList.add('is-on'); mc.setAttribute('aria-pressed','true');
+    }
+  });
+})();
+</script>
+</body>
+</html>

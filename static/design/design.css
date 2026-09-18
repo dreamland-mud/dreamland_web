@@ -1,0 +1,438 @@
+/* ============================================================
+   DreamLand Design System — /design
+   The resolved vocabulary shared by the site (dreamland.rocks)
+   and the /play web client (mudjs, Parchment skin).
+
+   This sheet is the SOURCE OF TRUTH. It is self-contained on
+   purpose: it carries the decisions, not the current live state
+   of theme.css / theme-parchment.css. Live surfaces migrate onto
+   it in a later pass.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Fira+Code:wght@400;600&display=swap');
+
+/* ---------- Tokens ---------- */
+:root {
+  /* ground — deep obsidian, identical on site + client */
+  --obsidian:#08070c; --stone-950:#0d0b12; --stone-900:#131019;
+  --stone-850:#191521; --stone-800:#201a2b; --stone-700:#2b2338; --stone-600:#3a3049;
+
+  /* arcane purple — THE accent, shared */
+  --arcane:#bb86fc; --arcane-lo:#8043ca; --arcane-deep:#4c2a7a; --arcane-glow:rgba(187,134,252,.55);
+  /* darker purple for cross-refs ON parchment (the bright accent washes out on light) */
+  --arcane-ink:#6a2fa6; --arcane-ink-hi:#8f3fd6;
+
+  /* gold TEXT — panel titles, gilded words. Bright, shiny is fine here. */
+  --gold-bright:#e6cd86; --gold:#c6a24e; --gold-dim:#856632; --gold-deep:#55411d;
+  /* gold SURFACE — the matte antique metal for button + control faces ONLY.
+     Never lit the way gold text is. This split is the whole point of the gem decision. */
+  --gold-metal-hi:#b8973f; --gold-metal:#7e6127; --gold-metal-lo:#40300f;
+
+  /* gems — faceted-stone accents (searcher tabs, marketing cards) */
+  --ruby:#c0384f; --ruby-lo:#7c1f30; --emerald:#2fa36b; --emerald-lo:#17603d;
+  --sapphire:#4a74d4; --sapphire-lo:#274384; --amethyst:#9159c8;
+
+  /* parchment — reading surfaces ONLY (articles, news, hints, modals) */
+  --parchment:#e4d6b2; --parchment-2:#d5c398; --parch-edge:#96793f; --ink:#2b2213; --ink-dim:#665736;
+
+  /* text on dark */
+  --text:#e3d8c0; --text-dim:#a49a84; --text-faint:#6f6857;
+
+  /* type */
+  --display:'Playfair Display','Times New Roman',serif;   /* headings, gilded titles */
+  --body:'Alegreya Sans','Segoe UI',sans-serif;           /* UI + prose */
+  --mono:'JetBrains Mono',ui-monospace,monospace;         /* UI labels, small code */
+  --article:'Fira Code',ui-monospace,monospace;           /* GAME TEXT: terminal + article bodies */
+  --mono-track:-.014em;
+
+  --radius:5px;
+
+  /* ONE gem recipe. Every gold control points here so the matte never drifts glossy. */
+  --gem-face:radial-gradient(140% 140% at 50% 0%,var(--gold-metal-hi),var(--gold-metal) 55%,var(--gold-metal-lo));
+  --gem-face-hover:radial-gradient(140% 140% at 50% 0%,#6c3aa8,var(--arcane-deep) 60%,#24123f);
+  --gem-shadow:inset 0 1px 1px rgba(255,255,255,.6),0 1px 2px rgba(0,0,0,.5),0 0 0 1px var(--gold-deep);
+
+  /* fractal-noise grain for stone + parchment texture (identical on both surfaces) */
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+
+  /* ornate gold octagon bevel-rail (opt-in FEATURE frame: hero, login) */
+  --rail:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23f6e3ab%22%2F%3E%3Cstop%20offset%3D%220.16%22%20stop-color%3D%22%23e6cd86%22%2F%3E%3Cstop%20offset%3D%220.46%22%20stop-color%3D%22%23c6a24e%22%2F%3E%3Cstop%20offset%3D%220.74%22%20stop-color%3D%22%237e6127%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2333250b%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Cpath%20fill-rule%3D%22evenodd%22%20fill%3D%22url%28%23g%29%22%20d%3D%22M%2014.8%200.8%20L%2045.2%200.8%20A%2014%2014%200%200%200%2059.2%2014.8%20L%2059.2%2045.2%20A%2014%2014%200%200%200%2045.2%2059.2%20L%2014.8%2059.2%20A%2014%2014%200%200%200%200.8%2045.2%20L%200.8%2014.8%20A%2014%2014%200%200%200%2014.8%200.8%20Z%20M%2018%2012%20L%2042%2012%20A%206%206%200%200%200%2048%2018%20L%2048%2042%20A%206%206%200%200%200%2042%2048%20L%2018%2048%20A%206%206%200%200%200%2012%2042%20L%2012%2018%20A%206%206%200%200%200%2018%2012%20Z%22%2F%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23241a08%22%20stroke-width%3D%221.1%22%20d%3D%22M%2014.8%200.8%20L%2045.2%200.8%20A%2014%2014%200%200%200%2059.2%2014.8%20L%2059.2%2045.2%20A%2014%2014%200%200%200%2045.2%2059.2%20L%2014.8%2059.2%20A%2014%2014%200%200%200%200.8%2045.2%20L%200.8%2014.8%20A%2014%2014%200%200%200%2014.8%200.8%20Z%22%2F%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23f8ecc4%22%20stroke-width%3D%220.7%22%20opacity%3D%220.6%22%20d%3D%22M%2015.2%202.2%20L%2044.8%202.2%20A%2013%2013%200%200%200%2057.8%2015.2%20L%2057.8%2044.8%20A%2013%2013%200%200%200%2044.8%2057.8%20L%2015.2%2057.8%20A%2013%2013%200%200%200%202.2%2044.8%20L%202.2%2015.2%20A%2013%2013%200%200%200%2015.2%202.2%20Z%22%2F%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%234a3818%22%20stroke-width%3D%220.8%22%20d%3D%22M%2018%2012%20L%2042%2012%20A%206%206%200%200%200%2048%2018%20L%2048%2042%20A%206%206%200%200%200%2042%2048%20L%2018%2048%20A%206%206%200%200%200%2012%2042%20L%2012%2018%20A%206%206%200%200%200%2018%2012%20Z%22%2F%3E%3C%2Fsvg%3E");
+
+  /* engraved white inner-frame ornament (rides a step inside the rail) */
+  --rail-frame:url("data:image/svg+xml,%3Csvg%20width%3D%22185%22%20height%3D%22229%22%20viewBox%3D%220%200%20185%20229%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M180.3%20218.3L180.3%20221.3L182.3%20223.3L179.3%20226.3L176.3%20223.3L178.3%20221.3L178.3%20218.3L174.3%20214.3L178.3%20210.3L178.3%2018.3L174.3%2014.3L178.3%2010.3L178.3%207.3L176.3%205.3L179.3%202.3L182.3%205.3L180.3%207.3L180.3%2010.3L184.3%2014.3L180.3%2018.3L180.3%20210.3L184.3%20214.3L180.3%20218.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M174.3%205.3L169.3%2010.3L165.3%206.3L19.2998%206.3L15.2998%2010.3L10.2998%205.3L15.2998%200.300003L19.2998%204.3L165.3%204.3L169.3%200.300004L174.3%205.3ZM13.1279%205.3L15.2998%207.47188L17.4717%205.3L15.2998%203.12813L13.1279%205.3ZM167.128%205.3L169.3%207.47188L171.472%205.3L169.3%203.12813L167.128%205.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M6.29979%20218.3L6.29979%20221.3L8.29979%20223.3L5.29979%20226.3L2.29979%20223.3L4.29979%20221.3L4.29979%20218.3L0.299795%20214.3L4.29979%20210.3L4.2998%2018.3L0.299804%2014.3L4.2998%2010.3L4.2998%207.3L2.2998%205.3L5.2998%202.3L8.2998%205.3L6.2998%207.3L6.2998%2010.3L10.2998%2014.3L6.2998%2018.3L6.29979%20210.3L10.2998%20214.3L6.29979%20218.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M174.3%20223.3L169.3%20228.3L165.3%20224.3L19.2998%20224.3L15.2998%20228.3L10.2998%20223.3L15.2998%20218.3L19.2998%20222.3L165.3%20222.3L169.3%20218.3L174.3%20223.3ZM13.1279%20223.3L15.2998%20225.472L17.4717%20223.3L15.2998%20221.128L13.1279%20223.3ZM167.128%20223.3L169.3%20225.472L171.472%20223.3L169.3%20221.128L167.128%20223.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M77.2998%20223.3L92.2998%20208.3L107.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M156.3%20219.3H28.2998%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M156.3%2010.3H28.2998%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M10.2998%2027.3L10.2998%20201.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M174.3%2027.3L174.3%20201.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%20196.3L32.2998%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%2032.3L32.2998%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%20196.3L152.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%2032.3L152.3%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%20202.3L26.2998%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%2026.3L26.2998%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%20202.3L158.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%2026.3L158.3%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E");
+
+  /* chevron-run top ornament for the Figma windowlet card (client card chrome) */
+  --chevron:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjc5IiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMjc5IDE0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHlsZT0ibWl4LWJsZW5kLW1vZGU6b3ZlcmxheSIgb3BhY2l0eT0iMC4yIj4KPHBhdGggZD0iTS0zIDUuNUwtNC4xNDY0NSA2LjY0NjQ1Qy00LjM0MTcxIDYuODQxNzEgLTQuNjU4MjkgNi44NDE3MSAtNC44NTM1NSA2LjY0NjQ1TC05LjY0NjQ1IDEuODUzNTVDLTkuOTYxNDMgMS41Mzg1NyAtOS43MzgzNCAxIC05LjI5Mjg5IDFINi4yOTI4OUM2LjczODM1IDEgNi45NjE0MyAxLjUzODU3IDYuNjQ2NDUgMS44NTM1NUwtNC4xNDY0NSAxMi42NDY0Qy00LjM0MTcxIDEyLjg0MTcgLTQuNjU4MjkgMTIuODQxNyAtNC44NTM1NSAxMi42NDY0TC0xNS42NDY0IDEuODUzNTVDLTE1Ljk2MTQgMS41Mzg1NyAtMTYuNSAxLjc2MTY1IC0xNi41IDIuMjA3MTFWMTIuNUMtMTYuNSAxMi43NzYxIC0xNi4yNzYxIDEzIC0xNiAxM0gtMTAuNzA3MUMtMTAuMjYxNyAxMyAtMTAuMDM4NiAxMi40NjE0IC0xMC4zNTM2IDEyLjE0NjRMLTExLjUgMTEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMiA4LjVMMTMuMTQ2NCA3LjM1MzU1QzEzLjM0MTcgNy4xNTgyOSAxMy42NTgzIDcuMTU4MjkgMTMuODUzNiA3LjM1MzU1TDE4LjY0NjQgMTIuMTQ2NEMxOC45NjE0IDEyLjQ2MTQgMTguNzM4MyAxMyAxOC4yOTI5IDEzSDEzLjVINy41SDIuNzA3MTFDMi4yNjE2NSAxMyAyLjAzODU3IDEyLjQ2MTQgMi4zNTM1NSAxMi4xNDY0TDEzLjE0NjQgMS4zNTM1NUMxMy4zNDE3IDEuMTU4MjkgMTMuNjU4MyAxLjE1ODI5IDEzLjg1MzYgMS4zNTM1NUwyNS4xNDY0IDEyLjY0NjRDMjUuMzQxNyAxMi44NDE3IDI1LjY1ODMgMTIuODQxNyAyNS44NTM2IDEyLjY0NjRMMzYuNjQ2NCAxLjg1MzU1QzM2Ljk2MTQgMS41Mzg1NyAzNi43MzgzIDEgMzYuMjkyOSAxSDIwLjcwNzFDMjAuMjYxNyAxIDIwLjAzODYgMS41Mzg1NyAyMC4zNTM2IDEuODUzNTVMMjUuMTQ2NCA2LjY0NjQ1QzI1LjM0MTcgNi44NDE3MSAyNS42NTgzIDYuODQxNzEgMjUuODUzNiA2LjY0NjQ1TDI3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTQyIDguNUw0My4xNDY0IDcuMzUzNTVDNDMuMzQxNyA3LjE1ODI5IDQzLjY1ODMgNy4xNTgyOSA0My44NTM2IDcuMzUzNTVMNDguNjQ2NCAxMi4xNDY0QzQ4Ljk2MTQgMTIuNDYxNCA0OC43MzgzIDEzIDQ4LjI5MjkgMTNINDMuNUgzNy41SDMyLjcwNzFDMzIuMjYxNyAxMyAzMi4wMzg2IDEyLjQ2MTQgMzIuMzUzNiAxMi4xNDY0TDQzLjE0NjQgMS4zNTM1NUM0My4zNDE3IDEuMTU4MjkgNDMuNjU4MyAxLjE1ODI5IDQzLjg1MzYgMS4zNTM1NUw1NS4xNDY0IDEyLjY0NjRDNTUuMzQxNyAxMi44NDE3IDU1LjY1ODMgMTIuODQxNyA1NS44NTM2IDEyLjY0NjRMNjYuNjQ2NCAxLjg1MzU1QzY2Ljk2MTQgMS41Mzg1NyA2Ni43MzgzIDEgNjYuMjkyOSAxSDUwLjcwNzFDNTAuMjYxNyAxIDUwLjAzODYgMS41Mzg1NyA1MC4zNTM2IDEuODUzNTVMNTUuMTQ2NCA2LjY0NjQ1QzU1LjM0MTcgNi44NDE3MSA1NS42NTgzIDYuODQxNzEgNTUuODUzNiA2LjY0NjQ1TDU3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTcyIDguNUw3My4xNDY0IDcuMzUzNTVDNzMuMzQxNyA3LjE1ODI5IDczLjY1ODMgNy4xNTgyOSA3My44NTM2IDcuMzUzNTVMNzguNjQ2NCAxMi4xNDY0Qzc4Ljk2MTQgMTIuNDYxNCA3OC43MzgzIDEzIDc4LjI5MjkgMTNINzMuNUg2Ny41SDYyLjcwNzFDNjIuMjYxNyAxMyA2Mi4wMzg2IDEyLjQ2MTQgNjIuMzUzNiAxMi4xNDY0TDczLjE0NjQgMS4zNTM1NUM3My4zNDE3IDEuMTU4MjkgNzMuNjU4MyAxLjE1ODI5IDczLjg1MzYgMS4zNTM1NUw4NS4xNDY0IDEyLjY0NjRDODUuMzQxNyAxMi44NDE3IDg1LjY1ODMgMTIuODQxNyA4NS44NTM2IDEyLjY0NjRMOTYuNjQ2NCAxLjg1MzU1Qzk2Ljk2MTQgMS41Mzg1NyA5Ni43MzgzIDEgOTYuMjkyOSAxSDgwLjcwNzFDODAuMjYxNyAxIDgwLjAzODYgMS41Mzg1NyA4MC4zNTM2IDEuODUzNTVMODUuMTQ2NCA2LjY0NjQ1Qzg1LjM0MTcgNi44NDE3MSA4NS42NTgzIDYuODQxNzEgODUuODUzNiA2LjY0NjQ1TDg3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTEwMiA4LjVMMTAzLjE0NiA3LjM1MzU1QzEwMy4zNDIgNy4xNTgyOSAxMDMuNjU4IDcuMTU4MjkgMTAzLjg1NCA3LjM1MzU1TDEwOC42NDYgMTIuMTQ2NEMxMDguOTYxIDEyLjQ2MTQgMTA4LjczOCAxMyAxMDguMjkzIDEzSDEwMy41SDk3LjVIOTIuNzA3MUM5Mi4yNjE3IDEzIDkyLjAzODYgMTIuNDYxNCA5Mi4zNTM2IDEyLjE0NjRMMTAzLjE0NiAxLjM1MzU1QzEwMy4zNDIgMS4xNTgyOSAxMDMuNjU4IDEuMTU4MjkgMTAzLjg1NCAxLjM1MzU1TDExNS4xNDYgMTIuNjQ2NEMxMTUuMzQyIDEyLjg0MTcgMTE1LjY1OCAxMi44NDE3IDExNS44NTQgMTIuNjQ2NEwxMjYuNjQ2IDEuODUzNTVDMTI2Ljk2MSAxLjUzODU3IDEyNi43MzggMSAxMjYuMjkzIDFIMTEwLjcwN0MxMTAuMjYyIDEgMTEwLjAzOSAxLjUzODU3IDExMC4zNTQgMS44NTM1NUwxMTUuMTQ2IDYuNjQ2NDVDMTE1LjM0MiA2Ljg0MTcxIDExNS42NTggNi44NDE3MSAxMTUuODU0IDYuNjQ2NDVMMTE3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTEzMiA4LjVMMTMzLjE0NiA3LjM1MzU1QzEzMy4zNDIgNy4xNTgyOSAxMzMuNjU4IDcuMTU4MjkgMTMzLjg1NCA3LjM1MzU1TDEzOC42NDYgMTIuMTQ2NEMxMzguOTYxIDEyLjQ2MTQgMTM4LjczOCAxMyAxMzguMjkzIDEzSDEzMy41SDEyNy41SDEyMi43MDdDMTIyLjI2MiAxMyAxMjIuMDM5IDEyLjQ2MTQgMTIyLjM1NCAxMi4xNDY0TDEzMy4xNDYgMS4zNTM1NUMxMzMuMzQyIDEuMTU4MjkgMTMzLjY1OCAxLjE1ODI5IDEzMy44NTQgMS4zNTM1NUwxNDUuMTQ2IDEyLjY0NjRDMTQ1LjM0MiAxMi44NDE3IDE0NS42NTggMTIuODQxNyAxNDUuODU0IDEyLjY0NjRMMTU2LjY0NiAxLjg1MzU1QzE1Ni45NjEgMS41Mzg1NyAxNTYuNzM4IDEgMTU2LjI5MyAxSDE0MC43MDdDMTQwLjI2MiAxIDE0MC4wMzkgMS41Mzg1NyAxNDAuMzU0IDEuODUzNTVMMTQ1LjE0NiA2LjY0NjQ1QzE0NS4zNDIgNi44NDE3MSAxNDUuNjU4IDYuODQxNzEgMTQ1Ljg1NCA2LjY0NjQ1TDE0NyA1LjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xNjIgOC41TDE2My4xNDYgNy4zNTM1NUMxNjMuMzQyIDcuMTU4MjkgMTYzLjY1OCA3LjE1ODI5IDE2My44NTQgNy4zNTM1NUwxNjguNjQ2IDEyLjE0NjRDMTY4Ljk2MSAxMi40NjE0IDE2OC43MzggMTMgMTY4LjI5MyAxM0gxNjMuNUgxNTcuNUgxNTIuNzA3QzE1Mi4yNjIgMTMgMTUyLjAzOSAxMi40NjE0IDE1Mi4zNTQgMTIuMTQ2NEwxNjMuMTQ2IDEuMzUzNTVDMTYzLjM0MiAxLjE1ODI5IDE2My42NTggMS4xNTgyOSAxNjMuODU0IDEuMzUzNTVMMTc1LjE0NiAxMi42NDY0QzE3NS4zNDIgMTIuODQxNyAxNzUuNjU4IDEyLjg0MTcgMTc1Ljg1NCAxMi42NDY0TDE4Ni42NDYgMS44NTM1NUMxODYuOTYxIDEuNTM4NTcgMTg2LjczOCAxIDE4Ni4yOTMgMUgxNzAuNzA3QzE3MC4yNjIgMSAxNzAuMDM5IDEuNTM4NTcgMTcwLjM1NCAxLjg1MzU1TDE3NS4xNDYgNi42NDY0NUMxNzUuMzQyIDYuODQxNzEgMTc1LjY1OCA2Ljg0MTcxIDE3NS44NTQgNi42NDY0NUwxNzcgNS41IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTkyIDguNUwxOTMuMTQ2IDcuMzUzNTVDMTkzLjM0MiA3LjE1ODI5IDE5My42NTggNy4xNTgyOSAxOTMuODU0IDcuMzUzNTVMMTk4LjY0NiAxMi4xNDY0QzE5OC45NjEgMTIuNDYxNCAxOTguNzM4IDEzIDE5OC4yOTMgMTNIMTkzLjVIMTg3LjVIMTgyLjcwN0MxODIuMjYyIDEzIDE4Mi4wMzkgMTIuNDYxNCAxODIuMzU0IDEyLjE0NjRMMTkzLjE0NiAxLjM1MzU1QzE5My4zNDIgMS4xNTgyOSAxOTMuNjU4IDEuMTU4MjkgMTkzLjg1NCAxLjM1MzU1TDIwNS4xNDYgMTIuNjQ2NEMyMDUuMzQyIDEyLjg0MTcgMjA1LjY1OCAxMi44NDE3IDIwNS44NTQgMTIuNjQ2NEwyMTYuNjQ2IDEuODUzNTVDMjE2Ljk2MSAxLjUzODU3IDIxNi43MzggMSAyMTYuMjkzIDFIMjAwLjcwN0MyMDAuMjYyIDEgMjAwLjAzOSAxLjUzODU3IDIwMC4zNTQgMS44NTM1NUwyMDUuMTQ2IDYuNjQ2NDVDMjA1LjM0MiA2Ljg0MTcxIDIwNS42NTggNi44NDE3MSAyMDUuODU0IDYuNjQ2NDVMMjA3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTIyMiA4LjVMMjIzLjE0NiA3LjM1MzU1QzIyMy4zNDIgNy4xNTgyOSAyMjMuNjU4IDcuMTU4MjkgMjIzLjg1NCA3LjM1MzU1TDIyOC42NDYgMTIuMTQ2NEMyMjguOTYxIDEyLjQ2MTQgMjI4LjczOCAxMyAyMjguMjkzIDEzSDIyMy41SDIxNy41SDIxMi43MDdDMjEyLjI2MiAxMyAyMTIuMDM5IDEyLjQ2MTQgMjEyLjM1NCAxMi4xNDY0TDIyMy4xNDYgMS4zNTM1NUMyMjMuMzQyIDEuMTU4MjkgMjIzLjY1OCAxLjE1ODI5IDIyMy44NTQgMS4zNTM1NUwyMzUuMTQ2IDEyLjY0NjRDMjM1LjM0MiAxMi44NDE3IDIzNS42NTggMTIuODQxNyAyMzUuODU0IDEyLjY0NjRMMjQ2LjY0NiAxLjg1MzU1QzI0Ni45NjEgMS41Mzg1NyAyNDYuNzM4IDEgMjQ2LjI5MyAxSDIzMC43MDdDMjMwLjI2MiAxIDIzMC4wMzkgMS41Mzg1NyAyMzAuMzU0IDEuODUzNTVMMjM1LjE0NiA2LjY0NjQ1QzIzNS4zNDIgNi44NDE3MSAyMzUuNjU4IDYuODQxNzEgMjM1Ljg1NCA2LjY0NjQ1TDIzNyA1LjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0yNTIgOC41TDI1My4xNDYgNy4zNTM1NUMyNTMuMzQyIDcuMTU4MjkgMjUzLjY1OCA3LjE1ODI5IDI1My44NTQgNy4zNTM1NUwyNTguNjQ2IDEyLjE0NjRDMjU4Ljk2MSAxMi40NjE0IDI1OC43MzggMTMgMjU4LjI5MyAxM0gyNTMuNUgyNDcuNUgyNDIuNzA3QzI0Mi4yNjIgMTMgMjQyLjAzOSAxMi40NjE0IDI0Mi4zNTQgMTIuMTQ2NEwyNTMuMTQ2IDEuMzUzNTVDMjUzLjM0MiAxLjE1ODI5IDI1My42NTggMS4xNTgyOSAyNTMuODU0IDEuMzUzNTVMMjY1LjE0NiAxMi42NDY0QzI2NS4zNDIgMTIuODQxNyAyNjUuNjU4IDEyLjg0MTcgMjY1Ljg1NCAxMi42NDY0TDI3Ni42NDYgMS44NTM1NUMyNzYuOTYxIDEuNTM4NTcgMjc2LjczOCAxIDI3Ni4yOTMgMUgyNjAuNzA3QzI2MC4yNjIgMSAyNjAuMDM5IDEuNTM4NTcgMjYwLjM1NCAxLjg1MzU1TDI2NS4xNDYgNi42NDY0NUMyNjUuMzQyIDYuODQxNzEgMjY1LjY1OCA2Ljg0MTcxIDI2NS44NTQgNi42NDY0NUwyNjcgNS41IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMjgyIDguNUwyODMuMTQ2IDcuMzUzNTVDMjgzLjM0MiA3LjE1ODI5IDI4My42NTggNy4xNTgyOSAyODMuODU0IDcuMzUzNTVMMjg4LjY0NiAxMi4xNDY0QzI4OC45NjEgMTIuNDYxNCAyODguNzM4IDEzIDI4OC4yOTMgMTNIMjcyLjcwN0MyNzIuMjYyIDEzIDI3Mi4wMzkgMTIuNDYxNCAyNzIuMzU0IDEyLjE0NjRMMjgzLjE0NiAxLjM1MzU1QzI4My4zNDIgMS4xNTgyOSAyODMuNjU4IDEuMTU4MjkgMjgzLjg1NCAxLjM1MzU1TDI5NC42NDYgMTIuMTQ2NEMyOTQuOTYxIDEyLjQ2MTQgMjk1LjUgMTIuMjM4MyAyOTUuNSAxMS43OTI5VjEuNUMyOTUuNSAxLjIyMzg2IDI5NS4yNzYgMSAyOTUgMUgyODkuNzA3QzI4OS4yNjIgMSAyODkuMDM5IDEuNTM4NTcgMjg5LjM1NCAxLjg1MzU1TDI5MC41IDMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg==");
+}
+
+/* ============================================================
+   PAGE CHROME (this reference page's own shell)
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:var(--body); font-size:17px; line-height:1.6;
+  color:var(--text); background:var(--obsidian); -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+body::before{
+  content:""; position:fixed; inset:0; z-index:-2;
+  background:
+    radial-gradient(1100px 640px at 50% -8%, rgba(76,42,122,.35) 0%, transparent 62%),
+    radial-gradient(820px 820px at 92% 112%, rgba(128,67,202,.16) 0%, transparent 55%),
+    var(--obsidian);
+}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.14;margin:0 0 .4em;letter-spacing:.005em}
+em,i{font-style:normal;color:var(--gold-bright)}
+a{color:var(--arcane);text-decoration:none}
+a:hover{color:#d9b8ff}
+code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track);
+  background:rgba(0,0,0,.4);color:var(--arcane);padding:.1em .45em;border-radius:4px;
+  border:1px solid rgba(187,134,252,.28)}
+
+.ds-shell{display:grid;grid-template-columns:230px 1fr;gap:0;max-width:1360px;margin:0 auto}
+
+/* left rail nav */
+.ds-rail{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;
+  padding:26px 18px 40px;border-right:1px solid var(--stone-700)}
+.ds-rail__brand{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.ds-rail__brand img{height:20px;width:auto;filter:drop-shadow(0 0 6px var(--arcane-glow))}
+.ds-rail__tag{color:var(--text-dim);font-size:.72rem;letter-spacing:.06em;
+  text-transform:uppercase;margin:0 0 22px}
+.ds-rail a{display:block;color:var(--text-dim);font-size:.86rem;padding:5px 10px;border-radius:6px}
+.ds-rail a:hover{color:var(--gold-bright);background:rgba(187,134,252,.08)}
+.ds-rail .ds-rail__grouphd{color:var(--gold);font-size:.66rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;margin:16px 10px 4px}
+
+.ds-main{padding:34px clamp(20px,4vw,64px) 120px;min-width:0}
+
+/* page hero */
+.ds-hero{padding:26px 0 34px;border-bottom:1px solid var(--gold-deep);margin-bottom:12px}
+.ds-hero h1{font-size:clamp(2rem,5vw,3.2rem);color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.6)}
+.ds-hero p{color:var(--text-dim);font-size:1.1rem;max-width:70ch}
+
+/* section scaffolding */
+.ds-sec{padding:44px 0;border-bottom:1px solid var(--stone-800);scroll-margin-top:20px}
+.ds-sec > h2{font-size:1.9rem;color:#fff;display:flex;align-items:baseline;gap:12px}
+.ds-sec > h2 .ds-sec__no{font-family:var(--mono);font-size:.9rem;color:var(--gold);font-weight:400}
+.ds-sec > .ds-lede{color:var(--text-dim);max-width:74ch;margin:0 0 24px;font-size:1.05rem}
+.ds-sub{font-family:var(--display);color:var(--gold-bright);font-size:1.15rem;margin:26px 0 12px}
+
+/* demo surface — a neutral stage to show a component on */
+.ds-demo{position:relative;border-radius:var(--radius);padding:26px;
+  background:linear-gradient(180deg,var(--stone-900),var(--stone-950));
+  border:1px solid var(--stone-700);
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.ds-demo + .ds-note,.ds-demo + .ds-code{margin-top:10px}
+.ds-demo--col{flex-direction:column;align-items:stretch}
+.ds-demo--parch{background:var(--noise),linear-gradient(172deg,var(--parchment),var(--parchment-2));
+  background-blend-mode:multiply,normal;border-color:var(--parch-edge);color:var(--ink)}
+.ds-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px}
+
+.ds-note{color:var(--text-dim);font-size:.92rem;margin:8px 0 0}
+.ds-note strong{color:var(--gold-bright);font-weight:700}
+.ds-tag{display:inline-block;font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;
+  text-transform:uppercase;padding:.15em .5em;border-radius:4px;vertical-align:middle;
+  border:1px solid var(--stone-600);color:var(--text-dim);background:rgba(0,0,0,.3)}
+.ds-tag--site{color:#9fd0ff;border-color:#2a4a6a}
+.ds-tag--client{color:var(--gold-bright);border-color:var(--gold-deep)}
+.ds-tag--both{color:var(--arcane);border-color:var(--arcane-deep)}
+.ds-tag--fixed{color:#e39b9b;border-color:#5a2a2a}
+.ds-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--text-dim);margin-bottom:8px;display:block}
+
+/* code block */
+.ds-code{font-family:var(--mono);font-size:.78rem;line-height:1.55;letter-spacing:var(--mono-track);
+  background:#0b0a12;border:1px solid var(--stone-700);border-radius:6px;
+  padding:12px 14px;color:var(--text-dim);overflow-x:auto;white-space:pre}
+.ds-code .k{color:var(--arcane)} .ds-code .v{color:var(--gold-bright)} .ds-code .c{color:var(--text-dim)}
+
+/* callout */
+.ds-callout{border-left:3px solid var(--arcane);background:rgba(187,134,252,.06);
+  border-radius:0 6px 6px 0;padding:16px 18px;margin:18px 0}
+.ds-callout--warn{border-left-color:#c4674a;background:rgba(196,103,74,.08)}
+.ds-callout h4{margin:0 0 6px;color:#fff;font-size:1.05rem}
+.ds-callout p{margin:0;color:var(--text-dim);font-size:.95rem}
+.ds-callout code{font-size:.8em}
+
+/* ============================================================
+   TOKEN SWATCHES
+   ============================================================ */
+.ds-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.ds-swatch{border:1px solid var(--stone-700);border-radius:6px;overflow:hidden;background:var(--stone-950)}
+.ds-swatch__chip{height:56px}
+.ds-swatch__meta{padding:8px 10px}
+.ds-swatch__name{font-family:var(--mono);font-size:.72rem;color:var(--text);display:block}
+.ds-swatch__hex{font-family:var(--mono);font-size:.68rem;color:var(--text-dim)}
+
+/* type specimens */
+.ds-spec{padding:16px 0;border-bottom:1px dashed var(--stone-700)}
+.ds-spec:last-child{border-bottom:0}
+.ds-spec__meta{font-family:var(--mono);font-size:.72rem;color:var(--gold);margin-bottom:6px}
+.ds-spec__sample{color:var(--text)}
+.ds-spec--display .ds-spec__sample{font-family:var(--display);font-size:2rem;color:#fff}
+.ds-spec--body .ds-spec__sample{font-family:var(--body);font-size:1.15rem}
+.ds-spec--article .ds-spec__sample{font-family:var(--article);font-size:1rem;letter-spacing:var(--mono-track)}
+.ds-spec--mono .ds-spec__sample{font-family:var(--mono);font-size:1rem;letter-spacing:var(--mono-track)}
+.ds-lig-on{font-family:var(--article);font-variant-ligatures:contextual}
+.ds-lig-off{font-family:var(--article);font-variant-ligatures:none}
+
+/* ============================================================
+   BUTTONS — matte gem (the resolved finish)
+   ============================================================ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:var(--display);font-weight:600;font-size:1rem;line-height:1.4;
+  padding:.5rem 1.1rem;border-radius:3px;border:0;cursor:pointer;white-space:nowrap;
+  color:#1c1206;text-shadow:0 1px 0 rgba(255,255,255,.3);
+  background:var(--gem-face);box-shadow:var(--gem-shadow);
+  transition:background .16s,box-shadow .16s,color .16s,transform .16s,filter .16s}
+.btn:hover{color:#f3ecff;text-shadow:0 1px 2px rgba(0,0,0,.7);transform:translateY(-1px);
+  background:var(--gem-face-hover);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 1px 2px rgba(0,0,0,.5),0 0 0 1px #2a1650,0 0 22px var(--arcane-glow)}
+.btn:focus-visible{outline:none;box-shadow:inset 0 1px 1px rgba(255,255,255,.6),0 0 0 2px color-mix(in srgb,var(--gold-bright) 55%,transparent)}
+.btn:disabled{opacity:.45;cursor:default;filter:grayscale(.4);box-shadow:none}
+.btn--lg{padding:.8rem 1.7rem;font-size:1.25rem}
+.btn--sm{padding:.28rem .7rem;font-size:.85rem;gap:5px}
+/* accent = arcane. Its own recipe on purpose: the arcane accent is glossy in BOTH
+   sources (client .btn-primary / site .btn--arcane). The "one gem recipe" rule below
+   governs the GOLD controls; the arcane accent is the one lit exception. Values match
+   the client .btn-primary line for line. */
+.btn--arcane{color:#f3ecff;text-shadow:0 1px 2px rgba(0,0,0,.6);
+  background:linear-gradient(180deg,rgba(255,255,255,.35) 0%,transparent 44%),
+    radial-gradient(140% 140% at 50% 0%,#c79dff 0%,var(--arcane-lo) 55%,var(--arcane-deep) 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 4px 12px rgba(0,0,0,.55),0 0 0 1px #2a1650,0 0 22px var(--arcane-glow)}
+.btn--arcane:hover{filter:brightness(1.08);transform:translateY(-1px);color:#fff}
+/* ghost / outline */
+.btn--ghost{color:var(--gold-bright);text-shadow:none;background:rgba(19,16,25,.6);
+  border:1px solid var(--gold-dim);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.btn--ghost:hover{color:#fff;border-color:var(--arcane-deep);background:rgba(19,16,25,.6);
+  box-shadow:0 0 18px var(--arcane-glow);transform:none}
+
+/* ============================================================
+   INPUTS + FOCUS ORBIT (resolved: orbit everywhere)
+   ============================================================ */
+.ds-input{display:block;width:100%;max-width:320px;font-family:var(--body);font-size:1rem;
+  padding:.5rem .75rem;color:var(--text);background:#0b0a12;
+  border:1px solid var(--gold-deep);border-radius:var(--radius);
+  box-shadow:inset 0 1px 5px rgba(0,0,0,.6);transition:border-color .15s}
+.ds-input:focus{outline:none;border-color:var(--gold);
+  box-shadow:inset 0 1px 5px rgba(0,0,0,.6),0 0 0 2px rgba(198,162,78,.25);
+  animation:pc-focus-orbit 2.6s linear infinite}
+@keyframes pc-focus-orbit{
+  0%   {filter:drop-shadow(0 -5px 7px rgba(187,134,252,.75)) drop-shadow(0 5px 6px rgba(128,67,202,.42))}
+  25%  {filter:drop-shadow(6px 0 8px rgba(187,134,252,.75)) drop-shadow(-6px 0 6px rgba(128,67,202,.42))}
+  50%  {filter:drop-shadow(0 5px 7px rgba(187,134,252,.75)) drop-shadow(0 -5px 6px rgba(128,67,202,.42))}
+  75%  {filter:drop-shadow(-6px 0 8px rgba(187,134,252,.75)) drop-shadow(6px 0 6px rgba(128,67,202,.42))}
+  100% {filter:drop-shadow(0 -5px 7px rgba(187,134,252,.75)) drop-shadow(0 5px 6px rgba(128,67,202,.42))}
+}
+@media (prefers-reduced-motion:reduce){
+  .ds-input:focus{animation:none;filter:drop-shadow(0 0 7px rgba(187,134,252,.6))}
+}
+
+/* toggle switch (client-adopted) */
+.ds-switch{position:relative;width:51px;height:31px;border-radius:999px;padding:2px;border:0;cursor:pointer;
+  background:var(--stone-700);box-shadow:inset 0 1px 3px rgba(0,0,0,.6);transition:background .18s}
+.ds-switch[aria-pressed="true"]{background:linear-gradient(180deg,var(--gold-bright),var(--gold));
+  box-shadow:0 0 12px var(--arcane-glow),inset 0 1px 0 rgba(255,255,255,.3)}
+.ds-switch__knob{display:block;width:27px;height:27px;border-radius:999px;background:var(--parchment);
+  transition:transform .18s}
+.ds-switch[aria-pressed="true"] .ds-switch__knob{transform:translateX(20px);background:#fff8e6}
+
+/* segmented control (client-adopted) */
+.ds-seg{display:inline-flex;gap:3px;padding:3px;border-radius:9px;background:var(--stone-900);
+  border:1px solid var(--stone-700)}
+.ds-seg button{padding:6px 14px;border:0;border-radius:6px;background:transparent;cursor:pointer;
+  color:var(--text-dim);font-family:var(--body);font-size:.86rem}
+.ds-seg button[aria-pressed="true"]{background:var(--arcane-deep);color:#fff;
+  box-shadow:inset 0 0 0 1px rgba(187,134,252,.3)}
+
+/* ============================================================
+   TABS — both by context
+   ============================================================ */
+/* pill-gem, user-facing */
+.ds-tabs-pill{display:flex;gap:8px;flex-wrap:wrap}
+.ds-tab-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;cursor:pointer;
+  font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--text-dim);
+  background:linear-gradient(180deg,var(--stone-800),var(--stone-950));
+  border:1px solid var(--stone-600);border-radius:999px}
+.ds-tab-pill[aria-selected="true"]{color:#1a130a;border-color:var(--gold-deep);
+  background:radial-gradient(130% 130% at 50% 0%,var(--gold-bright),var(--gold) 60%,var(--gold-dim));
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.6),0 4px 14px rgba(0,0,0,.5)}
+.ds-tgem{width:15px;height:15px;border-radius:3px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
+.ds-tgem--ruby{background:var(--ruby)} .ds-tgem--emerald{background:var(--emerald)}
+.ds-tgem--sapphire{background:var(--sapphire)} .ds-tgem--amethyst{background:var(--amethyst)}
+/* flat top-border, dev tools */
+.ds-tabs-flat{display:flex;gap:2px;border-bottom:1px solid var(--gold-deep)}
+.ds-tab-flat{padding:.4rem .9rem;cursor:pointer;color:var(--text-dim);font-family:var(--display);
+  border:1px solid transparent;border-top-left-radius:5px;border-top-right-radius:5px;background:transparent}
+.ds-tab-flat[aria-selected="true"]{color:var(--gold-bright);background:var(--stone-900);
+  border-color:var(--gold-deep) var(--gold-deep) transparent}
+
+/* ============================================================
+   CARDS — both, by surface
+   ============================================================ */
+/* bracket card (site) */
+/* body matches the site .panel: stone gradient + arcane top wash + noise + the panel's
+   full inset stack (the 1px black inner ring + 40px inner darkening were missing) */
+.ds-card-bracket{position:relative;padding:24px 22px;border-radius:var(--radius);
+  background:var(--noise),linear-gradient(180deg,rgba(187,134,252,.05),transparent 30%),
+    linear-gradient(180deg,var(--stone-800),var(--stone-950));
+  background-blend-mode:overlay,normal,normal;border:1px solid var(--stone-600);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 0 1px rgba(0,0,0,.4),
+    inset 0 0 40px rgba(0,0,0,.35),0 16px 34px rgba(0,0,0,.5)}
+/* brackets = the site's effective .panel--framed override: 30px, --gold, .9, glow */
+.ds-card-bracket::before,.ds-card-bracket::after{content:"";position:absolute;width:30px;height:30px;
+  pointer-events:none;border:2px solid var(--gold);opacity:.9;filter:drop-shadow(0 0 5px rgba(198,162,78,.4))}
+.ds-card-bracket::before{top:8px;left:8px;border-right:0;border-bottom:0}
+.ds-card-bracket::after{bottom:8px;right:8px;border-left:0;border-top:0}
+/* Figma windowlet (client) */
+.ds-card-windowlet{position:relative;padding:16px 16px 18px;border-radius:6px;overflow:hidden;
+  background:
+    radial-gradient(72% 16px at 50% 0%,rgba(187,134,252,.40) 0%,transparent 100%),
+    var(--noise),
+    radial-gradient(80% 66% at 48% -4%,rgba(187,134,252,.24) 0%,rgba(8,7,12,0) 68%),
+    var(--stone-850);
+  background-blend-mode:screen,overlay,normal,normal;
+  box-shadow:inset 0 -4px 12px rgba(8,7,12,.55),0 4px 12px rgba(36,28,15,.32)}
+.ds-card-windowlet::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;z-index:3;
+  pointer-events:none;background:linear-gradient(to bottom,#856632,#40300f);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude}
+.ds-card-windowlet::after{content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:0;
+  pointer-events:none;background:var(--chevron) repeat-x left top;mix-blend-mode:overlay;opacity:.28}
+.ds-card-windowlet > *{position:relative;z-index:1}
+.ds-card__title{font-family:var(--display);font-weight:700;color:var(--gold-bright);
+  text-shadow:0 1px 0 #2a1c00,0 0 14px rgba(198,162,78,.22);margin:0 0 8px}
+.ds-card p{color:var(--text-dim);margin:0;font-size:.95rem}
+
+/* marketing gem card (site) */
+.ds-gemcard{position:relative;padding:28px 22px;text-align:center;border-radius:var(--radius);overflow:hidden;
+  background:var(--noise),radial-gradient(120% 80% at 50% 0%,rgba(187,134,252,.08),transparent 60%),
+    linear-gradient(180deg,var(--stone-800),var(--stone-950));
+  background-blend-mode:overlay,normal,normal;border:1px solid var(--stone-600);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 32px rgba(0,0,0,.5);transition:transform .18s,box-shadow .18s,border-color .18s}
+.ds-gemcard:hover{transform:translateY(-5px);border-color:var(--arcane-deep);
+  box-shadow:0 22px 46px rgba(0,0,0,.6),0 0 0 1px var(--arcane-deep),0 0 40px var(--arcane-glow)}
+.ds-gemcard__stone{width:56px;height:56px;margin:0 auto 16px;clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
+.ds-gemcard h4{color:var(--gold-bright);font-size:1.3rem;margin:0 0 4px}
+
+/* opt-in ornate rail (feature frame) */
+.ds-railed{position:relative;border:5.6px solid transparent;border-radius:6px;
+  border-image:var(--rail) 16 stretch;background-clip:padding-box;padding:22px;
+  background-color:var(--stone-900);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 40px rgba(0,0,0,.35);
+  filter:drop-shadow(0 16px 30px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(187,134,252,.18))}
+/* the fine engraved white inner-frame, a step inside the rail (10% so it reads as a
+   subtle inset rule) — this is the "engraved inner frame" the copy promises */
+.ds-railed::after{content:"";position:absolute;inset:5px;z-index:0;pointer-events:none;
+  border:22px solid transparent;border-image:var(--rail-frame) 33 stretch;opacity:.1}
+.ds-railed > *{position:relative;z-index:1}
+
+/* ============================================================
+   MAP / SEGMENTED CONTROLS — gold-gem (resolved)
+   ============================================================ */
+.ds-mapctrl{display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border:0;border-radius:5px;cursor:pointer;
+  color:#1c1206;font-size:15px;font-weight:700;background:var(--gem-face);box-shadow:var(--gem-shadow)}
+.ds-mapctrl:hover{color:#fff;background:var(--gem-face-hover)}
+/* active = arcane AND physically pressed in (depth is a non-colour cue: reads
+   selected even in greyscale / for low vision, not by hue alone) */
+.ds-mapctrl.is-on{color:#fff;transform:translateY(1px);
+  background:radial-gradient(140% 140% at 50% 0%,#6c3aa8,var(--arcane-deep) 60%,#24123f);
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.8),inset 0 0 0 1px rgba(0,0,0,.55)}
+
+/* ============================================================
+   CHIPS — toggle-chip vs data-chip (two named components)
+   ============================================================ */
+.ds-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:.86rem;color:var(--text-dim);
+  padding:6px 12px;background:var(--stone-900);border:1px solid var(--stone-700);border-radius:999px;cursor:pointer}
+.ds-chip:hover{border-color:var(--gold-dim);color:var(--text)}
+.ds-chip.is-on{color:#1a130a;border-color:var(--gold-deep);
+  background:linear-gradient(180deg,var(--gold-bright),var(--gold))}
+.ds-datachip{display:inline-flex;align-items:baseline;gap:4px;padding:1px 8px;border-radius:200px;
+  font-size:.78rem;line-height:1.5;color:var(--text);
+  background:var(--stone-900);border:.5px solid var(--gold-metal-lo);
+  box-shadow:0 1px 2px rgba(8,7,12,.25)}
+.ds-datachip b{font-weight:600;color:var(--gold-bright)}
+.ds-datachip .cur{color:var(--text-dim)}
+
+/* ============================================================
+   PARCHMENT reading surfaces
+   ============================================================ */
+.ds-parch{position:relative;padding:22px 24px;border-radius:4px;color:var(--ink);
+  background:var(--noise),linear-gradient(172deg,var(--parchment),var(--parchment-2));
+  background-blend-mode:multiply,normal;border:1px solid var(--parch-edge);
+  box-shadow:0 12px 28px rgba(0,0,0,.5),inset 0 0 44px rgba(120,95,50,.18)}
+.ds-parch::before{content:"";position:absolute;inset:0;border-radius:4px;pointer-events:none;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.ds-parch > *{position:relative}
+.ds-parch h4{font-family:var(--display);color:#241809;margin:0 0 8px;font-size:1.3rem}
+.ds-parch__body{font-family:var(--article);font-size:.96rem;line-height:1.62;letter-spacing:var(--mono-track);color:var(--ink)}
+.ds-parch a{color:var(--arcane-ink);border-bottom:1px solid rgba(106,47,166,.38)}
+/* parchment-tuned ANSI (light ground) */
+.c-fgby{color:#8a6a10;font-weight:600} .c-fgbg{color:#3f6b1c;font-weight:600}
+.c-fgbr{color:#a3202c;font-weight:600} .c-fgbc{color:#17696e;font-weight:600}
+.c-fgbb{color:#2a55a0;font-weight:600} .c-fgbm{color:#7a3597;font-weight:600}
+
+/* ============================================================
+   DARK game surfaces — terminal, ANSI, vitals
+   ============================================================ */
+.ds-terminal{background:#0c0b11;border:1px solid var(--gold-deep);border-radius:var(--radius);
+  padding:14px 16px;box-shadow:inset 0 1px 8px rgba(0,0,0,.5);position:relative;
+  font-family:var(--article);font-variant-ligatures:none;font-size:.95rem;color:var(--text);
+  white-space:pre-wrap;line-height:1.4}
+.ds-ansi{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.ds-ansi span{padding:8px 4px;text-align:center;font-family:var(--article);font-variant-ligatures:none;
+  font-size:.74rem;border-radius:4px;background:#0c0b11;border:1px solid var(--stone-800)}
+/* dark ANSI (terminal ground) */
+.fgdr{color:#cc0000}.fgdg{color:#4e9a06}.fgdy{color:#c4a000}.fgdb{color:#3465a4}
+.fgdm{color:#75507b}.fgdc{color:#06989a}.fgdw{color:#d3d7cf}.fgdd{color:#2e3436}
+.fgbr{color:#ed2330}.fgbg{color:#8ee34f}.fgby{color:#fdea56}.fgbb{color:#55a3f2}
+.fgbm{color:#d384cb}.fgbc{color:#2cf4eb}.fgbw{color:#fff}.fgbd{color:#555753}
+
+/* vital bars (client) */
+.ds-pbars{display:flex;flex-direction:column;gap:8px;width:100%;max-width:420px}
+.ds-pbarrow{display:flex;align-items:center;gap:12px}
+.ds-pbarrow .ds-pbar{flex:1 1 auto}
+.ds-pbarlab{font-family:var(--mono);font-size:.72rem;letter-spacing:.02em;color:var(--text-dim);
+  min-width:104px;white-space:nowrap}
+.ds-pbarlab b{color:var(--text);font-weight:600}
+.ds-pbar{position:relative;height:14px;border-radius:200px;overflow:hidden;
+  --fill-edge:#7c1f30;--fill-mid:#c0384f;--glow:rgba(255,0,0,.40);
+  background:linear-gradient(180deg,rgba(13,11,18,.92),#241d30 50%,rgba(5,4,8,.98));
+  box-shadow:inset 0 0 0 1px rgba(212,215,207,.22),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.6)}
+.ds-pbar__fill{position:absolute;top:0;bottom:0;left:0;border-radius:200px;
+  background:linear-gradient(180deg,var(--fill-edge),var(--fill-mid) 48%,color-mix(in srgb,var(--fill-edge) 62%,#000));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 3px 5px var(--glow),0 0 7px var(--glow)}
+.ds-pbar.mana{--fill-edge:#3d2a63;--fill-mid:#bb86fc;--glow:rgba(187,134,252,.45)}
+.ds-pbar.move{--fill-edge:#5c4413;--fill-mid:#c6a24e;--glow:rgba(230,205,134,.42)}
+
+/* ============================================================
+   ORNAMENTS
+   ============================================================ */
+.ds-filigree{display:flex;align-items:center;justify-content:center;gap:16px;color:var(--gold);margin:6px 0}
+.ds-filigree::before,.ds-filigree::after{content:"";height:1px;width:min(180px,22vw);
+  background:linear-gradient(90deg,transparent,var(--gold-dim))}
+.ds-filigree::after{background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.ds-filigree svg{width:28px;height:28px;fill:var(--arcane);filter:drop-shadow(0 0 8px var(--arcane-glow));flex:none}
+
+/* alias table */
+.ds-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.ds-table th,.ds-table td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--stone-700);vertical-align:top}
+.ds-table th{font-family:var(--display);color:var(--gold-bright);font-weight:600;font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.06em}
+.ds-table td code{font-size:.78rem}
+.ds-table tr:last-child td{border-bottom:0}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:900px){
+  .ds-shell{grid-template-columns:1fr}
+  .ds-rail{position:static;height:auto;border-right:0;border-bottom:1px solid var(--stone-700);
+    display:flex;flex-wrap:wrap;gap:2px 8px;padding:16px 20px}
+  .ds-rail__brand,.ds-rail__tag,.ds-rail .ds-rail__grouphd{width:100%}
+  .ds-rail__tag{margin-bottom:8px}
+  .ds-main{padding:22px 20px 90px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
