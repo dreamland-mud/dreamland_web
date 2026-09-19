@@ -101,6 +101,11 @@
 
     /* fractal-noise grain for stone/parchment texture */
     --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+
+    /* modular frame (Nirvana canon) — ONE corner mask flipped scaleX/Y for 4
+       corners + a keystone diamond. Recolours via --dl-frame; never scales. */
+    --frame-corner: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='42'%20height='42'%20viewBox='0%200%2042%2042'%3E%3Cg%20fill='none'%20stroke='%23000'%20stroke-width='1.5'%3E%3Cpath%20d='M6.75%2042%20V20.25%20M6.75%2012.75%20V6.75%20H12.75%20M20.25%206.75%20H42'/%3E%3Cpath%20d='M11.25%2042%20V29.5%20M29.5%2011.25%20H42%20M6.75%2034%20L34%206.75'/%3E%3Cpath%20d='M6.75%2027.75%20L27.75%206.75'/%3E%3C/g%3E%3Cpath%20d='M6.75%203.75%20L9.75%206.75%20L6.75%209.75%20L3.75%206.75%20Z'%20fill='%23000'/%3E%3Cpath%20fill-rule='evenodd'%20fill='%23000'%20d='M6.75%2012%20L11.25%2016.5%20L6.75%2021%20L2.25%2016.5%20Z%20M6.75%2014.1%20L9.15%2016.5%20L6.75%2018.9%20L4.35%2016.5%20Z%20M16.5%202.25%20L21%206.75%20L16.5%2011.25%20L12%206.75%20Z%20M16.5%204.35%20L18.9%206.75%20L16.5%209.15%20L14.1%206.75%20Z'/%3E%3C/svg%3E");
+    --frame-keystone: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%209%209'%3E%3Cpath%20d='M4.5%200%20L9%204.5%20L4.5%209%20L0%204.5%20Z'/%3E%3C/svg%3E");
 }
 
 /* ---------- Reset-ish ---------- */
@@ -511,34 +516,63 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .step h4 { color: var(--gold-bright); font-size: 1.55rem; }
 .step p { color: var(--text-dim); margin: 0; font-size: 1rem; }
 
-/* explore gem cards */
+/* explore cards — railed feature card (Nirvana canon): dark stone body + the
+   modular gold frame, tinted per card to its jewel via --dl-frame. The faceted
+   gem SVG + octagon rail are retired; the corner glyph carries the identity. */
 .gemgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
 .gemcard {
-    display: block; padding: 34px 26px 30px; text-align: center; position: relative;
-    border-radius: var(--radius); color: var(--text);
+    --dl-frame: var(--gold);
+    display: block; padding: 40px 34px 34px; text-align: center; position: relative;
+    border-radius: 6px; color: var(--text);
     background:
         var(--noise),
-        radial-gradient(120% 80% at 50% 0%, rgba(187,134,252,.08), transparent 60%),
-        linear-gradient(180deg, var(--stone-800), var(--stone-950));
+        radial-gradient(120% 80% at 50% 0%, rgba(187,134,252,.06), transparent 60%),
+        linear-gradient(180deg, var(--stone-850), var(--stone-950));
     background-blend-mode: overlay, normal, normal;
-    border: 1px solid var(--stone-600);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 16px 32px rgba(0,0,0,.5);
-    transition: transform .18s, box-shadow .18s, border-color .18s;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 0 40px rgba(0,0,0,.35), 0 16px 34px rgba(0,0,0,.5);
+    transition: transform .18s, box-shadow .18s;
 }
-.gemcard:hover { transform: translateY(-5px); border-color: var(--arcane-deep); color: var(--text);
-    box-shadow: 0 22px 46px rgba(0,0,0,.6), 0 0 0 1px var(--arcane-deep), 0 0 40px var(--arcane-glow); }
-/* faceted stones — one SVG cut, tinted per card through `color` */
-.gemsvg {
-    width: 66px; height: 66px; margin: 0 auto 20px; display: block;
-    transition: transform .18s, filter .18s;
-}
-.gem--ruby     { color: var(--ruby);     filter: drop-shadow(0 4px 12px rgba(192,56,79,.5)); }
-.gem--emerald  { color: var(--emerald);  filter: drop-shadow(0 4px 12px rgba(47,163,107,.45)); }
-.gem--sapphire { color: var(--sapphire); filter: drop-shadow(0 4px 12px rgba(74,116,212,.45)); }
-.gem--arcane   { color: var(--arcane);   filter: drop-shadow(0 4px 12px var(--arcane-glow)); }
-.gemcard:hover .gemsvg { transform: translateY(-3px) rotate(-6deg); filter: brightness(1.12); }
+/* per-card jewel: the frame + hover glow carry the colour (facet retired) */
+.gemcard--ruby     { --dl-frame: var(--ruby);     --gem-glow: rgba(192,56,79,.5); }
+.gemcard--emerald  { --dl-frame: var(--emerald);  --gem-glow: rgba(47,163,107,.45); }
+.gemcard--sapphire { --dl-frame: var(--sapphire); --gem-glow: rgba(74,116,212,.45); }
+.gemcard:hover { transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.06), inset 0 0 40px rgba(0,0,0,.35),
+        0 22px 44px rgba(0,0,0,.55), 0 0 34px var(--gem-glow, var(--arcane-glow)); }
+.gemcard--ruby:hover     { --dl-frame: color-mix(in srgb, var(--ruby) 60%, #fff); }
+.gemcard--emerald:hover  { --dl-frame: color-mix(in srgb, var(--emerald) 60%, #fff); }
+.gemcard--sapphire:hover { --dl-frame: color-mix(in srgb, var(--sapphire) 60%, #fff); }
 .gemcard h4 { color: var(--gold-bright); font-size: 1.6rem; margin-bottom: 6px; }
 .gemcard p { color: var(--text-dim); font-size: 1rem; margin: 0; }
+
+/* ---------- modular frame (Nirvana canon) ----------
+   ONE corner mask flipped scaleX/Y for 4 corners + consistent-weight double
+   rules for sides + a centre keystone. Recolours via --dl-frame; static span
+   parts sit in the markup (no JS). Corner box stays 42x42 (never scales). */
+/* --dl-frame is NOT set on .ds-frame itself: setting it here would sit later in
+   the file than the per-card jewel classes and silently override them. The
+   frame parts fall back to gold, so a bare .ds-frame is gold; a tinted card
+   (--dl-frame set on the element) wins. */
+.ds-frame { position: relative; }
+.ds-frame__c { position: absolute; width: 42px; height: 42px; z-index: 2; pointer-events: none;
+    background: var(--dl-frame, var(--gold));
+    -webkit-mask: var(--frame-corner) center/contain no-repeat; mask: var(--frame-corner) center/contain no-repeat;
+    transition: background .18s; }
+.ds-frame__c.tl { top: 0; left: 0; }
+.ds-frame__c.tr { top: 0; right: 0; transform: scaleX(-1); }
+.ds-frame__c.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+.ds-frame__c.br { bottom: 0; right: 0; transform: scale(-1,-1); }
+.ds-frame__s { position: absolute; z-index: 1; pointer-events: none; transition: background .18s; }
+.ds-frame__s.top, .ds-frame__s.bottom { left: 34px; right: 34px; height: 6px;
+    background: linear-gradient(to bottom, var(--dl-frame, var(--gold)) 0 1.5px, transparent 1.5px 4.5px, var(--dl-frame, var(--gold)) 4.5px 6px); }
+.ds-frame__s.left, .ds-frame__s.right { top: 34px; bottom: 34px; width: 6px;
+    background: linear-gradient(to right, var(--dl-frame, var(--gold)) 0 1.5px, transparent 1.5px 4.5px, var(--dl-frame, var(--gold)) 4.5px 6px); }
+.ds-frame__s.top { top: 6px; } .ds-frame__s.bottom { bottom: 6px; }
+.ds-frame__s.left { left: 6px; } .ds-frame__s.right { right: 6px; }
+.ds-frame__k { position: absolute; z-index: 2; left: 50%; top: 4.5px; width: 9px; height: 9px;
+    margin-left: -4.5px; pointer-events: none; background: var(--dl-frame, var(--gold)); transition: background .18s;
+    -webkit-mask: var(--frame-keystone) center/contain no-repeat; mask: var(--frame-keystone) center/contain no-repeat; }
+.ds-frame__k.bottom { top: auto; bottom: 4.5px; }
 
 /* ============================================================
    STATS — DreamLand in numbers
@@ -782,7 +816,7 @@ details.scroll > summary:hover { color: #fff; }
 
 /* explore-card RPG glyph watermark */
 .gemcard { overflow: hidden; isolation: isolate; }
-.gemcard > .gemsvg, .gemcard > h4, .gemcard > p { position: relative; z-index: 1; }
+.gemcard > h4, .gemcard > p { position: relative; z-index: 1; }
 .gemcard__glyph { position: absolute; right: -14px; bottom: -18px; width: 122px; height: 122px;
     color: var(--arcane); opacity: .12; z-index: 0; pointer-events: none; }
 
