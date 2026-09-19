@@ -536,13 +536,14 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .gemcard:hover { transform: translateY(-2px); --dl-frame: var(--gold-bright);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.06), inset 0 0 40px rgba(0,0,0,.35),
         0 22px 44px rgba(0,0,0,.55), 0 0 30px var(--arcane-glow); }
-/* the big faceted jewel — one SVG cut, tinted per card, centred above the title */
-.gemsvg { width: 62px; height: 62px; margin: 0 auto 18px; display: block;
-    transition: transform .18s, filter .18s; }
-.gem--ruby     { color: var(--ruby);     filter: drop-shadow(0 4px 12px rgba(192,56,79,.5)); }
-.gem--emerald  { color: var(--emerald);  filter: drop-shadow(0 4px 12px rgba(47,163,107,.45)); }
-.gem--sapphire { color: var(--sapphire); filter: drop-shadow(0 4px 12px rgba(74,116,212,.45)); }
-.gemcard:hover .gemsvg { transform: translateY(-3px) rotate(-6deg); filter: brightness(1.12); }
+/* the faceted jewel — one SVG cut, tinted per card, centred above the title.
+   Small accent, deep jewel tone; twists on card hover. */
+.gemsvg { width: 40px; height: 40px; margin: 0 auto 14px; display: block;
+    transition: transform .2s, filter .2s; }
+.gem--ruby     { color: var(--ruby);     filter: saturate(1.25) drop-shadow(0 3px 9px rgba(192,56,79,.55)); }
+.gem--emerald  { color: var(--emerald);  filter: saturate(1.25) drop-shadow(0 3px 9px rgba(47,163,107,.5)); }
+.gem--sapphire { color: var(--sapphire); filter: saturate(1.25) drop-shadow(0 3px 9px rgba(74,116,212,.5)); }
+.gemcard:hover .gemsvg { transform: translateY(-2px) rotate(-10deg) scale(1.1); filter: saturate(1.4) brightness(1.16); }
 .gemcard h4 { color: var(--gold-bright); font-size: 1.6rem; margin-bottom: 6px; }
 .gemcard p { color: var(--text-dim); font-size: 1rem; margin: 0; }
 
