@@ -6,11 +6,12 @@
 /* ---------- Fonts ----------
    Playfair Display: classy high-contrast display serif for headings.
    Alegreya Sans: warm old-style humanist sans for body.
-   Fira Code: the long-form article face -- help bodies and news bodies are
-   game text, so they read as terminal output rather than as web prose. Its
-   cyrillic subset covers Ukrainian (U+0400-045F plus U+0490-0491), and the
-   modifier-letter apostrophe U+02BC ships in the latin subset. */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Fira+Code:wght@400;600&display=swap');
+   Fira Code: the ONE monospace, everywhere (Nirvana canon) -- UI labels and
+   code spans AND long-form game text (help/news bodies), so the site never
+   mixes two mono faces. Its cyrillic subset covers Ukrainian (U+0400-045F
+   plus U+0490-0491), and the modifier-letter apostrophe U+02BC ships in the
+   latin subset. */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=Fira+Code:wght@400;600&display=swap');
 
 /* ---------- Tokens ---------- */
 :root {
@@ -66,14 +67,15 @@
 
     --display: 'Playfair Display', 'Times New Roman', serif;
     --body:    'Alegreya Sans', 'Segoe UI', sans-serif;
-    --mono:    'JetBrains Mono', ui-monospace, monospace;
-    /* long-form game text (help article bodies, news bodies) -- distinct from
-       --mono, which stays JetBrains Mono for code spans and small UI labels */
+    /* ONE monospace = Fira Code for everything: UI labels + code spans (--mono)
+       AND long-form game text (--article, help/news bodies). --article kept as
+       an alias so the ligature intent stays explicit (ON in article bodies). */
+    --mono:    'Fira Code', ui-monospace, monospace;
     --article: 'Fira Code', ui-monospace, monospace;
-    /* Both monospace faces set noticeably looser than the sans they sit next to;
-       a touch of negative tracking pulls long game text back to a normal
-       reading rhythm without touching the glyphs. Applied wherever --mono or
-       --article is, never to the display or body faces. */
+    /* The mono face sets noticeably looser than the sans it sits next to; a
+       touch of negative tracking pulls long game text back to a normal reading
+       rhythm without touching the glyphs. Applied wherever --mono or --article
+       is, never to the display or body faces. */
     --mono-track: -.014em;
 
     /* Cross-references inside a parchment article. The site accent (--arcane)
