@@ -22,8 +22,8 @@
     font-family: var(--body); font-size: .95rem;
 }
 .newsnav__search input:focus {
-    outline: none; border-color: var(--arcane-deep);
-    box-shadow: 0 0 0 3px rgba(187,134,252,.16);
+    outline: none; border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(198,162,78,.25);
 }
 .newsnav__list { overflow-y: auto; flex: 1 1 auto; padding-right: 6px; }
 .newsnav__none { color: var(--text-faint); font-size: .9rem; }

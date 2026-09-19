@@ -35,7 +35,7 @@
 }
 .filters .btn { height: var(--ctl-h); padding: 0 28px; font-size: 1.02rem; }
 .field input:focus, .field select:focus { outline: none; border-color: var(--gold);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,.6), 0 0 0 2px rgba(201,162,75,.2); }
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.6), 0 0 0 2px rgba(198,162,78,.25); }
 /* the two level bounds read as one control: single label, 4px apart */
 .lvlrange { display: flex; gap: 4px; }
 .lvlrange input { width: 78px; }
