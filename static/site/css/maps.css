@@ -26,42 +26,61 @@
     padding-right: 18px;
 }
 .zones__search { padding: 0 0 12px; }
+/* search: the Nirvana form well -- dark, gold-deep frame, gold focus (matches the
+   design system inputs / the .ds-menu search, not the old stone pill). */
 .zones__search input {
-    width: 100%; padding: 9px 14px;
-    background: var(--stone-900); color: var(--text);
-    border: 1px solid var(--stone-700); border-radius: 999px;
-    font-family: var(--body); font-size: .95rem;
+    width: 100%; padding: .5rem .85rem;
+    background: #0b0a12; color: var(--text);
+    border: 1px solid var(--gold-deep); border-radius: var(--radius);
+    box-shadow: inset 0 1px 5px rgba(0,0,0,.6);
+    font-family: var(--body); font-size: .95rem; transition: border-color .15s;
 }
+.zones__search input::placeholder { color: var(--text-faint); }
 .zones__search input:focus {
-    outline: none; border-color: var(--arcane-deep);
-    box-shadow: 0 0 0 3px rgba(187,134,252,.16);
+    outline: none; border-color: var(--gold);
+    box-shadow: inset 0 1px 5px rgba(0,0,0,.6), 0 0 0 2px rgba(198,162,78,.25);
 }
 .zones__list { padding-right: 4px; }
 .zones__none { color: var(--text-faint); font-size: .9rem; }
 
-/* level bands, collapsed until you want them */
-details.zband { border-bottom: 1px solid var(--stone-700); }
+/* level bands -- the .ds-menu accordion category. Collapsed until you want them. */
+details.zband { border-bottom: 1px solid var(--stone-800); }
 details.zband > summary {
-    cursor: pointer; list-style: none; display: flex; align-items: center; gap: 10px;
+    cursor: pointer; list-style: none; outline: none; display: flex; align-items: center; gap: 10px;
     padding: 11px 6px; font-family: var(--body); font-size: .68rem; font-weight: 700;
     letter-spacing: .12em; text-transform: uppercase; color: var(--gold-dim);
 }
 details.zband > summary::-webkit-details-marker { display: none; }
 details.zband > summary:hover { color: var(--gold-bright); }
 details.zband[open] > summary { color: var(--gold-bright); }
+details.zband > summary:focus-visible { color: var(--gold-bright); text-shadow: 0 0 10px var(--arcane-glow); }
+/* the .ds-menu disclosure caret (rotated corner), added here without touching maps.js */
+details.zband > summary::after {
+    content: ""; margin-left: 2px; width: 8px; height: 8px; flex: none;
+    border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(-45deg); transition: transform .2s; opacity: .7;
+}
+details.zband[open] > summary::after { transform: translateY(-1px) rotate(45deg); }
 .zband__n { margin-left: auto; font-family: var(--mono); font-size: .68rem;
     color: var(--text-faint); font-weight: 400; letter-spacing: 0; }
 details.zband > .zone:last-child { margin-bottom: 10px; }
 
+/* zone item -- the .ds-menu item. Hover = stone wash; active = arcane power state
+   with a left accent bar (a non-colour cue for low vision). */
 .zone {
+    position: relative;
     display: flex; align-items: baseline; gap: 10px; width: 100%;
     background: transparent; border: 0; cursor: pointer;
-    padding: 6px 10px; border-radius: 6px;
+    padding: 6px 12px; border-radius: 6px;
     font-family: var(--body); font-size: .95rem; color: var(--text-dim);
     text-align: left; transition: background .15s, color .15s;
 }
 .zone:hover { background: var(--stone-850); color: var(--text); }
-.zone--on { background: var(--arcane-deep); color: #fff; }
+.zone--on { background: color-mix(in srgb, var(--arcane-deep) 72%, transparent); color: #fff; }
+.zone--on::before {
+    content: ""; position: absolute; left: 2px; top: 4px; bottom: 4px; width: 3px;
+    border-radius: 2px; background: var(--arcane); box-shadow: 0 0 8px var(--arcane-glow);
+}
 .zone__name { flex: 1 1 auto; }
 .zone__lv { flex: none; font-family: var(--mono); font-size: .72rem; color: var(--text-faint); }
 .zone--on .zone__lv { color: #d9c7f5; }
