@@ -221,7 +221,7 @@
               <button type="button" class="ds-switch" aria-pressed="false" aria-label="Example toggle A"><span class="ds-switch__knob"></span></button>
               <button type="button" class="ds-switch" aria-pressed="true" aria-label="Example toggle B"><span class="ds-switch__knob"></span></button>
             </span>
-            <p class="ds-note" style="margin-top:6px;max-width:22ch">off = muted dark gold, on = arcane</p>
+            <p class="ds-note" style="margin-top:6px;max-width:24ch">off = muted dark gold, on = arcane. The knob wears a grip.</p>
           </div>
           <div><span class="ds-label">Segmented — ghost off, primary on, animated</span>
             <span class="ds-seg" role="tablist">
@@ -249,7 +249,8 @@
               <button type="button" class="ds-tab-pill" role="tab" aria-selected="false"><span class="ds-tgem ds-tgem--amethyst"><svg><use href="#dl-gem"/></svg></span>Magic</button>
             </div>
           </div>
-          <p class="ds-note">Hover an inactive pill = ghost; the active pill = primary gold gem.</p>
+          <p class="ds-note">Hover an inactive pill = ghost; the active pill = primary gold gem, and it
+          <strong>pops</strong> in on select (a quick over-scale) rather than sliding. Toggle-chips pop the same way.</p>
         </div>
         <div>
           <span class="ds-label">Compact / dev tabs = the segmented control</span>
@@ -268,28 +269,42 @@
     <!-- CARDS -->
     <section class="ds-sec" id="cards">
       <h2>Cards &amp; panels <span class="ds-tag ds-tag--both">both, by weight</span></h2>
-      <p class="ds-lede">Two carved-panel languages: the everyday app/reading card (windowlet) and the opt-in
-      feature frame (railed) for the one thing you want to crown — hero, login, a headline card.</p>
+      <p class="ds-lede">Three carved-panel weights, lightest to heaviest: the everyday app/reading card
+      (<strong>windowlet</strong>), the opt-in modular <strong>railed</strong> frame, and the login-grade
+      <strong>big inset</strong> panel. Reach down the list only when the thing deserves it — most content is a
+      windowlet.</p>
       <div class="ds-grid2">
         <div>
-          <span class="ds-label">Windowlet — the default card <span class="ds-tag ds-tag--client">client</span></span>
-          <div class="ds-card-windowlet">
+          <span class="ds-label">Windowlet — the default card · hover it <span class="ds-tag ds-tag--client">client</span></span>
+          <div class="ds-card-windowlet ds-card--hover">
             <div class="ds-card__title">Windowlet</div>
             <p>Masked gradient stroke, chevron ornament along the top, arcane wash. Dense, for who/group/affect
             panels, list rows, and general content blocks.</p>
           </div>
         </div>
         <div>
-          <span class="ds-label">Railed — opt-in feature frame <span class="ds-tag ds-tag--both">both</span></span>
-          <div class="ds-railed ds-frame">
+          <span class="ds-label">Railed — opt-in modular frame · hover it <span class="ds-tag ds-tag--both">both</span></span>
+          <div class="ds-railed ds-frame ds-card--hover">
             <div class="ds-card__title">Railed</div>
             <p style="color:var(--text-dim);margin:0">Dark panel wearing the modular ornate frame (diamond caps,
-            double strokes, keystones). Reserve for the one thing you want crowned (hero, login, a feature card).</p>
+            double strokes, keystones). For a headline card or feature block below the top tier.</p>
           </div>
         </div>
       </div>
-      <p class="ds-note">Retired: the corner-bracket card and the faceted gem-card. (Gem-cards are still live on the
-      site home page — they deprecate in the live-CSS migration, not here.)</p>
+      <span class="ds-label" style="margin-top:22px">Big inset — the login-grade feature panel <span class="ds-tag ds-tag--both">both</span></span>
+      <div class="ds-inset">
+        <div class="ds-inset__portal"></div>
+        <div class="ds-inset__card">
+          <div class="ds-card__title">Enter DreamLand</div>
+          <p style="color:var(--text-dim);margin:0">Ornate octagon rail over an obsidian body, an engraved inner
+          rule, and a living arcane portal breathing behind it. The top tier — hero, login, the one crowned moment.
+          Heavier than the railed card, so it stays rare.</p>
+        </div>
+      </div>
+      <p class="ds-note"><strong>Hover</strong> is opt-in: add <code>.ds-card--hover</code> only on cards that are
+      actually clickable (list rows, feature tiles). Static content cards leave it off — no pointer, no lift.
+      Retired: the corner-bracket card and the faceted gem-card. (Gem-cards are still live on the site home page —
+      they deprecate in the live-CSS migration, not here.)</p>
     </section>
 
     <!-- MAP CONTROLS -->
@@ -340,9 +355,10 @@
     <!-- PARCHMENT -->
     <section class="ds-sec" id="parchment">
       <h2>Parchment — reading surfaces <span class="ds-tag ds-tag--both">both</span></h2>
-      <p class="ds-lede">Aged sheet, framed by the <strong>modular frame</strong> (the same corners/sides/keystones
-      as the railed card, recoloured to <code>--parch-edge</code>). Help articles, news, hints, side-sheet modals.
-      Game colour gets a light-tuned ANSI remap — never the dark palette on parchment.</p>
+      <p class="ds-lede">Aged sheet with a <strong>torn, worn edge</strong>, the <strong>modular frame</strong>
+      sitting a step inside the rag (same corners/sides/keystones as the railed card, recoloured to
+      <code>--parch-edge</code>). Help articles, news, hints, side-sheet modals. Game colour gets a light-tuned
+      ANSI remap — never the dark palette on parchment.</p>
       <div class="ds-parch ds-frame">
         <h4>On Ereshkigal, the Silent</h4>
         <div class="ds-parch__body">The temple doors stand <span class="c-fgby">gilded</span> and shut. A
@@ -418,15 +434,28 @@ The <span class="fgbr">orc</span> snarls: <span class="fgbg">"You'll not pass!"<
         </div>
       </div>
 
-      <h3 class="ds-sub">Reusable chevron runs</h3>
-      <p class="ds-note">Nested double-stroke units (mask + <code>currentColor</code>), three variants.
-      <strong>Main</strong> feeds the windowlet top and the parchment band; <strong>terminal</strong> is the
-      tighter unit; <strong>morph</strong> is the end-cap where the run flattens into a plain rule.</p>
+      <h3 class="ds-sub">Chevron ornament kit</h3>
+      <p class="ds-note">The modular shape set (Figma <code>1124:7090</code>): nested double-stroke units ridden as a
+      <code>currentColor</code> mask. <strong>Middle</strong> is the repeating tooth; the <strong>-line</strong>
+      pieces transition a tooth into a plain rule; the <strong>tl/bl/rt/rb</strong> caps close the ends. All nine
+      modules, left to right:</p>
+      <div class="ds-demo">
+        <span class="ds-chev ds-chev--tl" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--bl" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--middle" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--middle-rev" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--left-line" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--line" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--right-line" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--rt" style="color:var(--gold)"></span>
+        <span class="ds-chev ds-chev--rb" style="color:var(--gold)"></span>
+      </div>
+      <p class="ds-note">Two compositions ship ready — a band and a divider. Both feed the chrome: the band is the
+      windowlet top and the frame's chevron side; the divider brackets a section rule.</p>
       <div class="ds-demo ds-demo--col">
-        <div><span class="ds-label">Main — block / card</span><div class="ds-chevron" style="color:var(--gold)"></div></div>
-        <div><span class="ds-label">Terminal — tighter</span><div class="ds-chevron ds-chevron--term" style="color:var(--gold)"></div></div>
-        <div><span class="ds-label">Morph into line</span><div class="ds-chevron ds-chevron--morph" style="color:var(--gold)"></div></div>
-        <div><span class="ds-label">Recolours (arcane)</span><div class="ds-chevron" style="color:var(--arcane)"></div></div>
+        <div><span class="ds-label">Normal row — the tooth tiled (band)</span><div class="ds-chev-row" style="color:var(--gold)"></div></div>
+        <div><span class="ds-label">Row with line — caps + a plain rule (divider)</span><div class="ds-chev-rowline" style="color:var(--gold)"></div></div>
+        <div><span class="ds-label">Recolours with currentColor (arcane)</span><div class="ds-chev-row" style="color:var(--arcane)"></div></div>
       </div>
     </section>
 
