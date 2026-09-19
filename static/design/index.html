@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>DreamLand Design System</title>
-<meta name="description" content="The shared visual vocabulary of dreamland.rocks and the /play web client — tokens, components, and the rules that keep them in sync."/>
+<title>Nirvana — DreamLand Design System</title>
+<meta name="description" content="Nirvana, the DreamLand design system — the shared visual vocabulary of dreamland.rocks and the /play web client: tokens, components, and the rules that keep them in sync."/>
 <meta name="robots" content="noindex,follow"/>
 <meta name="theme-color" content="#0d0b12"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
@@ -19,37 +19,47 @@
     <div class="ds-rail__brand">
       <img src="../site/assets/logo.png" alt="DreamLand"/>
     </div>
-    <p class="ds-rail__tag">Design System</p>
+    <p class="ds-rail__tag">Nirvana</p>
 
-    <span class="ds-rail__grouphd">Foundations</span>
-    <a href="#overview">Overview</a>
-    <a href="#color">Color</a>
-    <a href="#type">Typography</a>
-    <a href="#texture">Texture &amp; shape</a>
-
-    <span class="ds-rail__grouphd">Components</span>
-    <a href="#buttons">Buttons</a>
-    <a href="#focus">Focus</a>
-    <a href="#forms">Form controls</a>
-    <a href="#tabs">Tabs</a>
-    <a href="#cards">Cards &amp; panels</a>
-    <a href="#mapctrls">Map controls</a>
-    <a href="#chips">Chips</a>
-
-    <span class="ds-rail__grouphd">Surfaces</span>
-    <a href="#parchment">Parchment (reading)</a>
-    <a href="#dark">Dark (game)</a>
-    <a href="#ornaments">Ornaments</a>
-
-    <span class="ds-rail__grouphd">The law</span>
-    <a href="#rules">Rules</a>
+    <!-- the rail nav IS the .ds-menu component (accordion groups, open by default) -->
+    <div class="ds-menu">
+      <details class="ds-menu__group" open>
+        <summary class="ds-menu__cat">Foundations<span class="ds-menu__caret"></span></summary>
+        <a class="ds-menu__item" href="#overview"><span class="ds-menu__name">Overview</span></a>
+        <a class="ds-menu__item" href="#color"><span class="ds-menu__name">Color</span></a>
+        <a class="ds-menu__item" href="#type"><span class="ds-menu__name">Typography</span></a>
+        <a class="ds-menu__item" href="#texture"><span class="ds-menu__name">Texture &amp; shape</span></a>
+      </details>
+      <details class="ds-menu__group" open>
+        <summary class="ds-menu__cat">Components<span class="ds-menu__caret"></span></summary>
+        <a class="ds-menu__item" href="#buttons"><span class="ds-menu__name">Buttons</span></a>
+        <a class="ds-menu__item" href="#focus"><span class="ds-menu__name">Focus</span></a>
+        <a class="ds-menu__item" href="#forms"><span class="ds-menu__name">Form controls</span></a>
+        <a class="ds-menu__item" href="#tabs"><span class="ds-menu__name">Tabs</span></a>
+        <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Menu</span></a>
+        <a class="ds-menu__item" href="#cards"><span class="ds-menu__name">Cards &amp; panels</span></a>
+        <a class="ds-menu__item" href="#mapctrls"><span class="ds-menu__name">Map controls</span></a>
+        <a class="ds-menu__item" href="#chips"><span class="ds-menu__name">Chips</span></a>
+      </details>
+      <details class="ds-menu__group" open>
+        <summary class="ds-menu__cat">Surfaces<span class="ds-menu__caret"></span></summary>
+        <a class="ds-menu__item" href="#parchment"><span class="ds-menu__name">Parchment (reading)</span></a>
+        <a class="ds-menu__item" href="#dark"><span class="ds-menu__name">Dark (game)</span></a>
+        <a class="ds-menu__item" href="#ornaments"><span class="ds-menu__name">Ornaments</span></a>
+      </details>
+      <details class="ds-menu__group" open>
+        <summary class="ds-menu__cat">The law<span class="ds-menu__caret"></span></summary>
+        <a class="ds-menu__item" href="#rules"><span class="ds-menu__name">Rules</span></a>
+      </details>
+    </div>
   </nav>
 
   <!-- ============ MAIN ============ -->
   <main class="ds-main">
 
     <header class="ds-hero">
-      <h1>DreamLand Design System</h1>
+      <h1>Nirvana</h1>
+      <p class="ds-hero__sub">The DreamLand Design System</p>
       <p>One vocabulary, two surfaces: the marketing site (<code>dreamland.rocks</code>) and the
       <code>/play</code> web client. Aged gold and arcane purple on obsidian; parchment for reading,
       dark wells for the game. This page is the source of truth — live surfaces migrate onto it.</p>
@@ -256,6 +266,49 @@
               <button type="button" role="tab" aria-selected="false">Log</button>
             </span>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="ds-sec" id="menu">
+      <h2>Menu — left navigation</h2>
+      <p class="ds-lede">One menu language for the site's zone rail, the <code>/play</code> nav and this page's own
+      rail (on the left). Categories hold items; a category is a plain eyebrow or a collapsible
+      <strong>accordion</strong>. Active reads as the arcane power state with a left accent bar — colour is
+      never the only cue.</p>
+      <div class="ds-grid2">
+        <div>
+          <span class="ds-label">Accordion — with search + counts (the maps zone rail)</span>
+          <div class="ds-demo" style="align-items:stretch">
+            <div class="ds-menu" style="width:100%;max-width:300px">
+              <div class="ds-menu__search"><input type="search" placeholder="Search by zone name" aria-label="Search zones"/></div>
+              <details class="ds-menu__group" open>
+                <summary class="ds-menu__cat">Levels 1–15 <span class="ds-menu__count">21</span><span class="ds-menu__caret"></span></summary>
+                <a class="ds-menu__item is-on" href="#menu" aria-current="true"><span class="ds-menu__name">Circus</span><span class="ds-menu__meta">1–12</span></a>
+                <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Dwarven Day Care</span><span class="ds-menu__meta">1–5</span></a>
+                <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Graveyard</span><span class="ds-menu__meta">5–10</span></a>
+              </details>
+              <details class="ds-menu__group">
+                <summary class="ds-menu__cat">Levels 15–30 <span class="ds-menu__count">34</span><span class="ds-menu__caret"></span></summary>
+                <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Moria</span><span class="ds-menu__meta">15–30</span></a>
+              </details>
+            </div>
+          </div>
+          <p class="ds-note">156 zones collapse to five headings instead of a rail nobody reads. A search opens every band it matched.</p>
+        </div>
+        <div>
+          <span class="ds-label">Flat — plain eyebrows, no accordion (this page's rail)</span>
+          <div class="ds-demo" style="align-items:stretch">
+            <div class="ds-menu" style="width:100%;max-width:300px">
+              <p class="ds-menu__cat">Components</p>
+              <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Buttons</span></a>
+              <a class="ds-menu__item is-on" href="#menu" aria-current="true"><span class="ds-menu__name">Menu</span></a>
+              <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Cards &amp; panels</span></a>
+              <a class="ds-menu__item" href="#menu"><span class="ds-menu__name">Chips</span></a>
+            </div>
+          </div>
+          <p class="ds-note">Same items and states without the disclosure — for a short nav where everything stays in view. The rail on the left runs this component (accordion mode).</p>
         </div>
       </div>
     </section>
@@ -557,6 +610,32 @@ The <span class="fgbr">orc</span> snarls: <span class="fgbg">"You'll not pass!"<
       mc.classList.add('is-on'); mc.setAttribute('aria-pressed','true');
     }
   });
+
+  // rail scroll-spy: light the .ds-menu__item whose section is the current one
+  var railItems = Array.prototype.slice.call(document.querySelectorAll('.ds-rail .ds-menu__item'));
+  var byId = {};
+  railItems.forEach(function(a){ var h=a.getAttribute('href'); if(h&&h.charAt(0)==='#') byId[h.slice(1)]=a; });
+  var ids = Object.keys(byId), curItem = null, ticking = false;
+  function setActive(a){
+    if(a===curItem) return;
+    railItems.forEach(function(x){ x.classList.remove('is-on'); x.removeAttribute('aria-current'); });
+    if(a){ a.classList.add('is-on'); a.setAttribute('aria-current','true'); }
+    curItem = a;
+  }
+  function spy(){
+    ticking = false;
+    var line = 140, best = ids[0], bestTop = -Infinity;
+    ids.forEach(function(id){
+      var el = document.getElementById(id); if(!el) return;
+      var top = el.getBoundingClientRect().top;
+      if(top <= line && top > bestTop){ bestTop = top; best = id; }
+    });
+    setActive(byId[best]);
+  }
+  if(ids.length){
+    window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; requestAnimationFrame(spy); } }, {passive:true});
+    window.addEventListener('resize', spy); spy();
+  }
 })();
 </script>
 </body>

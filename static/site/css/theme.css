@@ -691,18 +691,21 @@ details.scroll > summary:hover { color: #fff; }
    ============================================================ */
 .catpick { display: none; }
 @media (max-width: 900px) {
+    /* the picker is the mobile disclosure of the menu -- match the Nirvana form
+       well (dark, gold-deep frame, gold chevron) like the search above it. */
     .catpick {
         display: block; width: 100%; margin: 0 0 14px; cursor: pointer;
         font-family: var(--display); font-weight: 600; font-size: .95rem;
-        color: var(--gold-bright); background-color: var(--stone-900);
-        border: 1px solid var(--gold-dim); border-radius: 999px;
-        padding: 11px 42px 11px 18px;
+        color: var(--gold-bright); background-color: #0b0a12;
+        border: 1px solid var(--gold-deep); border-radius: var(--radius);
+        box-shadow: inset 0 1px 5px rgba(0,0,0,.6);
+        padding: 11px 42px 11px 16px;
         -webkit-appearance: none; appearance: none;
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23c9a24b' stroke-width='2' stroke-linecap='round'/></svg>");
-        background-repeat: no-repeat; background-position: right 18px center;
+        background-repeat: no-repeat; background-position: right 16px center;
     }
-    .catpick:focus { outline: none; border-color: var(--gold-bright);
-        box-shadow: 0 0 0 3px rgba(198,162,78,.16); }
+    .catpick:focus { outline: none; border-color: var(--gold);
+        box-shadow: inset 0 1px 5px rgba(0,0,0,.6), 0 0 0 2px rgba(198,162,78,.25); }
     /* the popup itself is the OS widget -- give it readable colours */
     .catpick option { background: var(--stone-950); color: var(--text); }
 }
