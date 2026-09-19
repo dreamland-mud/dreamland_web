@@ -13,11 +13,14 @@
 .tab:hover { color: var(--gold-bright); border-color: var(--gold-dim); }
 .tab .tgem { width: 16px; height: 16px; border-radius: 3px;
     clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); flex: none; }
+/* active = the matte gem (Nirvana canon: gold = one option among peers), snaps
+   in with ds-pop. The per-tab jewel below stays as wayfinding, not the signal. */
 .tab[aria-selected="true"] {
-    color: #1a130a;
-    background: radial-gradient(130% 130% at 50% 0%, var(--gold-bright), var(--gold) 60%, var(--gold-dim));
-    border-color: var(--gold-deep);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,.6), 0 4px 14px rgba(0,0,0,.5);
+    color: #1c1206; text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    background: var(--gem-face);
+    border-color: transparent;
+    box-shadow: var(--gem-shadow), 0 4px 14px rgba(0,0,0,.5);
+    animation: ds-pop .2s cubic-bezier(.34,1.56,.64,1);
 }
 .tgem--ruby{background:var(--ruby)} .tgem--emerald{background:var(--emerald)}
 .tgem--sapphire{background:var(--sapphire)} .tgem--amethyst{background:var(--amethyst)}
@@ -49,8 +52,14 @@
 }
 .chip:hover { border-color: var(--gold-dim); color: var(--text); }
 .chip input { position: absolute; opacity: 0; width: 0; height: 0; }
-.chip.on { color: #1a130a; border-color: var(--gold-deep);
-    background: linear-gradient(180deg, var(--gold-bright), var(--gold)); }
+.chip.on { color: #1c1206; text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    border-color: transparent; background: var(--gem-face); box-shadow: var(--gem-shadow);
+    animation: ds-pop .2s cubic-bezier(.34,1.56,.64,1); }
+/* jewel snap-in on select (Nirvana). Reduced-motion drops it. */
+@keyframes ds-pop { 0% { transform: scale(1); } 45% { transform: scale(1.07); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+    .tab[aria-selected="true"], .chip.on, .chip--limit.on { animation: none; }
+}
 .chips-label { font-family: var(--display); font-size: .74rem; letter-spacing: .1em;
     text-transform: uppercase; color: var(--gold); margin: 16px 0 2px; }
 
