@@ -106,6 +106,8 @@
        corners + a keystone diamond. Recolours via --dl-frame; never scales. */
     --frame-corner: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='42'%20height='42'%20viewBox='0%200%2042%2042'%3E%3Cg%20fill='none'%20stroke='%23000'%20stroke-width='1.5'%3E%3Cpath%20d='M6.75%2042%20V20.25%20M6.75%2012.75%20V6.75%20H12.75%20M20.25%206.75%20H42'/%3E%3Cpath%20d='M11.25%2042%20V29.5%20M29.5%2011.25%20H42%20M6.75%2034%20L34%206.75'/%3E%3Cpath%20d='M6.75%2027.75%20L27.75%206.75'/%3E%3C/g%3E%3Cpath%20d='M6.75%203.75%20L9.75%206.75%20L6.75%209.75%20L3.75%206.75%20Z'%20fill='%23000'/%3E%3Cpath%20fill-rule='evenodd'%20fill='%23000'%20d='M6.75%2012%20L11.25%2016.5%20L6.75%2021%20L2.25%2016.5%20Z%20M6.75%2014.1%20L9.15%2016.5%20L6.75%2018.9%20L4.35%2016.5%20Z%20M16.5%202.25%20L21%206.75%20L16.5%2011.25%20L12%206.75%20Z%20M16.5%204.35%20L18.9%206.75%20L16.5%209.15%20L14.1%206.75%20Z'/%3E%3C/svg%3E");
     --frame-keystone: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%209%209'%3E%3Cpath%20d='M4.5%200%20L9%204.5%20L4.5%209%20L0%204.5%20Z'/%3E%3C/svg%3E");
+    /* fluid chevron band — seamless 30x14 tile for the windowlet top edge */
+    --chev-band: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2030%2014'%20fill='none'%20preserveAspectRatio='none'%3E%3Cpath%20transform='translate(-30%200)'%20id='Vector%2031'%20d='M10.7959%208.5L11.9423%207.35355C12.1376%207.15829%2012.4542%207.15829%2012.6495%207.35355L17.4423%2012.1464C17.7573%2012.4614%2017.5342%2013%2017.0888%2013H12.2959H6.2959H1.50301C1.05755%2013%200.834471%2012.4614%201.14945%2012.1464L11.9423%201.35355C12.1376%201.15829%2012.4542%201.15829%2012.6495%201.35355L23.9423%2012.6464C24.1376%2012.8417%2024.4542%2012.8417%2024.6495%2012.6464L35.4423%201.85355C35.7573%201.53857%2035.5342%201%2035.0888%201H19.503C19.0576%201%2018.8345%201.53857%2019.1495%201.85355L23.9423%206.64645C24.1376%206.84171%2024.4542%206.84171%2024.6495%206.64645L25.7959%205.5'%20stroke='%2308070C'%20stroke-width='2'%20stroke-linecap='round'/%3E%3Cpath%20id='Vector%2031'%20d='M10.7959%208.5L11.9423%207.35355C12.1376%207.15829%2012.4542%207.15829%2012.6495%207.35355L17.4423%2012.1464C17.7573%2012.4614%2017.5342%2013%2017.0888%2013H12.2959H6.2959H1.50301C1.05755%2013%200.834471%2012.4614%201.14945%2012.1464L11.9423%201.35355C12.1376%201.15829%2012.4542%201.15829%2012.6495%201.35355L23.9423%2012.6464C24.1376%2012.8417%2024.4542%2012.8417%2024.6495%2012.6464L35.4423%201.85355C35.7573%201.53857%2035.5342%201%2035.0888%201H19.503C19.0576%201%2018.8345%201.53857%2019.1495%201.85355L23.9423%206.64645C24.1376%206.84171%2024.4542%206.84171%2024.6495%206.64645L25.7959%205.5'%20stroke='%2308070C'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 /* ---------- Reset-ish ---------- */
@@ -502,12 +504,9 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 
 /* "how to start" trio */
 .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-.step { padding: 32px 28px; text-align: left; overflow: hidden; }
-.step::before {
-    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px;
-    background: linear-gradient(90deg, transparent, var(--arcane), transparent);
-    opacity: .7;
-}
+/* steps ride the windowlet body (its chevron top band replaces the old arcane
+   rule); .step only carries layout + its arcane rune. */
+.step { padding: 32px 28px; text-align: left; }
 .step__rune {
     width: 40px; height: 40px; margin-bottom: 16px; color: var(--arcane);
     filter: drop-shadow(0 0 8px var(--arcane-glow));
@@ -574,21 +573,33 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     -webkit-mask: var(--frame-keystone) center/contain no-repeat; mask: var(--frame-keystone) center/contain no-repeat; }
 .ds-frame__k.bottom { top: auto; bottom: 4.5px; }
 
+/* ---------- windowlet (Nirvana canon default card) ----------
+   Dark stone body + arcane top-bloom + a 1px gold gradient border + a faint
+   chevron band across the top. No corner ornaments (that's the railed frame),
+   so it sits under left-aligned content without crowding it. */
+.windowlet { position: relative; border-radius: 6px; overflow: hidden;
+    background:
+        radial-gradient(72% 16px at 50% 0%, rgba(187,134,252,.40) 0%, transparent 100%),
+        var(--noise),
+        radial-gradient(80% 66% at 48% -4%, rgba(187,134,252,.24) 0%, rgba(8,7,12,0) 68%),
+        var(--stone-850);
+    background-blend-mode: screen, overlay, normal, normal;
+    box-shadow: inset 0 -4px 12px rgba(8,7,12,.55), 0 4px 12px rgba(36,28,15,.32); }
+.windowlet::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; z-index: 3;
+    pointer-events: none; background: linear-gradient(to bottom, var(--gold-dim), var(--gold-metal-lo));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; }
+.windowlet::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14px; z-index: 0; pointer-events: none;
+    background: var(--gold-bright); -webkit-mask: var(--chev-band) repeat-x left top/30px 14px; mask: var(--chev-band) repeat-x left top/30px 14px;
+    mix-blend-mode: overlay; opacity: .4; }
+.windowlet > * { position: relative; z-index: 1; }
+
 /* ============================================================
    STATS — DreamLand in numbers
    ============================================================ */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.stat {
-    position: relative; text-align: center; padding: 30px 18px;
-    border-radius: var(--radius);
-    background:
-        var(--noise),
-        radial-gradient(120% 90% at 50% 0%, rgba(187,134,252,.09), transparent 62%),
-        linear-gradient(180deg, var(--stone-850), var(--stone-950));
-    background-blend-mode: overlay, normal, normal;
-    border: 1px solid var(--stone-700);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 12px 28px rgba(0,0,0,.45);
-}
+/* stat tiles ride the windowlet body (chrome comes from .windowlet) */
+.stat { text-align: center; padding: 30px 18px; }
 .stat__num {
     display: block; font-family: var(--display); font-weight: 800; line-height: 1;
     font-size: clamp(2.6rem, 6vw, 3.9rem);
