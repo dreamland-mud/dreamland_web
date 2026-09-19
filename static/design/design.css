@@ -383,7 +383,7 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
    (--rail-frame at 10%), and a living arcane portal swelling behind it. The top
    tier: hero / login / one crowned feature. Heavier than the railed card. */
 .ds-inset{position:relative;isolation:isolate;padding:22px;display:flex;justify-content:center}
-.ds-inset__card{position:relative;z-index:1;width:min(440px,100%);padding:26px 30px 30px;
+.ds-inset__card{position:relative;z-index:1;width:min(440px,100%);padding:39px 45px 45px;
   border:5.6px solid transparent;border-radius:6px;border-image:var(--rail) 16 stretch;
   background:var(--noise),
     radial-gradient(120% 70% at 50% 0%,rgba(187,134,252,.12),transparent 55%),
