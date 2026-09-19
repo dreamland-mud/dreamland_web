@@ -63,17 +63,26 @@
   /* engraved white inner-frame ornament (rides a step inside the rail) */
   --rail-frame:url("data:image/svg+xml,%3Csvg%20width%3D%22185%22%20height%3D%22229%22%20viewBox%3D%220%200%20185%20229%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M180.3%20218.3L180.3%20221.3L182.3%20223.3L179.3%20226.3L176.3%20223.3L178.3%20221.3L178.3%20218.3L174.3%20214.3L178.3%20210.3L178.3%2018.3L174.3%2014.3L178.3%2010.3L178.3%207.3L176.3%205.3L179.3%202.3L182.3%205.3L180.3%207.3L180.3%2010.3L184.3%2014.3L180.3%2018.3L180.3%20210.3L184.3%20214.3L180.3%20218.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M174.3%205.3L169.3%2010.3L165.3%206.3L19.2998%206.3L15.2998%2010.3L10.2998%205.3L15.2998%200.300003L19.2998%204.3L165.3%204.3L169.3%200.300004L174.3%205.3ZM13.1279%205.3L15.2998%207.47188L17.4717%205.3L15.2998%203.12813L13.1279%205.3ZM167.128%205.3L169.3%207.47188L171.472%205.3L169.3%203.12813L167.128%205.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M6.29979%20218.3L6.29979%20221.3L8.29979%20223.3L5.29979%20226.3L2.29979%20223.3L4.29979%20221.3L4.29979%20218.3L0.299795%20214.3L4.29979%20210.3L4.2998%2018.3L0.299804%2014.3L4.2998%2010.3L4.2998%207.3L2.2998%205.3L5.2998%202.3L8.2998%205.3L6.2998%207.3L6.2998%2010.3L10.2998%2014.3L6.2998%2018.3L6.29979%20210.3L10.2998%20214.3L6.29979%20218.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M174.3%20223.3L169.3%20228.3L165.3%20224.3L19.2998%20224.3L15.2998%20228.3L10.2998%20223.3L15.2998%20218.3L19.2998%20222.3L165.3%20222.3L169.3%20218.3L174.3%20223.3ZM13.1279%20223.3L15.2998%20225.472L17.4717%20223.3L15.2998%20221.128L13.1279%20223.3ZM167.128%20223.3L169.3%20225.472L171.472%20223.3L169.3%20221.128L167.128%20223.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M77.2998%20223.3L92.2998%20208.3L107.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M156.3%20219.3H28.2998%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M156.3%2010.3H28.2998%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M10.2998%2027.3L10.2998%20201.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M174.3%2027.3L174.3%20201.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%20196.3L32.2998%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%2032.3L32.2998%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%20196.3L152.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%2032.3L152.3%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%20202.3L26.2998%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%2026.3L26.2998%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%20202.3L158.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%2026.3L158.3%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E");
 
-  /* chevron-run top ornament for the Figma windowlet card (client card chrome) */
-  --chevron:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='26'%20height='14'%20viewBox='0%200%2026%2014'%3E%3Cpath%20d='M0%2012%20L13%202.5%20L26%2012'%20fill='none'%20stroke='%23000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M5.5%2012%20L13%206.8%20L20.5%2012'%20fill='none'%20stroke='%23000'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
-  --chevron-term:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='18'%20height='14'%20viewBox='0%200%2018%2014'%3E%3Cpath%20d='M0%2011.5%20L9%202.5%20L18%2011.5'%20fill='none'%20stroke='%23000'%20stroke-width='1.7'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M4%2011.5%20L9%206%20L14%2011.5'%20fill='none'%20stroke='%23000'%20stroke-width='1.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
-  --chevron-morph:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='60'%20height='14'%20viewBox='0%200%2060%2014'%3E%3Cpath%20d='M0%2012%20L10%202.5%20L20%209%20L30%2011.5%20L60%2012'%20fill='none'%20stroke='%23000'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M4.5%2012%20L10%206.8%20L16%2010.5'%20fill='none'%20stroke='%23000'%20stroke-width='1.4'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
+  /* chevron ornament kit -- the modular shape set from Figma DL_desktop
+     1124:7090. Each is a nested double-stroke unit ~14px tall. Used as a
+     currentColor mask: the element paints background:currentColor and these
+     carve it. middle = the repeating tooth; *-line = the tooth->rule
+     transition (the row-with-line divider); tl/rt = the end caps (bl/rb are
+     those flipped via scaleY). The windowlet top + frame chev side ride
+     --chev-middle, so there is one chevron system everywhere. */
+  --chev-middle:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2036.5918%2014'%20preserveAspectRatio='none'%3E%3Cpath%20id='Vector%2031'%20d='M10.7959%208.5L11.9423%207.35355C12.1376%207.15829%2012.4542%207.15829%2012.6495%207.35355L17.4423%2012.1464C17.7573%2012.4614%2017.5342%2013%2017.0888%2013H12.2959H6.2959H1.50301C1.05755%2013%200.834471%2012.4614%201.14945%2012.1464L11.9423%201.35355C12.1376%201.15829%2012.4542%201.15829%2012.6495%201.35355L23.9423%2012.6464C24.1376%2012.8417%2024.4542%2012.8417%2024.6495%2012.6464L35.4423%201.85355C35.7573%201.53857%2035.5342%201%2035.0888%201H19.503C19.0576%201%2018.8345%201.53857%2019.1495%201.85355L23.9423%206.64645C24.1376%206.84171%2024.4542%206.84171%2024.6495%206.64645L25.7959%205.5'%20stroke='%2308070C'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E");
+  --chev-middle-rev:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2036.5918%2014'%20preserveAspectRatio='none'%3E%3Cpath%20id='Vector%2031'%20d='M10.7959%205.5L11.9423%206.64645C12.1376%206.84171%2012.4542%206.84171%2012.6495%206.64645L17.4423%201.85355C17.7573%201.53857%2017.5342%201%2017.0888%201H12.2959L6.2959%201L1.50301%201C1.05755%201%200.834471%201.53857%201.14945%201.85355L11.9423%2012.6464C12.1376%2012.8417%2012.4542%2012.8417%2012.6495%2012.6464L23.9423%201.35355C24.1376%201.15829%2024.4542%201.15829%2024.6495%201.35355L35.4423%2012.1464C35.7573%2012.4614%2035.5342%2013%2035.0888%2013L19.503%2013C19.0576%2013%2018.8345%2012.4614%2019.1495%2012.1464L23.9423%207.35355C24.1376%207.15829%2024.4542%207.15829%2024.6495%207.35355L25.7959%208.5'%20stroke='%2308070C'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E");
+  --chev-left-line:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2027.7959%2013.7929'%20preserveAspectRatio='none'%3E%3Cpath%20id='Vector%2031'%20d='M10.0888%207.58579C9.69827%207.97631%209.69827%208.60948%2010.0888%209C10.4793%209.39052%2011.1125%209.39052%2011.503%209L10.7959%208.29289L10.0888%207.58579ZM26.7959%2013.7929H27.7959V11.7929H26.7959V12.7929V13.7929ZM1.14945%2011.9393L0.442347%2011.2322L1.14945%2011.9393ZM11.9423%201.14645L11.2352%200.43934L11.9423%201.14645ZM12.6495%201.14645L13.3566%200.43934L12.6495%201.14645ZM11.9423%207.14645L11.2352%206.43934L11.9423%207.14645ZM12.6495%207.14645L13.3566%206.43934L12.6495%207.14645ZM10.7959%208.29289L11.503%209L12.6495%207.85355L11.9423%207.14645L11.2352%206.43934L10.0888%207.58579L10.7959%208.29289ZM12.6495%207.14645L11.9423%207.85355L16.7352%2012.6464L17.4423%2011.9393L18.1495%2011.2322L13.3566%206.43934L12.6495%207.14645ZM17.0888%2012.7929V11.7929H12.2959V12.7929V13.7929H17.0888V12.7929ZM12.2959%2012.7929V11.7929H6.2959V12.7929V13.7929H12.2959V12.7929ZM6.2959%2012.7929V11.7929H1.50301V12.7929V13.7929H6.2959V12.7929ZM1.14945%2011.9393L1.85656%2012.6464L12.6495%201.85355L11.9423%201.14645L11.2352%200.43934L0.442347%2011.2322L1.14945%2011.9393ZM12.6495%201.14645L11.9423%201.85355L23.4423%2013.3536L24.1495%2012.6464L24.8566%2011.9393L13.3566%200.43934L12.6495%201.14645ZM24.503%2012.7929V13.7929H26.7959V12.7929V11.7929H24.503V12.7929ZM1.50301%2012.7929V11.7929C1.94846%2011.7929%202.17154%2012.3315%201.85656%2012.6464L1.14945%2011.9393L0.442347%2011.2322C-0.5026%2012.1772%200.166649%2013.7929%201.50301%2013.7929V12.7929ZM24.1495%2012.6464L23.4423%2013.3536C23.7236%2013.6349%2024.1052%2013.7929%2024.503%2013.7929V12.7929V11.7929C24.6356%2011.7929%2024.7628%2011.8456%2024.8566%2011.9393L24.1495%2012.6464ZM17.4423%2011.9393L16.7352%2012.6464C16.4203%2012.3315%2016.6433%2011.7929%2017.0888%2011.7929V12.7929V13.7929C18.4252%2013.7929%2019.0944%2012.1772%2018.1495%2011.2322L17.4423%2011.9393ZM11.9423%201.14645L12.6495%201.85355C12.4542%202.04882%2012.1376%202.04881%2011.9423%201.85355L12.6495%201.14645L13.3566%200.43934C12.7708%20-0.146446%2011.821%20-0.146448%2011.2352%200.43934L11.9423%201.14645ZM11.9423%207.14645L12.6495%207.85355C12.4542%208.04882%2012.1376%208.04882%2011.9423%207.85355L12.6495%207.14645L13.3566%206.43934C12.7708%205.85355%2011.821%205.85355%2011.2352%206.43934L11.9423%207.14645Z'%20fill='%2308070C'/%3E%3C/svg%3E");
+  --chev-right-line:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2027.7959%2013.7929'%20preserveAspectRatio='none'%3E%3Cpath%20id='Vector%2031'%20d='M17.7071%206.20711C18.0976%205.81658%2018.0976%205.18342%2017.7071%204.79289C17.3166%204.40237%2016.6834%204.40237%2016.2929%204.79289L17%205.5L17.7071%206.20711ZM1%200H0V2H1V1V0ZM26.6464%201.85355L27.3536%202.56066L26.6464%201.85355ZM15.8536%2012.6464L16.5607%2013.3536L15.8536%2012.6464ZM15.1464%2012.6464L14.4393%2013.3536L15.1464%2012.6464ZM15.8536%206.64645L16.5607%207.35355L15.8536%206.64645ZM15.1464%206.64645L14.4393%207.35355L15.1464%206.64645ZM17%205.5L16.2929%204.79289L15.1464%205.93934L15.8536%206.64645L16.5607%207.35355L17.7071%206.20711L17%205.5ZM15.1464%206.64645L15.8536%205.93934L11.0607%201.14645L10.3536%201.85355L9.64645%202.56066L14.4393%207.35355L15.1464%206.64645ZM10.7071%201V2H15.5V1V0H10.7071V1ZM15.5%201V2H21.5V1V0H15.5V1ZM21.5%201V2H26.2929V1V0H21.5V1ZM26.6464%201.85355L25.9393%201.14645L15.1464%2011.9393L15.8536%2012.6464L16.5607%2013.3536L27.3536%202.56066L26.6464%201.85355ZM15.1464%2012.6464L15.8536%2011.9393L4.35355%200.439341L3.64645%201.14645L2.93934%201.85355L14.4393%2013.3536L15.1464%2012.6464ZM3.29289%201V0H1V1V2H3.29289V1ZM26.2929%201V2C25.8474%202%2025.6244%201.46143%2025.9393%201.14645L26.6464%201.85355L27.3536%202.56066C28.2985%201.61571%2027.6293%200%2026.2929%200V1ZM3.64645%201.14645L4.35355%200.439341C4.07225%200.158037%203.69072%200%203.29289%200V1V2C3.16028%202%203.03311%201.94732%202.93934%201.85355L3.64645%201.14645ZM10.3536%201.85355L11.0607%201.14645C11.3756%201.46143%2011.1526%202%2010.7071%202V1V0C9.37075%200%208.7015%201.61571%209.64645%202.56066L10.3536%201.85355ZM15.8536%2012.6464L15.1464%2011.9393C15.3417%2011.7441%2015.6583%2011.7441%2015.8536%2011.9393L15.1464%2012.6464L14.4393%2013.3536C15.0251%2013.9393%2015.9749%2013.9393%2016.5607%2013.3536L15.8536%2012.6464ZM15.8536%206.64645L15.1464%205.93934C15.3417%205.74408%2015.6583%205.74408%2015.8536%205.93934L15.1464%206.64645L14.4393%207.35355C15.0251%207.93934%2015.9749%207.93934%2016.5607%207.35355L15.8536%206.64645Z'%20fill='%2308070C'/%3E%3C/svg%3E");
+  --chev-tl:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2025.2959%2014'%20preserveAspectRatio='none'%3E%3Cpath%20id='Vector%2030'%20d='M14.5%205.5L13.3536%206.64645C13.1583%206.84171%2012.8417%206.84171%2012.6464%206.64645L7.85355%201.85355C7.53857%201.53857%207.76166%201%208.20711%201H23.7929C24.2383%201%2024.4614%201.53857%2024.1464%201.85355L13.3536%2012.6464C13.1583%2012.8417%2012.8417%2012.8417%2012.6464%2012.6464L1.85355%201.85355C1.53857%201.53857%201%201.76165%201%202.20711V12.5C1%2012.7761%201.22386%2013%201.5%2013H6.79289C7.23835%2013%207.46143%2012.4614%207.14645%2012.1464L6%2011'%20stroke='%2308070C'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E");
+  --chev-rt:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2025.2959%2014'%20preserveAspectRatio='none'%3E%3Cpath%20id='Vector%2030'%20d='M10.7959%208.5L11.9423%207.35355C12.1376%207.15829%2012.4542%207.15829%2012.6495%207.35355L17.4423%2012.1464C17.7573%2012.4614%2017.5342%2013%2017.0888%2013H1.50301C1.05756%2013%200.834472%2012.4614%201.14945%2012.1464L11.9423%201.35355C12.1376%201.15829%2012.4542%201.15829%2012.6495%201.35355L23.4423%2012.1464C23.7573%2012.4614%2024.2959%2012.2383%2024.2959%2011.7929V1.5C24.2959%201.22386%2024.072%201%2023.7959%201H18.503C18.0576%201%2017.8345%201.53857%2018.1495%201.85355L19.2959%203'%20stroke='%2308070C'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E");
   /* modular frame CORNER (mask; currentColor fills it). Top-left orientation;
      flip via scaleX/Y for the other three. Chamfered bracket + a small diamond. */
   --frame-corner:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='42'%20height='42'%20viewBox='0%200%2042%2042'%3E%3Cg%20fill='none'%20stroke='%23000'%20stroke-width='1.5'%3E%3Cpath%20d='M6.75%2042%20V20.25%20M6.75%2012.75%20V6.75%20H12.75%20M20.25%206.75%20H42'/%3E%3Cpath%20d='M11.25%2042%20V29.5%20M29.5%2011.25%20H42%20M6.75%2034%20L34%206.75'/%3E%3Cpath%20d='M6.75%2027.75%20L27.75%206.75'/%3E%3C/g%3E%3Cpath%20d='M6.75%203.75%20L9.75%206.75%20L6.75%209.75%20L3.75%206.75%20Z'%20fill='%23000'/%3E%3Cpath%20fill-rule='evenodd'%20fill='%23000'%20d='M6.75%2012%20L11.25%2016.5%20L6.75%2021%20L2.25%2016.5%20Z%20M6.75%2014.1%20L9.15%2016.5%20L6.75%2018.9%20L4.35%2016.5%20Z%20M16.5%202.25%20L21%206.75%20L16.5%2011.25%20L12%206.75%20Z%20M16.5%204.35%20L18.9%206.75%20L16.5%209.15%20L14.1%206.75%20Z'/%3E%3C/svg%3E");
   --frame-keystone:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%209%209'%3E%3Cpath%20d='M4.5%200%20L9%204.5%20L4.5%209%20L0%204.5%20Z'/%3E%3C/svg%3E");
   /* torn/deckled parchment edge (mask; feTurbulence-displaced rounded rect,
      preserveAspectRatio none so it stretches to any block). */
-  --torn:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1000'%20height='300'%20viewBox='0%200%201000%20300'%20preserveAspectRatio='none'%3E%3Cfilter%20id='t'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.02'%20numOctaves='2'%20seed='4'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='7'/%3E%3C/filter%3E%3Crect%20x='10'%20y='10'%20width='980'%20height='280'%20rx='12'%20fill='%23fff'%20filter='url(%23t)'/%3E%3C/svg%3E");
+  --torn:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1000'%20height='300'%20viewBox='0%200%201000%20300'%20preserveAspectRatio='none'%3E%3Cfilter%20id='t'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.016'%20numOctaves='2'%20seed='4'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='11'/%3E%3C/filter%3E%3Crect%20x='7'%20y='7'%20width='986'%20height='286'%20rx='8'%20fill='%23fff'%20filter='url(%23t)'/%3E%3C/svg%3E");
 }
 
 /* ============================================================
@@ -259,15 +268,21 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   border:1px solid var(--gold-deep);
   background:linear-gradient(180deg,#463714,#241b0b);
   box-shadow:inset 0 1px 3px rgba(0,0,0,.6);transition:background .2s,border-color .2s,box-shadow .2s}
-.ds-switch__knob{display:block;width:20px;height:20px;border-radius:4px;
+.ds-switch__knob{display:block;position:relative;width:20px;height:20px;border-radius:4px;
   background:radial-gradient(140% 140% at 50% 0%,var(--gold-metal-hi),var(--gold-metal-lo));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 1px 2px rgba(0,0,0,.5);
   transition:transform .2s cubic-bezier(.32,.72,0,1),background .2s}
+/* grip: three short vertical ridges engraved down the knob (a grabber affordance).
+   --grip is dark on the gold OFF face; the ON rule below reflavours it to arcane. */
+.ds-switch__knob::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:10px;
+  transform:translate(-50%,-50%);opacity:.85;
+  background:repeating-linear-gradient(to right,var(--grip,rgba(28,17,4,.55)) 0 1px,transparent 1px 3px)}
 .ds-switch[aria-pressed="true"]{border-color:var(--arcane-deep);
   background:radial-gradient(140% 140% at 50% 0%,#6c3aa8,var(--arcane-deep) 70%,#24123f);
   box-shadow:inset 0 1px 2px rgba(0,0,0,.5),0 0 12px var(--arcane-glow)}
 .ds-switch[aria-pressed="true"] .ds-switch__knob{transform:translateX(22px);
   background:linear-gradient(180deg,#efe1ff,#c79dff)}
+.ds-switch[aria-pressed="true"] .ds-switch__knob::after{--grip:rgba(58,32,96,.5)}
 .ds-switch:disabled{opacity:.45;cursor:default}
 
 /* segmented control — ghost track, ghost-off segments, a sliding PRIMARY (gold gem)
@@ -286,6 +301,11 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 .ds-seg button[aria-pressed="true"],.ds-seg button[aria-selected="true"]{color:#1c1206;text-shadow:0 1px 0 rgba(255,255,255,.3)}
 @media (prefers-reduced-motion:reduce){.ds-seg__ind{transition:none}}
 
+/* pop: jewel pills + toggle-chips SNAP in on select — a quick over-scale that
+   settles, not the segmented control's sliding indicator. Fires when the element
+   enters its selected state (the rule newly matches). Reduced-motion kills it. */
+@keyframes ds-pop{0%{transform:scale(1)}45%{transform:scale(1.07)}100%{transform:scale(1)}}
+
 /* ============================================================
    TABS — both by context
    ============================================================ */
@@ -298,7 +318,8 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   transition:color .18s,border-color .18s,background .18s,box-shadow .18s}
 .ds-tab-pill:hover{color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 16px var(--arcane-glow)}
 .ds-tab-pill[aria-selected="true"]{color:#1c1206;border-color:transparent;text-shadow:0 1px 0 rgba(255,255,255,.3);
-  background:var(--gem-face);box-shadow:var(--gem-shadow)}
+  background:var(--gem-face);box-shadow:var(--gem-shadow);
+  animation:ds-pop .2s cubic-bezier(.34,1.56,.64,1)}
 .ds-tab-pill[aria-selected="true"]:hover{box-shadow:var(--gem-shadow),0 0 16px var(--arcane-glow)}
 /* the shared jewel: faceted currentColor gem + gold rim (from mudjs gem.svg) */
 .ds-tgem{width:20px;height:20px;flex:none;line-height:0}
@@ -323,7 +344,7 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude}
 .ds-card-windowlet::after{content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:0;pointer-events:none;
-  background:#e6cd86;-webkit-mask:var(--chevron) repeat-x left top/26px 14px;mask:var(--chevron) repeat-x left top/26px 14px;
+  background:#e6cd86;-webkit-mask:var(--chev-middle) repeat-x left top/36px 14px;mask:var(--chev-middle) repeat-x left top/36px 14px;
   mix-blend-mode:overlay;opacity:.4}
 .ds-card-windowlet > *{position:relative;z-index:1}
 .ds-card__title{font-family:var(--display);font-weight:700;color:var(--gold-bright);
@@ -337,6 +358,53 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
     linear-gradient(180deg,var(--stone-850),var(--stone-950));
   box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 40px rgba(0,0,0,.35),0 16px 34px rgba(0,0,0,.5)}
 .ds-railed > .ds-card__title,.ds-railed > p{position:relative;z-index:1}
+
+/* opt-in hover — only for cards that are actually clickable (list rows, feature
+   tiles). Static content cards omit .ds-card--hover, so they carry no pointer
+   affordance and no lift. Windowlet lifts + blooms; railed also lights its frame. */
+.ds-card--hover{cursor:pointer;transition:transform .16s ease,box-shadow .16s ease}
+.ds-card-windowlet.ds-card--hover:hover{transform:translateY(-2px);
+  box-shadow:inset 0 -4px 12px rgba(8,7,12,.55),0 8px 20px rgba(0,0,0,.42),0 0 20px var(--arcane-glow)}
+.ds-railed.ds-card--hover:hover{transform:translateY(-2px);--dl-frame:var(--gold-bright);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 40px rgba(0,0,0,.35),0 20px 40px rgba(0,0,0,.55),0 0 26px var(--arcane-glow)}
+
+/* big inset feature card — the login-grade panel. An ornate octagon gold rail
+   (9-slice border-image of --rail) over an obsidian body, an engraved inner rule
+   (--rail-frame at 10%), and a living arcane portal swelling behind it. The top
+   tier: hero / login / one crowned feature. Heavier than the railed card. */
+.ds-inset{position:relative;isolation:isolate;padding:22px;display:flex;justify-content:center}
+.ds-inset__card{position:relative;z-index:1;width:min(440px,100%);padding:26px 30px 30px;
+  border:5.6px solid transparent;border-radius:6px;border-image:var(--rail) 16 stretch;
+  background:var(--noise),
+    radial-gradient(120% 70% at 50% 0%,rgba(187,134,252,.12),transparent 55%),
+    linear-gradient(180deg,var(--stone-850),var(--stone-950) 60%,var(--obsidian));
+  background-clip:padding-box;background-blend-mode:overlay,normal,normal;
+  filter:drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 30px var(--arcane-glow));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 44px rgba(0,0,0,.5);
+  animation:ds-inset-rim 9.3s ease-in-out infinite}
+/* engraved inner rule a step inside the rail (white --rail-frame, faint) */
+.ds-inset__card::before{content:"";position:absolute;inset:5px;z-index:0;pointer-events:none;
+  border:22px solid transparent;border-image:var(--rail-frame) 33 stretch;opacity:.1}
+.ds-inset__card > *{position:relative;z-index:1}
+@keyframes ds-inset-rim{
+  0%{filter:drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 22px rgba(187,134,252,.26))}
+  37%{filter:drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 46px rgba(206,158,255,.60))}
+  61%{filter:drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 30px rgba(187,134,252,.36))}
+  100%{filter:drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 22px rgba(187,134,252,.26))}
+}
+/* the portal: an arcane wormhole swelling behind the card (two layers on coprime-ish
+   periods so the swell never settles into an even pulse -- the same trick as login) */
+.ds-inset__portal{position:absolute;top:50%;left:50%;width:min(520px,86%);height:min(340px,116%);
+  transform:translate(-50%,-50%);z-index:0;pointer-events:none;
+  animation:ds-inset-swell 9.3s ease-in-out infinite}
+.ds-inset__portal::before,.ds-inset__portal::after{content:"";position:absolute;inset:0;border-radius:50%}
+.ds-inset__portal::before{filter:blur(30px);animation:ds-inset-outer 11.1s ease-in-out infinite;
+  background:radial-gradient(58% 46% at 50% 50%,rgba(150,96,240,.55),rgba(123,70,210,.30) 34%,rgba(80,40,150,0) 72%)}
+.ds-inset__portal::after{filter:blur(16px);mix-blend-mode:screen;animation:ds-inset-core 7.3s ease-in-out infinite;
+  background:radial-gradient(40% 32% at 50% 46%,rgba(214,178,255,.78),rgba(187,134,252,.42) 40%,rgba(150,96,240,0) 74%)}
+@keyframes ds-inset-swell{0%{filter:brightness(.8) hue-rotate(-6deg)}37%{filter:brightness(1.2) hue-rotate(8deg)}61%{filter:brightness(.92) hue-rotate(-3deg)}100%{filter:brightness(.8) hue-rotate(-6deg)}}
+@keyframes ds-inset-outer{0%{opacity:.5;transform:rotate(0) scale(1.02)}29%{opacity:.82;transform:rotate(40deg) scale(1.12)}55%{opacity:.58;transform:rotate(150deg) scale(.96)}78%{opacity:.9;transform:rotate(240deg) scale(1.08)}100%{opacity:.5;transform:rotate(360deg) scale(1.02)}}
+@keyframes ds-inset-core{0%{opacity:.35;transform:scale(.86)}22%{opacity:.85;transform:scale(1.06)}48%{opacity:.5;transform:scale(.94)}71%{opacity:.96;transform:scale(1.12)}100%{opacity:.35;transform:scale(.86)}}
 
 /* ============================================================
    MAP / SEGMENTED CONTROLS — gold-gem (resolved)
@@ -362,7 +430,8 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   transition:color .18s,border-color .18s,background .18s,box-shadow .18s}
 .ds-chip:hover{color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 14px var(--arcane-glow)}
 .ds-chip.is-on{color:#1c1206;border-color:transparent;text-shadow:0 1px 0 rgba(255,255,255,.3);
-  background:var(--gem-face);box-shadow:var(--gem-shadow)}
+  background:var(--gem-face);box-shadow:var(--gem-shadow);
+  animation:ds-pop .2s cubic-bezier(.34,1.56,.64,1)}
 .ds-chip.is-on:hover{box-shadow:var(--gem-shadow),0 0 14px var(--arcane-glow)}
 
 /* data-chip — read-only stat/affect pill. Colour-coded per affect type via
@@ -385,12 +454,19 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 /* ============================================================
    PARCHMENT reading surfaces
    ============================================================ */
-/* parchment reading sheet, framed by the modular frame (add class ds-frame; JS
-   injects the parts). Frame colour = parch-edge (gold text washes out on cream). */
+/* parchment reading sheet: a torn/worn deckled edge with the modular frame sitting a
+   step inside the rag. The frame stays crisp at the box edge; the paper bleeds a ragged
+   margin past it (frame + ragged edge no longer clash). The sheet + its aged vignette
+   ride a masked ::before so --torn shapes them; the drop shadow is a filter on the
+   parent so it follows the ragged silhouette, not a rectangle. Frame = parch-edge.
+   NOTE: --torn is authored at real px scale (viewBox 1000-wide) so preserveAspectRatio
+   =none does not blow the displacement up and eat the text (see the token). */
 .ds-parch{position:relative;padding:34px 40px;color:var(--ink);--dl-frame:var(--parch-edge);
+  filter:drop-shadow(0 12px 22px rgba(0,0,0,.5))}
+.ds-parch::before{content:"";position:absolute;inset:-9px;z-index:0;pointer-events:none;
   background:var(--noise),linear-gradient(172deg,var(--parchment),var(--parchment-2));
-  background-blend-mode:multiply,normal;border-radius:4px;
-  box-shadow:0 12px 28px rgba(0,0,0,.5),inset 0 0 44px rgba(120,95,50,.18)}
+  background-blend-mode:multiply,normal;box-shadow:inset 0 0 44px rgba(120,95,50,.18);
+  -webkit-mask:var(--torn) no-repeat center/100% 100%;mask:var(--torn) no-repeat center/100% 100%}
 .ds-parch > h4,.ds-parch > .ds-parch__body{position:relative;z-index:1}
 .ds-parch h4{font-family:var(--display);color:#241809;margin:0 0 8px;font-size:1.3rem}
 .ds-parch__body{font-family:var(--article);font-size:.96rem;line-height:1.62;letter-spacing:var(--mono-track);color:var(--ink)}
@@ -447,13 +523,36 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 .ds-filigree::after{background:linear-gradient(90deg,var(--gold-dim),transparent)}
 .ds-filigree svg{width:28px;height:28px;fill:var(--arcane);filter:drop-shadow(0 0 8px var(--arcane-glow));flex:none}
 
-/* --- reusable chevron runs (nested double-stroke units, mask + currentColor).
-   Three variants: main (block/card), term (tighter, terminal), morph (a chevron
-   that flattens into a rule — an end-cap where the band meets a plain line). --- */
-.ds-chevron{height:14px;background:currentColor;color:var(--gold-dim);
-  -webkit-mask:var(--chevron) repeat-x left center/26px 14px;mask:var(--chevron) repeat-x left center/26px 14px}
-.ds-chevron--term{-webkit-mask:var(--chevron-term) repeat-x left center/18px 14px;mask:var(--chevron-term) repeat-x left center/18px 14px}
-.ds-chevron--morph{-webkit-mask:var(--chevron-morph) no-repeat left center/60px 14px;mask:var(--chevron-morph) no-repeat left center/60px 14px}
+/* --- reusable chevron ornament kit (Figma DL_desktop 1124:7090). Every shape is a
+   nested double-stroke unit ridden as a currentColor mask: the element paints
+   currentColor, the shape carves it. Nine named modules (below) plus two ready
+   compositions: .ds-chev-row (the tooth tiled = a full band) and .ds-chev-rowline
+   (caps bracketing a plain rule = a divider). One chevron system everywhere. --- */
+.ds-chev{display:inline-block;height:14px;color:var(--gold-dim);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center}
+.ds-chev--middle,.ds-chev--middle-rev,.ds-chev--left-line,.ds-chev--right-line,
+.ds-chev--tl,.ds-chev--bl,.ds-chev--rt,.ds-chev--rb{background:currentColor}
+.ds-chev--middle{width:36px;-webkit-mask-image:var(--chev-middle);mask-image:var(--chev-middle);-webkit-mask-size:36px 14px;mask-size:36px 14px}
+.ds-chev--middle-rev{width:36px;-webkit-mask-image:var(--chev-middle-rev);mask-image:var(--chev-middle-rev);-webkit-mask-size:36px 14px;mask-size:36px 14px}
+.ds-chev--left-line{width:27px;-webkit-mask-image:var(--chev-left-line);mask-image:var(--chev-left-line);-webkit-mask-size:27px 14px;mask-size:27px 14px}
+.ds-chev--right-line{width:27px;-webkit-mask-image:var(--chev-right-line);mask-image:var(--chev-right-line);-webkit-mask-size:27px 14px;mask-size:27px 14px}
+.ds-chev--tl{width:25px;-webkit-mask-image:var(--chev-tl);mask-image:var(--chev-tl);-webkit-mask-size:25px 14px;mask-size:25px 14px}
+.ds-chev--bl{width:25px;-webkit-mask-image:var(--chev-tl);mask-image:var(--chev-tl);-webkit-mask-size:25px 14px;mask-size:25px 14px;transform:scaleY(-1)}
+.ds-chev--rt{width:25px;-webkit-mask-image:var(--chev-rt);mask-image:var(--chev-rt);-webkit-mask-size:25px 14px;mask-size:25px 14px}
+.ds-chev--rb{width:25px;-webkit-mask-image:var(--chev-rt);mask-image:var(--chev-rt);-webkit-mask-size:25px 14px;mask-size:25px 14px;transform:scaleY(-1)}
+/* the plain line-segment module (a bare bottom rule the caps flatten into) */
+.ds-chev--line{display:inline-block;width:26px;height:14px;border-bottom:2px solid currentColor}
+/* composition 1 — the tooth tiled edge-to-edge = a full chevron band */
+.ds-chev-row{height:14px;background:currentColor;color:var(--gold-dim);
+  -webkit-mask:var(--chev-middle) repeat-x left center/36px 14px;mask:var(--chev-middle) repeat-x left center/36px 14px}
+/* composition 2 — caps bracket a plain baseline rule = a divider (the "row with line").
+   The rule runs full width along the bottom; the two end caps sit over it and descend
+   into it, same currentColor, so the join is seamless at any width. */
+.ds-chev-rowline{display:flex;align-items:flex-end;justify-content:space-between;height:14px;color:var(--gold-dim);
+  background:linear-gradient(currentColor,currentColor) no-repeat left bottom/100% 2px}
+.ds-chev-rowline::before,.ds-chev-rowline::after{content:"";width:27px;height:14px;flex:none;background:currentColor;
+  -webkit-mask:var(--chev-left-line) no-repeat center/27px 14px;mask:var(--chev-left-line) no-repeat center/27px 14px}
+.ds-chev-rowline::after{-webkit-mask-image:var(--chev-right-line);mask-image:var(--chev-right-line)}
 
 /* --- modular ornate frame: 4 fixed corner modules + repeatable side modules ---
    The corner is ONE mask (--frame-corner), flipped for the other three via
@@ -481,8 +580,8 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 .ds-frame__s.left{left:6px} .ds-frame__s.right{right:6px}
 /* ornamented side option: a chevron run instead of the double rule. Starts at 42px
    (past the corner's inner stub) so the stub reads as the lead-in. */
-.ds-frame__s.chev{background:var(--dl-frame);height:12px;bottom:6px;left:42px;right:42px;
-  -webkit-mask:var(--chevron) repeat-x center/26px 12px;mask:var(--chevron) repeat-x center/26px 12px}
+.ds-frame__s.chev{background:var(--dl-frame);height:14px;bottom:5px;left:42px;right:42px;
+  -webkit-mask:var(--chev-middle) repeat-x center/36px 14px;mask:var(--chev-middle) repeat-x center/36px 14px}
 /* optional centre keystone — one size-independent diamond bridging both rails
    (the reference's centre-chevron slot). Solid, at 50% of top and/or bottom. */
 .ds-frame__k{position:absolute;z-index:2;left:50%;top:4.5px;width:9px;height:9px;margin-left:-4.5px;pointer-events:none;
