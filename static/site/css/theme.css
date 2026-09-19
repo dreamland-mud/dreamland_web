@@ -34,6 +34,17 @@
     --gold:       #c6a24e;
     --gold-dim:   #856632;
     --gold-deep:  #55411d;
+    /* gold SURFACE — the matte antique metal for button + control faces ONLY.
+       Never lit the way gold text is. This split is the whole point of the gem
+       decision on the design system page (Nirvana). */
+    --gold-metal-hi:#b8973f;
+    --gold-metal:   #7e6127;
+    --gold-metal-lo:#40300f;
+    /* ONE gem recipe. Every gold control face points here so the matte never
+       drifts glossy again. --gem-face-hover is the arcane power state. */
+    --gem-face:      radial-gradient(140% 140% at 50% 0%, var(--gold-metal-hi), var(--gold-metal) 55%, var(--gold-metal-lo));
+    --gem-face-hover:radial-gradient(140% 140% at 50% 0%, #6c3aa8, var(--arcane-deep) 60%, #24123f);
+    --gem-shadow:    inset 0 1px 1px rgba(255,255,255,.6), 0 1px 2px rgba(0,0,0,.5), 0 0 0 1px var(--gold-deep);
 
     /* gems */
     --ruby: #c0384f; --ruby-lo: #7c1f30;
@@ -416,12 +427,18 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     text-shadow: 0 1px 0 rgba(255,255,255,.3);
 }
 .btn svg { width: 20px; height: 20px; fill: currentColor; }
+/* matte antique gem (Nirvana canon): the FACE is the one gem recipe, no top
+   gloss; the CTA keeps a deeper drop + a bottom shade so a big button still
+   reads raised. The lift-to-arcane hover below is unchanged. */
 .btn--gold {
-    background:
-        linear-gradient(180deg, rgba(255,255,255,.5) 0%, transparent 42%),
-        radial-gradient(140% 140% at 50% 0%, var(--gold-bright) 0%, var(--gold) 52%, var(--gold-dim) 100%);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,.8), inset 0 -3px 5px rgba(85,65,29,.65),
-        0 6px 16px rgba(0,0,0,.6), 0 0 0 1px var(--gold-deep), 0 0 22px rgba(198,162,78,.22);
+    background: var(--gem-face);
+    box-shadow: var(--gem-shadow), inset 0 -3px 5px rgba(64,48,15,.5),
+        0 6px 16px rgba(0,0,0,.55), 0 0 22px rgba(198,162,78,.16);
+}
+.btn:focus-visible {
+    outline: none;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,.6),
+        0 0 0 2px color-mix(in srgb, var(--gold-bright) 55%, transparent);
 }
 /* hover lifts and swaps the gold for a darker arcane gradient; the label has to
    flip light, since a dark one would vanish against the purple */
