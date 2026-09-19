@@ -330,17 +330,13 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   text-shadow:0 1px 0 #2a1c00,0 0 14px rgba(198,162,78,.22);margin:0 0 8px}
 .ds-card p{color:var(--text-dim);margin:0;font-size:.95rem}
 
-/* opt-in ornate rail (feature frame) */
-.ds-railed{position:relative;border:5.6px solid transparent;border-radius:6px;
-  border-image:var(--rail) 16 stretch;background-clip:padding-box;padding:22px;
-  background-color:var(--stone-900);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 40px rgba(0,0,0,.35);
-  filter:drop-shadow(0 16px 30px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(187,134,252,.18))}
-/* the fine engraved white inner-frame, a step inside the rail (10% so it reads as a
-   subtle inset rule) — this is the "engraved inner frame" the copy promises */
-.ds-railed::after{content:"";position:absolute;inset:5px;z-index:0;pointer-events:none;
-  border:22px solid transparent;border-image:var(--rail-frame) 33 stretch;opacity:.1}
-.ds-railed > *{position:relative;z-index:1}
+/* opt-in feature card — wears the modular frame (add class ds-frame; JS injects the
+   corner/side/keystone parts). Dark stone panel; gold frame via --dl-frame. */
+.ds-railed{position:relative;--dl-frame:var(--gold);padding:32px 36px;border-radius:6px;
+  background:radial-gradient(120% 80% at 50% 0%,rgba(187,134,252,.06),transparent 60%),
+    linear-gradient(180deg,var(--stone-850),var(--stone-950));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 40px rgba(0,0,0,.35),0 16px 34px rgba(0,0,0,.5)}
+.ds-railed > .ds-card__title,.ds-railed > p{position:relative;z-index:1}
 
 /* ============================================================
    MAP / SEGMENTED CONTROLS — gold-gem (resolved)
@@ -389,23 +385,13 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 /* ============================================================
    PARCHMENT reading surfaces
    ============================================================ */
-/* worn parchment: torn/deckled edge (--torn mask), a thin inner rule that follows
-   the contour, and a chevron ornament band along the bottom. Drop-shadow (not
-   box-shadow) so the cast shadow is ragged with the edge, not a clean rectangle. */
-.ds-parch{position:relative;padding:36px 44px 48px;color:var(--ink);
+/* parchment reading sheet, framed by the modular frame (add class ds-frame; JS
+   injects the parts). Frame colour = parch-edge (gold text washes out on cream). */
+.ds-parch{position:relative;padding:34px 40px;color:var(--ink);--dl-frame:var(--parch-edge);
   background:var(--noise),linear-gradient(172deg,var(--parchment),var(--parchment-2));
-  background-blend-mode:multiply,normal;
-  box-shadow:inset 0 0 44px rgba(120,95,50,.22),inset 0 0 0 40px rgba(150,120,63,.05);
-  -webkit-mask:var(--torn) center/100% 100% no-repeat;mask:var(--torn) center/100% 100% no-repeat;
-  filter:drop-shadow(0 12px 26px rgba(0,0,0,.55))}
-/* inner rule, inset well past the ragged zone so it renders whole */
-.ds-parch::before{content:"";position:absolute;inset:17px;border-radius:3px;pointer-events:none;
-  border:1px solid rgba(120,95,50,.5)}
-/* chevron ornament band across the bottom (reusable --chevron mask, ink-toned) */
-.ds-parch::after{content:"";position:absolute;left:38px;right:38px;bottom:22px;height:12px;pointer-events:none;
-  background:var(--parch-edge);opacity:.6;
-  -webkit-mask:var(--chevron) repeat-x center/26px 12px;mask:var(--chevron) repeat-x center/26px 12px}
-.ds-parch > *{position:relative;z-index:1}
+  background-blend-mode:multiply,normal;border-radius:4px;
+  box-shadow:0 12px 28px rgba(0,0,0,.5),inset 0 0 44px rgba(120,95,50,.18)}
+.ds-parch > h4,.ds-parch > .ds-parch__body{position:relative;z-index:1}
 .ds-parch h4{font-family:var(--display);color:#241809;margin:0 0 8px;font-size:1.3rem}
 .ds-parch__body{font-family:var(--article);font-size:.96rem;line-height:1.62;letter-spacing:var(--mono-track);color:var(--ink)}
 .ds-parch a{color:var(--arcane-ink);border-bottom:1px solid rgba(106,47,166,.38)}
@@ -474,9 +460,10 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
    scaleX/scaleY, so it never scales or distorts. Sides are consistent-weight
    rules (or a chevron run) that span between the corners at any frame size.
    Colour via currentColor -> gold on dark, parch-edge on light. */
-.ds-frame{position:relative;color:var(--gold)}
+/* frame colour = --dl-frame (gold on dark, parch-edge on parchment), currentColor fallback */
+.ds-frame{position:relative;color:var(--gold);--dl-frame:currentColor}
 .ds-frame__c{position:absolute;width:42px;height:42px;z-index:2;pointer-events:none;
-  background:currentColor;-webkit-mask:var(--frame-corner) center/contain no-repeat;mask:var(--frame-corner) center/contain no-repeat}
+  background:var(--dl-frame);-webkit-mask:var(--frame-corner) center/contain no-repeat;mask:var(--frame-corner) center/contain no-repeat}
 .ds-frame__c.tl{top:0;left:0}
 .ds-frame__c.tr{top:0;right:0;transform:scaleX(-1)}
 .ds-frame__c.bl{bottom:0;left:0;transform:scaleY(-1)}
@@ -487,19 +474,19 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
    the corner's two rails at the seam (lines at 6.0-7.5 and 10.5-12.0). */
 .ds-frame__s{position:absolute;z-index:1;pointer-events:none}
 .ds-frame__s.top,.ds-frame__s.bottom{left:34px;right:34px;height:6px;
-  background:linear-gradient(to bottom,currentColor 0 1.5px,transparent 1.5px 4.5px,currentColor 4.5px 6px)}
+  background:linear-gradient(to bottom,var(--dl-frame) 0 1.5px,transparent 1.5px 4.5px,var(--dl-frame) 4.5px 6px)}
 .ds-frame__s.left,.ds-frame__s.right{top:34px;bottom:34px;width:6px;
-  background:linear-gradient(to right,currentColor 0 1.5px,transparent 1.5px 4.5px,currentColor 4.5px 6px)}
+  background:linear-gradient(to right,var(--dl-frame) 0 1.5px,transparent 1.5px 4.5px,var(--dl-frame) 4.5px 6px)}
 .ds-frame__s.top{top:6px} .ds-frame__s.bottom{bottom:6px}
 .ds-frame__s.left{left:6px} .ds-frame__s.right{right:6px}
 /* ornamented side option: a chevron run instead of the double rule. Starts at 42px
    (past the corner's inner stub) so the stub reads as the lead-in. */
-.ds-frame__s.chev{background:currentColor;height:12px;bottom:6px;left:42px;right:42px;
+.ds-frame__s.chev{background:var(--dl-frame);height:12px;bottom:6px;left:42px;right:42px;
   -webkit-mask:var(--chevron) repeat-x center/26px 12px;mask:var(--chevron) repeat-x center/26px 12px}
 /* optional centre keystone — one size-independent diamond bridging both rails
    (the reference's centre-chevron slot). Solid, at 50% of top and/or bottom. */
 .ds-frame__k{position:absolute;z-index:2;left:50%;top:4.5px;width:9px;height:9px;margin-left:-4.5px;pointer-events:none;
-  background:currentColor;-webkit-mask:var(--frame-keystone) center/contain no-repeat;mask:var(--frame-keystone) center/contain no-repeat}
+  background:var(--dl-frame);-webkit-mask:var(--frame-keystone) center/contain no-repeat;mask:var(--frame-keystone) center/contain no-repeat}
 .ds-frame__k.bottom{top:auto;bottom:4.5px}
 
 /* alias table */
