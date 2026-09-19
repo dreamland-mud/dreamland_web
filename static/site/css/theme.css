@@ -516,13 +516,13 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .step h4 { color: var(--gold-bright); font-size: 1.55rem; }
 .step p { color: var(--text-dim); margin: 0; font-size: 1rem; }
 
-/* explore cards — railed feature card (Nirvana canon): dark stone body + the
-   modular gold frame, tinted per card to its jewel via --dl-frame. The faceted
-   gem SVG + octagon rail are retired; the corner glyph carries the identity. */
+/* explore cards — railed feature card (Nirvana): dark stone body + the modular
+   GOLD frame (uniform across all three). Each card's colour comes from the big
+   faceted jewel centred above the title. Corner glyph stays as a watermark. */
 .gemgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
 .gemcard {
     --dl-frame: var(--gold);
-    display: block; padding: 40px 34px 34px; text-align: center; position: relative;
+    display: block; padding: 36px 30px 32px; text-align: center; position: relative;
     border-radius: 6px; color: var(--text);
     background:
         var(--noise),
@@ -532,16 +532,16 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 0 40px rgba(0,0,0,.35), 0 16px 34px rgba(0,0,0,.5);
     transition: transform .18s, box-shadow .18s;
 }
-/* per-card jewel: the frame + hover glow carry the colour (facet retired) */
-.gemcard--ruby     { --dl-frame: var(--ruby);     --gem-glow: rgba(192,56,79,.5); }
-.gemcard--emerald  { --dl-frame: var(--emerald);  --gem-glow: rgba(47,163,107,.45); }
-.gemcard--sapphire { --dl-frame: var(--sapphire); --gem-glow: rgba(74,116,212,.45); }
-.gemcard:hover { transform: translateY(-2px);
+.gemcard:hover { transform: translateY(-2px); --dl-frame: var(--gold-bright);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.06), inset 0 0 40px rgba(0,0,0,.35),
-        0 22px 44px rgba(0,0,0,.55), 0 0 34px var(--gem-glow, var(--arcane-glow)); }
-.gemcard--ruby:hover     { --dl-frame: color-mix(in srgb, var(--ruby) 60%, #fff); }
-.gemcard--emerald:hover  { --dl-frame: color-mix(in srgb, var(--emerald) 60%, #fff); }
-.gemcard--sapphire:hover { --dl-frame: color-mix(in srgb, var(--sapphire) 60%, #fff); }
+        0 22px 44px rgba(0,0,0,.55), 0 0 30px var(--arcane-glow); }
+/* the big faceted jewel — one SVG cut, tinted per card, centred above the title */
+.gemsvg { width: 62px; height: 62px; margin: 0 auto 18px; display: block;
+    transition: transform .18s, filter .18s; }
+.gem--ruby     { color: var(--ruby);     filter: drop-shadow(0 4px 12px rgba(192,56,79,.5)); }
+.gem--emerald  { color: var(--emerald);  filter: drop-shadow(0 4px 12px rgba(47,163,107,.45)); }
+.gem--sapphire { color: var(--sapphire); filter: drop-shadow(0 4px 12px rgba(74,116,212,.45)); }
+.gemcard:hover .gemsvg { transform: translateY(-3px) rotate(-6deg); filter: brightness(1.12); }
 .gemcard h4 { color: var(--gold-bright); font-size: 1.6rem; margin-bottom: 6px; }
 .gemcard p { color: var(--text-dim); font-size: 1rem; margin: 0; }
 
@@ -816,7 +816,7 @@ details.scroll > summary:hover { color: #fff; }
 
 /* explore-card RPG glyph watermark */
 .gemcard { overflow: hidden; isolation: isolate; }
-.gemcard > h4, .gemcard > p { position: relative; z-index: 1; }
+.gemcard > .gemsvg, .gemcard > h4, .gemcard > p { position: relative; z-index: 1; }
 .gemcard__glyph { position: absolute; right: -14px; bottom: -18px; width: 122px; height: 122px;
     color: var(--arcane); opacity: .12; z-index: 0; pointer-events: none; }
 
