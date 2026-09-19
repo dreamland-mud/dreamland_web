@@ -9,7 +9,7 @@
    it in a later pass.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;600&family=Fira+Code:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Alegreya+Sans:wght@400;500;700&family=Fira+Code:wght@400;600&display=swap');
 
 /* ---------- Tokens ---------- */
 :root {
@@ -41,8 +41,10 @@
   /* type */
   --display:'Playfair Display','Times New Roman',serif;   /* headings, gilded titles */
   --body:'Alegreya Sans','Segoe UI',sans-serif;           /* UI + prose */
-  --mono:'JetBrains Mono',ui-monospace,monospace;         /* UI labels, small code */
-  --article:'Fira Code',ui-monospace,monospace;           /* GAME TEXT: terminal + article bodies */
+  /* one monospace, Fira Code, for everything: UI labels, code spans AND game text.
+     --article kept as an alias for game-text bodies (ligatures ON); --mono = UI (labels). */
+  --mono:'Fira Code',ui-monospace,monospace;
+  --article:'Fira Code',ui-monospace,monospace;
   --mono-track:-.014em;
 
   --radius:5px;
@@ -62,7 +64,13 @@
   --rail-frame:url("data:image/svg+xml,%3Csvg%20width%3D%22185%22%20height%3D%22229%22%20viewBox%3D%220%200%20185%20229%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M180.3%20218.3L180.3%20221.3L182.3%20223.3L179.3%20226.3L176.3%20223.3L178.3%20221.3L178.3%20218.3L174.3%20214.3L178.3%20210.3L178.3%2018.3L174.3%2014.3L178.3%2010.3L178.3%207.3L176.3%205.3L179.3%202.3L182.3%205.3L180.3%207.3L180.3%2010.3L184.3%2014.3L180.3%2018.3L180.3%20210.3L184.3%20214.3L180.3%20218.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M174.3%205.3L169.3%2010.3L165.3%206.3L19.2998%206.3L15.2998%2010.3L10.2998%205.3L15.2998%200.300003L19.2998%204.3L165.3%204.3L169.3%200.300004L174.3%205.3ZM13.1279%205.3L15.2998%207.47188L17.4717%205.3L15.2998%203.12813L13.1279%205.3ZM167.128%205.3L169.3%207.47188L171.472%205.3L169.3%203.12813L167.128%205.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M6.29979%20218.3L6.29979%20221.3L8.29979%20223.3L5.29979%20226.3L2.29979%20223.3L4.29979%20221.3L4.29979%20218.3L0.299795%20214.3L4.29979%20210.3L4.2998%2018.3L0.299804%2014.3L4.2998%2010.3L4.2998%207.3L2.2998%205.3L5.2998%202.3L8.2998%205.3L6.2998%207.3L6.2998%2010.3L10.2998%2014.3L6.2998%2018.3L6.29979%20210.3L10.2998%20214.3L6.29979%20218.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M174.3%20223.3L169.3%20228.3L165.3%20224.3L19.2998%20224.3L15.2998%20228.3L10.2998%20223.3L15.2998%20218.3L19.2998%20222.3L165.3%20222.3L169.3%20218.3L174.3%20223.3ZM13.1279%20223.3L15.2998%20225.472L17.4717%20223.3L15.2998%20221.128L13.1279%20223.3ZM167.128%20223.3L169.3%20225.472L171.472%20223.3L169.3%20221.128L167.128%20223.3Z%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20d%3D%22M77.2998%20223.3L92.2998%20208.3L107.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M156.3%20219.3H28.2998%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M156.3%2010.3H28.2998%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M10.2998%2027.3L10.2998%20201.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M174.3%2027.3L174.3%20201.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%20196.3L32.2998%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%2032.3L32.2998%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%20196.3L152.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%2032.3L152.3%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%20202.3L26.2998%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M5.2998%2026.3L26.2998%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%20202.3L158.3%20223.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3Cpath%20d%3D%22M179.3%2026.3L158.3%205.3%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E");
 
   /* chevron-run top ornament for the Figma windowlet card (client card chrome) */
-  --chevron:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjc5IiBoZWlnaHQ9IjE0IiB2aWV3Qm94PSIwIDAgMjc5IDE0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHlsZT0ibWl4LWJsZW5kLW1vZGU6b3ZlcmxheSIgb3BhY2l0eT0iMC4yIj4KPHBhdGggZD0iTS0zIDUuNUwtNC4xNDY0NSA2LjY0NjQ1Qy00LjM0MTcxIDYuODQxNzEgLTQuNjU4MjkgNi44NDE3MSAtNC44NTM1NSA2LjY0NjQ1TC05LjY0NjQ1IDEuODUzNTVDLTkuOTYxNDMgMS41Mzg1NyAtOS43MzgzNCAxIC05LjI5Mjg5IDFINi4yOTI4OUM2LjczODM1IDEgNi45NjE0MyAxLjUzODU3IDYuNjQ2NDUgMS44NTM1NUwtNC4xNDY0NSAxMi42NDY0Qy00LjM0MTcxIDEyLjg0MTcgLTQuNjU4MjkgMTIuODQxNyAtNC44NTM1NSAxMi42NDY0TC0xNS42NDY0IDEuODUzNTVDLTE1Ljk2MTQgMS41Mzg1NyAtMTYuNSAxLjc2MTY1IC0xNi41IDIuMjA3MTFWMTIuNUMtMTYuNSAxMi43NzYxIC0xNi4yNzYxIDEzIC0xNiAxM0gtMTAuNzA3MUMtMTAuMjYxNyAxMyAtMTAuMDM4NiAxMi40NjE0IC0xMC4zNTM2IDEyLjE0NjRMLTExLjUgMTEiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xMiA4LjVMMTMuMTQ2NCA3LjM1MzU1QzEzLjM0MTcgNy4xNTgyOSAxMy42NTgzIDcuMTU4MjkgMTMuODUzNiA3LjM1MzU1TDE4LjY0NjQgMTIuMTQ2NEMxOC45NjE0IDEyLjQ2MTQgMTguNzM4MyAxMyAxOC4yOTI5IDEzSDEzLjVINy41SDIuNzA3MTFDMi4yNjE2NSAxMyAyLjAzODU3IDEyLjQ2MTQgMi4zNTM1NSAxMi4xNDY0TDEzLjE0NjQgMS4zNTM1NUMxMy4zNDE3IDEuMTU4MjkgMTMuNjU4MyAxLjE1ODI5IDEzLjg1MzYgMS4zNTM1NUwyNS4xNDY0IDEyLjY0NjRDMjUuMzQxNyAxMi44NDE3IDI1LjY1ODMgMTIuODQxNyAyNS44NTM2IDEyLjY0NjRMMzYuNjQ2NCAxLjg1MzU1QzM2Ljk2MTQgMS41Mzg1NyAzNi43MzgzIDEgMzYuMjkyOSAxSDIwLjcwNzFDMjAuMjYxNyAxIDIwLjAzODYgMS41Mzg1NyAyMC4zNTM2IDEuODUzNTVMMjUuMTQ2NCA2LjY0NjQ1QzI1LjM0MTcgNi44NDE3MSAyNS42NTgzIDYuODQxNzEgMjUuODUzNiA2LjY0NjQ1TDI3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTQyIDguNUw0My4xNDY0IDcuMzUzNTVDNDMuMzQxNyA3LjE1ODI5IDQzLjY1ODMgNy4xNTgyOSA0My44NTM2IDcuMzUzNTVMNDguNjQ2NCAxMi4xNDY0QzQ4Ljk2MTQgMTIuNDYxNCA0OC43MzgzIDEzIDQ4LjI5MjkgMTNINDMuNUgzNy41SDMyLjcwNzFDMzIuMjYxNyAxMyAzMi4wMzg2IDEyLjQ2MTQgMzIuMzUzNiAxMi4xNDY0TDQzLjE0NjQgMS4zNTM1NUM0My4zNDE3IDEuMTU4MjkgNDMuNjU4MyAxLjE1ODI5IDQzLjg1MzYgMS4zNTM1NUw1NS4xNDY0IDEyLjY0NjRDNTUuMzQxNyAxMi44NDE3IDU1LjY1ODMgMTIuODQxNyA1NS44NTM2IDEyLjY0NjRMNjYuNjQ2NCAxLjg1MzU1QzY2Ljk2MTQgMS41Mzg1NyA2Ni43MzgzIDEgNjYuMjkyOSAxSDUwLjcwNzFDNTAuMjYxNyAxIDUwLjAzODYgMS41Mzg1NyA1MC4zNTM2IDEuODUzNTVMNTUuMTQ2NCA2LjY0NjQ1QzU1LjM0MTcgNi44NDE3MSA1NS42NTgzIDYuODQxNzEgNTUuODUzNiA2LjY0NjQ1TDU3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTcyIDguNUw3My4xNDY0IDcuMzUzNTVDNzMuMzQxNyA3LjE1ODI5IDczLjY1ODMgNy4xNTgyOSA3My44NTM2IDcuMzUzNTVMNzguNjQ2NCAxMi4xNDY0Qzc4Ljk2MTQgMTIuNDYxNCA3OC43MzgzIDEzIDc4LjI5MjkgMTNINzMuNUg2Ny41SDYyLjcwNzFDNjIuMjYxNyAxMyA2Mi4wMzg2IDEyLjQ2MTQgNjIuMzUzNiAxMi4xNDY0TDczLjE0NjQgMS4zNTM1NUM3My4zNDE3IDEuMTU4MjkgNzMuNjU4MyAxLjE1ODI5IDczLjg1MzYgMS4zNTM1NUw4NS4xNDY0IDEyLjY0NjRDODUuMzQxNyAxMi44NDE3IDg1LjY1ODMgMTIuODQxNyA4NS44NTM2IDEyLjY0NjRMOTYuNjQ2NCAxLjg1MzU1Qzk2Ljk2MTQgMS41Mzg1NyA5Ni43MzgzIDEgOTYuMjkyOSAxSDgwLjcwNzFDODAuMjYxNyAxIDgwLjAzODYgMS41Mzg1NyA4MC4zNTM2IDEuODUzNTVMODUuMTQ2NCA2LjY0NjQ1Qzg1LjM0MTcgNi44NDE3MSA4NS42NTgzIDYuODQxNzEgODUuODUzNiA2LjY0NjQ1TDg3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTEwMiA4LjVMMTAzLjE0NiA3LjM1MzU1QzEwMy4zNDIgNy4xNTgyOSAxMDMuNjU4IDcuMTU4MjkgMTAzLjg1NCA3LjM1MzU1TDEwOC42NDYgMTIuMTQ2NEMxMDguOTYxIDEyLjQ2MTQgMTA4LjczOCAxMyAxMDguMjkzIDEzSDEwMy41SDk3LjVIOTIuNzA3MUM5Mi4yNjE3IDEzIDkyLjAzODYgMTIuNDYxNCA5Mi4zNTM2IDEyLjE0NjRMMTAzLjE0NiAxLjM1MzU1QzEwMy4zNDIgMS4xNTgyOSAxMDMuNjU4IDEuMTU4MjkgMTAzLjg1NCAxLjM1MzU1TDExNS4xNDYgMTIuNjQ2NEMxMTUuMzQyIDEyLjg0MTcgMTE1LjY1OCAxMi44NDE3IDExNS44NTQgMTIuNjQ2NEwxMjYuNjQ2IDEuODUzNTVDMTI2Ljk2MSAxLjUzODU3IDEyNi43MzggMSAxMjYuMjkzIDFIMTEwLjcwN0MxMTAuMjYyIDEgMTEwLjAzOSAxLjUzODU3IDExMC4zNTQgMS44NTM1NUwxMTUuMTQ2IDYuNjQ2NDVDMTE1LjM0MiA2Ljg0MTcxIDExNS42NTggNi44NDE3MSAxMTUuODU0IDYuNjQ2NDVMMTE3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTEzMiA4LjVMMTMzLjE0NiA3LjM1MzU1QzEzMy4zNDIgNy4xNTgyOSAxMzMuNjU4IDcuMTU4MjkgMTMzLjg1NCA3LjM1MzU1TDEzOC42NDYgMTIuMTQ2NEMxMzguOTYxIDEyLjQ2MTQgMTM4LjczOCAxMyAxMzguMjkzIDEzSDEzMy41SDEyNy41SDEyMi43MDdDMTIyLjI2MiAxMyAxMjIuMDM5IDEyLjQ2MTQgMTIyLjM1NCAxMi4xNDY0TDEzMy4xNDYgMS4zNTM1NUMxMzMuMzQyIDEuMTU4MjkgMTMzLjY1OCAxLjE1ODI5IDEzMy44NTQgMS4zNTM1NUwxNDUuMTQ2IDEyLjY0NjRDMTQ1LjM0MiAxMi44NDE3IDE0NS42NTggMTIuODQxNyAxNDUuODU0IDEyLjY0NjRMMTU2LjY0NiAxLjg1MzU1QzE1Ni45NjEgMS41Mzg1NyAxNTYuNzM4IDEgMTU2LjI5MyAxSDE0MC43MDdDMTQwLjI2MiAxIDE0MC4wMzkgMS41Mzg1NyAxNDAuMzU0IDEuODUzNTVMMTQ1LjE0NiA2LjY0NjQ1QzE0NS4zNDIgNi44NDE3MSAxNDUuNjU4IDYuODQxNzEgMTQ1Ljg1NCA2LjY0NjQ1TDE0NyA1LjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0xNjIgOC41TDE2My4xNDYgNy4zNTM1NUMxNjMuMzQyIDcuMTU4MjkgMTYzLjY1OCA3LjE1ODI5IDE2My44NTQgNy4zNTM1NUwxNjguNjQ2IDEyLjE0NjRDMTY4Ljk2MSAxMi40NjE0IDE2OC43MzggMTMgMTY4LjI5MyAxM0gxNjMuNUgxNTcuNUgxNTIuNzA3QzE1Mi4yNjIgMTMgMTUyLjAzOSAxMi40NjE0IDE1Mi4zNTQgMTIuMTQ2NEwxNjMuMTQ2IDEuMzUzNTVDMTYzLjM0MiAxLjE1ODI5IDE2My42NTggMS4xNTgyOSAxNjMuODU0IDEuMzUzNTVMMTc1LjE0NiAxMi42NDY0QzE3NS4zNDIgMTIuODQxNyAxNzUuNjU4IDEyLjg0MTcgMTc1Ljg1NCAxMi42NDY0TDE4Ni42NDYgMS44NTM1NUMxODYuOTYxIDEuNTM4NTcgMTg2LjczOCAxIDE4Ni4yOTMgMUgxNzAuNzA3QzE3MC4yNjIgMSAxNzAuMDM5IDEuNTM4NTcgMTcwLjM1NCAxLjg1MzU1TDE3NS4xNDYgNi42NDY0NUMxNzUuMzQyIDYuODQxNzEgMTc1LjY1OCA2Ljg0MTcxIDE3NS44NTQgNi42NDY0NUwxNzcgNS41IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMTkyIDguNUwxOTMuMTQ2IDcuMzUzNTVDMTkzLjM0MiA3LjE1ODI5IDE5My42NTggNy4xNTgyOSAxOTMuODU0IDcuMzUzNTVMMTk4LjY0NiAxMi4xNDY0QzE5OC45NjEgMTIuNDYxNCAxOTguNzM4IDEzIDE5OC4yOTMgMTNIMTkzLjVIMTg3LjVIMTgyLjcwN0MxODIuMjYyIDEzIDE4Mi4wMzkgMTIuNDYxNCAxODIuMzU0IDEyLjE0NjRMMTkzLjE0NiAxLjM1MzU1QzE5My4zNDIgMS4xNTgyOSAxOTMuNjU4IDEuMTU4MjkgMTkzLjg1NCAxLjM1MzU1TDIwNS4xNDYgMTIuNjQ2NEMyMDUuMzQyIDEyLjg0MTcgMjA1LjY1OCAxMi44NDE3IDIwNS44NTQgMTIuNjQ2NEwyMTYuNjQ2IDEuODUzNTVDMjE2Ljk2MSAxLjUzODU3IDIxNi43MzggMSAyMTYuMjkzIDFIMjAwLjcwN0MyMDAuMjYyIDEgMjAwLjAzOSAxLjUzODU3IDIwMC4zNTQgMS44NTM1NUwyMDUuMTQ2IDYuNjQ2NDVDMjA1LjM0MiA2Ljg0MTcxIDIwNS42NTggNi44NDE3MSAyMDUuODU0IDYuNjQ2NDVMMjA3IDUuNSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHBhdGggZD0iTTIyMiA4LjVMMjIzLjE0NiA3LjM1MzU1QzIyMy4zNDIgNy4xNTgyOSAyMjMuNjU4IDcuMTU4MjkgMjIzLjg1NCA3LjM1MzU1TDIyOC42NDYgMTIuMTQ2NEMyMjguOTYxIDEyLjQ2MTQgMjI4LjczOCAxMyAyMjguMjkzIDEzSDIyMy41SDIxNy41SDIxMi43MDdDMjEyLjI2MiAxMyAyMTIuMDM5IDEyLjQ2MTQgMjEyLjM1NCAxMi4xNDY0TDIyMy4xNDYgMS4zNTM1NUMyMjMuMzQyIDEuMTU4MjkgMjIzLjY1OCAxLjE1ODI5IDIyMy44NTQgMS4zNTM1NUwyMzUuMTQ2IDEyLjY0NjRDMjM1LjM0MiAxMi44NDE3IDIzNS42NTggMTIuODQxNyAyMzUuODU0IDEyLjY0NjRMMjQ2LjY0NiAxLjg1MzU1QzI0Ni45NjEgMS41Mzg1NyAyNDYuNzM4IDEgMjQ2LjI5MyAxSDIzMC43MDdDMjMwLjI2MiAxIDIzMC4wMzkgMS41Mzg1NyAyMzAuMzU0IDEuODUzNTVMMjM1LjE0NiA2LjY0NjQ1QzIzNS4zNDIgNi44NDE3MSAyMzUuNjU4IDYuODQxNzEgMjM1Ljg1NCA2LjY0NjQ1TDIzNyA1LjUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxwYXRoIGQ9Ik0yNTIgOC41TDI1My4xNDYgNy4zNTM1NUMyNTMuMzQyIDcuMTU4MjkgMjUzLjY1OCA3LjE1ODI5IDI1My44NTQgNy4zNTM1NUwyNTguNjQ2IDEyLjE0NjRDMjU4Ljk2MSAxMi40NjE0IDI1OC43MzggMTMgMjU4LjI5MyAxM0gyNTMuNUgyNDcuNUgyNDIuNzA3QzI0Mi4yNjIgMTMgMjQyLjAzOSAxMi40NjE0IDI0Mi4zNTQgMTIuMTQ2NEwyNTMuMTQ2IDEuMzUzNTVDMjUzLjM0MiAxLjE1ODI5IDI1My42NTggMS4xNTgyOSAyNTMuODU0IDEuMzUzNTVMMjY1LjE0NiAxMi42NDY0QzI2NS4zNDIgMTIuODQxNyAyNjUuNjU4IDEyLjg0MTcgMjY1Ljg1NCAxMi42NDY0TDI3Ni42NDYgMS44NTM1NUMyNzYuOTYxIDEuNTM4NTcgMjc2LjczOCAxIDI3Ni4yOTMgMUgyNjAuNzA3QzI2MC4yNjIgMSAyNjAuMDM5IDEuNTM4NTcgMjYwLjM1NCAxLjg1MzU1TDI2NS4xNDYgNi42NDY0NUMyNjUuMzQyIDYuODQxNzEgMjY1LjY1OCA2Ljg0MTcxIDI2NS44NTQgNi42NDY0NUwyNjcgNS41IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgo8cGF0aCBkPSJNMjgyIDguNUwyODMuMTQ2IDcuMzUzNTVDMjgzLjM0MiA3LjE1ODI5IDI4My42NTggNy4xNTgyOSAyODMuODU0IDcuMzUzNTVMMjg4LjY0NiAxMi4xNDY0QzI4OC45NjEgMTIuNDYxNCAyODguNzM4IDEzIDI4OC4yOTMgMTNIMjcyLjcwN0MyNzIuMjYyIDEzIDI3Mi4wMzkgMTIuNDYxNCAyNzIuMzU0IDEyLjE0NjRMMjgzLjE0NiAxLjM1MzU1QzI4My4zNDIgMS4xNTgyOSAyODMuNjU4IDEuMTU4MjkgMjgzLjg1NCAxLjM1MzU1TDI5NC42NDYgMTIuMTQ2NEMyOTQuOTYxIDEyLjQ2MTQgMjk1LjUgMTIuMjM4MyAyOTUuNSAxMS43OTI5VjEuNUMyOTUuNSAxLjIyMzg2IDI5NS4yNzYgMSAyOTUgMUgyODkuNzA3QzI4OS4yNjIgMSAyODkuMDM5IDEuNTM4NTcgMjg5LjM1NCAxLjg1MzU1TDI5MC41IDMiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjwvZz4KPC9zdmc+Cg==");
+  --chevron:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='30'%20height='14'%20viewBox='0%200%2030%2014'%3E%3Cpath%20d='M0%2012%20L15%203%20L30%2012'%20fill='none'%20stroke='%23000'%20stroke-width='2'%20stroke-linecap='round'/%3E%3Cpath%20d='M8%2012%20L15%207%20L22%2012'%20fill='none'%20stroke='%23000'%20stroke-width='2'%20stroke-linecap='round'/%3E%3C/svg%3E");
+  /* modular frame CORNER (mask; currentColor fills it). Top-left orientation;
+     flip via scaleX/Y for the other three. Chamfered bracket + a small diamond. */
+  --frame-corner:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%3E%3Cpath%20d='M6%2040%20L6%2013%20L13%206%20L40%206'%20fill='none'%20stroke='%23000'%20stroke-width='1.6'/%3E%3Cpath%20d='M9.5%209.5%20l3%203%20-3%203%20-3%20-3%20z'%20fill='%23000'/%3E%3C/svg%3E");
+  /* torn/deckled parchment edge (mask; feTurbulence-displaced rounded rect,
+     preserveAspectRatio none so it stretches to any block). */
+  --torn:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1000'%20height='300'%20viewBox='0%200%201000%20300'%20preserveAspectRatio='none'%3E%3Cfilter%20id='t'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.02'%20numOctaves='2'%20seed='4'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='7'/%3E%3C/filter%3E%3Crect%20x='10'%20y='10'%20width='980'%20height='280'%20rx='12'%20fill='%23fff'%20filter='url(%23t)'/%3E%3C/svg%3E");
 }
 
 /* ============================================================
@@ -198,9 +206,9 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
    governs the GOLD controls; the arcane accent is the one lit exception. Values match
    the client .btn-primary line for line. */
 .btn--arcane{color:#f3ecff;text-shadow:0 1px 2px rgba(0,0,0,.6);
-  background:linear-gradient(180deg,rgba(255,255,255,.35) 0%,transparent 44%),
-    radial-gradient(140% 140% at 50% 0%,#c79dff 0%,var(--arcane-lo) 55%,var(--arcane-deep) 100%);
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.5),0 4px 12px rgba(0,0,0,.55),0 0 0 1px #2a1650,0 0 22px var(--arcane-glow)}
+  background:linear-gradient(180deg,rgba(255,255,255,.16) 0%,transparent 46%),
+    radial-gradient(140% 140% at 50% 0%,#a172e0 0%,var(--arcane-lo) 55%,var(--arcane-deep) 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.28),0 4px 12px rgba(0,0,0,.55),0 0 0 1px #2a1650,0 0 20px var(--arcane-glow)}
 .btn--arcane:hover{filter:brightness(1.08);transform:translateY(-1px);color:#fff}
 /* ghost / outline */
 .btn--ghost{color:var(--gold-bright);text-shadow:none;background:rgba(19,16,25,.6);
@@ -229,63 +237,76 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   .ds-input:focus{animation:none;filter:drop-shadow(0 0 7px rgba(187,134,252,.6))}
 }
 
-/* toggle switch (client-adopted) */
-.ds-switch{position:relative;width:51px;height:31px;border-radius:999px;padding:2px;border:0;cursor:pointer;
-  background:var(--stone-700);box-shadow:inset 0 1px 3px rgba(0,0,0,.6);transition:background .18s}
-.ds-switch[aria-pressed="true"]{background:linear-gradient(180deg,var(--gold-bright),var(--gold));
-  box-shadow:0 0 12px var(--arcane-glow),inset 0 1px 0 rgba(255,255,255,.3)}
-.ds-switch__knob{display:block;width:27px;height:27px;border-radius:999px;background:var(--parchment);
-  transition:transform .18s}
-.ds-switch[aria-pressed="true"] .ds-switch__knob{transform:translateX(20px);background:#fff8e6}
+/* dropdown — dark well + gold-deep frame + custom gold chevron; orbit focus like the input */
+.ds-select{-webkit-appearance:none;appearance:none;display:block;width:100%;max-width:320px;
+  font-family:var(--body);font-size:1rem;color:var(--text);cursor:pointer;
+  padding:.5rem 2.2rem .5rem .75rem;background-color:#0b0a12;
+  border:1px solid var(--gold-deep);border-radius:var(--radius);box-shadow:inset 0 1px 5px rgba(0,0,0,.6);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23c6a24e' stroke-width='2' stroke-linecap='round'/></svg>");
+  background-repeat:no-repeat;background-position:right .8rem center;transition:border-color .15s}
+.ds-select:focus{outline:none;border-color:var(--gold);
+  box-shadow:inset 0 1px 5px rgba(0,0,0,.6),0 0 0 2px rgba(198,162,78,.25);
+  animation:pc-focus-orbit 2.6s linear infinite}
+.ds-select option{background:var(--stone-950);color:var(--text)}
+@media (prefers-reduced-motion:reduce){.ds-select:focus{animation:none;filter:drop-shadow(0 0 7px rgba(187,134,252,.6))}}
 
-/* segmented control (client-adopted) */
-.ds-seg{display:inline-flex;gap:3px;padding:3px;border-radius:9px;background:var(--stone-900);
-  border:1px solid var(--stone-700)}
-.ds-seg button{padding:6px 14px;border:0;border-radius:6px;background:transparent;cursor:pointer;
-  color:var(--text-dim);font-family:var(--body);font-size:.86rem}
-.ds-seg button[aria-pressed="true"]{background:var(--arcane-deep);color:#fff;
-  box-shadow:inset 0 0 0 1px rgba(187,134,252,.3)}
+/* toggle switch — small rounded corners (like a small button, not a pill).
+   OFF = muted dark-gold (reads inactive/disabled); ON = arcane. */
+.ds-switch{position:relative;width:48px;height:26px;border-radius:6px;padding:2px;cursor:pointer;
+  border:1px solid var(--gold-deep);
+  background:linear-gradient(180deg,#463714,#241b0b);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.6);transition:background .2s,border-color .2s,box-shadow .2s}
+.ds-switch__knob{display:block;width:20px;height:20px;border-radius:4px;
+  background:radial-gradient(140% 140% at 50% 0%,var(--gold-metal-hi),var(--gold-metal-lo));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 1px 2px rgba(0,0,0,.5);
+  transition:transform .2s cubic-bezier(.32,.72,0,1),background .2s}
+.ds-switch[aria-pressed="true"]{border-color:var(--arcane-deep);
+  background:radial-gradient(140% 140% at 50% 0%,#6c3aa8,var(--arcane-deep) 70%,#24123f);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.5),0 0 12px var(--arcane-glow)}
+.ds-switch[aria-pressed="true"] .ds-switch__knob{transform:translateX(22px);
+  background:linear-gradient(180deg,#efe1ff,#c79dff)}
+.ds-switch:disabled{opacity:.45;cursor:default}
+
+/* segmented control — ghost track, ghost-off segments, a sliding PRIMARY (gold gem)
+   indicator that animates to the active one. Flat tabs reuse this exact component. */
+.ds-seg{position:relative;display:inline-flex;padding:3px;border-radius:6px;
+  background:var(--stone-950);border:1px solid var(--stone-700);
+  box-shadow:inset 0 1px 4px rgba(0,0,0,.6)}
+.ds-seg__ind{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:4px;z-index:0;pointer-events:none;
+  background:var(--gem-face);box-shadow:var(--gem-shadow);
+  transform:translateX(3px);
+  transition:transform .26s cubic-bezier(.32,.72,0,1),width .26s cubic-bezier(.32,.72,0,1)}
+.ds-seg button{position:relative;z-index:1;padding:6px 16px;border:0;border-radius:4px;background:transparent;cursor:pointer;
+  font-family:var(--display);font-weight:600;font-size:.9rem;white-space:nowrap;
+  color:var(--gold-dim);transition:color .2s}
+.ds-seg button:hover{color:var(--gold-bright)}
+.ds-seg button[aria-pressed="true"],.ds-seg button[aria-selected="true"]{color:#1c1206;text-shadow:0 1px 0 rgba(255,255,255,.3)}
+@media (prefers-reduced-motion:reduce){.ds-seg__ind{transition:none}}
 
 /* ============================================================
    TABS — both by context
    ============================================================ */
-/* pill-gem, user-facing */
+/* pill-gem, user-facing. Carries the SAME faceted jewel as the vital bars
+   (svg use #dl-gem). OFF = ghost; hover = ghost lit; ACTIVE = primary gold gem. */
 .ds-tabs-pill{display:flex;gap:8px;flex-wrap:wrap}
-.ds-tab-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;cursor:pointer;
-  font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--text-dim);
-  background:linear-gradient(180deg,var(--stone-800),var(--stone-950));
-  border:1px solid var(--stone-600);border-radius:999px}
-.ds-tab-pill[aria-selected="true"]{color:#1a130a;border-color:var(--gold-deep);
-  background:radial-gradient(130% 130% at 50% 0%,var(--gold-bright),var(--gold) 60%,var(--gold-dim));
-  box-shadow:inset 0 1px 1px rgba(255,255,255,.6),0 4px 14px rgba(0,0,0,.5)}
-.ds-tgem{width:15px;height:15px;border-radius:3px;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%)}
-.ds-tgem--ruby{background:var(--ruby)} .ds-tgem--emerald{background:var(--emerald)}
-.ds-tgem--sapphire{background:var(--sapphire)} .ds-tgem--amethyst{background:var(--amethyst)}
-/* flat top-border, dev tools */
-.ds-tabs-flat{display:flex;gap:2px;border-bottom:1px solid var(--gold-deep)}
-.ds-tab-flat{padding:.4rem .9rem;cursor:pointer;color:var(--text-dim);font-family:var(--display);
-  border:1px solid transparent;border-top-left-radius:5px;border-top-right-radius:5px;background:transparent}
-.ds-tab-flat[aria-selected="true"]{color:var(--gold-bright);background:var(--stone-900);
-  border-color:var(--gold-deep) var(--gold-deep) transparent}
+.ds-tab-pill{display:inline-flex;align-items:center;gap:9px;padding:8px 18px 8px 10px;cursor:pointer;
+  font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--gold-dim);
+  background:rgba(19,16,25,.5);border:1px solid var(--gold-dim);border-radius:999px;
+  transition:color .18s,border-color .18s,background .18s,box-shadow .18s}
+.ds-tab-pill:hover{color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 16px var(--arcane-glow)}
+.ds-tab-pill[aria-selected="true"]{color:#1c1206;border-color:transparent;text-shadow:0 1px 0 rgba(255,255,255,.3);
+  background:var(--gem-face);box-shadow:var(--gem-shadow)}
+.ds-tab-pill[aria-selected="true"]:hover{box-shadow:var(--gem-shadow),0 0 16px var(--arcane-glow)}
+/* the shared jewel: faceted currentColor gem + gold rim (from mudjs gem.svg) */
+.ds-tgem{width:20px;height:20px;flex:none;line-height:0}
+.ds-tgem svg{width:100%;height:100%;display:block}
+.ds-tgem--ruby{color:var(--ruby)} .ds-tgem--emerald{color:var(--emerald)}
+.ds-tgem--sapphire{color:var(--sapphire)} .ds-tgem--amethyst{color:var(--amethyst)}
 
 /* ============================================================
    CARDS — both, by surface
    ============================================================ */
-/* bracket card (site) */
-/* body matches the site .panel: stone gradient + arcane top wash + noise + the panel's
-   full inset stack (the 1px black inner ring + 40px inner darkening were missing) */
-.ds-card-bracket{position:relative;padding:24px 22px;border-radius:var(--radius);
-  background:var(--noise),linear-gradient(180deg,rgba(187,134,252,.05),transparent 30%),
-    linear-gradient(180deg,var(--stone-800),var(--stone-950));
-  background-blend-mode:overlay,normal,normal;border:1px solid var(--stone-600);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 0 1px rgba(0,0,0,.4),
-    inset 0 0 40px rgba(0,0,0,.35),0 16px 34px rgba(0,0,0,.5)}
-/* brackets = the site's effective .panel--framed override: 30px, --gold, .9, glow */
-.ds-card-bracket::before,.ds-card-bracket::after{content:"";position:absolute;width:30px;height:30px;
-  pointer-events:none;border:2px solid var(--gold);opacity:.9;filter:drop-shadow(0 0 5px rgba(198,162,78,.4))}
-.ds-card-bracket::before{top:8px;left:8px;border-right:0;border-bottom:0}
-.ds-card-bracket::after{bottom:8px;right:8px;border-left:0;border-top:0}
-/* Figma windowlet (client) */
+/* Figma windowlet (client) — the one card body */
 .ds-card-windowlet{position:relative;padding:16px 16px 18px;border-radius:6px;overflow:hidden;
   background:
     radial-gradient(72% 16px at 50% 0%,rgba(187,134,252,.40) 0%,transparent 100%),
@@ -298,23 +319,13 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   pointer-events:none;background:linear-gradient(to bottom,#856632,#40300f);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude}
-.ds-card-windowlet::after{content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:0;
-  pointer-events:none;background:var(--chevron) repeat-x left top;mix-blend-mode:overlay;opacity:.28}
+.ds-card-windowlet::after{content:"";position:absolute;left:0;right:0;top:0;height:14px;z-index:0;pointer-events:none;
+  background:#e6cd86;-webkit-mask:var(--chevron) repeat-x left top/30px 14px;mask:var(--chevron) repeat-x left top/30px 14px;
+  mix-blend-mode:overlay;opacity:.4}
 .ds-card-windowlet > *{position:relative;z-index:1}
 .ds-card__title{font-family:var(--display);font-weight:700;color:var(--gold-bright);
   text-shadow:0 1px 0 #2a1c00,0 0 14px rgba(198,162,78,.22);margin:0 0 8px}
 .ds-card p{color:var(--text-dim);margin:0;font-size:.95rem}
-
-/* marketing gem card (site) */
-.ds-gemcard{position:relative;padding:28px 22px;text-align:center;border-radius:var(--radius);overflow:hidden;
-  background:var(--noise),radial-gradient(120% 80% at 50% 0%,rgba(187,134,252,.08),transparent 60%),
-    linear-gradient(180deg,var(--stone-800),var(--stone-950));
-  background-blend-mode:overlay,normal,normal;border:1px solid var(--stone-600);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 32px rgba(0,0,0,.5);transition:transform .18s,box-shadow .18s,border-color .18s}
-.ds-gemcard:hover{transform:translateY(-5px);border-color:var(--arcane-deep);
-  box-shadow:0 22px 46px rgba(0,0,0,.6),0 0 0 1px var(--arcane-deep),0 0 40px var(--arcane-glow)}
-.ds-gemcard__stone{width:56px;height:56px;margin:0 auto 16px;clip-path:polygon(50% 0,100% 38%,82% 100%,18% 100%,0 38%)}
-.ds-gemcard h4{color:var(--gold-bright);font-size:1.3rem;margin:0 0 4px}
 
 /* opt-in ornate rail (feature frame) */
 .ds-railed{position:relative;border:5.6px solid transparent;border-radius:6px;
@@ -344,28 +355,54 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 /* ============================================================
    CHIPS — toggle-chip vs data-chip (two named components)
    ============================================================ */
-.ds-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:.86rem;color:var(--text-dim);
-  padding:6px 12px;background:var(--stone-900);border:1px solid var(--stone-700);border-radius:999px;cursor:pointer}
-.ds-chip:hover{border-color:var(--gold-dim);color:var(--text)}
-.ds-chip.is-on{color:#1a130a;border-color:var(--gold-deep);
-  background:linear-gradient(180deg,var(--gold-bright),var(--gold))}
-.ds-datachip{display:inline-flex;align-items:baseline;gap:4px;padding:1px 8px;border-radius:200px;
-  font-size:.78rem;line-height:1.5;color:var(--text);
-  background:var(--stone-900);border:.5px solid var(--gold-metal-lo);
+/* toggle-chip — same visual grammar as the segmented control: ghost when off,
+   primary gold gem when on. Independent (multi-select), so no sliding indicator. */
+.ds-chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:600;font-size:.86rem;
+  color:var(--gold-dim);padding:6px 14px;background:rgba(19,16,25,.5);
+  border:1px solid var(--gold-dim);border-radius:999px;cursor:pointer;
+  transition:color .18s,border-color .18s,background .18s,box-shadow .18s}
+.ds-chip:hover{color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 14px var(--arcane-glow)}
+.ds-chip.is-on{color:#1c1206;border-color:transparent;text-shadow:0 1px 0 rgba(255,255,255,.3);
+  background:var(--gem-face);box-shadow:var(--gem-shadow)}
+.ds-chip.is-on:hover{box-shadow:var(--gem-shadow),0 0 14px var(--arcane-glow)}
+
+/* data-chip — read-only stat/affect pill. Colour-coded per affect type via
+   --chip-accent (border + label + dot). This is what the affects widget uses. */
+.ds-datachip{--chip-accent:var(--gold-bright);
+  display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:200px;
+  font-size:.78rem;line-height:1.5;color:var(--text);background:var(--stone-900);
+  border:1px solid color-mix(in srgb,var(--chip-accent) 50%,var(--gold-metal-lo));
   box-shadow:0 1px 2px rgba(8,7,12,.25)}
-.ds-datachip b{font-weight:600;color:var(--gold-bright)}
-.ds-datachip .cur{color:var(--text-dim)}
+.ds-datachip::before{content:"";width:6px;height:6px;border-radius:50%;flex:none;
+  background:var(--chip-accent);box-shadow:0 0 5px color-mix(in srgb,var(--chip-accent) 60%,transparent)}
+.ds-datachip b{font-weight:600;color:var(--chip-accent)}
+.ds-datachip .cur{color:var(--text-dim);margin-left:1px}
+.ds-datachip--buff{--chip-accent:var(--emerald)}
+.ds-datachip--debuff{--chip-accent:var(--ruby)}
+.ds-datachip--magic{--chip-accent:var(--amethyst)}
+.ds-datachip--mind{--chip-accent:var(--sapphire)}
+.ds-datachip--gold{--chip-accent:var(--gold-bright)}
 
 /* ============================================================
    PARCHMENT reading surfaces
    ============================================================ */
-.ds-parch{position:relative;padding:22px 24px;border-radius:4px;color:var(--ink);
+/* worn parchment: torn/deckled edge (--torn mask), a thin inner rule that follows
+   the contour, and a chevron ornament band along the bottom. Drop-shadow (not
+   box-shadow) so the cast shadow is ragged with the edge, not a clean rectangle. */
+.ds-parch{position:relative;padding:36px 44px 48px;color:var(--ink);
   background:var(--noise),linear-gradient(172deg,var(--parchment),var(--parchment-2));
-  background-blend-mode:multiply,normal;border:1px solid var(--parch-edge);
-  box-shadow:0 12px 28px rgba(0,0,0,.5),inset 0 0 44px rgba(120,95,50,.18)}
-.ds-parch::before{content:"";position:absolute;inset:0;border-radius:4px;pointer-events:none;
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
-.ds-parch > *{position:relative}
+  background-blend-mode:multiply,normal;
+  box-shadow:inset 0 0 44px rgba(120,95,50,.22),inset 0 0 0 40px rgba(150,120,63,.05);
+  -webkit-mask:var(--torn) center/100% 100% no-repeat;mask:var(--torn) center/100% 100% no-repeat;
+  filter:drop-shadow(0 12px 26px rgba(0,0,0,.55))}
+/* inner rule, inset well past the ragged zone so it renders whole */
+.ds-parch::before{content:"";position:absolute;inset:17px;border-radius:3px;pointer-events:none;
+  border:1px solid rgba(120,95,50,.5)}
+/* chevron ornament band across the bottom (reusable --chevron mask, ink-toned) */
+.ds-parch::after{content:"";position:absolute;left:38px;right:38px;bottom:22px;height:12px;pointer-events:none;
+  background:var(--parch-edge);opacity:.6;
+  -webkit-mask:var(--chevron) repeat-x center/26px 12px;mask:var(--chevron) repeat-x center/26px 12px}
+.ds-parch > *{position:relative;z-index:1}
 .ds-parch h4{font-family:var(--display);color:#241809;margin:0 0 8px;font-size:1.3rem}
 .ds-parch__body{font-family:var(--article);font-size:.96rem;line-height:1.62;letter-spacing:var(--mono-track);color:var(--ink)}
 .ds-parch a{color:var(--arcane-ink);border-bottom:1px solid rgba(106,47,166,.38)}
@@ -406,6 +443,11 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 3px 5px var(--glow),0 0 7px var(--glow)}
 .ds-pbar.mana{--fill-edge:#3d2a63;--fill-mid:#bb86fc;--glow:rgba(187,134,252,.45)}
 .ds-pbar.move{--fill-edge:#5c4413;--fill-mid:#c6a24e;--glow:rgba(230,205,134,.42)}
+/* the shared faceted jewel (#dl-gem), tinted to the bar's resource colour. Same
+   component the pill tabs wear. Overhangs the left cap like the client's pbar-gem. */
+.ds-pbar__gem{position:absolute;left:-3px;top:50%;transform:translateY(-50%);z-index:3;
+  width:18px;height:18px;line-height:0;color:var(--fill-mid)}
+.ds-pbar__gem svg{width:100%;height:100%;display:block}
 
 /* ============================================================
    ORNAMENTS
@@ -415,6 +457,31 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   background:linear-gradient(90deg,transparent,var(--gold-dim))}
 .ds-filigree::after{background:linear-gradient(90deg,var(--gold-dim),transparent)}
 .ds-filigree svg{width:28px;height:28px;fill:var(--arcane);filter:drop-shadow(0 0 8px var(--arcane-glow));flex:none}
+
+/* --- reusable chevron band (one repeatable unit, --chevron mask + currentColor) --- */
+.ds-chevron{height:14px;background:currentColor;color:var(--gold-dim);
+  -webkit-mask:var(--chevron) repeat-x left center/30px 14px;mask:var(--chevron) repeat-x left center/30px 14px}
+
+/* --- modular ornate frame: 4 fixed corner modules + repeatable side modules ---
+   The corner is ONE mask (--frame-corner), flipped for the other three via
+   scaleX/scaleY, so it never scales or distorts. Sides are consistent-weight
+   rules (or a chevron run) that span between the corners at any frame size.
+   Colour via currentColor -> gold on dark, parch-edge on light. */
+.ds-frame{position:relative;color:var(--gold-dim)}
+.ds-frame__c{position:absolute;width:38px;height:38px;z-index:2;pointer-events:none;
+  background:currentColor;-webkit-mask:var(--frame-corner) center/contain no-repeat;mask:var(--frame-corner) center/contain no-repeat}
+.ds-frame__c.tl{top:0;left:0}
+.ds-frame__c.tr{top:0;right:0;transform:scaleX(-1)}
+.ds-frame__c.bl{bottom:0;left:0;transform:scaleY(-1)}
+.ds-frame__c.br{bottom:0;right:0;transform:scale(-1,-1)}
+.ds-frame__s{position:absolute;z-index:1;pointer-events:none;background:currentColor;opacity:.85}
+.ds-frame__s.top{top:6px;left:32px;right:32px;height:1.5px}
+.ds-frame__s.bottom{bottom:6px;left:32px;right:32px;height:1.5px}
+.ds-frame__s.left{left:6px;top:32px;bottom:32px;width:1.5px}
+.ds-frame__s.right{right:6px;top:32px;bottom:32px;width:1.5px}
+/* ornamented side option: a chevron run instead of a plain rule */
+.ds-frame__s.chev{background:currentColor;height:12px;bottom:5px;left:32px;right:32px;opacity:1;
+  -webkit-mask:var(--chevron) repeat-x center/26px 12px;mask:var(--chevron) repeat-x center/26px 12px}
 
 /* alias table */
 .ds-table{width:100%;border-collapse:collapse;font-size:.9rem}
