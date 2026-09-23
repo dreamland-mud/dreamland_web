@@ -102,10 +102,10 @@
                 first = false;
             }
             out.push(
-                '<button type="button" class="news-mini" data-nid="' + n.id + '"' +
+                '<button type="button" class="newsrow" data-nid="' + n.id + '"' +
                 (n.id === current ? ' aria-current="true"' : '') + '>' +
-                '<span class="news-mini__date">' + esc(n.date) + '</span>' +
-                '<span class="news-mini__subject">' + esc(subjectOf(n)) + '</span>' +
+                '<span class="newsrow__date">' + esc(n.date) + '</span>' +
+                '<span class="newsrow__subject">' + esc(subjectOf(n)) + '</span>' +
                 '</button>');
         });
         out.push('</div></details>');
@@ -118,10 +118,10 @@
        year the reader opened shut again. If the current entry sits inside a
        closed year (a deep link into 2004), open that year and scroll to it. */
     function markCurrent() {
-        listEl.querySelectorAll('.news-mini[aria-current]').forEach(function (b) {
+        listEl.querySelectorAll('.newsrow[aria-current]').forEach(function (b) {
             b.removeAttribute('aria-current');
         });
-        var el = listEl.querySelector('.news-mini[data-nid="' + current + '"]');
+        var el = listEl.querySelector('.newsrow[data-nid="' + current + '"]');
         if (!el) return;
         el.setAttribute('aria-current', 'true');
         var det = el.closest('details');
@@ -158,7 +158,7 @@
     window.addEventListener('hashchange', function () { openFromHash(false); });
 
     listEl.addEventListener('click', function (ev) {
-        var b = ev.target.closest ? ev.target.closest('.news-mini') : null;
+        var b = ev.target.closest ? ev.target.closest('.newsrow') : null;
         if (!b) return;
         var id = +b.getAttribute('data-nid');
         // let the hash carry it: these entries never had permalinks before

@@ -38,16 +38,25 @@ details.nyear > summary::-webkit-details-marker { display: none; }
 details.nyear > summary:hover { color: #fff; }
 .nyear__n { margin-left: auto; font-family: var(--mono); font-size: .68rem;
     color: var(--text-faint); font-weight: 400; letter-spacing: 0; }
-.nyear__items { display: flex; flex-direction: column; gap: 8px; padding: 2px 0 14px; }
+.nyear__items { display: flex; flex-direction: column; gap: 1px; padding: 2px 0 14px; }
 
-/* the home page's card, stacked in a rail instead of a horizontal gallery */
-.newsnav .news-mini { width: 100%; padding: 12px 14px; gap: 5px; }
-.newsnav .news-mini__subject { font-size: .98rem; }
-.newsnav .news-mini:hover, .newsnav .news-mini:focus-visible { transform: translateY(-2px); }
-.newsnav .news-mini[aria-current="true"] {
-    border-color: var(--gold); background: linear-gradient(180deg, #2a2033, var(--stone-900));
-    box-shadow: 0 0 0 1px var(--gold-dim), 0 8px 18px rgba(0,0,0,.45);
+/* plain archive rows -- same bones as the help browser rail, no DS card.
+   A dated archive is hundreds of rows a year: a text list scans faster than a
+   wall of framed jewel cards, and reads cleaner under a screen reader. */
+.newsrow {
+    display: block; width: 100%; text-align: left; cursor: pointer;
+    padding: 7px 9px; border: 0; border-radius: 5px; background: none;
+    font: inherit; color: var(--text-dim);
 }
+.newsrow__date { display: block; font-family: var(--mono); font-size: .68rem;
+    letter-spacing: .04em; color: var(--text-faint); }
+.newsrow__subject { display: block; font-family: var(--body); font-size: .95rem;
+    line-height: 1.32; color: inherit; }
+.newsrow:hover, .newsrow:focus-visible {
+    outline: none; background: rgba(198,162,78,.1); color: var(--gold-bright); }
+.newsrow[aria-current="true"] {
+    background: rgba(198,162,78,.14); color: var(--gold-bright);
+    box-shadow: inset 2px 0 0 var(--gold); }
 
 /* ---------- the entry, open on parchment ---------- */
 .newsmain { min-height: 60vh; }
@@ -90,15 +99,7 @@ details.nyear > summary:hover { color: #fff; }
     details.nyear { display: none; }
     details.nyear.nyear--active { display: block; border-bottom: 0; }
     details.nyear.nyear--active > summary { display: none; }
-    /* and that year's notes ride a horizontal rail instead of a vertical mile --
-       the same swipeable gallery shape the home page uses for its eight cards */
-    .nyear__items {
-        display: grid; grid-auto-flow: column; grid-auto-columns: 78%;
-        gap: 12px; padding: 2px 0 12px;
-        overflow-x: auto; scroll-snap-type: x mandatory;
-        overscroll-behavior-x: contain; scrollbar-width: thin;
-    }
-    .newsnav .news-mini { width: auto; scroll-snap-align: start; }
+    /* stays a vertical list on mobile too -- a dated archive scans better as a
+       column than as a swipeable card gallery */
     .news-full { padding: 24px 20px 30px; }
 }
-@media (max-width: 560px) { .nyear__items { grid-auto-columns: 86%; } }
