@@ -710,7 +710,7 @@
         if (zs.length < 2) { layersEl.innerHTML = ''; return; }
         layersEl.innerHTML = zs.map(function (z) {
             var lbl = z === 0 ? t('ground') : (z > 0 ? '+' + z : String(z));
-            return '<button type="button" class="layer' + (z === zLayer ? ' layer--on' : '') +
+            return '<button type="button" class="ds-mapctrl layer" aria-pressed="' + (z === zLayer) +
                 '" data-z="' + z + '">' + esc(lbl) + '</button>';
         }).join('');
     }

@@ -5,14 +5,9 @@
 /* ---------- search ---------- */
 .hsearch { position: relative; max-width: 640px; margin: 24px auto 0; }
 .hsearch__row { display: flex; gap: 10px; align-items: stretch; }
-.hsearch input {
-    flex: 1 1 auto; min-width: 0; height: 48px; padding: 0 16px;
-    font-family: var(--body); font-size: 1.02rem; color: var(--text);
-    background: #0c0a12; border: 1px solid var(--gold-dim); border-radius: 999px;
-    box-shadow: inset 0 2px 6px rgba(0,0,0,.7);
-}
-.hsearch input:focus { outline: none; border-color: var(--gold);
-    box-shadow: inset 0 2px 6px rgba(0,0,0,.7), 0 0 0 2px rgba(198,162,78,.25); }
+/* the Nirvana form well + focus orbit (.ds-input, theme.css); pill shape here */
+.hsearch .ds-input { flex: 1 1 auto; min-width: 0; height: 48px; padding: 0 16px;
+    font-size: 1.02rem; border-radius: 999px; }
 /* one throw of the dice into 1340 articles — most of the corpus is stuff you
    would never think to search for */
 .hrandom {
@@ -46,19 +41,10 @@
 /* ---------- category rail ---------- */
 .helpnav { position: sticky; top: 66px; max-height: calc(100vh - 90px); overflow-y: auto;
     padding-right: 4px; }
-details.hcat { border-bottom: 1px solid var(--stone-700); }
-details.hcat > summary { cursor: pointer; list-style: none; display: flex; align-items: center;
-    gap: 10px; padding: 12px 6px; font-family: var(--body); font-weight: 700; font-size: .78rem;
-    letter-spacing: .04em; text-transform: uppercase; color: var(--gold-bright); }
-details.hcat > summary::-webkit-details-marker { display: none; }
-details.hcat > summary:hover { color: #fff; }
-.hcat__n { margin-left: auto; font-family: var(--mono); font-size: .68rem;
-    color: var(--text-faint); font-weight: 400; letter-spacing: 0; }
-details.hcat ul { list-style: none; margin: 0 0 12px; padding: 0 0 0 6px; }
-details.hcat li { margin: 0; }
-details.hcat li a { display: block; padding: 5px 8px; border-radius: 5px;
-    color: var(--text-dim); font-size: .95rem; line-height: 1.35; }
-details.hcat li a:hover { background: rgba(187,134,252,.1); color: var(--arcane); }
+/* the rail is the Nirvana left menu (.ds-menu, theme.css): accordion categories,
+   items with an arcane accent bar on the open article */
+.helpnav li { margin: 0; }
+.helpnav .ds-menu__item { align-items: center; }
 
 /* .hkind is defined in helpart.css for the parchment article; on the dark rail
    and in the search dropdown it needs the inverse treatment. */
@@ -66,7 +52,8 @@ details.hcat li a:hover { background: rgba(187,134,252,.1); color: var(--arcane)
     color: var(--text-faint); background: rgba(255,255,255,.05);
     border-color: rgba(133,102,50,.3);
 }
-details.hcat li a:hover .hkind { color: var(--text-dim); }
+.ds-menu__item:hover .hkind { color: var(--text-dim); }
+.ds-menu__item.is-on .hkind { color: #d9c7f5; border-color: rgba(187,134,252,.4); }
 
 /* The article itself (.hart*) and the terminal palette live in helpart.css —
    the maps page renders the same articles in its zone sidebar. */

@@ -252,13 +252,16 @@
             g.items.sort(function (x, y) { return t(x.toc).localeCompare(t(y.toc)); });
             opts += '<option value="' + s.key + '">' +
                 esc(L() === 'ua' ? s.ua : s.en) + ' (' + g.items.length + ')</option>';
-            html += '<details class="hcat" data-cat="' + s.key + '"><summary>' +
+            html += '<details class="hcat ds-menu__group" data-cat="' + s.key + '">' +
+                '<summary class="ds-menu__cat">' +
                 '<span class="hcat__name" lang="en">' + esc(s.en) + '</span>' +
                 '<span class="hcat__name" lang="uk">' + esc(s.ua) + '</span>' +
-                '<span class="hcat__n">' + g.items.length + '</span></summary><ul>' +
+                '<span class="ds-menu__count">' + g.items.length + '</span>' +
+                '<span class="ds-menu__caret" aria-hidden="true"></span></summary>' +
+                '<ul class="ds-menu__list">' +
                 g.items.map(function (a) {
-                    return '<li><a href="#h' + a.id + '" data-hid="' + a.id + '">' +
-                        esc(label(a)) + badge(a) + '</a></li>';
+                    return '<li><a class="ds-menu__item" href="#h' + a.id + '" data-hid="' + a.id + '">' +
+                        '<span class="ds-menu__name">' + esc(label(a)) + '</span>' + badge(a) + '</a></li>';
                 }).join('') + '</ul></details>';
         });
         idxEl.innerHTML =
@@ -294,6 +297,23 @@
                 '</div>' +
             '</article>';
         artEl.scrollTop = 0;
+        markCurrent(a.id);
+    }
+
+    // the rail says where you are: the open article's item lights up, and on the
+    // wide layout its category unfolds so the item is actually in view
+    function markCurrent(id) {
+        var cur = null;
+        idxEl.querySelectorAll('.ds-menu__item').forEach(function (el) {
+            var on = el.getAttribute('data-hid') === String(id);
+            el.classList.toggle('is-on', on);
+            if (on) { el.setAttribute('aria-current', 'page'); cur = el; }
+            else el.removeAttribute('aria-current');
+        });
+        if (cur && !mqNarrow.matches) {
+            var grp = cur.closest('details');
+            if (grp) grp.open = true;
+        }
     }
 
     /* Landing on the page with no article chosen, open the one that explains
