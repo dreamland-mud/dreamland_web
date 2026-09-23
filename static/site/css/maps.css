@@ -26,20 +26,8 @@
     padding-right: 18px;
 }
 .zones__search { padding: 0 0 12px; }
-/* search: the Nirvana form well -- dark, gold-deep frame, gold focus (matches the
-   design system inputs / the .ds-menu search, not the old stone pill). */
-.zones__search input {
-    width: 100%; padding: .5rem .85rem;
-    background: #0b0a12; color: var(--text);
-    border: 1px solid var(--gold-deep); border-radius: var(--radius);
-    box-shadow: inset 0 1px 5px rgba(0,0,0,.6);
-    font-family: var(--body); font-size: .95rem; transition: border-color .15s;
-}
-.zones__search input::placeholder { color: var(--text-faint); }
-.zones__search input:focus {
-    outline: none; border-color: var(--gold);
-    box-shadow: inset 0 1px 5px rgba(0,0,0,.6), 0 0 0 2px rgba(198,162,78,.25);
-}
+/* search: the Nirvana form well + focus orbit (.ds-input, theme.css) */
+.zones__search .ds-input { width: 100%; padding: .5rem .85rem; font-size: .95rem; }
 .zones__list { padding-right: 4px; }
 .zones__none { color: var(--text-faint); font-size: .9rem; }
 
@@ -99,20 +87,13 @@ details.zband > .zone:last-child { margin-bottom: 10px; }
 }
 .maptools__ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
-.layers, .zoombar { display: inline-flex; border: 1px solid var(--stone-700); border-radius: 999px; overflow: hidden; }
-.layers button, .zoombar button, .viewtoggle {
-    background: var(--stone-900); color: var(--text-dim); border: 0; cursor: pointer;
-    font-family: var(--body); font-size: .8rem; padding: 6px 13px; line-height: 1.4;
-    transition: background .15s, color .15s;
-}
-.layers button + button, .zoombar button + button { border-left: 1px solid var(--stone-700); }
-.layers button:hover, .zoombar button:hover, .viewtoggle:hover { background: var(--stone-800); color: var(--text); }
-.layer--on { background: var(--arcane-deep) !important; color: #fff !important; }
-.viewtoggle { border: 1px solid var(--stone-700); border-radius: 999px; }
-a.asciilink { display: inline-flex; align-items: center; font-family: var(--mono);
-    font-size: .74rem; letter-spacing: .06em; color: var(--text-dim); }
+/* floor picker + zoom: clusters of Nirvana map controls (.ds-mapctrl, gold gem;
+   the current floor is arcane and pressed in). Text view / ASCII are toggle-chips. */
+.layers, .zoombar { display: inline-flex; gap: 4px; }
+.layers:empty { display: none; }
+.zoombar #zoomOut, .zoombar #zoomIn { font-size: 1.1rem; }
+a.asciilink { font-family: var(--mono); font-weight: 600; font-size: .74rem; letter-spacing: .06em; }
 a.asciilink[hidden] { display: none; }
-.viewtoggle[aria-pressed="true"] { background: var(--arcane-deep); color: #fff; border-color: var(--arcane-deep); }
 
 /* The stage takes the height the viewport actually leaves once the fixed
    topbar, the tool bar above it and a little bottom air are paid for. No pixel

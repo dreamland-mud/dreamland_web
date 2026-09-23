@@ -67,7 +67,7 @@
         var out = [];
         STATS.forEach(function (s) {
             var v = nz(item[s.k]);
-            if (v !== null) out.push('<span class="b">' + sign(v) + ' ' + tr(s) + '</span>');
+            if (v !== null) out.push('<span class="ds-datachip ds-datachip--parch"><b>' + sign(v) + '</b>' + tr(s) + '</span>');
         });
         return out.length ? out.join('') : '<span class="i-dim">—</span>';
     }
@@ -91,8 +91,9 @@
         if (!letters) return '<span class="i-dim">—</span>';
         return letters.map(function (L) {
             var d = ALIGN[L];
-            return '<svg class="alignicon align-' + L + '" viewBox="0 0 24 24" role="img" aria-label="' +
-                esc(tr(d)) + '"><title>' + esc(tr(d)) + '</title><use href="#' + d.icon + '"/></svg>';
+            return '<span class="ds-datachip ds-datachip--parch alignchip alignchip--' + L + '">' +
+                '<svg class="alignicon align-' + L + '" viewBox="0 0 24 24" role="img" aria-label="' +
+                esc(tr(d)) + '"><title>' + esc(tr(d)) + '</title><use href="#' + d.icon + '"/></svg></span>';
         }).join('');
     }
     // limited = the world holds only N of them at once; the dump says -1 otherwise
@@ -205,7 +206,7 @@
        flags cannot break, and forced the pets table 1625px wide at any viewport. */
     function flagChips(list) {
         if (!list.length) return '<span class="i-dim">—</span>';
-        return list.map(function (t) { return '<span class="b">' + esc(t) + '</span>'; }).join('');
+        return list.map(function (t) { return '<span class="ds-datachip ds-datachip--parch">' + esc(t) + '</span>'; }).join('');
     }
     function kindOf(v) { return KIND[v] ? tr(KIND[v]) : (v || ''); }
 
@@ -365,14 +366,14 @@
     function ctrl_level() {
         return '<div class="field"><label lang="en">' + UI.lvlRange.en + '</label><label lang="uk">' + UI.lvlRange.uk + '</label>' +
             '<div class="lvlrange">' +
-                '<input type="number" id="f_lo" min="0" max="' + MAXLEVEL + '" placeholder="0" aria-label="from"/>' +
-                '<input type="number" id="f_hi" min="0" max="' + MAXLEVEL + '" placeholder="' + MAXLEVEL + '" aria-label="to"/>' +
+                '<input class="ds-input" type="number" id="f_lo" min="0" max="' + MAXLEVEL + '" placeholder="0" aria-label="from"/>' +
+                '<input class="ds-input" type="number" id="f_hi" min="0" max="' + MAXLEVEL + '" placeholder="' + MAXLEVEL + '" aria-label="to"/>' +
             '</div></div>';
     }
     function ctrl_name(hintKey) {
         var lbl = hintKey === 'spellsearch' ? UI.search : UI.name;
         return '<div class="field field--name"><label lang="en">' + lbl.en + '</label><label lang="uk">' + lbl.uk + '</label>' +
-            '<input type="text" id="f_name" autocomplete="off" placeholder=""/></div>';
+            '<input class="ds-input" type="text" id="f_name" autocomplete="off" placeholder=""/></div>';
     }
     function ctrl_select(id, map, labelObj) {
         var opts = '<option value="">— ' + '</option>';
@@ -380,7 +381,7 @@
             opts += '<option value="' + k + '">' + esc(tr(map[k])) + ' (' + k + ')</option>';
         });
         return '<div class="field"><label lang="en">' + labelObj.en + '</label><label lang="uk">' + labelObj.uk + '</label>' +
-            '<select id="' + id + '">' + opts + '</select></div>';
+            '<select class="ds-select" id="' + id + '">' + opts + '</select></div>';
     }
     function ctrl_chips(id, map, labelObj) {
         var chips = '';
@@ -454,7 +455,7 @@
             '<p class="legend"><span lang="en">' + UI.spellHint.en + '</span><span lang="uk">' + UI.spellHint.uk + '</span></p>' : '';
 
         panel.innerHTML =
-            '<div class="filters panel panel--framed">' +
+            '<div class="filters windowlet">' +
                 '<div class="row">' + top +
                     '<div class="field"><label>&nbsp;</label><button class="btn btn--gold" id="btnSearch">' +
                         '<span lang="en">' + UI.search.en + '</span><span lang="uk">' + UI.search.uk + '</span></button></div>' +

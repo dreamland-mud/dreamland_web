@@ -46,7 +46,7 @@
 <div class="maps" id="maps">
     <aside class="zones" id="zones" aria-label="Zones">
         <div class="zones__search">
-            <input type="search" id="zoneSearch" autocomplete="off"
+            <input class="ds-input" type="search" id="zoneSearch" autocomplete="off"
                    placeholder="Search by zone name" aria-label="Search zones"/>
         </div>
         <div class="zones__list" id="zoneList"></div>
@@ -61,17 +61,17 @@
             <div class="maptools__ctl">
                 <div class="layers" id="layers" role="group" aria-label="Levels"></div>
                 <div class="zoombar" role="group" aria-label="Zoom">
-                    <button type="button" id="zoomOut" aria-label="Zoom out">&minus;</button>
-                    <button type="button" id="zoomFit">
+                    <button type="button" class="ds-mapctrl" id="zoomOut" aria-label="Zoom out">&minus;</button>
+                    <button type="button" class="ds-mapctrl" id="zoomFit">
                         <span lang="en">Fit</span><span lang="uk">Вписати</span>
                     </button>
-                    <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+                    <button type="button" class="ds-mapctrl" id="zoomIn" aria-label="Zoom in">+</button>
                 </div>
-                <button type="button" class="viewtoggle" id="viewToggle" aria-pressed="false">
+                <button type="button" class="ds-chip" id="viewToggle" aria-pressed="false">
                     <span lang="en">Text view</span><span lang="uk">Текстом</span>
                 </button>
                 <!-- the old site's hand-drawn ASCII map of the same zone -->
-                <a class="viewtoggle asciilink" id="asciiLink" href="#" hidden
+                <a class="ds-chip asciilink" id="asciiLink" href="#" hidden
                    target="_blank" rel="noopener">ASCII</a>
             </div>
         </div>

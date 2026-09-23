@@ -496,13 +496,6 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     box-shadow: inset 0 1px 0 rgba(255,255,255,.05), inset 0 0 0 1px rgba(0,0,0,.4),
         inset 0 0 40px rgba(0,0,0,.35), 0 16px 34px rgba(0,0,0,.5);
 }
-/* gold corner brackets */
-.panel--framed::before, .panel--framed::after {
-    content: ""; position: absolute; width: 24px; height: 24px; pointer-events: none;
-    border: 2px solid var(--gold-dim); opacity: .85;
-}
-.panel--framed::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
-.panel--framed::after { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
 
 /* "how to start" trio */
 .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
@@ -596,6 +589,114 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     background: var(--gold-bright); -webkit-mask: var(--chev-band) repeat-x left top/30px 14px; mask: var(--chev-band) repeat-x left top/30px 14px;
     mix-blend-mode: overlay; opacity: .4; }
 .windowlet > * { position: relative; z-index: 1; }
+
+/* ---------- form well + focus orbit (Nirvana canon) ----------
+   Dark well, gold-deep frame; focus = gold ring plus the arcane glow orbiting
+   the field. Pages set size/shape only (height, width, radius), never colour. */
+.ds-input, .ds-select { font-family: var(--body); font-size: 1rem; color: var(--text);
+    padding: .5rem .75rem; background-color: #0b0a12;
+    border: 1px solid var(--gold-deep); border-radius: var(--radius);
+    box-shadow: inset 0 1px 5px rgba(0,0,0,.6); transition: border-color .15s; }
+.ds-input::placeholder { color: var(--text-faint); }
+.ds-input:hover, .ds-select:hover { border-color: var(--gold-dim); }
+.ds-input:focus, .ds-select:focus { outline: none; border-color: var(--gold);
+    box-shadow: inset 0 1px 5px rgba(0,0,0,.6), 0 0 0 2px rgba(198,162,78,.25);
+    animation: pc-focus-orbit 2.6s linear infinite; }
+.ds-select { -webkit-appearance: none; appearance: none; cursor: pointer; padding-right: 2.2rem;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23c6a24e' stroke-width='2' stroke-linecap='round'/></svg>");
+    background-repeat: no-repeat; background-position: right .8rem center; }
+.ds-select option { background: var(--stone-950); color: var(--text); }
+@keyframes pc-focus-orbit {
+    0%   { filter: drop-shadow(0 -5px 7px rgba(187,134,252,.75)) drop-shadow(0 5px 6px rgba(128,67,202,.42)); }
+    25%  { filter: drop-shadow(6px 0 8px rgba(187,134,252,.75)) drop-shadow(-6px 0 6px rgba(128,67,202,.42)); }
+    50%  { filter: drop-shadow(0 5px 7px rgba(187,134,252,.75)) drop-shadow(0 -5px 6px rgba(128,67,202,.42)); }
+    75%  { filter: drop-shadow(-6px 0 8px rgba(187,134,252,.75)) drop-shadow(6px 0 6px rgba(128,67,202,.42)); }
+    100% { filter: drop-shadow(0 -5px 7px rgba(187,134,252,.75)) drop-shadow(0 5px 6px rgba(128,67,202,.42)); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ds-input:focus, .ds-select:focus { animation: none; filter: drop-shadow(0 0 7px rgba(187,134,252,.6)); }
+}
+
+/* ---------- toggle-chip ----------
+   Ghost when off, the gold gem when on (same grammar as tabs/segmented).
+   Drive it with .is-on or aria-pressed="true". */
+.ds-chip { display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+    font-family: var(--body); font-weight: 700; font-size: .84rem; line-height: 1.4;
+    color: var(--gold-dim); padding: 6px 14px; background: rgba(19,16,25,.5);
+    border: 1px solid var(--gold-dim); border-radius: 999px; text-decoration: none;
+    transition: color .18s, border-color .18s, background .18s, box-shadow .18s; }
+.ds-chip:hover { color: var(--gold-bright); border-color: var(--gold); box-shadow: 0 0 14px var(--arcane-glow); }
+.ds-chip:focus-visible { outline: none; border-color: var(--gold-bright); box-shadow: 0 0 0 2px rgba(230,205,134,.55); }
+.ds-chip.is-on, .ds-chip[aria-pressed="true"] { color: #1c1206; border-color: transparent;
+    text-shadow: 0 1px 0 rgba(255,255,255,.3); background: var(--gem-face); box-shadow: var(--gem-shadow);
+    animation: ds-pop .2s cubic-bezier(.34,1.56,.64,1); }
+.ds-chip.is-on:hover, .ds-chip[aria-pressed="true"]:hover { box-shadow: var(--gem-shadow), 0 0 14px var(--arcane-glow); }
+
+/* ---------- data-chip ----------
+   Read-only stat/affect pill. --chip-accent colours the border and the bold
+   value; no dot. .ds-datachip--parch retunes it for parchment tables. */
+.ds-datachip { --chip-accent: var(--gold-bright);
+    display: inline-flex; align-items: center; gap: 5px; padding: 1px 9px; border-radius: 200px;
+    font-size: .8rem; line-height: 1.5; white-space: nowrap; color: var(--text); background: var(--stone-900);
+    border: 1px solid color-mix(in srgb, var(--chip-accent) 50%, var(--gold-metal-lo));
+    box-shadow: 0 1px 2px rgba(8,7,12,.25); }
+.ds-datachip b { font-weight: 600; color: var(--chip-accent); }
+.ds-datachip--buff { --chip-accent: var(--emerald); }
+.ds-datachip--debuff { --chip-accent: var(--ruby); }
+.ds-datachip--magic { --chip-accent: var(--amethyst); }
+.ds-datachip--mind { --chip-accent: var(--sapphire); }
+.ds-datachip--parch { --chip-accent: #6b4f1f; color: var(--ink);
+    background: rgba(255,248,228,.5);
+    border-color: color-mix(in srgb, var(--chip-accent) 55%, var(--parch-edge));
+    box-shadow: 0 1px 1px rgba(70,50,20,.12); }
+
+/* ---------- map control ----------
+   Gold-gem button for zoom/layer clusters. Active = arcane AND pressed in, so
+   it reads selected without hue (greyscale, low vision). */
+.ds-mapctrl { display: inline-flex; align-items: center; justify-content: center;
+    min-width: 34px; height: 34px; padding: 0 10px; border: 0; border-radius: 5px; cursor: pointer;
+    font-family: var(--body); font-size: .88rem; font-weight: 700; line-height: 1; color: #1c1206;
+    background: var(--gem-face); box-shadow: var(--gem-shadow); transition: background .15s, color .15s; }
+.ds-mapctrl:hover { color: #fff; background: var(--gem-face-hover); }
+.ds-mapctrl:focus-visible { outline: none; box-shadow: var(--gem-shadow), 0 0 0 2px rgba(230,205,134,.55); }
+.ds-mapctrl.is-on, .ds-mapctrl[aria-pressed="true"] { color: #fff; transform: translateY(1px);
+    background: radial-gradient(140% 140% at 50% 0%, #6c3aa8, var(--arcane-deep) 60%, #24123f);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,.8), inset 0 0 0 1px rgba(0,0,0,.55); }
+
+/* ---------- left menu ----------
+   Categories (static eyebrow or accordion <details>) holding items. Active item
+   = arcane power state + a left accent bar (non-colour cue). Same language as
+   the maps zone rail and the /design showcase rail. */
+.ds-menu { display: flex; flex-direction: column; font-family: var(--body); }
+.ds-menu__cat { display: flex; align-items: center; gap: 10px; margin: 0; padding: 11px 6px;
+    font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-dim); }
+.ds-menu__count { margin-left: auto; font-family: var(--mono); font-size: .68rem; font-weight: 400;
+    letter-spacing: 0; color: var(--text-faint); }
+.ds-menu__group { border-bottom: 1px solid var(--stone-800); }
+.ds-menu__group > summary { cursor: pointer; list-style: none; outline: none; }
+.ds-menu__group > summary::-webkit-details-marker { display: none; }
+.ds-menu__group > summary:hover, .ds-menu__group[open] > summary { color: var(--gold-bright); }
+.ds-menu__group > summary:focus-visible { color: var(--gold-bright); text-shadow: 0 0 10px var(--arcane-glow); }
+.ds-menu__caret { width: 8px; height: 8px; flex: none; opacity: .7;
+    border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(-45deg); transition: transform .2s; }
+.ds-menu__group[open] > summary .ds-menu__caret { transform: translateY(-1px) rotate(45deg); }
+@media (prefers-reduced-motion: reduce) { .ds-menu__caret { transition: none; } }
+.ds-menu__list { list-style: none; margin: 0 0 10px; padding: 0; }
+.ds-menu__item { position: relative; display: flex; align-items: baseline; gap: 10px; width: 100%;
+    background: transparent; border: 0; cursor: pointer; text-align: left; text-decoration: none;
+    font-family: var(--body); font-size: .95rem; line-height: 1.35; color: var(--text-dim);
+    padding: 6px 12px; border-radius: 6px; transition: background .15s, color .15s; }
+.ds-menu__item:hover { background: var(--stone-850); color: var(--text); }
+.ds-menu__name { flex: 1 1 auto; min-width: 0; }
+.ds-menu__item:focus-visible { outline: none; color: var(--text); box-shadow: 0 0 0 2px rgba(230,205,134,.55); }
+.ds-menu__item.is-on { background: color-mix(in srgb, var(--arcane-deep) 72%, transparent); color: #fff; }
+.ds-menu__item.is-on::before { content: ""; position: absolute; left: 2px; top: 4px; bottom: 4px; width: 3px;
+    border-radius: 2px; background: var(--arcane); box-shadow: 0 0 8px var(--arcane-glow); }
+
+/* jewel snap-in on select (toggle-chips, tabs). Reduced-motion drops it. */
+@keyframes ds-pop { 0% { transform: scale(1); } 45% { transform: scale(1.07); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .ds-chip.is-on, .ds-chip[aria-pressed="true"] { animation: none; } }
 
 /* ============================================================
    STATS — DreamLand in numbers
@@ -831,10 +932,6 @@ details.scroll > summary:hover { color: #fff; }
 .gemcard__glyph { position: absolute; right: -14px; bottom: -18px; width: 122px; height: 122px;
     color: var(--arcane); opacity: .12; z-index: 0; pointer-events: none; }
 
-/* beefier, glowing framed-panel corners */
-.panel--framed::before, .panel--framed::after { width: 30px; height: 30px;
-    border-color: var(--gold); opacity: .9;
-    filter: drop-shadow(0 0 5px rgba(198,162,78,.4)); }
 
 /* ============================================================
    ORNATE GOLD RAIL  (opt-in card treatment)

@@ -31,14 +31,10 @@
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label { font-family: var(--display); font-size: .74rem; letter-spacing: .1em;
     text-transform: uppercase; color: var(--gold); }
-.field input[type=text], .field input[type=number], .field select {
-    font-family: var(--body); font-size: 1rem; color: var(--text);
-    background: #0c0a12; border: 1px solid var(--stone-600); border-radius: 5px;
-    height: var(--ctl-h); padding: 0 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,.6);
-}
+/* the Nirvana form well (.ds-input/.ds-select, theme.css); only size lives here */
+.field .ds-input { height: var(--ctl-h); padding-top: 0; padding-bottom: 0; }
+.field .ds-select { height: var(--ctl-h); padding-top: 0; padding-bottom: 0; }
 .filters .btn { height: var(--ctl-h); padding: 0 28px; font-size: 1.02rem; }
-.field input:focus, .field select:focus { outline: none; border-color: var(--gold);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,.6), 0 0 0 2px rgba(198,162,78,.25); }
 /* the two level bounds read as one control: single label, 4px apart */
 .lvlrange { display: flex; gap: 4px; }
 .lvlrange input { width: 78px; }
@@ -55,8 +51,6 @@
 .chip.on { color: #1c1206; text-shadow: 0 1px 0 rgba(255,255,255,.3);
     border-color: transparent; background: var(--gem-face); box-shadow: var(--gem-shadow);
     animation: ds-pop .2s cubic-bezier(.34,1.56,.64,1); }
-/* jewel snap-in on select (Nirvana). Reduced-motion drops it. */
-@keyframes ds-pop { 0% { transform: scale(1); } 45% { transform: scale(1.07); } 100% { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) {
     .tab[aria-selected="true"], .chip.on, .chip--limit.on { animation: none; }
 }
@@ -120,16 +114,24 @@ table.results tbody tr:hover { background: rgba(120,90,50,.14); }
     fill: #7a3597; margin-left: 5px; }
 .i-lvl { font-family: var(--mono); font-weight: 600; color: #5a4420; }
 .i-bonus { color: #3a2c15; font-size: .9rem; }
-.i-bonus .b { display: inline-block; margin: 0 6px 3px 0; padding: 1px 7px; border-radius: 4px;
-    background: rgba(70,50,20,.10); border: 1px solid rgba(120,90,50,.25); white-space: nowrap;
-    font-family: var(--mono); font-size: .82rem; }
+/* bonuses and flags ride the data-chip (theme.css), parchment-tuned */
+.i-bonus .ds-datachip { margin: 0 5px 4px 0; }
 .i-dim { color: var(--ink-dim); }
 /* the zone is a door to its map */
 .i-zone { color: #7a3b2a; border-bottom: 1px solid rgba(122,59,42,.35); }
 .i-zone:hover { color: #b8324f; border-bottom-color: #b8324f; }
-/* alignment reads as an icon: sun / scales / skull. The icons never wrap: a
-   good/neutral item broken across two lines reads as two separate things. */
+/* alignment reads as an icon chip: sun / scales / skull, each chip edged in
+   its own colour. The chips never wrap: a good/neutral item broken across two
+   lines reads as two separate things. */
 .i-align { white-space: nowrap; }
+.alignchip { padding: 2px 6px; margin-right: 4px; }
+.alignchip .alignicon { width: 16px; height: 16px; margin: 0; vertical-align: 0; }
+.alignchip--G { --chip-accent: #b08a1e; }
+.alignchip--N { --chip-accent: #7a6a3a; }
+.alignchip--E { --chip-accent: #8f1f30; }
+/* the bare-table sun/scales wash out inside a chip on parchment: a shade deeper */
+.alignchip .align-G { color: #a87b10; }
+.alignchip .align-N { color: #5f4f22; }
 .alignicon { width: 19px; height: 19px; display: inline-block; vertical-align: -3px;
     fill: currentColor; margin-right: 4px; }
 .align-G { color: #d8ae2e; }
