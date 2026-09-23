@@ -736,9 +736,6 @@ details.scroll > summary:hover { color: #fff; }
     box-shadow: 0 12px 24px rgba(0,0,0,.5), 0 0 22px rgba(198,162,78,.14);
 }
 .news-mini[aria-current="true"] { z-index: 1; border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold-dim); }
-/* the rail treatment on the small gallery cards: widen the padding so the text
-   clears the 22px engraved band. */
-.news-mini.railed { padding: 28px 22px 24px; }
 .news-mini__date { font-family: var(--mono); font-size: .7rem; letter-spacing: .04em; color: var(--gold-dim); }
 .news-mini__subject { font-family: var(--display); font-weight: 600; font-size: 1.06rem;
     line-height: 1.25; color: var(--gold-bright); }
