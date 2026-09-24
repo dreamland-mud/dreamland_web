@@ -339,8 +339,9 @@
             .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
     }
     function squash(s) { return s.replace(/\s+/g, ' ').trim(); }
-    // usage lines ("Format: c fireball", plus indented continuations) are noise in an excerpt
-    var USAGE_RE = /(^|\n)[ \t]*(Format|Syntax|Формат|Синтаксис)[ \t]*:[^\n]*(\n[ \t]+\S[^\n]*)*/g;
+    // usage lines ("Format: c fireball", plus indented continuations) are noise in an
+    // excerpt; a line longer than 80 chars has the description glued on, so it stays
+    var USAGE_RE = /(^|\n)[ \t]*(Format|Syntax|Формат|Синтаксис)[ \t]*:[^\n]{0,80}(?=\n|$)(\n[ \t]+\S[^\n]{0,80}(?=\n|$))*/g;
     /* stripped body, cached per language: raw (paragraphs intact), flat
        (one line) and low (flat, lowercased, what the query is matched against).
        null until the bodies are in. */
