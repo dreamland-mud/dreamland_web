@@ -33,6 +33,10 @@
 .hsearch__results b { display: block; font-family: var(--display); font-weight: 600; font-size: 1.02rem;
     color: var(--gold-bright); }
 .hsearch__results span { font-family: var(--mono); font-size: .72rem; color: var(--text-faint); }
+.hsearch__results .hsearch__excerpt { margin-top: 3px; font-family: inherit;
+    font-size: .86rem; line-height: 1.4; color: var(--text-dim);
+    display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.hsearch__results mark { background: none; color: var(--gold-bright); font-weight: 700; }
 
 /* ---------- layout ---------- */
 .helpwrap { display: grid; grid-template-columns: 290px 1fr; gap: 26px;
