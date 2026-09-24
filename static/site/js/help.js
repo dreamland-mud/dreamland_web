@@ -166,7 +166,7 @@
     function loadOverlay(lang) {
         return fetchData('help-body-' + (lang === 'ua' ? 'ua' : 'en') + '.json')
             .catch(function () { return {}; })
-            .then(function (d) { overlay = d || {}; });
+            .then(function (d) { overlay = d || {}; textCache = {}; textLang = ''; });
     }
 
     /* The index is ~0.5 MB and the bodies are ~5 MB across the three languages.
@@ -187,6 +187,7 @@
             bodyRu = res[0];
             bodiesIn = true;
             if (pendingId) { var id = pendingId; pendingId = 0; show(id); }
+            if (searchEl && searchEl.value && !resEl.hidden) searchFor(searchEl.value);
         });
         return bodiesReady;
     }
@@ -327,24 +328,113 @@
     window.addEventListener('hashchange', openFromHash);
 
     // ---- search -----------------------------------------------------------
+    /* Each hit shows a slice of the article in the page language with the query
+       marked, instead of a keyword dump. The same logic lives in mudjs
+       (src/components/windowletsPanel/helpSearch.js) for the in-game search;
+       keep the two in step. */
+    var textCache = {}, textLang = '';
+
+    function plainText(markup) {
+        return String(markup || '').replace(/<[^>]*>/g, '')
+            .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+    }
+    function squash(s) { return s.replace(/\s+/g, ' ').trim(); }
+    // usage lines ("Format: c fireball", plus indented continuations) are noise in an
+    // excerpt; a line longer than 80 chars has the description glued on, so it stays
+    var USAGE_RE = /(^|\n)[ \t]*(Format|Syntax|Формат|Синтаксис)[ \t]*:[^\n]{0,80}(?=\n|$)(\n[ \t]+\S[^\n]{0,80}(?=\n|$))*/g;
+    /* stripped body, cached per language: raw (paragraphs intact), flat
+       (one line) and low (flat, lowercased, what the query is matched against).
+       null until the bodies are in. */
+    function textFor(id) {
+        if (!bodiesIn) return null;
+        if (textLang !== L()) { textCache = {}; textLang = L(); }
+        if (textCache[id] === undefined) {
+            var raw = plainText(bodyFor(id)).replace(USAGE_RE, '$1');
+            // bullets and ruler lines read as noise once the lines are joined
+            var flat = squash(raw.replace(/(^|\n)[ \t]*\*[ \t]+/g, '$1· ').replace(/[-=]{4,}/g, ' '));
+            var lead = leadParagraph(raw) || flat;
+            textCache[id] = { flat: flat, low: flat.toLowerCase(), lead: lead,
+                              // where the prose starts: hits in the boilerplate above it lose
+                              leadAt: Math.max(0, flat.indexOf(lead.slice(0, 40))) };
+        }
+        return textCache[id];
+    }
+
+    /* Skill and spell articles open with the same boilerplate ("Skill 'x' or
+       'y'.", then indented stats and a Format: line), so a hit-less excerpt
+       skips to the first paragraph of real prose. */
+    var HEADER_RE = /'[^'\n]+' (or|или|або) '/;
+    function leadParagraph(text) {
+        // stats and tables are indented by two or more; some prose starts with one space
+        var paras = text.split(/\n\s*\n/).map(function (para) {
+            return squash(para.split('\n').filter(function (ln) {
+                return ln.trim() && !/^\s{2,}/.test(ln) && !/^\s*[*\-=]/.test(ln);
+            }).join(' '));
+        }).filter(function (p) { return p && !HEADER_RE.test(p); });
+        // a real paragraph first; failing that, any short line of prose
+        for (var i = 0; i < paras.length; i++)
+            if (paras[i].length >= 40) return paras[i];
+        return paras.length ? paras[0] : '';   // header-only article
+    }
+
+    /* First hit of q at or after `from`, preferring one at the start of a word:
+       "sword" should mark the sword, not pas[sword]. */
+    var WORD_CH = /[\p{L}\p{N}]/u;
+    function findHit(low, q, from) {
+        var first = low.indexOf(q, from);
+        for (var at = first; at >= 0; at = low.indexOf(q, at + 1))
+            if (at === 0 || !WORD_CH.test(low.charAt(at - 1))) return { at: at, word: true };
+        return { at: first, word: false };
+    }
+
+    var EXCERPT = 160;
+    function excerpt(txt, q) {
+        var flat = txt.flat;
+        var at = findHit(txt.low, q, txt.leadAt).at;
+        if (at < 0) {
+            var lead = txt.lead;
+            return esc(lead.length > EXCERPT ? lead.slice(0, EXCERPT).replace(/\s\S*$/, '') + '...' : lead);
+        }
+        var from = Math.max(txt.leadAt, at - 50), cut = from > txt.leadAt;
+        if (cut) {                                   // start on a word
+            var sp0 = flat.indexOf(' ', from);
+            if (sp0 >= 0 && sp0 < at) from = sp0 + 1;
+        }
+        var to = Math.min(flat.length, from + EXCERPT);
+        if (to < flat.length) {
+            var sp = flat.lastIndexOf(' ', to);
+            if (sp > at + q.length) to = sp;
+        }
+        return (cut ? '...' : '') +
+            esc(flat.slice(from, at).replace(/^[·\s]+/, '')) + '<mark>' + esc(flat.slice(at, at + q.length)) + '</mark>' +
+            esc(flat.slice(at + q.length, to)) + (to < flat.length ? '...' : '');
+    }
+
     function searchFor(q) {
-        q = q.trim().toLowerCase();
+        q = squash(q).toLowerCase();
         if (!q) { resEl.hidden = true; resEl.innerHTML = ''; return; }
-        var exact = [], partial = [];
-        for (var i = 0; i < index.length && exact.length + partial.length < 60; i++) {
+        var exact = [], partial = [], inWord = [], inPart = [], LIMIT = 24;
+        for (var i = 0; i < index.length && exact.length + partial.length < LIMIT; i++) {
             var a = index[i];
             var kws = (a.kwList || []).map(function (k) { return k.toLowerCase(); });
             var title = label(a).toLowerCase();
             if (kws.indexOf(q) >= 0) exact.push(a);
             else if (title.indexOf(q) >= 0 || kws.some(function (k) { return k.indexOf(q) === 0; })) partial.push(a);
+            else if (inWord.length < LIMIT && q.length >= 3) {
+                var txt = textFor(a.id), hit = txt && findHit(txt.low, q, txt.leadAt);
+                if (hit && hit.at >= 0) (hit.word ? inWord : inPart).push(a);
+            }
         }
-        var hits = exact.concat(partial).slice(0, 24);
+        var hits = exact.concat(partial, inWord, inPart).slice(0, LIMIT);
         resEl.hidden = false;
         resEl.innerHTML = hits.length
             ? hits.map(function (a) {
+                var txt = textFor(a.id), ex = txt && txt.flat ? excerpt(txt, q) : '';
+                var sub = ex
+                    ? '<span class="hsearch__excerpt">' + ex + '</span>'
+                    : '<span>' + esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span>';
                 return '<a href="#h' + a.id + '" data-hid="' + a.id + '"><b>' +
-                    esc(label(a)) + badge(a) + '</b><span>' +
-                    esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span></a>';
+                    esc(label(a)) + badge(a) + '</b>' + sub + '</a>';
               }).join('')
             : '<p class="help-empty">' + (L() === 'ua' ? 'Нічого не знайшлося.' : 'Nothing found.') + '</p>';
     }
