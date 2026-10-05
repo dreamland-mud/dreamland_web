@@ -1,41 +1,33 @@
 # DreamLand MUD
 
-> DreamLand is a free text-based multiplayer fantasy game (a MUD) running since 1998. It is dark, funny and a little postmodern. It plays in a web browser or any telnet client, the whole game is available in English, Ukrainian and Russian, and it is built to work with screen readers: about 30% of its players are blind.
+> DreamLand is a free text-based multiplayer fantasy game (a MUD) running since 1998. It is dark, funny and a little postmodern. It plays in a web browser or any telnet client, it is playable in English, Ukrainian and Russian, and it is built to work with screen readers: about 30% of its players are blind.
 
-- Play in the browser: https://dreamland.rocks/play/
-- Telnet: dreamland.rocks port 9000
-- Free to play. No pay-for-power.
-- Open source: https://github.com/dreamland-mud
-- Origins: forked from Anatolia MUD (DikuMUD / Merc / ROM lineage). Started in Ukraine, still run by Ukrainian developers.
+Play in the browser at https://dreamland.rocks/play/ or connect a telnet client to dreamland.rocks port 9000. Free to play, nothing sold gives power. Forked from Anatolia MUD (DikuMUD / Merc / ROM lineage), started in Ukraine and still run by Ukrainian developers. The engine and the clients are open source; game scripts and area files are not.
 
-## The game
+The world: 158 areas, about 9,800 rooms, 3,700 creatures and 5,700 objects. 13 classes, 23 playable races, 22 gods and 22 cults, 11 hometowns, 10 clans (8 with their own skills). Blacksmith, carpenter, jeweler and tattooist trades with forges and mining. 56 hand-built area quests plus automatic personal quests. Randomly generated weapons, a gear advisor NPC, remort after level 100 with hero gear kept. Restricted PK, roleplay encouraged, newbie friendly. Adult content: 18+.
 
-- 158 areas, about 9,800 rooms, 3,700 creatures, 5,600 objects.
-- 13 classes, 23 playable races, 22 gods and 22 cults, 10 clans with their own skills, 14 hometowns.
-- Crafting: blacksmith, carpenter, jeweler and tattooist trades, forges, mining.
-- 56 hand-built area quests plus automatic personal quests.
-- Randomly generated weapons, a gear advisor NPC, remort after level 100 with hero gear kept.
-- Restricted PK, roleplay encouraged, newbie friendly. Adult content: 18+.
+How it is built: most spells, skills, quests and NPC behaviour run on Fenia, the game's own scripting language, so builders change the live world without a reboot. Every player picks English, Ukrainian or Russian at login, and 99.7% of room descriptions exist in all three. Screen-reader mode (`config screenreader on`) replaces every visual element with linear text. The web client has a live graph map with click-to-walk, side panels and a phone layout. No LLM runs in the game: "AI" here means mob behaviour and combat AI.
 
-## How it is built
-
-- Most spells, skills, quests and NPC behaviour run on Fenia, the game's own scripting language. Builders change the live world without a reboot.
-- Every player picks English, Ukrainian or Russian at login. Room descriptions are 99.7% translated.
-- Screen-reader mode (`config screenreader on`) replaces every visual element with linear text.
-- The web client has a live graph map with click-to-walk, side panels and a phone layout.
-- No LLM runs in the game. "AI" here means mob behaviour and combat AI.
+The pages below marked "app" render in the browser from JSON, so a plain fetch gets an empty shell. The static help index has the same articles as plain HTML (in Russian).
 
 ## Pages
 
+- [Play](https://dreamland.rocks/play/): web client
 - [Home](https://dreamland.rocks/): what the game is, latest news
-- [Help](https://dreamland.rocks/help.html): game help in English, Ukrainian and Russian
-- [Maps](https://dreamland.rocks/maps.html): every area, with level ranges and maps
-- [News](https://dreamland.rocks/news.html): in-game changelog
-- [Item search](https://dreamland.rocks/searcher.html): weapons, armor and magic items by stats
+- [Help (static)](https://dreamland.rocks/help/): every help article as plain HTML, in Russian
+- [Help](https://dreamland.rocks/help.html): app; English and Ukrainian, Russian at /help/
+- [Maps](https://dreamland.rocks/maps.html): app; every area with level ranges and maps
+- [News](https://dreamland.rocks/news.html): app; in-game changelog
+- [Item search](https://dreamland.rocks/searcher.html): app; weapons, armor and magic items by stats
 - [Russian site](https://dreamland.rocks/ru/): the older Russian-language pages
 
 ## Community
 
-- Discord: https://discord.gg/Ds46EpdKaF
-- Telegram: https://t.me/dreamland_rocks
-- Email: dreamland.mud@gmail.com
+- [Discord](https://discord.gg/Ds46EpdKaF): players and developers
+- [Telegram](https://t.me/dreamland_rocks): ask players and staff
+- [GitHub](https://github.com/dreamland-mud): engine, web client, website
+- [Email](mailto:dreamland.mud@gmail.com)
+
+## Optional
+
+- [Russian maps](https://dreamland.rocks/ru/maps.html): static per-area maps

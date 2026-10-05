@@ -11,12 +11,18 @@
  * No <lastmod>: every generator rewrites its pages on each deploy, so file
  * mtimes say "today" for everything and would only teach crawlers to ignore it.
  *
- * usage: node site.js/build-sitemap.js [static-dir]
+ * help.js never deletes a page, so help/ also holds orphans for articles that
+ * lost their labels and copies of 2019 pages. Only list what help.js writes
+ * from the current dump: one page per labelled article, one per label, and
+ * its three index pages.
+ *
+ * usage: node site.js/build-sitemap.js [static-dir] [helps.json]
  */
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(process.argv[2] || path.join(__dirname, '../static'));
+const HELPS = process.argv[3] || '/tmp/helps.json';
 const BASE = 'https://dreamland.rocks';
 
 // The EN/UA front plus the web client. Legacy pages at the root are
@@ -33,10 +39,21 @@ function htmlIn(dir) {
         .map(f => path.join(dir, f));
 }
 
+function currentHelpPages() {
+    const pages = new Set(['index.html', 'classskill.html', 'clanskills.html']);
+    JSON.parse(fs.readFileSync(HELPS, 'utf8')).forEach(topic => {
+        if (!topic.labels || topic.labels.length == 0)
+            return;
+        pages.add(topic.id + '.html');
+        topic.labels.forEach(label => pages.add(label + '.html'));
+    });
+    return pages;
+}
+
 function url(rel) {
     let loc = '/' + rel.split(path.sep).join('/');
     loc = loc.replace(/(^|\/)index\.html$/, '$1');
-    return BASE + encodeURI(loc);
+    return BASE + encodeURI(loc).replace(/&/g, '&amp;').replace(/'/g, '&apos;');
 }
 
 const entries = [];
@@ -49,7 +66,8 @@ function add(rel) {
 PAGES.forEach(add);
 entries.push(BASE + '/play/');
 htmlIn('ru').forEach(add);
-htmlIn('help').forEach(add);
+const helpPages = currentHelpPages();
+htmlIn('help').filter(rel => helpPages.has(path.basename(rel))).forEach(add);
 htmlIn('maps').forEach(add);
 
 const xml = ['<?xml version="1.0" encoding="UTF-8"?>',
