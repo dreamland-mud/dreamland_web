@@ -1,2 +1,5 @@
 node_modules/
 package-lock.json
+
+# Built on every deploy by site.js/build-sitemap.js
+static/sitemap.xml
