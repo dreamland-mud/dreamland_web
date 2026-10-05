@@ -46,6 +46,12 @@ steps:
   commands:
   - sudo systemctl restart dreamland-searcher.service
 
+# After every generator above, so the sitemap lists what they just wrote. Last,
+# so a failure here can't skip the searcher restart.
+- name: build_sitemap
+  commands:
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-sitemap.js /var/www/dreamland_web/static /tmp/helps.json
+
 - name: discord_failure
   commands:
   - >

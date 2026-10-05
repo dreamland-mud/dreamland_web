@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /mapedit/
+Disallow: /translate.html
+Disallow: /account-api
+Disallow: /searcher-api
+Disallow: /api/
+
+Sitemap: https://dreamland.rocks/sitemap.xml
