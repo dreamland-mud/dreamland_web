@@ -3,3 +3,6 @@ package-lock.json
 
 # Built on every deploy by site.js/build-sitemap.js
 static/sitemap.xml
+
+# Built every 10 min on live by site.js/build-gsgp.js (dreamland-gsgp.timer)
+static/gsgp.json
