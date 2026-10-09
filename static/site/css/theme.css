@@ -510,6 +510,18 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .step h4 { color: var(--gold-bright); font-size: 1.55rem; }
 .step p { color: var(--text-dim); margin: 0; font-size: 1rem; }
 
+/* "one world" -- the same room in two languages, side by side */
+.oneworld { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; margin: 34px auto 0; max-width: 980px; }
+.oneworld__room { margin: 0; padding: 26px 26px 24px; text-align: left; }
+.oneworld__tag { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--arcane); margin-bottom: 10px; }
+.oneworld__room p { color: var(--text-dim); margin: 0; }
+.oneworld__room .oneworld__name { color: var(--gold-bright); font-size: 1.3rem; margin: 0 0 8px; }
+.oneworld__foot { text-align: center; color: var(--text-faint); margin: 22px 0 0; }
+#oneworld .lede { margin-top: 6px; }
+/* "30,000+" is the widest tile: shrink it so the "+" survives two-column phones */
+.stat__num.stat__num--wide { font-size: clamp(1.75rem, 5.2vw, 3.9rem); }
+@media (max-width: 780px) { .oneworld { grid-template-columns: 1fr; } }
+
 /* explore cards — railed feature card (Nirvana): dark stone body + the modular
    GOLD frame (uniform across all three). Each card's colour comes from the big
    faceted jewel centred above the title. Corner glyph stays as a watermark. */
