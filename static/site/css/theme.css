@@ -521,7 +521,7 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .oneworld__obj { color: var(--text); }
 .oneworld__mob { color: var(--gold); }
 .oneworld__bar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px; margin: 18px 0 0; }
-.oneworld__bar[hidden] { display: none; }
+.oneworld__bar[hidden], .oneworld__reroll[hidden] { display: none; }
 .oneworld__reroll { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 6px; cursor: pointer;
     background: var(--stone-950); border: 1px solid var(--stone-700); color: var(--gold);
     font-family: var(--body); font-weight: 700; font-size: .92rem; transition: color .2s, border-color .2s; }

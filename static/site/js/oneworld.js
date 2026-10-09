@@ -52,6 +52,7 @@
         btns.forEach(function (b) {
             b.setAttribute('aria-pressed', b.getAttribute('data-owlang') === lang ? 'true' : 'false');
         });
+        seg.setAttribute('aria-label', siteLang() === 'ua' ? 'Мова кімнати' : 'Room language');
         moveInd();
     }
 
@@ -74,7 +75,12 @@
         last = n;
         fetch('data/rooms/' + n + '.json')
             .then(function (r) { if (!r.ok) throw r; return r.json(); })
-            .then(function (r) { current = r; render(); })
+            .then(function (r) {
+                current = r;
+                render();
+                // announce room changes, but not the swap from the fallback on load
+                setTimeout(function () { room.setAttribute('aria-live', 'polite'); }, 0);
+            })
             .catch(function () {});
     }
 
@@ -98,6 +104,10 @@
     render();
     fetch('data/rooms/index.json')
         .then(function (r) { if (!r.ok) throw r; return r.json(); })
-        .then(function (d) { count = d.count || 0; load(); })
+        .then(function (d) {
+            count = d.count || 0;
+            reroll.hidden = count < 2;
+            load();
+        })
         .catch(function () {});
 })();

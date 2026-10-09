@@ -10,7 +10,9 @@
  *
  * A room makes the cut when:
  *   - its resets load a mob AND drop an object on the floor;
- *   - it isn't a deathtrap, god-only, no_mob, private or nowhere room;
+ *   - it isn't a god-only, no_mob, private or nowhere room, and its area isn't
+ *     hidden, wizlocked, a clan hall or a system area;
+ *   - nothing in it talks about sexual violence or slavery (BAD_WORDS);
  *   - name, description, every mob's long_descr and every dropped object's
  *     description exist in all three languages;
  *   - the text carries no mudtags beyond plain colour codes (links, gender and
@@ -28,9 +30,15 @@ const AREAS = path.resolve(process.argv[2] || path.join(__dirname, '../../dreaml
 const OUT = path.resolve(__dirname, '../static/data/rooms');
 const LANGS = ['en', 'ua', 'ru'];
 const MIN_DESC = 200;
-// real-world religious satire: fine in the game, not as a random homepage sample
+// Fine in the game, not as a random homepage sample: real-world religious satire,
+// rooms that slip past the word filter below.
 const SKIP_AREAS = new Set(['armagddn']);
-const BAD_ROOM = /\b(death|gods_only|imp_only|heroes_only|no_mob|private|nowhere|system)\b/;
+const SKIP_ROOMS = new Set([17395]);
+// sexual violence, slavery, concubines -- in any of the three languages
+const BAD_WORDS = /\b(rape[ds]?|raping|slaves?|slavery|concubines?)\b|(?<![а-яёіїєґʼ'])(изнасил|насил(у[юе]|ова|и[еяию]|ьн|ьств)|наложниц|раб(ын|ов|ск|ы(?![а-яёіїєґ]))|невольни|наруг|згвалт|раби(?![а-яіїєґ])|рабин|рабів|рабськ|невільни)/i;
+// the game itself keeps these out of `areas`, quests and the searcher
+const BAD_AREA = /\b(hidden|wizlock|system|clan)\b/;
+const BAD_ROOM = /\b(gods_only|imp_only|heroes_only|no_mob|private|nowhere)\b/;
 
 // Just enough XML for the area files: elements, attributes, text. No DTDs, no CDATA.
 function parse(src) {
@@ -80,6 +88,12 @@ function clean(s) {
         .replace(/[ \t]*\n[ \t]*/g, ' ').replace(/ {2,}/g, ' ').trim();
 }
 
+if (!fs.existsSync(AREAS)) {
+    // keep the previous pool; a missing checkout must not fail the deploy
+    console.error('no area files at ' + AREAS + ', rooms left as they were');
+    process.exit(0);
+}
+
 const files = fs.readdirSync(AREAS).filter(f => f.endsWith('.are.xml')).sort();
 const mobs = {}, objs = {}, rooms = [];
 
@@ -90,15 +104,19 @@ for (const f of files) {
     const ad = child(area, 'areadata');
     const areaFlags = (child(ad, 'flags') || {}).text || '';
     for (const m of (child(area, 'mobiles') || { kids: [] }).kids) mobs[m.attrs.name] = multi(m, 'long_descr');
-    for (const o of (child(area, 'objects') || { kids: [] }).kids) objs[o.attrs.name] = multi(o, 'description');
-    if (BAD_ROOM.test(areaFlags)) continue;
+    for (const o of (child(area, 'objects') || { kids: [] }).kids) {
+        // an invisible item isn't on the floor for most players
+        const invis = /\binvis\b/.test((child(o, 'extra_flags') || {}).text || '');
+        objs[o.attrs.name] = invis ? null : multi(o, 'description');
+    }
+    if (BAD_AREA.test(areaFlags)) continue;
     for (const r of (child(area, 'rooms') || { kids: [] }).kids) rooms.push({ f, r });
 }
 
 const out = [];
 for (const { f, r } of rooms) {
     const resets = child(r, 'resets');
-    if (!resets || BAD_ROOM.test((child(r, 'flags') || {}).text || '')) continue;
+    if (!resets || SKIP_ROOMS.has(+r.attrs.name) || BAD_ROOM.test((child(r, 'flags') || {}).text || '')) continue;
     const mv = [...new Set(resets.kids.filter(k => k.tag === 'mob').map(k => k.attrs.vnum))];
     const ov = [...new Set(resets.kids.filter(k => k.tag === 'drop').map(k => k.attrs.vnum))];
     if (!mv.length || !ov.length) continue;
@@ -106,7 +124,13 @@ for (const { f, r } of rooms) {
     const things = ov.map(v => objs[v]), people = mv.map(v => mobs[v]);
     if (!name || !desc || things.some(x => !x) || people.some(x => !x)) continue;
     if (desc.en.length < MIN_DESC) continue;
+    if ([name, desc, ...things, ...people].some(t => LANGS.some(l => BAD_WORDS.test(t[l])))) continue;
     out.push({ vnum: +r.attrs.name, area: f.replace(/\.are\.xml$/, ''), name, desc, objs: things, mobs: people });
+}
+
+if (!out.length) {
+    console.error('no rooms matched, previous pool left in place');
+    process.exit(0);
 }
 
 fs.mkdirSync(OUT, { recursive: true });
