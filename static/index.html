@@ -222,9 +222,7 @@
     </div>
 </section>
 
-<!-- ============ ONE WORLD, TWO LANGUAGES ============ -->
-<!-- The sample columns use en-GB / uk-UA on purpose: the site's language toggle
-     hides bare [lang="en"]/[lang="uk"], and both columns must stay visible. -->
+<!-- ============ ONE WORLD, THREE LANGUAGES ============ -->
 <section class="section" id="oneworld">
     <div class="wrap">
         <div class="section-head">
@@ -235,19 +233,29 @@
         <p class="lede" lang="en">For 25 years DreamLand spoke only Russian. Now every room, monster, item, skill and help page is in English and Ukrainian too. It's not three copies of the game: you and a player from Kyiv stand in the same room, fight the same boss, and each of you reads it in your own language.</p>
         <p class="lede" lang="uk">25 років DreamLand говорив лише російською. Тепер кожна кімната, монстр, річ, уміння і сторінка довідки є і англійською, і українською. Це не три копії гри: ти і гравець з Торонто стоїте в одній кімнаті, бʼєте одного боса, і кожен читає все своєю мовою.</p>
         <div class="oneworld">
-            <figure class="oneworld__room windowlet" lang="en-GB">
-                <figcaption class="oneworld__tag">English</figcaption>
-                <p class="oneworld__name">Pancake House</p>
-                <p>The instant you step inside, the ceiling caves in and flattens you into a pancake! What can you say to that? 'Flapjack... flapjack... flapjack...' the echo grumbles, as it always does.</p>
+            <!-- Filled from data/rooms/<n>.json (site.js/build-rooms.js): a real room
+                 with its mobs and floor items. Pancake House is the no-JS / offline
+                 fallback. lang carries a region (en-GB, uk-UA, ru-RU) on purpose: the
+                 site toggle hides bare [lang="en"]/[lang="uk"], this card must stay. -->
+            <figure class="oneworld__room windowlet" id="owRoom" lang="en-GB">
+                <p class="oneworld__name" id="owName">Pancake House</p>
+                <p class="oneworld__desc" id="owDesc">The instant you step inside, the ceiling caves in and flattens you into a pancake! What can you say to that? 'Flapjack... flapjack... flapjack...' the echo grumbles, as it always does.</p>
+                <ul class="oneworld__list" id="owList"></ul>
             </figure>
-            <figure class="oneworld__room windowlet" lang="uk-UA">
-                <figcaption class="oneworld__tag">Українська</figcaption>
-                <p class="oneworld__name">Млинцевий дім</p>
-                <p>Щойно ти переступаєш поріг, як стеля з гуркотом осідає і розплющує тебе в корж! А що тут скажеш? 'Млинець... млинець... млинець...' -- звично відлунює луна.</p>
-            </figure>
+            <div class="oneworld__bar" id="owBar" hidden>
+                <span class="ds-seg" role="group" aria-label="Room language">
+                    <span class="ds-seg__ind" aria-hidden="true"></span>
+                    <button type="button" data-owlang="en" lang="en-GB" aria-pressed="true">English</button>
+                    <button type="button" data-owlang="ua" lang="uk-UA" aria-pressed="false">Українська</button>
+                    <button type="button" data-owlang="ru" lang="ru-RU" aria-pressed="false">Русский</button>
+                </span>
+                <button type="button" class="oneworld__reroll" id="owReroll" hidden>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><circle cx="8.5" cy="8.5" r="1.3"/><circle cx="15.5" cy="15.5" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="15.5" cy="8.5" r="1.3"/><circle cx="8.5" cy="15.5" r="1.3"/></svg><span lang="en">Another room</span><span lang="uk">Інша кімната</span>
+                </button>
+            </div>
         </div>
-        <p class="oneworld__foot" lang="en">Same room, same ceiling. Pick English, Ukrainian or Russian when you make your character.</p>
-        <p class="oneworld__foot" lang="uk">Та сама кімната, та сама стеля. Мову (українська, англійська чи російська) обираєш, коли створюєш персонажа.</p>
+        <p class="oneworld__foot" lang="en">A real room from the game, picked at random. Pick English, Ukrainian or Russian when you make your character.</p>
+        <p class="oneworld__foot" lang="uk">Справжня кімната з гри, обрана навмання. Мову (українська, англійська чи російська) обираєш, коли створюєш персонажа.</p>
     </div>
 </section>
 
@@ -288,6 +296,45 @@
                 <p lang="en">There's a crowd in here right now — questing, arguing, showing off loot they'll never share. Say hello. Someone will send you somewhere good, or somewhere fatal.</p>
                 <p lang="uk">Тут прямо зараз юрба — квестять, сваряться, хизуються здобиччю, якою не поділяться. Привітайся. Хтось відправить тебе кудись гарне. Або смертельне.</p>
             </div>
+        </div>
+
+        <div class="gemgrid gemgrid--after-steps">
+            <a class="gemcard ds-frame" href="searcher.html">
+                <span class="ds-frame__c tl"></span><span class="ds-frame__c tr"></span>
+                <span class="ds-frame__c bl"></span><span class="ds-frame__c br"></span>
+                <span class="ds-frame__s top"></span><span class="ds-frame__s bottom"></span>
+                <span class="ds-frame__s left"></span><span class="ds-frame__s right"></span>
+                <span class="ds-frame__k"></span><span class="ds-frame__k bottom"></span>
+                <svg class="gemcard__glyph" width="122" height="122" viewBox="0 0 100 100"><use href="#orn-swords"/></svg>
+                <svg class="gemsvg gem--ruby" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><use href="#gem-cut"/></svg>
+                <h4 lang="en">Item Searcher</h4><h4 lang="uk">Пошук речей</h4>
+                <p lang="en">Every weapon, armour and trinket in the game. Find it, compare it, plan the character you can't afford yet.</p>
+                <p lang="uk">Уся зброя, броня й дрібнички гри. Знайди, порівняй, сплануй персонажа, на якого ще не заробив.</p>
+            </a>
+            <a class="gemcard ds-frame" href="maps.html">
+                <span class="ds-frame__c tl"></span><span class="ds-frame__c tr"></span>
+                <span class="ds-frame__c bl"></span><span class="ds-frame__c br"></span>
+                <span class="ds-frame__s top"></span><span class="ds-frame__s bottom"></span>
+                <span class="ds-frame__s left"></span><span class="ds-frame__s right"></span>
+                <span class="ds-frame__k"></span><span class="ds-frame__k bottom"></span>
+                <svg class="gemcard__glyph" width="122" height="122" viewBox="0 0 100 100"><use href="#orn-compass"/></svg>
+                <svg class="gemsvg gem--emerald" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><use href="#gem-cut"/></svg>
+                <h4 lang="en">Maps</h4><h4 lang="uk">Карти</h4>
+                <p lang="en">A hundred-plus zones drawn out, with the routes between them. For finding your way — or picking your next ambush.</p>
+                <p lang="uk">Понад сотня намальованих зон і шляхи між ними. Щоб знайти дорогу. Або обрати місце для засідки.</p>
+            </a>
+            <a class="gemcard ds-frame" href="help.html">
+                <span class="ds-frame__c tl"></span><span class="ds-frame__c tr"></span>
+                <span class="ds-frame__c bl"></span><span class="ds-frame__c br"></span>
+                <span class="ds-frame__s top"></span><span class="ds-frame__s bottom"></span>
+                <span class="ds-frame__s left"></span><span class="ds-frame__s right"></span>
+                <span class="ds-frame__k"></span><span class="ds-frame__k bottom"></span>
+                <svg class="gemcard__glyph" width="122" height="122" viewBox="0 0 100 100"><use href="#orn-tome"/></svg>
+                <svg class="gemsvg gem--sapphire" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><use href="#gem-cut"/></svg>
+                <h4 lang="en">Help &amp; lore</h4><h4 lang="uk">Довідка й лор</h4>
+                <p lang="en">1,200+ plain-language articles: how things work, who runs the pantheon, and thirty years of backstory. The same help in the game, the client and here.</p>
+                <p lang="uk">1 200+ статей простими словами: як усе працює, хто керує пантеоном, і тридцять років передісторії. Та сама довідка в грі, у клієнті й тут.</p>
+            </a>
         </div>
     </div>
 </section>
@@ -346,6 +393,32 @@
                 <span class="stat__label" lang="en">ways to build a hero</span><span class="stat__label" lang="uk">способів зібрати героя</span></div>
             <div class="stat windowlet"><span class="stat__num" data-count="30">~30</span>
                 <span class="stat__label" lang="en">years and counting</span><span class="stat__label" lang="uk">років і рахуємо</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ NEWS ============ -->
+<section class="section band" id="news">
+    <div class="wrap">
+        <div class="section-head">
+            <div class="flourish"><svg class="orn" viewBox="0 0 100 100"><use href="#orn-shield"/></svg></div>
+            <h2 lang="en">What's new</h2>
+            <h2 lang="uk">Що нового</h2>
+            <p lang="en">The world changes constantly. Here's the latest word from the people who run it.</p>
+            <p lang="uk">Світ міняється постійно. Ось останнє слово від тих, хто ним керує.</p>
+        </div>
+
+        <div class="newswrap">
+            <div id="newsfeatured"></div>
+            <div class="news-gallery" id="newsgallery"></div>
+            <p id="newsloading" style="text-align:center;color:var(--text-faint)">
+                <span lang="en">Loading news…</span><span lang="uk">Вантажу новини…</span>
+            </p>
+        </div>
+        <div class="news-foot">
+            <a class="btn btn--ghost" href="news.html">
+                <span lang="en">Read all news</span><span lang="uk">Усі новини</span>
+            </a>
         </div>
     </div>
 </section>
@@ -421,82 +494,6 @@
     </div>
 </section>
 
-<!-- ============ EXPLORE ============ -->
-<section class="section">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="flourish"><svg class="orn" viewBox="0 0 100 100"><use href="#orn-wand"/></svg></div>
-            <h2 lang="en">Poke around before you dive in</h2>
-            <h2 lang="uk">Порозглядай, перш ніж пірнути</h2>
-        </div>
-
-        <div class="gemgrid">
-            <a class="gemcard ds-frame" href="searcher.html">
-                <span class="ds-frame__c tl"></span><span class="ds-frame__c tr"></span>
-                <span class="ds-frame__c bl"></span><span class="ds-frame__c br"></span>
-                <span class="ds-frame__s top"></span><span class="ds-frame__s bottom"></span>
-                <span class="ds-frame__s left"></span><span class="ds-frame__s right"></span>
-                <span class="ds-frame__k"></span><span class="ds-frame__k bottom"></span>
-                <svg class="gemcard__glyph" width="122" height="122" viewBox="0 0 100 100"><use href="#orn-swords"/></svg>
-                <svg class="gemsvg gem--ruby" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><use href="#gem-cut"/></svg>
-                <h4 lang="en">Item Searcher</h4><h4 lang="uk">Пошук речей</h4>
-                <p lang="en">Every weapon, armour and trinket in the game. Find it, compare it, plan the character you can't afford yet.</p>
-                <p lang="uk">Уся зброя, броня й дрібнички гри. Знайди, порівняй, сплануй персонажа, на якого ще не заробив.</p>
-            </a>
-            <a class="gemcard ds-frame" href="maps.html">
-                <span class="ds-frame__c tl"></span><span class="ds-frame__c tr"></span>
-                <span class="ds-frame__c bl"></span><span class="ds-frame__c br"></span>
-                <span class="ds-frame__s top"></span><span class="ds-frame__s bottom"></span>
-                <span class="ds-frame__s left"></span><span class="ds-frame__s right"></span>
-                <span class="ds-frame__k"></span><span class="ds-frame__k bottom"></span>
-                <svg class="gemcard__glyph" width="122" height="122" viewBox="0 0 100 100"><use href="#orn-compass"/></svg>
-                <svg class="gemsvg gem--emerald" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><use href="#gem-cut"/></svg>
-                <h4 lang="en">Maps</h4><h4 lang="uk">Карти</h4>
-                <p lang="en">A hundred-plus zones drawn out, with the routes between them. For finding your way — or picking your next ambush.</p>
-                <p lang="uk">Понад сотня намальованих зон і шляхи між ними. Щоб знайти дорогу. Або обрати місце для засідки.</p>
-            </a>
-            <a class="gemcard ds-frame" href="help.html">
-                <span class="ds-frame__c tl"></span><span class="ds-frame__c tr"></span>
-                <span class="ds-frame__c bl"></span><span class="ds-frame__c br"></span>
-                <span class="ds-frame__s top"></span><span class="ds-frame__s bottom"></span>
-                <span class="ds-frame__s left"></span><span class="ds-frame__s right"></span>
-                <span class="ds-frame__k"></span><span class="ds-frame__k bottom"></span>
-                <svg class="gemcard__glyph" width="122" height="122" viewBox="0 0 100 100"><use href="#orn-tome"/></svg>
-                <svg class="gemsvg gem--sapphire" width="40" height="40" viewBox="0 0 100 100" aria-hidden="true"><use href="#gem-cut"/></svg>
-                <h4 lang="en">Help &amp; lore</h4><h4 lang="uk">Довідка й лор</h4>
-                <p lang="en">1,200+ plain-language articles: how things work, who runs the pantheon, and thirty years of backstory. The same help in the game, the client and here.</p>
-                <p lang="uk">1 200+ статей простими словами: як усе працює, хто керує пантеоном, і тридцять років передісторії. Та сама довідка в грі, у клієнті й тут.</p>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ============ NEWS ============ -->
-<section class="section band" id="news">
-    <div class="wrap">
-        <div class="section-head">
-            <div class="flourish"><svg class="orn" viewBox="0 0 100 100"><use href="#orn-shield"/></svg></div>
-            <h2 lang="en">What's new</h2>
-            <h2 lang="uk">Що нового</h2>
-            <p lang="en">The world changes constantly. Here's the latest word from the people who run it.</p>
-            <p lang="uk">Світ міняється постійно. Ось останнє слово від тих, хто ним керує.</p>
-        </div>
-
-        <div class="newswrap">
-            <div id="newsfeatured"></div>
-            <div class="news-gallery" id="newsgallery"></div>
-            <p id="newsloading" style="text-align:center;color:var(--text-faint)">
-                <span lang="en">Loading news…</span><span lang="uk">Вантажу новини…</span>
-            </p>
-        </div>
-        <div class="news-foot">
-            <a class="btn btn--ghost" href="news.html">
-                <span lang="en">Read all news</span><span lang="uk">Усі новини</span>
-            </a>
-        </div>
-    </div>
-</section>
-
 <!-- ============ FOOTER ============ -->
 <footer class="footer">
     <div class="wrap">
@@ -543,5 +540,6 @@
 <script src="site/js/i18n.js"></script>
 <script src="site/js/news.js"></script>
 <script src="site/js/stats.js"></script>
+<script src="site/js/oneworld.js"></script>
 </body>
 </html>

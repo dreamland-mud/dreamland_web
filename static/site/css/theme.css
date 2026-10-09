@@ -511,21 +511,49 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .step p { color: var(--text-dim); margin: 0; font-size: 1rem; }
 
 /* "one world" -- the same room in two languages, side by side */
-.oneworld { display: grid; grid-template-columns: repeat(2,1fr); gap: 22px; margin: 34px auto 0; max-width: 980px; }
+.oneworld { margin: 34px auto 0; max-width: 820px; }
 .oneworld__room { margin: 0; padding: 26px 26px 24px; text-align: left; }
-.oneworld__tag { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--arcane); margin-bottom: 10px; }
 .oneworld__room p { color: var(--text-dim); margin: 0; }
 .oneworld__room .oneworld__name { color: var(--gold-bright); font-size: 1.3rem; margin: 0 0 8px; }
+/* floor items, then mobs, one per line like `look` in the game */
+.oneworld__list { list-style: none; margin: 14px 0 0; padding: 0; }
+.oneworld__list li { margin: 4px 0 0; }
+.oneworld__obj { color: var(--text); }
+.oneworld__mob { color: var(--gold); }
+.oneworld__bar { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px; margin: 18px 0 0; }
+.oneworld__bar[hidden], .oneworld__reroll[hidden] { display: none; }
+.oneworld__reroll { display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 6px; cursor: pointer;
+    background: var(--stone-950); border: 1px solid var(--stone-700); color: var(--gold);
+    font-family: var(--body); font-weight: 700; font-size: .92rem; transition: color .2s, border-color .2s; }
+.oneworld__reroll:hover { color: var(--gold-bright); border-color: var(--gold-dim); }
+.oneworld__reroll svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.oneworld__reroll svg circle { fill: currentColor; stroke: none; }
 .oneworld__foot { text-align: center; color: var(--text-faint); margin: 22px 0 0; }
 #oneworld .lede { margin-top: 6px; }
+
+/* segmented control (design system, /design/#controls): ghost track, a sliding
+   gold-gem indicator under the active button. oneworld.js moves the indicator. */
+.ds-seg{position:relative;display:inline-flex;padding:3px;border-radius:6px;
+  background:var(--stone-950);border:1px solid var(--stone-700);
+  box-shadow:inset 0 1px 4px rgba(0,0,0,.6)}
+.ds-seg__ind{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:4px;z-index:0;pointer-events:none;
+  background:var(--gem-face);box-shadow:var(--gem-shadow);
+  transform:translateX(3px);
+  transition:transform .26s cubic-bezier(.32,.72,0,1),width .26s cubic-bezier(.32,.72,0,1)}
+.ds-seg button{position:relative;z-index:1;padding:6px 16px;border:0;border-radius:4px;background:transparent;cursor:pointer;
+  font-family:var(--body);font-weight:700;font-size:.92rem;white-space:nowrap;
+  color:var(--gold-dim);transition:color .2s}
+.ds-seg button:hover{color:var(--gold-bright)}
+.ds-seg button[aria-pressed="true"],.ds-seg button[aria-selected="true"]{color:#1c1206;text-shadow:0 1px 0 rgba(255,255,255,.3)}
+@media (prefers-reduced-motion:reduce){.ds-seg__ind{transition:none}}
 /* "30,000+" is the widest tile: shrink it so the "+" survives two-column phones */
 .stat__num.stat__num--wide { font-size: clamp(1.75rem, 5.2vw, 3.9rem); }
-@media (max-width: 780px) { .oneworld { grid-template-columns: 1fr; } }
 
 /* explore cards — railed feature card (Nirvana): dark stone body + the modular
    GOLD frame (uniform across all three). Each card's colour comes from the big
    faceted jewel centred above the title. Corner glyph stays as a watermark. */
 .gemgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.gemgrid--after-steps { margin-top: 22px; }
 .gemcard {
     --dl-frame: var(--gold);
     display: block; padding: 36px 30px 32px; text-align: center; position: relative;
