@@ -17,6 +17,8 @@
  *     language tags would need the game's renderer);
  *   - the English description is long enough to be worth reading.
  *
+ * Runs on every deploy (.drone.yml update_site_data) against the live area files.
+ *
  * usage: node site.js/build-rooms.js [path/to/dreamland_areas]
  */
 const fs = require('fs');
