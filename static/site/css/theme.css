@@ -554,7 +554,6 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .oneworld__reroll.is-rolling svg { animation: term-roll .45s cubic-bezier(.3,.7,.4,1) infinite; }
 @keyframes term-roll { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .term__caret, .term__typing::after, .oneworld__reroll.is-rolling svg { animation: none; } }
-.oneworld__foot { text-align: center; color: var(--text-faint); margin: 22px 0 0; }
 #oneworld .lede { margin-top: 6px; }
 
 /* segmented control (design system, /design/#controls): ghost track, a sliding
