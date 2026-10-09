@@ -11,13 +11,14 @@
     function animate(el) {
         var target = parseInt(el.getAttribute('data-count'), 10) || 0;
         var prefix = /^\s*~/.test(el.textContent) ? '~' : '';
-        if (reduce) { el.textContent = prefix + fmt(target); return; }
+        var suffix = /\+\s*$/.test(el.textContent) ? '+' : '';
+        if (reduce) { el.textContent = prefix + fmt(target) + suffix; return; }
         var dur = 1100, start = null;
         function step(ts) {
             if (start === null) start = ts;
             var p = Math.min(1, (ts - start) / dur);
             var eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
-            el.textContent = prefix + fmt(Math.round(target * eased));
+            el.textContent = prefix + fmt(Math.round(target * eased)) + suffix;
             if (p < 1) requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
