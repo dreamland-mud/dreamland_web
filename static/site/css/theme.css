@@ -578,7 +578,7 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
    GOLD frame (uniform across all three). Each card's colour comes from the big
    faceted jewel centred above the title. Corner glyph stays as a watermark. */
 .gemgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
-.steps--under-lede { margin-top: 40px; }
+.steps--under-lede { margin-top: 72px; }
 .gemcard {
     --dl-frame: var(--gold);
     display: block; padding: 36px 30px 32px; text-align: center; position: relative;
