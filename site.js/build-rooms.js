@@ -35,7 +35,7 @@ const MIN_DESC = 200;
 const SKIP_AREAS = new Set(['armagddn']);
 const SKIP_ROOMS = new Set([17395]);
 // sexual violence, slavery, concubines -- in any of the three languages
-const BAD_WORDS = /\b(rape[ds]?|raping|slaves?|slavery|concubines?)\b|(?<![а-яёіїєґʼ'])(изнасил|насил(у[юе]|ова|и[еяию]|ьн|ьств)|наложниц|раб(ын|ов|ск|ы(?![а-яёіїєґ]))|невольни|наруг|згвалт|раби(?![а-яіїєґ])|рабин|рабів|рабськ|невільни)/i;
+const BAD_WORDS = /\b(rape[ds]?|raping|slaves?|slavery|enslav\w*|concubines?)\b|(?<![а-яёіїєґʼ'])(изнасил|насил(у[юе]|ова|и[еяию]|ьн|ьств)|наложниц|раб(ын|ов|ск|ств|ы?(?![а-яёіїєґ]))|невольни|наруг|згвалт|раби(?![а-яіїєґ])|рабин|рабів|рабськ|рабств|невільни)/i;
 // the game itself keeps these out of `areas`, quests and the searcher
 const BAD_AREA = /\b(hidden|wizlock|system|clan)\b/;
 const BAD_ROOM = /\b(gods_only|imp_only|heroes_only|no_mob|private|nowhere)\b/;
@@ -84,6 +84,8 @@ function clean(s) {
     if (!s) return '';
     // links, gender, language and pronoun tags need the game to render them
     if (/\{[hlnsSIi]|\$|%/.test(s)) return '';
+    // a leading "." keeps the game's formatter from capitalising; look strips it
+    s = s.replace(/^\./, '');
     return s.replace(/\{\{/g, '\u0000').replace(/\{./g, '').replace(/\u0000/g, '{')
         .replace(/[ \t]*\n[ \t]*/g, ' ').replace(/ {2,}/g, ' ').trim();
 }

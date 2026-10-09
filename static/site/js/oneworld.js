@@ -79,7 +79,9 @@
                 current = r;
                 render();
                 // announce room changes, but not the swap from the fallback on load
-                setTimeout(function () { room.setAttribute('aria-live', 'polite'); }, 0);
+                requestAnimationFrame(function () {
+                    setTimeout(function () { room.setAttribute('aria-live', 'polite'); }, 0);
+                });
             })
             .catch(function () {});
     }
@@ -95,6 +97,7 @@
 
     new MutationObserver(function () {
         if (!picked && lang !== siteLang()) { lang = siteLang(); render(); }
+        else seg.setAttribute('aria-label', siteLang() === 'ua' ? 'Мова кімнати' : 'Room language');
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
 
     window.addEventListener('resize', moveInd);
