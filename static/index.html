@@ -237,10 +237,14 @@
                  with its mobs and floor items. Pancake House is the no-JS / offline
                  fallback. lang carries a region (en-GB, uk-UA, ru-RU) on purpose: the
                  site toggle hides bare [lang="en"]/[lang="uk"], this card must stay. -->
-            <figure class="oneworld__room windowlet" id="owRoom" lang="en-GB">
-                <p class="oneworld__name" id="owName">Pancake House</p>
-                <p class="oneworld__desc" id="owDesc">The instant you step inside, the ceiling caves in and flattens you into a pancake! What can you say to that? 'Flapjack... flapjack... flapjack...' the echo grumbles, as it always does.</p>
-                <ul class="oneworld__list" id="owList"></ul>
+            <figure class="oneworld__room term" id="owRoom" lang="en-GB">
+                <div class="term__screen" id="owScreen">
+                    <div class="term__line t-p">look</div>
+                    <div class="term__line"><span class="t-W">Pancake House</span></div>
+                    <div class="term__line"><span class="t-x"> The instant you step inside, the ceiling caves in and flattens you into a pancake! What can you say to that? 'Flapjack... flapjack... flapjack...' the echo grumbles, as it always does.</span></div>
+                    <div class="term__line"><span class="t-c">[</span><span class="t-C">Exits</span><span class="t-c">:</span><span class="t-C"> none</span><span class="t-c">]</span></div>
+                </div>
+                <div class="sr-only" id="owSr"></div>
             </figure>
             <div class="oneworld__bar" id="owBar" hidden>
                 <span class="ds-seg" role="group" aria-label="Room language">

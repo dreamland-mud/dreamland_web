@@ -38,6 +38,9 @@ const SKIP_ROOMS = new Set([17395]);
 const BAD_WORDS = /\b(rape[ds]?|raping|slaves?|slavery|enslav\w*|concubines?)\b|(?<![а-яёіїєґʼ'])(изнасил|насил(у[юе]|ова|и[еяию]|ьн|ьств)|наложниц|раб(ын|ов|ск|ств|ы?(?![а-яёіїєґ]))|невольни|наруг|згвалт|раби(?![а-яіїєґ])|рабин|рабів|рабськ|рабств|невільни)/i;
 // the game itself keeps these out of `areas`, quests and the searcher
 const BAD_AREA = /\b(hidden|wizlock|system|clan)\b/;
+// exit order and visibility as in the game's autoexit line (exits.cpp, directions.cpp)
+const DIRS = ['north', 'east', 'south', 'west', 'up', 'down'];
+const HIDDEN_EXIT = /\b(hidden|invisible)\b/;
 const BAD_ROOM = /\b(gods_only|imp_only|heroes_only|no_mob|private|nowhere)\b/;
 
 // Just enough XML for the area files: elements, attributes, text. No DTDs, no CDATA.
@@ -115,6 +118,21 @@ for (const f of files) {
     for (const r of (child(area, 'rooms') || { kids: [] }).kids) rooms.push({ f, r });
 }
 
+// [{ dir: 'north', closed: true }, ...] -- the page has the direction words
+function exitsOf(r) {
+    const ex = child(r, 'exits');
+    if (!ex) return [];
+    const out = [];
+    for (const dir of DIRS) {
+        const n = ex.kids.find(k => k.attrs.name === dir);
+        if (!n || !child(n, 'target')) continue;
+        const flags = (child(n, 'flags') || {}).text || '';
+        if (HIDDEN_EXIT.test(flags)) continue;
+        out.push(/\bclosed\b/.test(flags) ? { dir, closed: true } : { dir });
+    }
+    return out;
+}
+
 const out = [];
 for (const { f, r } of rooms) {
     const resets = child(r, 'resets');
@@ -127,7 +145,7 @@ for (const { f, r } of rooms) {
     if (!name || !desc || things.some(x => !x) || people.some(x => !x)) continue;
     if (desc.en.length < MIN_DESC) continue;
     if ([name, desc, ...things, ...people].some(t => LANGS.some(l => BAD_WORDS.test(t[l])))) continue;
-    out.push({ vnum: +r.attrs.name, area: f.replace(/\.are\.xml$/, ''), name, desc, objs: things, mobs: people });
+    out.push({ vnum: +r.attrs.name, area: f.replace(/\.are\.xml$/, ''), name, desc, exits: exitsOf(r), objs: things, mobs: people });
 }
 
 if (!out.length) {
