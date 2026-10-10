@@ -2,7 +2,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<meta name="Description" CONTENT="DreamLand MUD (Мир Грез, Мир Снов, Dream Land, МУД, МАД) текстовая многопользовательская бесплатная ролевая онлайн игра на тематику фентези"/>
+<% if (typeof description != 'undefined') { %><meta name="Description" CONTENT="<%= description %>"/>
+<% } else { %><meta name="Description" CONTENT="DreamLand MUD (Мир Грез, Мир Снов, Dream Land, МУД, МАД) текстовая многопользовательская бесплатная ролевая онлайн игра на тематику фентези"/>
+<% } %><% if (typeof canonical != 'undefined') { %><link rel="canonical" href="<%= canonical %>"/>
+<% } %>
 <link rel="preconnect" href="https://fonts.gstatic.com"> 
 <!-- Bootstrap -->
 <link type="text/css" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>

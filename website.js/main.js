@@ -104,6 +104,10 @@ const newsTransformer = nodes => {
 const ownedByNewSite = new Set(['index', 'searcher', 'maps', 'news'])
 
 const writePage = (keyword, str) => {
+    // The root copies and /ru/index.html duplicate a /ru page: point search
+    // engines at the one URL.
+    let canonical = 'https://dreamland.rocks/ru/' + (keyword == 'index' ? '' : keyword + '.html')
+    str = str.replace('</head>', '<link rel="canonical" href="' + canonical + '"/>\n</head>')
     fs.writeFileSync(ruDir + '/' + keyword + '.html', str)
     if (!ownedByNewSite.has(keyword))
         fs.writeFileSync(destDir + '/' + keyword + '.html', str)
@@ -163,6 +167,38 @@ fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
 console.log('Found', areaList.length, 'areas, creating index.json')
 fs.writeFileSync(destMapDir + '/index.json', JSON.stringify(areaList))
 
+/** Zone description for a map page: the area's own help article, in Russian
+  * like the rest of the page, plus the English zone name for the title.
+  * Without it every map page is the same template around an ASCII drawing, and
+  * search engines file them as duplicates of each other. */
+const areaAbout = fn => {
+    let xml = fs.readFileSync(path.resolve(areaDir, fn), {encoding: 'utf-8'})
+    let area = xmlParser.parse(xml, {
+        ignoreAttributes: false, attributeNamePrefix: '@_', textNodeName: '#text', parseNodeValue: false
+    }).area
+    let lang = (field, l) => {
+        let v = [].concat(field || []).find(x => x['@_l'] == l)
+        return v && v['#text'] ? he.decode(stripTags(String(v['#text']))).trim() : ''
+    }
+    let help = area.helps && [].concat(area.helps.node)[0]
+    let text = help ? lang(help.text, 'ru') : ''
+    let paragraphs = text.split(/\n\s*\n/).map(p => p.replace(/\s+/g, ' ').trim()).filter(p => p)
+    return {
+        nameEn: lang(area.areadata.name, 'en'),
+        authors: he.decode(String(area.areadata.authors || '')),
+        paragraphs
+    }
+}
+
+/** First sentences of the zone text, cut to what a search snippet shows. */
+const snippet = (paragraphs, fallback) => {
+    let text = paragraphs.join(' ') || fallback
+    if (text.length <= 155)
+        return text
+    let cut = text.slice(0, 155)
+    return cut.slice(0, cut.lastIndexOf(' ')).replace(/[\s.,;:!?-]+$/, '') + '...'
+}
+
 console.log('Generating maps...')
 const findMapBanner = (areafile, exts) => {
     for (e in exts) {
@@ -181,7 +217,11 @@ areaList.forEach(area => {
         let banner = findMapBanner(area.file, [ 'png', 'jpg' ]);
         let hasBanner = !!banner;
         console.log(area.file, banner, hasBanner);
-        ejs.renderFile('templates/newmap.ejs', { map, area, hasBanner, banner }, function(err, str) {
+        let about = areaAbout(area.file + '.xml')
+        let fallback = 'Карта зоны ' + area.name + ' в DreamLand MUD.'
+        let description = snippet(about.paragraphs, fallback)
+        let canonical = 'https://dreamland.rocks/maps/' + area.map
+        ejs.renderFile('templates/newmap.ejs', { map, area, hasBanner, banner, about, description, canonical }, function(err, str) {
             !err || console.log(err)
             fs.writeFileSync(destMapDir + '/' + area.map, str)
         })        
