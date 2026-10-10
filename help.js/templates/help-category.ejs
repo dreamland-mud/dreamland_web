@@ -1,6 +1,9 @@
 <html xmlns="http://www.w3.org/1999/html" lang="ru">
 <head>
     <%- include('head'); %>
+    <%# Every article here also has its own page, help/<id>.html: leave the
+        index to those and only follow the links. %>
+    <meta name="robots" content="noindex, follow"/>
     <title>Справка DreamLand: <%= title %></title>
 </head>
 <body>

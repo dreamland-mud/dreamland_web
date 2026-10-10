@@ -13,8 +13,8 @@
  *
  * help.js never deletes a page, so help/ also holds orphans for articles that
  * lost their labels and copies of 2019 pages. Only list what help.js writes
- * from the current dump: one page per labelled article, one per label, and
- * its three index pages.
+ * from the current dump: one page per labelled article and its three index
+ * pages. The per-label pages repeat those articles in full and are noindex.
  *
  * usage: node site.js/build-sitemap.js [static-dir] [helps.json]
  */
@@ -45,7 +45,6 @@ function currentHelpPages() {
         if (!topic.labels || topic.labels.length == 0)
             return;
         pages.add(topic.id + '.html');
-        topic.labels.forEach(label => pages.add(label + '.html'));
     });
     return pages;
 }
