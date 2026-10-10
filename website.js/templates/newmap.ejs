@@ -10,7 +10,7 @@
           }
         </style>
     <%}%>
-    <title>DreamLand MUD - Карта зоны <%= area.name %></title>
+    <title>Карта зоны <%= area.name %><% if (about.nameEn) { %> (<%= about.nameEn %>)<% } %> - DreamLand MUD</title>
 </head>
 
 <body>
@@ -21,6 +21,10 @@
         <%- include('hero', {breadcrumb: 'Maps', title: area.name }) %>
     <%}%>
     <div class="mapwrapper">
+        <% about.paragraphs.forEach(p => { %><p><%= p %></p>
+        <% }) %>
+        <%if (about.authors){%><div>Автор: <%= about.authors %></div><%}%>
+        <div><a href="/maps.html#<%= area.file.replace(/\.are$/, '') %>">Интерактивная карта</a></div>
         <%if (area.showLevels){%><div>Уровни <%=area.levMin%>-<%=area.levMax%></div><%}%>
         <div>Путь<%if (area.msm){%> от Рыночной Площади Мидгаарда <%}%>: <%=area.sw%></div>    
         <div>Автоматически двигать карту <input type="checkbox" id="follow"></input><br/></div>
