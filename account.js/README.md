@@ -23,7 +23,7 @@ It never serves HTML. The UI lives in mudjs `/newui`; this is the token-holder.
 
 Every MUD call goes out as `{token: <web token>, bottype: "web", args}`. The engine
 seam `servlet_auth_account()` checks the web token, which reaches account endpoints
-only — never `/api/exec` (that gates on the god token directly and rejects
+only — never `/api/exec` (that gates on the separate ops token and rejects
 `bottype: web`).
 
 ## Environment
