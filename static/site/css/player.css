@@ -1,7 +1,8 @@
 /* Public account profile (/player/<id>), loaded on top of theme.css.
-   The character cards reuse the /play login roster: the carved gold frame
-   (card-frame.svg) with the class diamond overhanging its open left edge.
-   Each card is a native <details>, so a screen reader opens it unaided. */
+   Layout only: every surface is a Nirvana component from theme.css --
+   characters are clickable .windowlet cards, facts are .ds-datachip, the
+   opened whois sheet is a .ds-parch with the modular frame. The class diamond
+   is the Figma "Classes" emblem set. */
 
 .pagehead--player { padding-bottom: 34px; }
 .phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
@@ -11,11 +12,11 @@
 .phead__loading { color: var(--text-dim); }
 
 /* ---------- class diamond ---------- */
-.pemblem { display: block; flex: none; position: relative; z-index: 2; }
+.pemblem { display: block; flex: none; position: relative; }
 .pemblem img { width: 100%; height: 100%; object-fit: contain; display: block;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
 .pemblem--head { width: 92px; height: 100px; margin-bottom: 4px; }
-.pemblem--card { width: 72px; height: 79px; margin-left: -48px; }
+.pemblem--card { width: 58px; height: 64px; }
 .pemblem--blank::before {
     content: ''; position: absolute; inset: 22% 26%;
     transform: rotate(45deg); border: 2px solid var(--gold-dim);
@@ -24,65 +25,31 @@
 
 /* ---------- character list ---------- */
 .playerpage { padding-top: 34px; padding-bottom: 70px; }
-.pchars {
-    /* One column: an opened sheet in a grid left a hole beside it. */
-    display: flex; flex-direction: column; gap: 18px;
-    max-width: 640px; margin: 0 auto;
-    padding-left: 30px;     /* room for the overhanging diamond */
-}
+.pchars { display: flex; flex-direction: column; gap: 16px; max-width: 640px; margin: 0 auto; }
 
 .pchar { min-width: 0; }
-.pchar__card {
-    list-style: none; cursor: pointer;
-    position: relative; display: flex; align-items: center; gap: 14px;
-    min-height: 66px; padding: 4px 28px 4px 44px;
-    background: url('../assets/classemblems/card-frame.svg') right center / calc(100% - 40px) 100% no-repeat;
-    border-radius: 2px;
-}
+.pchar__card { list-style: none; display: flex; align-items: center; gap: 16px; padding: 16px 18px; }
 .pchar__card::-webkit-details-marker { display: none; }
-.pchar__card:hover { filter: brightness(1.35); }
-.pchar__card:focus-visible { outline: 2px solid var(--arcane); outline-offset: 4px; }
-.pchar[open] > .pchar__card { filter: brightness(1.2); }
+/* static gold ring, as on every live site control */
+.pchar__card:focus-visible { outline: none;
+    box-shadow: inset 0 -4px 12px rgba(8,7,12,.55), 0 0 0 2px rgba(230,205,134,.55); }
 
-.pchar__id { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.pchar__name { font-family: var(--display); font-size: 1.2rem; line-height: 1.1; color: var(--gold-bright); }
-.pchar__cls { font-size: .78rem; letter-spacing: .02em; text-transform: lowercase; color: var(--text-dim); }
+.pchar__id { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pchar__name { display: block; margin: 0; font-size: 1.25rem; line-height: 1.15; }
+.pchar__cls { font-size: .84rem; color: var(--text-dim); }
 
-.pchar__live {
-    margin-left: auto; width: 10px; height: 10px; flex: none; border-radius: 50%;
-    background: var(--emerald); box-shadow: 0 0 0 3px rgba(47,163,107,.25), 0 0 10px var(--emerald);
-}
+.pchips { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 
-/* ---------- opened: badges + whois sheet on parchment ---------- */
-.pchar__open {
-    margin: 10px 0 0 6px; padding: 18px 22px 20px; border-radius: var(--radius); color: var(--ink);
-    background: var(--noise), linear-gradient(172deg, var(--parchment), var(--parchment-2));
-    background-blend-mode: multiply, normal;
-    border: 1px solid var(--parch-edge);
-    box-shadow: 0 10px 26px rgba(0,0,0,.5), inset 0 0 50px rgba(120,95,50,.16);
-}
-
-.pbadges { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
-.pbadge {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 3px 10px; border-radius: 999px;
-    font-family: var(--body); font-size: .8rem; font-weight: 700; letter-spacing: .02em;
-    background: rgba(43,34,19,.08); border: 1px solid rgba(43,34,19,.28); color: var(--ink);
-}
-.pbadge--legend { background: var(--gold-deep); border-color: var(--gold-dim); color: var(--gold-bright); }
-.pbadge--god    { background: var(--arcane-deep); border-color: var(--arcane-lo); color: #fff; }
-.pbadge--remort { color: var(--arcane-ink); border-color: rgba(106,47,166,.45); }
-.pbadge--online { color: var(--emerald-lo); border-color: rgba(23,96,61,.5); }
-.pbadge__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-dim);
-    box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
-
-.psheet { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px;
-    font-family: var(--article); font-size: .9rem; }
+/* the opened sheet sits a breath below its card, inside the torn margin */
+.pchar__sheet { margin: 18px 9px 6px; }
+.psheet { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; }
 .psheet dt { color: var(--ink-dim); }
 .psheet dd { margin: 0; overflow-wrap: anywhere; }
 
 @media (max-width: 560px) {
-    .pchars { padding-left: 22px; }
+    .pchar__card { gap: 12px; padding: 14px; }
+    .pemblem--card { width: 46px; height: 51px; }
+    .pchar__sheet { padding: 28px 24px; }
     .psheet { grid-template-columns: minmax(0, 1fr); gap: 0; }
-    .psheet dt { margin-top: 8px; font-size: .78rem; }
+    .psheet dt { margin-top: 8px; font-size: .8rem; }
 }

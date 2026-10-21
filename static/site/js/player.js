@@ -11,10 +11,11 @@
     var EMBLEMS = ['anti-paladin', 'cleric', 'druid', 'necromancer', 'ninja', 'paladin',
         'ranger', 'samurai', 'thief', 'vampire', 'warlock', 'warrior', 'witch'];
 
-    // Mud colour letters -> the terminal palette's hues (uppercase = bright).
+    // Clan colour letter -> the Nirvana dark-surface ANSI palette (design/design.css
+    // .fgd* / .fgb*), uppercase = bright. Feeds the clan data-chip's --chip-accent.
     var MUD_COLOURS = {
-        r: '#b0413e', g: '#4f9a4a', y: '#c9a227', b: '#4a6fc0', m: '#9a4fb0', c: '#3f9fa6', w: '#c8c0ad', d: '#6f6857',
-        R: '#e2554f', G: '#6fd36a', Y: '#f2d24b', B: '#6f95f0', M: '#d277f0', C: '#5fd6dc', W: '#ffffff', D: '#8d8574'
+        r: '#cc0000', g: '#4e9a06', y: '#c4a000', b: '#3465a4', m: '#75507b', c: '#06989a', w: '#d3d7cf', d: '#555753',
+        R: '#ed2330', G: '#8ee34f', Y: '#fdea56', B: '#55a3f2', M: '#d384cb', C: '#2cf4eb', W: '#ffffff', D: '#555753'
     };
 
     function el(tag, cls, kids) {
@@ -60,32 +61,31 @@
 
     function ukName(c) { return c.name.ru || c.name.en; }
 
-    function badges(c) {
-        var row = el('ul', 'pbadges');
-        function add(cls, content, title) {
-            var li = el('li', 'pbadge ' + cls, [content]);
-            if (title) li.title = title;
-            row.appendChild(li);
+    // Read-only facts as Nirvana data-chips: --chip-accent carries the meaning,
+    // the label always says it in words (colour is never the only signal).
+    function chips(c) {
+        var row = el('ul', 'pchips');
+        function add(mod, content, accent) {
+            var chip = el('span', 'ds-datachip' + (mod ? ' ds-datachip--' + mod : ''));
+            if (accent) chip.style.setProperty('--chip-accent', accent);
+            // A clan colour can be near-black (Invaders are dark grey), so it tints
+            // only the border; the label keeps the readable text colour.
+            if (accent) chip.appendChild(content);
+            else { var b = el('b'); b.appendChild(content); chip.appendChild(b); }
+            row.appendChild(el('li', null, [chip]));
         }
         var fem = c.sex === 'f';
-        if (c.rank === 'immortal') add('pbadge--god', bi('Immortal', fem ? 'Безсмертна' : 'Безсмертний'));
-        else if (c.rank === 'legendary') add('pbadge--legend', bi('Legend', 'Легенда'));
+        if (c.rank === 'immortal') add('magic', bi('Immortal', fem ? 'Безсмертна' : 'Безсмертний'));
+        else if (c.rank === 'legendary') add('gold', bi('Legend', 'Легенда'));
         if (c.remorts > 0)
-            add('pbadge--remort', plural(c.remorts, 'rebirth', 'rebirths', 'переродження', 'переродження', 'перероджень'));
-        if (c.clan) {
-            var chip = el('span', 'pbadge__dot');
-            var col = c.clan.color && MUD_COLOURS[c.clan.color.charAt(0)];
-            if (col) chip.style.background = col;
-            var f = document.createDocumentFragment();
-            f.appendChild(chip);
-            f.appendChild(bi(c.clan.en, c.clan.ua));
-            add('pbadge--clan', f);
-        }
-        if (c.online) add('pbadge--online', bi('in the world now', 'зараз у світі'));
+            add('magic', plural(c.remorts, 'rebirth', 'rebirths', 'переродження', 'переродження', 'перероджень'));
+        if (c.clan)
+            add(null, bi(c.clan.en, c.clan.ua), c.clan.color && MUD_COLOURS[c.clan.color.charAt(0)]);
+        if (c.online) add('buff', bi('online', 'онлайн'));
         return row;
     }
 
-    // The whois-like sheet that opens under a card.
+    // The whois-like sheet that opens under a card: a Nirvana parchment.
     function sheet(c) {
         var dl = el('dl', 'psheet');
         function row(k, v) {
@@ -115,30 +115,27 @@
             row(bi('Clan', 'Клан'), bi('none', 'без клану'));
         }
         row(bi('Status', 'Статус'), c.online ? bi('in the world', 'у світі') : bi('away', 'не в грі'));
-        return dl;
+
+        var parch = el('div', 'ds-parch ds-frame pchar__sheet');
+        parch.appendChild(el('div', 'ds-parch__body', [dl]));
+        return DLFrame.dress(parch);
     }
 
+    // A character: a clickable windowlet (native <details>, so a screen reader
+    // opens it unaided) that unfolds the parchment sheet below it.
     function card(c) {
         var d = el('details', 'pchar');
         d.id = c.name.en;
 
-        var sum = el('summary', 'pchar__card');
+        var sum = el('summary', 'windowlet ds-card--hover pchar__card');
         sum.appendChild(emblem(c.class, 'card'));
         var id = el('span', 'pchar__id');
-        id.appendChild(bi(c.name.en, ukName(c), 'pchar__name'));
+        id.appendChild(bi(c.name.en, ukName(c), 'ds-card__title pchar__name'));
         id.appendChild(bi(c.race.en + ' ' + c.class.en, c.race.ua + ' ' + c.class.ua, 'pchar__cls'));
+        id.appendChild(chips(c));
         sum.appendChild(id);
-        if (c.online) {
-            var dot = el('span', 'pchar__live');
-            dot.appendChild(bi('online', 'онлайн', 'sr-only'));
-            sum.appendChild(dot);
-        }
         d.appendChild(sum);
-
-        var open = el('div', 'pchar__open');
-        open.appendChild(badges(c));
-        open.appendChild(sheet(c));
-        d.appendChild(open);
+        d.appendChild(sheet(c));
 
         d.addEventListener('toggle', function () {
             if (d.open && history.replaceState)
