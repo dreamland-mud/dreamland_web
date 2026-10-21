@@ -1,0 +1,18 @@
+/* about.html: one long read, so a single text column instead of the
+   homepage's centred ledes and card grids. */
+.pagehead--about { padding-bottom: 34px; }
+.pagehead--about p { font-size: 1.18rem; color: var(--text); max-width: 700px; line-height: 1.6; }
+
+.about { max-width: 760px; padding-top: 30px; padding-bottom: 70px; }
+.about h2 { font-size: clamp(1.5rem, 3.6vw, 2.05rem); color: var(--gold-bright);
+    margin: 52px 0 12px; }
+.about p, .about li { color: var(--text-dim); font-size: 1.08rem; line-height: 1.65; }
+.about p { margin: 0 0 14px; }
+.about ul { margin: 0 0 14px; padding-left: 1.2em; }
+.about li { margin: 0 0 6px; }
+.about li strong, .about p strong { color: var(--text); font-weight: 700; }
+.about code { color: var(--arcane); }
+.about .scrolls { margin-top: 18px; }
+/* Section targets sit outside the EN/UA heading pair: the hidden twin has no
+   box, so an id on it would not scroll in the other language. */
+.about .anchor { display: block; height: 0; scroll-margin-top: 96px; }

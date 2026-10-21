@@ -27,7 +27,7 @@ const BASE = 'https://dreamland.rocks';
 
 // The EN/UA front plus the web client. Legacy pages at the root are
 // duplicates of /ru/ and stay out.
-const PAGES = ['index.html', 'help.html', 'maps.html', 'news.html', 'searcher.html'];
+const PAGES = ['index.html', 'about.html', 'help.html', 'maps.html', 'news.html', 'searcher.html'];
 
 function htmlIn(dir) {
     const abs = path.join(ROOT, dir);

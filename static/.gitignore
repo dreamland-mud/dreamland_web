@@ -1,13 +1,14 @@
 # Pages written by website.js/main.js at build time.
 /*.html
-# ...except the five pages of the English/Ukrainian site, which are authored by
-# hand and live in git. The generator no longer writes these four names to the
+# ...except the six pages of the English/Ukrainian site, which are authored by
+# hand and live in git. The generator no longer writes these names to the
 # root -- they exist only under /ru now.
 !/index.html
 !/searcher.html
 !/maps.html
 !/news.html
 !/help.html
+!/about.html
 
 /maps/*.html
 !/maps/*-v2.html
