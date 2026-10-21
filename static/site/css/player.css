@@ -1,0 +1,88 @@
+/* Public account profile (/player/<id>), loaded on top of theme.css.
+   The character cards reuse the /play login roster: the carved gold frame
+   (card-frame.svg) with the class diamond overhanging its open left edge.
+   Each card is a native <details>, so a screen reader opens it unaided. */
+
+.pagehead--player { padding-bottom: 34px; }
+.phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.phead__title { margin: 0; }
+.phead__meta { font-family: var(--mono); font-size: .82rem; letter-spacing: var(--mono-track);
+    color: var(--gold-bright); }
+.phead__loading { color: var(--text-dim); }
+
+/* ---------- class diamond ---------- */
+.pemblem { display: block; flex: none; position: relative; z-index: 2; }
+.pemblem img { width: 100%; height: 100%; object-fit: contain; display: block;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
+.pemblem--head { width: 92px; height: 100px; margin-bottom: 4px; }
+.pemblem--card { width: 72px; height: 79px; margin-left: -48px; }
+.pemblem--blank::before {
+    content: ''; position: absolute; inset: 22% 26%;
+    transform: rotate(45deg); border: 2px solid var(--gold-dim);
+    background: var(--stone-800);
+}
+
+/* ---------- character list ---------- */
+.playerpage { padding-top: 34px; padding-bottom: 70px; }
+.pchars {
+    display: grid; gap: 18px 28px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    align-items: start;
+    padding-left: 30px;     /* room for the first column's overhanging diamond */
+}
+
+.pchar { min-width: 0; }
+.pchar__card {
+    list-style: none; cursor: pointer;
+    position: relative; display: flex; align-items: center; gap: 14px;
+    min-height: 66px; padding: 4px 28px 4px 44px;
+    background: url('../assets/classemblems/card-frame.svg') right center / calc(100% - 40px) 100% no-repeat;
+    border-radius: 2px;
+}
+.pchar__card::-webkit-details-marker { display: none; }
+.pchar__card:hover { filter: brightness(1.35); }
+.pchar__card:focus-visible { outline: 2px solid var(--arcane); outline-offset: 4px; }
+.pchar[open] > .pchar__card { filter: brightness(1.2); }
+
+.pchar__id { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.pchar__name { font-family: var(--display); font-size: 1.2rem; line-height: 1.1; color: var(--gold-bright); }
+.pchar__cls { font-size: .78rem; letter-spacing: .02em; text-transform: lowercase; color: var(--text-dim); }
+
+.pchar__live {
+    margin-left: auto; width: 10px; height: 10px; flex: none; border-radius: 50%;
+    background: var(--emerald); box-shadow: 0 0 0 3px rgba(47,163,107,.25), 0 0 10px var(--emerald);
+}
+
+/* ---------- opened: badges + whois sheet on parchment ---------- */
+.pchar__open {
+    margin: 10px 0 0 6px; padding: 18px 22px 20px; border-radius: var(--radius); color: var(--ink);
+    background: var(--noise), linear-gradient(172deg, var(--parchment), var(--parchment-2));
+    background-blend-mode: multiply, normal;
+    border: 1px solid var(--parch-edge);
+    box-shadow: 0 10px 26px rgba(0,0,0,.5), inset 0 0 50px rgba(120,95,50,.16);
+}
+
+.pbadges { list-style: none; margin: 0 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.pbadge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 10px; border-radius: 999px;
+    font-family: var(--body); font-size: .8rem; font-weight: 700; letter-spacing: .02em;
+    background: rgba(43,34,19,.08); border: 1px solid rgba(43,34,19,.28); color: var(--ink);
+}
+.pbadge--legend { background: var(--gold-deep); border-color: var(--gold-dim); color: var(--gold-bright); }
+.pbadge--god    { background: var(--arcane-deep); border-color: var(--arcane-lo); color: #fff; }
+.pbadge--remort { color: var(--arcane-ink); border-color: rgba(106,47,166,.45); }
+.pbadge--online { color: var(--emerald-lo); border-color: rgba(23,96,61,.5); }
+.pbadge__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ink-dim);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.35); }
+
+.psheet { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px;
+    font-family: var(--article); font-size: .9rem; }
+.psheet dt { color: var(--ink-dim); }
+.psheet dd { margin: 0; overflow-wrap: anywhere; }
+
+@media (max-width: 560px) {
+    .pchars { padding-left: 22px; }
+    .psheet { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .psheet dt { margin-top: 8px; font-size: .78rem; }
+}
