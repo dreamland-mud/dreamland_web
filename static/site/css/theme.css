@@ -103,6 +103,9 @@
 
     /* fractal-noise grain for stone/parchment texture */
     --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    /* torn parchment edge (Nirvana canon, from design/design.css): authored at real px
+       scale so preserveAspectRatio=none does not blow the displacement up into the text */
+    --torn:url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1000'%20height='300'%20viewBox='0%200%201000%20300'%20preserveAspectRatio='none'%3E%3Cfilter%20id='t'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.016'%20numOctaves='2'%20seed='4'%20result='n'/%3E%3CfeDisplacementMap%20in='SourceGraphic'%20in2='n'%20scale='11'/%3E%3C/filter%3E%3Crect%20x='7'%20y='7'%20width='986'%20height='286'%20rx='8'%20fill='%23fff'%20filter='url(%23t)'/%3E%3C/svg%3E");
 
     /* modular frame (Nirvana canon) — ONE corner mask flipped scaleX/Y for 4
        corners + a keystone diamond. Recolours via --dl-frame; never scales. */
@@ -655,6 +658,31 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     mix-blend-mode: overlay; opacity: .4; }
 .windowlet > * { position: relative; z-index: 1; }
 
+/* card title + opt-in hover (Nirvana canon). Hover only on cards that are
+   actually clickable; a static card carries no pointer and no lift. */
+.ds-card__title { font-family: var(--display); font-weight: 700; color: var(--gold-bright);
+    text-shadow: 0 1px 0 #2a1c00, 0 0 14px rgba(198,162,78,.22); margin: 0 0 8px; }
+.ds-card--hover { cursor: pointer; transition: transform .16s ease, box-shadow .16s ease; }
+.windowlet.ds-card--hover:hover { transform: translateY(-2px);
+    box-shadow: inset 0 -4px 12px rgba(8,7,12,.55), 0 8px 20px rgba(0,0,0,.42), 0 0 20px var(--arcane-glow); }
+
+/* ---------- parchment reading sheet (Nirvana canon) ----------
+   Torn edge with the modular frame a step inside the rag. The paper rides a
+   masked ::before so --torn shapes it; the drop shadow is a filter on the
+   parent so it follows the ragged silhouette. Add .ds-frame + the frame parts
+   (site/js/dsframe.js injects them). */
+.ds-parch { position: relative; padding: 34px 40px; color: var(--ink); --dl-frame: var(--parch-edge);
+    filter: drop-shadow(0 12px 22px rgba(0,0,0,.5)); }
+.ds-parch::before { content: ""; position: absolute; inset: -9px; z-index: 0; pointer-events: none;
+    background: var(--noise), linear-gradient(172deg, var(--parchment), var(--parchment-2));
+    background-blend-mode: multiply, normal; box-shadow: inset 0 0 44px rgba(120,95,50,.18);
+    -webkit-mask: var(--torn) no-repeat center/100% 100%; mask: var(--torn) no-repeat center/100% 100%; }
+.ds-parch > h4, .ds-parch > .ds-parch__body { position: relative; z-index: 1; }
+.ds-parch h4 { font-family: var(--display); color: #241809; margin: 0 0 8px; font-size: 1.3rem; }
+.ds-parch__body { font-family: var(--article); font-size: .96rem; line-height: 1.62;
+    letter-spacing: var(--mono-track); color: var(--ink); }
+.ds-parch a { color: var(--arcane-ink); border-bottom: 1px solid rgba(106,47,166,.38); }
+
 /* ---------- form well + focus orbit (Nirvana canon) ----------
    Dark well, gold-deep frame; focus = gold ring plus the arcane glow orbiting
    the field. Pages set size/shape only (height, width, radius), never colour. */
@@ -710,6 +738,8 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 .ds-datachip--debuff { --chip-accent: var(--ruby); }
 .ds-datachip--magic { --chip-accent: var(--amethyst); }
 .ds-datachip--mind { --chip-accent: var(--sapphire); }
+.ds-datachip--gold { --chip-accent: var(--gold-bright); }
+.ds-datachip .cur { color: var(--text-dim); margin-left: 1px; }
 .ds-datachip--parch { --chip-accent: #6b4f1f; color: var(--ink);
     background: rgba(255,248,228,.5);
     border-color: color-mix(in srgb, var(--chip-accent) 55%, var(--parch-edge));
