@@ -94,11 +94,13 @@
             dl.appendChild(el('dd', null, [v]));
         }
 
+        // The game's titles carry a leading space (they follow the name in who).
+        function t(s) { return (s || '').trim(); }
         var full = document.createDocumentFragment();
-        var pre = c.pretitle || {};
+        var pre = c.pretitle || {}, ti = c.title || {};
         full.appendChild(bi(
-            [pre.en, c.name.en, c.title.en].filter(Boolean).join(' '),
-            [pre.ru || pre.en, ukName(c), c.title.ua || c.title.ru].filter(Boolean).join(' ')));
+            [t(pre.en), c.name.en, t(ti.en)].filter(Boolean).join(' '),
+            [t(pre.ru) || t(pre.en), ukName(c), t(ti.ua) || t(ti.ru)].filter(Boolean).join(' ')));
         row(bi('Full name', 'Повне імʼя'), full);
         row(bi('Race', 'Раса'), bi(c.race.en, c.race.ua));
         row(bi('Class', 'Клас'), bi(c.class.en, c.class.ua));
