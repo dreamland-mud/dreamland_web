@@ -3,19 +3,28 @@
    404 for an account that has no reborn character, was switched off by its
    owner, or has every character hidden. Every text renders in both languages
    at once (lang="en" / lang="uk"), like the rest of the site, so the language
-   switch needs no re-render. */
+   switch needs no re-render.
+
+   Page order: account header with its numbers, then achievements (the heart of
+   the page), then the characters as a card grid; a card opens its whois sheet
+   in a modal parchment. Achievements have no backend yet: the public page shows
+   a "coming soon" shelf, and ?mock=1 renders the full UI on sample data for
+   design review. Sample achievements never show on a real profile. */
 (function () {
     var head = document.getElementById('profileHead');
     var body = document.getElementById('profileBody');
+    var MOCK = new URLSearchParams(location.search).get('mock') === '1';
 
     var EMBLEMS = ['anti-paladin', 'cleric', 'druid', 'necromancer', 'ninja', 'paladin',
         'ranger', 'samurai', 'thief', 'vampire', 'warlock', 'warrior', 'witch'];
 
-    // Clan colour letter -> the Nirvana dark-surface ANSI palette (design/design.css
-    // .fgd* / .fgb*), uppercase = bright. Feeds the clan data-chip's --chip-accent.
-    var MUD_COLOURS = {
-        r: '#cc0000', g: '#4e9a06', y: '#c4a000', b: '#3465a4', m: '#75507b', c: '#06989a', w: '#d3d7cf', d: '#555753',
-        R: '#ed2330', G: '#8ee34f', Y: '#fdea56', B: '#55a3f2', M: '#d384cb', C: '#2cf4eb', W: '#ffffff', D: '#555753'
+    // Clan badges, keyed by the first letter of the clan's internal name (the
+    // who widget's key). The badge carries the short name; the sheet the full one.
+    var CLAN_BADGES = {
+        a: ['Artificers', 'Артіль'], b: ['Fury', 'Ярості'], c: ['Chaos', 'Хаос'],
+        f: ['Flowers', 'Квіти'], g: ['Ghosts', 'Привиди'], i: ['Invaders', 'Загарбники'],
+        k: ['Knights', 'Лицарі'], l: ['Lions', 'Леви'], r: ['Rulers', 'Правителі'],
+        s: ['Shalafi', 'Шалафі']
     };
 
     function el(tag, cls, kids) {
@@ -37,11 +46,28 @@
         return f;
     }
 
-    function plural(n, en1, enN, uk1, uk2, uk5) {
+    function ukPlural(n, uk1, uk2, uk5) {
         var m10 = n % 10, m100 = n % 100;
-        var uk = (m10 === 1 && m100 !== 11) ? uk1
+        return (m10 === 1 && m100 !== 11) ? uk1
             : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? uk2 : uk5;
-        return bi(n + ' ' + (n === 1 ? en1 : enN), n + ' ' + uk);
+    }
+
+    function plural(n, en1, enN, uk1, uk2, uk5) {
+        return bi(n + ' ' + (n === 1 ? en1 : enN), n + ' ' + ukPlural(n, uk1, uk2, uk5));
+    }
+
+    function num(n, locale) { return Number(n).toLocaleString(locale); }
+
+    function monthYear(unix) {
+        var d = new Date(unix * 1000);
+        var o = { month: 'long', year: 'numeric' };
+        return bi(d.toLocaleDateString('en-GB', o), d.toLocaleDateString('uk-UA', o));
+    }
+
+    function shortDate(iso) {
+        var d = new Date(iso);
+        var o = { day: 'numeric', month: 'short', year: 'numeric' };
+        return bi(d.toLocaleDateString('en-GB', o), d.toLocaleDateString('uk-UA', o));
     }
 
     function emblem(cls, size) {
@@ -64,31 +90,45 @@
     // The login: a stable anchor for #Name deep links whatever the display form.
     function login(c) { return c.name.login || c.name.en; }
 
-    // Read-only facts as Nirvana data-chips: --chip-accent carries the meaning,
-    // the label always says it in words (colour is never the only signal).
+    function clanLetter(clan) { return (clan.key || '').charAt(0).toLowerCase(); }
+
+    // The client's clan badge; a clan without one falls back to a data-chip.
+    function clanBadge(clan) {
+        var names = CLAN_BADGES[clanLetter(clan)];
+        if (!names) {
+            var chip = el('span', 'ds-datachip');
+            chip.appendChild(bi(clan.en, clan.ua));
+            return chip;
+        }
+        var b = el('span', 'clan-chip clan-chip--md');
+        b.setAttribute('data-clan', clanLetter(clan));
+        b.appendChild(el('span', 'clan-chip__glow'));
+        var label = el('span', 'clan-chip__label');
+        label.appendChild(bi(names[0], names[1]));
+        b.appendChild(label);
+        b.appendChild(el('span', 'clan-chip__orn clan-chip__orn--l'));
+        b.appendChild(el('span', 'clan-chip__orn clan-chip__orn--r'));
+        return b;
+    }
+
+    // What a card shows at a glance: rank, clan, online. Rebirths live in the sheet.
     function chips(c) {
         var row = el('ul', 'pchips');
-        function add(mod, content, accent) {
-            var chip = el('span', 'ds-datachip' + (mod ? ' ds-datachip--' + mod : ''));
-            if (accent) chip.style.setProperty('--chip-accent', accent);
-            // A clan colour can be near-black (Invaders are dark grey), so it tints
-            // only the border; the label keeps the readable text colour.
-            if (accent) chip.appendChild(content);
-            else { var b = el('b'); b.appendChild(content); chip.appendChild(b); }
-            row.appendChild(el('li', null, [chip]));
+        function add(node) { row.appendChild(el('li', null, [node])); }
+        function dchip(mod, content) {
+            var chip = el('span', 'ds-datachip ds-datachip--' + mod);
+            var b = el('b'); b.appendChild(content); chip.appendChild(b);
+            return chip;
         }
         var fem = c.sex === 'f';
-        if (c.rank === 'immortal') add('magic', bi('Immortal', fem ? 'Безсмертна' : 'Безсмертний'));
-        else if (c.rank === 'legendary') add('gold', bi('Legend', 'Легенда'));
-        if (c.remorts > 0)
-            add('magic', plural(c.remorts, 'rebirth', 'rebirths', 'переродження', 'переродження', 'перероджень'));
-        if (c.clan)
-            add(null, bi(c.clan.en, c.clan.ua), c.clan.color && MUD_COLOURS[c.clan.color.charAt(0)]);
-        if (c.online) add('buff', bi('online', 'онлайн'));
+        if (c.rank === 'immortal') add(dchip('magic', bi('Immortal', fem ? 'Безсмертна' : 'Безсмертний')));
+        else if (c.rank === 'legendary') add(dchip('gold', bi('Legend', 'Легенда')));
+        if (c.clan) add(clanBadge(c.clan));
+        if (c.online) add(dchip('buff', bi('online', 'онлайн')));
         return row;
     }
 
-    // The whois-like sheet that opens under a card: a Nirvana parchment.
+    // The whois-like sheet: a Nirvana parchment.
     function sheet(c) {
         var dl = el('dl', 'psheet');
         function row(k, v) {
@@ -120,63 +160,362 @@
         row(bi('Status', 'Статус'), c.online ? bi('in the world', 'у світі') : bi('away', 'не в грі'));
 
         var parch = el('div', 'ds-parch ds-frame pchar__sheet');
+        var h = el('h4', null, [bi(c.name.en, ukName(c))]);
+        parch.appendChild(h);
         parch.appendChild(el('div', 'ds-parch__body', [dl]));
         return DLFrame.dress(parch);
     }
 
-    // A character: a clickable windowlet (native <details>, so a screen reader
-    // opens it unaided) that unfolds the parchment sheet below it.
-    function card(c) {
-        var d = el('details', 'pchar');
-        d.id = login(c);
+    // One modal for every sheet: native <dialog> traps focus, closes on Esc and
+    // hands focus back to the card that opened it.
+    var dialog = el('dialog', 'pdialog');
+    var dialogBody = el('div', 'pdialog__body');
+    var closeBtn = el('button', 'pdialog__close', [bi('Close', 'Закрити')]);
+    closeBtn.type = 'button';
+    closeBtn.addEventListener('click', function () { dialog.close(); });
+    dialog.appendChild(closeBtn);
+    dialog.appendChild(dialogBody);
+    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', function () {
+        if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+    });
+    document.body.appendChild(dialog);
 
-        var sum = el('summary', 'windowlet ds-card--hover pchar__card');
-        sum.appendChild(emblem(c.class, 'card'));
+    function openSheet(c) {
+        dialogBody.innerHTML = '';
+        dialogBody.appendChild(sheet(c));
+        dialog.setAttribute('aria-label', c.name.en);
+        dialog.showModal();
+        if (history.replaceState) history.replaceState(null, '', '#' + login(c));
+    }
+
+    function card(c) {
+        var b = el('button', 'windowlet ds-card--hover pchar');
+        b.type = 'button';
+        b.id = login(c);
+        b.setAttribute('aria-haspopup', 'dialog');
+        b.appendChild(emblem(c.class, 'card'));
         var id = el('span', 'pchar__id');
         id.appendChild(bi(c.name.en, ukName(c), 'ds-card__title pchar__name'));
         id.appendChild(bi(c.race.en + ' ' + c.class.en, c.race.ua + ' ' + c.class.ua, 'pchar__cls'));
         id.appendChild(chips(c));
-        sum.appendChild(id);
-        d.appendChild(sum);
-        d.appendChild(sheet(c));
-
-        d.addEventListener('toggle', function () {
-            if (d.open && history.replaceState)
-                history.replaceState(null, '', '#' + login(c));
-        });
-        return d;
+        b.appendChild(id);
+        b.addEventListener('click', function () { openSheet(c); });
+        return b;
     }
+
+    // ---------- account numbers ----------
+
+    function stat(value, label) {
+        // dt before dd as HTML wants; CSS lifts the value above its label.
+        var s = el('div', 'pstat');
+        s.appendChild(el('dt', 'pstat__label', [label]));
+        s.appendChild(el('dd', 'pstat__value', [value]));
+        return s;
+    }
+
+    function stats(p, chars, ach) {
+        var a = p.account || {};
+        var dl = el('dl', 'pstats');
+        if (a.since)
+            dl.appendChild(stat(monthYear(a.since), bi('playing since', 'грає з')));
+        if (a.hours != null)
+            dl.appendChild(stat(bi(num(a.hours, 'en-GB'), num(a.hours, 'uk-UA')),
+                bi(a.hours === 1 ? 'hour played' : 'hours played',
+                    ukPlural(a.hours, 'година', 'години', 'годин') + ' у грі')));
+        var lives = a.lives != null ? a.lives
+            : chars.reduce(function (s, c) { return s + 1 + (c.remorts || 0); }, 0);
+        dl.appendChild(stat(document.createTextNode(String(lives)),
+            bi(lives === 1 ? 'life lived' : 'lives lived',
+                ukPlural(lives, 'життя прожите', 'життя прожиті', 'життів прожито'))));
+        if (a.favClass) {
+            var v = document.createDocumentFragment();
+            v.appendChild(emblem(a.favClass, 'stat'));
+            v.appendChild(bi(a.favClass.en, a.favClass.ua, 'pstat__cap'));
+            dl.appendChild(stat(v, bi('favourite class', 'улюблений клас')));
+        }
+        if (ach)
+            dl.appendChild(stat(document.createTextNode(ach.unlocked + ' / ' + ach.total),
+                bi('achievements', 'досягнення')));
+        return dl;
+    }
+
+    // ---------- achievements ----------
+
+    var CATEGORIES = [
+        { key: 'quests', en: 'Quests', uk: 'Квести' },
+        { key: 'explore', en: 'Exploration', uk: 'Мандри' },
+        { key: 'combat', en: 'Combat', uk: 'Бій' },
+        { key: 'craft', en: 'Crafting', uk: 'Ремесло' },
+        { key: 'rebirth', en: 'Rebirths', uk: 'Переродження' },
+        { key: 'lore', en: 'Lore', uk: 'Лор' },
+        { key: 'social', en: 'Community', uk: 'Спільнота' }
+    ];
+
+    // Rarity = share of accounts holding it. The word always rides with the tint.
+    var RARITY = {
+        common: { mod: 'buff', en: 'Common', uk: 'Звичайне' },
+        rare: { mod: 'mind', en: 'Rare', uk: 'Рідкісне' },
+        epic: { mod: 'magic', en: 'Epic', uk: 'Епічне' },
+        legendary: { mod: 'gold', en: 'Legendary', uk: 'Легендарне' }
+    };
+
+    function rarityOf(pct) {
+        return pct < 1 ? 'legendary' : pct < 5 ? 'epic' : pct < 20 ? 'rare' : 'common';
+    }
+
+    // Sample shelf for ?mock=1 only. Shape of a future /api/profile "achievements".
+    function mockAchievements() {
+        var A = [
+            ['quests', 'First Errand', 'Перше доручення', 'Finish a quest for a questor.', 'Виконай перше завдання квестора.', 71, '2019-05-11'],
+            ['quests', 'Hundred Errands', 'Сто доручень', 'Finish 100 questor quests.', 'Виконай 100 завдань квестора.', 12, '2020-02-02'],
+            ['quests', 'The Long Contract', 'Довгий контракт', 'Finish 1,000 questor quests.', 'Виконай 1000 завдань квестора.', 0.8, null, 412, 1000],
+            ['quests', 'Explorer', 'Дослідник', 'Finish every area quest open to you in one life.', 'Пройди всі доступні квести зон за одне життя.', 3.1, '2021-07-19'],
+            ['explore', 'Footsore', 'Збиті ноги', 'Visit 1,000 rooms.', 'Побувай у 1000 кімнатах.', 44, '2019-06-03'],
+            ['explore', 'Cartographer', 'Картограф', 'Visit every zone on the Thera atlas.', 'Побувай у кожній зоні атласу Тери.', 2.4, null, 97, 118],
+            ['explore', 'Sea Legs', 'Морські ноги', 'Cross the sea on a ship.', 'Перепливи море на кораблі.', 35, '2019-08-14'],
+            ['combat', 'Blooded', 'Перша кров', 'Win your first fight.', 'Виграй перший бій.', 98, '2019-05-10'],
+            ['combat', 'Dragonsbane', 'Погибель драконів', 'Slay an ancient dragon.', 'Убий стародавнього дракона.', 4.2, '2022-01-30'],
+            ['combat', 'Untouchable', 'Недоторканний', 'Win a hero-level fight without taking damage.', 'Виграй бій героя, не отримавши ані подряпини.', 0.6, null],
+            ['craft', 'Apprentice', 'Підмайстер', 'Craft your first item.', 'Скрафти першу річ.', 30, '2026-08-02'],
+            ['craft', 'Masterwork', 'Шедевр', 'Craft a legendary-quality item.', 'Скрафти річ легендарної якості.', 0.4, null, 0, 1],
+            ['rebirth', 'Second Life', 'Друге життя', 'Be reborn once.', 'Переродися вперше.', 18, '2020-11-05'],
+            ['rebirth', 'Old Soul', 'Стара душа', 'Be reborn five times.', 'Переродися пʼять разів.', 1.9, '2024-03-12'],
+            ['rebirth', 'Every Path', 'Усі шляхи', 'Live a life in each of the 13 classes.', 'Проживи життя в кожному з 13 класів.', 0.2, null, 6, 13],
+            ['lore', 'Bookworm', 'Книжковий черв', 'Read every book in the Anon library.', 'Прочитай усі книжки бібліотеки Анона.', 1.1, null, 9, 21],
+            ['lore', 'Pilgrim', 'Прочанин', 'Pray at the altar of every god.', 'Помолися біля вівтаря кожного бога.', 2.7, '2023-10-01'],
+            ['social', 'Sworn', 'Присягнулий', 'Join a clan.', 'Вступи до клану.', 26, '2019-12-24'],
+            ['social', 'Mentor', 'Наставник', 'Help a newcomer reach level 20.', 'Допоможи новачкові дорости до 20 рівня.', 6.5, '2021-04-04'],
+            ['social', '???', '???', 'A secret. Keep playing.', 'Таємниця. Грай далі.', 0.1, null, null, null, true]
+        ];
+        return A.map(function (r, i) {
+            return {
+                id: 'm' + i, cat: r[0], name: { en: r[1], ua: r[2] }, desc: { en: r[3], ua: r[4] },
+                pct: r[5], unlocked: r[6], progress: r[7] == null ? null : { have: r[7], need: r[8] },
+                secret: !!r[9]
+            };
+        });
+    }
+
+    function progressBar(have, need, cls) {
+        var bar = el('div', 'pbar' + (cls ? ' ' + cls : ''));
+        bar.setAttribute('role', 'progressbar');
+        bar.setAttribute('aria-valuemin', '0');
+        bar.setAttribute('aria-valuemax', String(need));
+        bar.setAttribute('aria-valuenow', String(have));
+        var fill = el('span', 'pbar__fill');
+        fill.style.width = (need > 0 ? Math.min(100, have / need * 100) : 0) + '%';
+        bar.appendChild(fill);
+        return bar;
+    }
+
+    function achTile(a) {
+        var locked = !a.unlocked;
+        var li = el('li', 'windowlet pach' + (locked ? ' is-locked' : ''));
+        li.setAttribute('data-cat', a.cat);
+
+        var gem = el('span', 'pach__gem');
+        gem.setAttribute('aria-hidden', 'true');
+        gem.setAttribute('data-rarity', rarityOf(a.pct));
+        li.appendChild(gem);
+
+        var txt = el('div', 'pach__txt');
+        txt.appendChild(bi(a.name.en, a.name.ua, 'pach__name'));
+        txt.appendChild(bi(a.desc.en, a.desc.ua, 'pach__desc'));
+        if (locked && a.progress) {
+            txt.appendChild(progressBar(a.progress.have, a.progress.need));
+            txt.appendChild(el('span', 'pach__count', [a.progress.have + ' / ' + a.progress.need]));
+        }
+
+        var meta = el('div', 'pach__meta');
+        var r = RARITY[rarityOf(a.pct)];
+        var chip = el('span', 'ds-datachip ds-datachip--' + r.mod);
+        var b = el('b'); b.appendChild(bi(r.en, r.uk)); chip.appendChild(b);
+        chip.appendChild(bi(' ' + a.pct + '%', ' ' + a.pct + '%', 'cur'));
+        meta.appendChild(chip);
+        if (locked) meta.appendChild(bi('Locked', 'Не здобуто', 'pach__state'));
+        else meta.appendChild(el('span', 'pach__date', [shortDate(a.unlocked)]));
+        txt.appendChild(meta);
+
+        li.appendChild(txt);
+        return li;
+    }
+
+    function achievementsMock(list) {
+        var sec = el('section', 'pach-sec');
+        sec.setAttribute('aria-labelledby', 'achTitle');
+        var h = el('h2', 'pach-sec__title', [bi('Achievements', 'Досягнення')]);
+        h.id = 'achTitle';
+        sec.appendChild(h);
+
+        var got = list.filter(function (a) { return a.unlocked; }).length;
+        var sum = el('div', 'pach-sum');
+        sum.appendChild(el('p', 'pach-sum__count', [bi(
+            got + ' of ' + list.length + ' unlocked', got + ' з ' + list.length + ' здобуто')]));
+        sum.appendChild(progressBar(got, list.length, 'pbar--lg'));
+        sec.appendChild(sum);
+
+        var state = { cat: 'all', locked: true, q: '', sort: 'recent' };
+
+        // Filters: categories as toggle-chips with their own counts, a locked
+        // toggle, search and sort. With hundreds of entries, filters are the UI.
+        var tools = el('div', 'pach-tools');
+        var cats = el('div', 'pach-cats');
+        cats.setAttribute('role', 'group');
+        function catChip(key, en, uk) {
+            var inCat = list.filter(function (a) { return key === 'all' || a.cat === key; });
+            var have = inCat.filter(function (a) { return a.unlocked; }).length;
+            var c = el('button', 'ds-chip', [bi(en, uk), el('span', 'pach-cats__n', [have + '/' + inCat.length])]);
+            c.type = 'button';
+            c.setAttribute('aria-pressed', key === state.cat ? 'true' : 'false');
+            c.addEventListener('click', function () {
+                state.cat = key;
+                Array.prototype.forEach.call(cats.children, function (x) { x.setAttribute('aria-pressed', 'false'); });
+                c.setAttribute('aria-pressed', 'true');
+                draw();
+            });
+            cats.appendChild(c);
+        }
+        catChip('all', 'All', 'Усі');
+        CATEGORIES.forEach(function (c) { catChip(c.key, c.en, c.uk); });
+        tools.appendChild(cats);
+
+        var row = el('div', 'pach-row');
+        var search = el('input', 'ds-input pach-search');
+        search.type = 'search';
+        search.addEventListener('input', function () { state.q = search.value.trim().toLowerCase(); draw(); });
+        row.appendChild(search);
+
+        var sort = el('select', 'ds-select pach-sort');
+        var SORTS = [['recent', 'Newest first', 'Спершу нові'], ['rare', 'Rarest first', 'Спершу рідкісні'],
+            ['name', 'A to Z', 'За абеткою']];
+        SORTS.forEach(function (o) {
+            var opt = el('option'); opt.value = o[0]; sort.appendChild(opt);
+        });
+        sort.addEventListener('change', function () { state.sort = sort.value; draw(); });
+        row.appendChild(sort);
+
+        var lockedBtn = el('button', 'ds-chip', [bi('Show locked', 'Показати не здобуті')]);
+        lockedBtn.type = 'button';
+        lockedBtn.setAttribute('aria-pressed', 'true');
+        lockedBtn.addEventListener('click', function () {
+            state.locked = !state.locked;
+            lockedBtn.setAttribute('aria-pressed', state.locked ? 'true' : 'false');
+            draw();
+        });
+        row.appendChild(lockedBtn);
+        tools.appendChild(row);
+
+        // Attributes and <option> text cannot hold the lang spans, so they follow the switch.
+        function relabel() {
+            var uk = document.documentElement.getAttribute('data-lang') === 'uk';
+            search.placeholder = uk ? 'Шукати досягнення' : 'Search achievements';
+            search.setAttribute('aria-label', search.placeholder);
+            sort.setAttribute('aria-label', uk ? 'Порядок' : 'Sort');
+            cats.setAttribute('aria-label', uk ? 'Категорії' : 'Categories');
+            SORTS.forEach(function (o, i) { sort.options[i].textContent = uk ? o[2] : o[1]; });
+        }
+        relabel();
+        new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
+        sec.appendChild(tools);
+
+        var grid = el('ul', 'pach-grid');
+        var empty = el('p', 'pach-empty', [bi('Nothing here yet.', 'Тут поки порожньо.')]);
+        var live = el('p', 'sr-only');
+        live.setAttribute('aria-live', 'polite');
+        sec.appendChild(grid);
+        sec.appendChild(empty);
+        sec.appendChild(live);
+
+        function draw() {
+            var shown = list.filter(function (a) {
+                if (state.cat !== 'all' && a.cat !== state.cat) return false;
+                if (!state.locked && !a.unlocked) return false;
+                if (state.q && (a.name.en + ' ' + a.name.ua + ' ' + a.desc.en + ' ' + a.desc.ua)
+                    .toLowerCase().indexOf(state.q) < 0) return false;
+                return true;
+            });
+            shown.sort(function (x, y) {
+                if (state.sort === 'rare') return x.pct - y.pct;
+                if (state.sort === 'name') return x.name.en.localeCompare(y.name.en);
+                // newest unlocks first, then the closest locked ones
+                if (!!x.unlocked !== !!y.unlocked) return x.unlocked ? -1 : 1;
+                if (x.unlocked) return y.unlocked.localeCompare(x.unlocked);
+                return x.pct - y.pct;
+            });
+            grid.innerHTML = '';
+            shown.forEach(function (a) { grid.appendChild(achTile(a)); });
+            empty.hidden = shown.length > 0;
+            live.textContent = shown.length + ' / ' + list.length;
+        }
+        draw();
+        return sec;
+    }
+
+    // The public shelf until the backend lands: honest "coming soon", no fake data.
+    function achievementsSoon() {
+        var sec = el('section', 'pach-sec');
+        sec.setAttribute('aria-labelledby', 'achTitle');
+        var h = el('h2', 'pach-sec__title', [bi('Achievements', 'Досягнення')]);
+        h.id = 'achTitle';
+        sec.appendChild(h);
+        sec.appendChild(el('p', 'pach-soon', [bi(
+            'The Archivist is still counting every deed of every life. Achievements open here soon.',
+            'Архіваріус ще рахує кожен подвиг кожного життя. Досягнення відкриються тут незабаром.')]));
+        var grid = el('ul', 'pach-grid pach-grid--ghost');
+        grid.setAttribute('aria-hidden', 'true');
+        for (var i = 0; i < 8; i++) {
+            var li = el('li', 'windowlet pach is-locked is-ghost');
+            li.appendChild(el('span', 'pach__gem'));
+            var txt = el('div', 'pach__txt');
+            txt.appendChild(el('span', 'pach__bone pach__bone--name'));
+            txt.appendChild(el('span', 'pach__bone'));
+            li.appendChild(txt);
+            grid.appendChild(li);
+        }
+        sec.appendChild(grid);
+        return sec;
+    }
+
+    // ---------- page ----------
 
     function renderProfile(p) {
         var chars = p.chars || [];
         var lead = chars[0];
-        var total = chars.reduce(function (s, c) { return s + (c.remorts || 0); }, 0);
+        var ach = MOCK ? mockAchievements() : null;
 
         head.innerHTML = '';
         var w = el('div', 'wrap phead');
         if (lead) w.appendChild(emblem(lead.class, 'head'));
-        var h1 = el('h1', 'phead__title', [p.title || p.id]);
-        w.appendChild(h1);
-        var meta = el('p', 'phead__meta');
-        meta.appendChild(plural(chars.length, 'character', 'characters', 'персонаж', 'персонажі', 'персонажів'));
-        meta.appendChild(document.createTextNode(' · '));
-        meta.appendChild(plural(total, 'rebirth', 'rebirths', 'переродження', 'переродження', 'перероджень'));
-        w.appendChild(meta);
+        w.appendChild(el('h1', 'phead__title', [p.title || p.id]));
+        w.appendChild(stats(p, chars, ach && {
+            unlocked: ach.filter(function (a) { return a.unlocked; }).length, total: ach.length
+        }));
         head.appendChild(w);
 
         document.title = 'DreamLand — ' + (p.title || p.id);
 
         body.innerHTML = '';
+        body.appendChild(ach ? achievementsMock(ach) : achievementsSoon());
+
+        var csec = el('section', 'pchars-sec');
+        csec.setAttribute('aria-labelledby', 'charsTitle');
+        var ch = el('h2', 'pach-sec__title', [bi('Characters', 'Персонажі')]);
+        ch.id = 'charsTitle';
+        csec.appendChild(ch);
         var list = el('div', 'pchars');
         chars.forEach(function (c) { list.appendChild(card(c)); });
-        body.appendChild(el('h2', 'sr-only', [bi('Characters', 'Персонажі')]));
-        body.appendChild(list);
+        csec.appendChild(list);
+        body.appendChild(csec);
 
-        // Deep link: /player/<id>#Name opens that character.
+        // Deep link: /player/<id>#Name opens that character's sheet.
         var want = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
         if (want) {
-            Array.prototype.forEach.call(list.children, function (d) {
-                if (d.id.toLowerCase() === want) { d.open = true; d.scrollIntoView({ block: 'center' }); }
+            chars.forEach(function (c) {
+                if (login(c).toLowerCase() === want) {
+                    document.getElementById(login(c)).scrollIntoView({ block: 'center' });
+                    openSheet(c);
+                }
             });
         }
     }
