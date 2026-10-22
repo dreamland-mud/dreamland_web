@@ -161,6 +161,7 @@
 
         var parch = el('div', 'ds-parch ds-frame pchar__sheet');
         var h = el('h4', null, [bi(c.name.en, ukName(c))]);
+        h.id = 'sheetTitle';
         parch.appendChild(h);
         parch.appendChild(el('div', 'ds-parch__body', [dl]));
         return DLFrame.dress(parch);
@@ -184,7 +185,7 @@
     function openSheet(c) {
         dialogBody.innerHTML = '';
         dialogBody.appendChild(sheet(c));
-        dialog.setAttribute('aria-label', c.name.en);
+        dialog.setAttribute('aria-labelledby', 'sheetTitle');
         dialog.showModal();
         if (history.replaceState) history.replaceState(null, '', '#' + login(c));
     }
@@ -218,7 +219,7 @@
         var a = p.account || {};
         var dl = el('dl', 'pstats');
         if (a.since)
-            dl.appendChild(stat(monthYear(a.since), bi('playing since', 'грає з')));
+            dl.appendChild(stat(monthYear(a.since), bi('playing since', 'перший персонаж')));
         if (a.hours != null)
             dl.appendChild(stat(bi(num(a.hours, 'en-GB'), num(a.hours, 'uk-UA')),
                 bi(a.hours === 1 ? 'hour played' : 'hours played',
