@@ -59,7 +59,10 @@
         return box;
     }
 
-    function ukName(c) { return c.name.ru || c.name.en; }
+    // The game's own per-language name: the Ukrainian form, else the Russian one.
+    function ukName(c) { return c.name.ua || c.name.ru || c.name.en; }
+    // The login: a stable anchor for #Name deep links whatever the display form.
+    function login(c) { return c.name.login || c.name.en; }
 
     // Read-only facts as Nirvana data-chips: --chip-accent carries the meaning,
     // the label always says it in words (colour is never the only signal).
@@ -125,7 +128,7 @@
     // opens it unaided) that unfolds the parchment sheet below it.
     function card(c) {
         var d = el('details', 'pchar');
-        d.id = c.name.en;
+        d.id = login(c);
 
         var sum = el('summary', 'windowlet ds-card--hover pchar__card');
         sum.appendChild(emblem(c.class, 'card'));
@@ -139,7 +142,7 @@
 
         d.addEventListener('toggle', function () {
             if (d.open && history.replaceState)
-                history.replaceState(null, '', '#' + c.name.en);
+                history.replaceState(null, '', '#' + login(c));
         });
         return d;
     }
