@@ -745,6 +745,47 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     border-color: color-mix(in srgb, var(--chip-accent) 55%, var(--parch-edge));
     box-shadow: 0 1px 1px rgba(70,50,20,.12); }
 
+/* ---------- clan badge (Nirvana canon, ported from the mudjs who widget) ----------
+   The Figma "Chip" frames: edge->mid->edge gradient + white top sheen, 2px
+   side strokes, inner glow, a pair of ornaments past each end. Paint keyed by
+   the clan's first letter (data-clan), same as the client. The label always
+   names the clan in words, so the colour is never the only signal.
+   .clan-chip--md is the site size; the bare chip is the client's 10/14. */
+.clan-chip { --edge: rgba(96,79,38,.85); --mid: #c6a24e; --stroke: rgba(230,205,134,.5);
+    --glow: rgba(230,205,134,.4); --chip-ink: var(--obsidian); --chip-ink-shadow: rgba(255,255,255,.25);
+    position: relative; display: inline-flex; align-items: center; justify-content: center;
+    height: 14px; padding: 0 12px; margin: 0 9px; border-radius: 200px;
+    background: linear-gradient(180deg, rgba(255,255,255,.12) 51.913%, rgba(255,255,255,0) 51.923%),
+        linear-gradient(90deg, var(--edge) 0%, var(--mid) 50%, var(--edge) 100%);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.25), 0 2px 6px rgba(8,7,12,.4); }
+.clan-chip::before { content: ''; position: absolute; inset: 0 -1px; border-radius: inherit; pointer-events: none;
+    border-left: 2px solid var(--stroke); border-right: 2px solid var(--stroke); }
+.clan-chip::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    box-shadow: inset 0 -1px 2px rgba(8,7,12,.3); mix-blend-mode: multiply; }
+.clan-chip__glow { position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    box-shadow: inset 0 4px 4px var(--glow); mix-blend-mode: plus-lighter; }
+.clan-chip__label { position: relative; font-family: var(--body); font-weight: 700; font-size: 10px;
+    line-height: 14px; color: var(--chip-ink); text-shadow: 0 1px 0 var(--chip-ink-shadow); white-space: nowrap; }
+.clan-chip__orn { position: absolute; top: 1.5px; width: 17px; height: 11px; pointer-events: none;
+    background: url('/site/assets/clan-ornament.svg') no-repeat 0 0 / 17px 11px; }
+.clan-chip__orn--l { left: -9px; }
+.clan-chip__orn--r { right: -9px; transform: scaleX(-1); }
+.clan-chip--md { height: 18px; padding: 0 14px; }
+.clan-chip--md .clan-chip__label { font-size: 12px; line-height: 18px; }
+.clan-chip--md .clan-chip__orn { top: 3.5px; }
+
+.clan-chip[data-clan='a'] { --edge: rgba(96,79,38,.85); --mid: #c6a24e; --stroke: rgba(230,205,134,.5); --glow: rgba(230,205,134,.4); }
+.clan-chip[data-clan='l'] { --edge: rgba(23,96,61,.85); --mid: #2fa36b; --stroke: rgba(47,163,107,.5); --glow: rgba(47,163,107,.4); }
+.clan-chip[data-clan='c'] { --edge: rgba(76,42,122,.85); --mid: #8043ca; --stroke: rgba(187,134,252,.5); --glow: rgba(187,134,252,.4); }
+.clan-chip[data-clan='r'] { --edge: rgba(84,110,122,.85); --mid: #8fa0a7; --stroke: rgba(212,215,207,.5); --glow: rgba(212,215,207,.4); }
+.clan-chip[data-clan='s'] { --edge: rgba(39,67,132,.85); --mid: #4a74d4; --stroke: rgba(74,116,212,.5); --glow: rgba(0,255,255,.4); }
+.clan-chip[data-clan='b'] { --edge: rgba(124,31,48,.85); --mid: #c0384f; --stroke: rgba(237,35,48,.5); --glow: rgba(255,0,0,.4); }
+.clan-chip[data-clan='k'] { --edge: rgba(191,192,193,.85); --mid: #ffffff; --stroke: rgba(198,162,78,.5); --glow: #e6cd86; }
+.clan-chip[data-clan='i'] { --edge: rgba(19,16,25,.85); --mid: #424242; --stroke: rgba(75,24,34,.5); --glow: rgba(53,23,23,.4);
+    --chip-ink: #ffffff; --chip-ink-shadow: rgba(0,0,0,.25); }
+.clan-chip[data-clan='f'] { --edge: rgba(47,163,107,.85); --mid: #8ee34f; --stroke: rgba(142,227,79,.5); --glow: rgba(142,227,79,.4); }
+.clan-chip[data-clan='g'] { --edge: rgba(48,63,70,.85); --mid: #546e7a; --stroke: rgba(84,110,122,.5); --glow: rgba(84,110,122,.4); }
+
 /* ---------- map control ----------
    Gold-gem button for zoom/layer clusters. Active = arcane AND pressed in, so
    it reads selected without hue (greyscale, low vision). */

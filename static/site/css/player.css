@@ -1,55 +1,133 @@
 /* Public account profile (/player/<id>), loaded on top of theme.css.
    Layout only: every surface is a Nirvana component from theme.css --
-   characters are clickable .windowlet cards, facts are .ds-datachip, the
-   opened whois sheet is a .ds-parch with the modular frame. The class diamond
-   is the Figma "Classes" emblem set. */
+   characters and achievements are .windowlet cards, facts are .ds-datachip /
+   .clan-chip, filters are .ds-chip / .ds-input / .ds-select, the whois sheet
+   is a .ds-parch with the modular frame in a native <dialog>. The class
+   diamond is the Figma "Classes" emblem set. No monospace anywhere on this
+   page (Kit 10-22): the parchment body is reset to the body face here. */
 
 .pagehead--player { padding-bottom: 34px; }
 .phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.phead__title { margin: 0; }
-.phead__meta { font-family: var(--mono); font-size: .82rem; letter-spacing: var(--mono-track);
-    color: var(--gold-bright); }
+.phead__title { margin: 0; text-align: center; }
 .phead__loading { color: var(--text-dim); }
+
+/* ---------- account numbers ---------- */
+.pstats { margin: 14px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 34px; }
+.pstat { display: flex; flex-direction: column-reverse; align-items: center; min-width: 0; }
+.pstat__value { margin: 0; display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--display); font-weight: 700; font-size: 1.3rem; line-height: 1.2; color: var(--gold-bright); }
+.pstat__cap { text-transform: capitalize; }
+.pstat__label { font-size: .82rem; color: var(--text-dim); }
 
 /* ---------- class diamond ---------- */
 .pemblem { display: block; flex: none; position: relative; }
 .pemblem img { width: 100%; height: 100%; object-fit: contain; display: block;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
 .pemblem--head { width: 92px; height: 100px; margin-bottom: 4px; }
-.pemblem--card { width: 58px; height: 64px; }
+.pemblem--card { width: 40px; height: 44px; }
+.pemblem--stat { width: 22px; height: 24px; }
 .pemblem--blank::before {
     content: ''; position: absolute; inset: 22% 26%;
     transform: rotate(45deg); border: 2px solid var(--gold-dim);
     background: var(--stone-800);
 }
 
-/* ---------- character list ---------- */
-.playerpage { padding-top: 34px; padding-bottom: 70px; }
-.pchars { display: flex; flex-direction: column; gap: 16px; max-width: 640px; margin: 0 auto; }
+.playerpage { padding-top: 34px; padding-bottom: 70px; max-width: 1040px; }
+.pach-sec__title { font-size: 1.5rem; margin: 0 0 14px; }
 
-.pchar { min-width: 0; }
-.pchar__card { list-style: none; display: flex; align-items: center; gap: 16px; padding: 16px 18px; }
-.pchar__card::-webkit-details-marker { display: none; }
+/* ---------- character grid ---------- */
+.pchars-sec { margin-top: 48px; }
+.pchars { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+
+.pchar { display: flex; align-items: center; gap: 12px; padding: 12px 14px; min-width: 0;
+    width: 100%; border: 0; text-align: left; font: inherit; color: inherit; }
 /* static gold ring, as on every live site control */
-.pchar__card:focus-visible { outline: none;
+.pchar:focus-visible { outline: none;
     box-shadow: inset 0 -4px 12px rgba(8,7,12,.55), 0 0 0 2px rgba(230,205,134,.55); }
 
-.pchar__id { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.pchar__name { display: block; margin: 0; font-size: 1.25rem; line-height: 1.15; }
-.pchar__cls { font-size: .84rem; color: var(--text-dim); }
+.pchar__id { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.pchar__name { display: block; margin: 0; font-size: 1.05rem; line-height: 1.15;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pchar__cls { font-size: .78rem; color: var(--text-dim); }
 
-.pchips { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.pchips { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap;
+    align-items: center; gap: 6px; }
+/* the badge ornaments hang 9px past each end; the margin keeps them off the neighbour */
+.pchips .clan-chip { margin: 0 9px; }
+.pchips .ds-datachip { font-size: .74rem; padding: 0 8px; }
 
-/* the opened sheet sits a breath below its card, inside the torn margin */
-.pchar__sheet { margin: 18px 9px 6px; }
+/* ---------- whois sheet in a dialog ---------- */
+.pdialog { padding: 0; border: 0; background: transparent; color: inherit; overflow: visible;
+    width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
+.pdialog::backdrop { background: rgba(8,7,12,.72); }
+.pdialog__body { padding: 9px; max-height: calc(100vh - 32px); overflow: auto; }
+.pdialog__close { position: absolute; top: -6px; right: -2px; z-index: 5; font-family: var(--body); font-weight: 700; font-size: .84rem; cursor: pointer;
+    color: #1c1206; padding: 4px 12px; border: 0; border-radius: 999px;
+    background: var(--gem-face); box-shadow: var(--gem-shadow); }
+.pdialog__close:hover { color: #fff; background: var(--gem-face-hover); }
+.pdialog__close:focus-visible { outline: none; box-shadow: var(--gem-shadow), 0 0 0 2px rgba(230,205,134,.55); }
+.pchar__sheet .ds-parch__body { font-family: var(--body); letter-spacing: normal; font-size: 1rem; }
 .psheet { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; }
 .psheet dt { color: var(--ink-dim); }
 .psheet dd { margin: 0; overflow-wrap: anywhere; }
 
+/* ---------- achievements ---------- */
+.pach-sum { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.pach-sum__count { margin: 0; white-space: nowrap; color: var(--gold-bright); font-weight: 700; }
+
+/* progress: a gold gem fill in a dark well (same faces as the form well and gem) */
+.pbar { position: relative; flex: 1; height: 6px; border-radius: 99px; overflow: hidden;
+    background: #0b0a12; box-shadow: inset 0 1px 3px rgba(0,0,0,.7), 0 0 0 1px var(--gold-deep); }
+.pbar--lg { height: 10px; }
+.pbar__fill { position: absolute; inset: 0 auto 0 0; background: var(--gem-face); border-radius: inherit; }
+
+.pach-tools { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.pach-cats, .pach-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pach-cats .ds-chip { padding: 4px 12px; }
+.pach-cats__n { font-weight: 400; opacity: .75; }
+.pach-search { flex: 1 1 220px; min-width: 0; }
+.pach-sort { flex: 0 0 auto; }
+
+.pach-grid { list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.pach { display: flex; gap: 12px; padding: 12px; min-width: 0; }
+.pach__txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.pach__name { font-family: var(--display); font-weight: 700; color: var(--gold-bright); line-height: 1.2; }
+.pach__desc { font-size: .82rem; line-height: 1.35; color: var(--text-dim); }
+.pach__count { font-size: .74rem; color: var(--text-dim); }
+.pach__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 4px; }
+.pach__meta .ds-datachip { font-size: .72rem; padding: 0 8px; }
+.pach__date, .pach__state { font-size: .74rem; color: var(--text-dim); }
+.pach .pbar { flex: none; margin-top: 4px; }
+
+/* the gem: a rotated square in the rarity jewel. Rarity is ALSO in words on the
+   chip, so the hue never carries the meaning alone. */
+.pach__gem { flex: none; width: 22px; height: 22px; margin: 6px 4px 0;
+    transform: rotate(45deg); border-radius: 3px;
+    background: radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,.55), transparent 45%), var(--gem, var(--gold));
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), 0 0 0 2px var(--gold-deep), 0 0 12px var(--gem-glow, transparent); }
+.pach__gem[data-rarity='common'] { --gem: var(--emerald); }
+.pach__gem[data-rarity='rare'] { --gem: var(--sapphire); --gem-glow: rgba(74,116,212,.4); }
+.pach__gem[data-rarity='epic'] { --gem: var(--amethyst); --gem-glow: var(--arcane-glow); }
+.pach__gem[data-rarity='legendary'] { --gem: var(--gold-bright); --gem-glow: rgba(230,205,134,.55); }
+
+.pach.is-locked .pach__gem { --gem: var(--stone-600); --gem-glow: transparent; }
+.pach.is-locked .pach__name { color: var(--text-dim); }
+.pach.is-locked .pach__desc { color: var(--text-faint); }
+.pach-empty { color: var(--text-dim); }
+
+/* coming-soon shelf: ghost tiles, decoration only */
+.pach-soon { color: var(--text-dim); margin: 0 0 16px; max-width: 60ch; }
+.pach.is-ghost { opacity: .45; }
+.pach__bone { display: block; height: 8px; border-radius: 4px; background: var(--stone-700); width: 85%; }
+.pach__bone--name { height: 12px; width: 55%; margin-bottom: 4px; background: var(--stone-600); }
+
 @media (max-width: 560px) {
-    .pchar__card { gap: 12px; padding: 14px; }
-    .pemblem--card { width: 46px; height: 51px; }
+    .pstats { gap: 10px 22px; }
+    .pchars { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+    .pchar { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
     .pchar__sheet { padding: 28px 24px; }
     .psheet { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .psheet dt { margin-top: 8px; font-size: .8rem; }
+    .pach-sum { flex-direction: column; align-items: stretch; gap: 6px; }
 }
