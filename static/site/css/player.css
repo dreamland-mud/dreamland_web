@@ -72,8 +72,9 @@
 .psheet dd { margin: 0; overflow-wrap: anywhere; }
 
 /* ---------- achievements ---------- */
-.pach-sum { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.pach-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 16px; }
 .pach-sum__count { margin: 0; white-space: nowrap; color: var(--gold-bright); font-weight: 700; }
+.pach-sum__secrets { margin: 0; flex-basis: 100%; color: var(--ink-dim); }
 
 /* progress: a gold gem fill in a dark well (same faces as the form well and gem) */
 .pbar { position: relative; flex: 1; height: 6px; border-radius: 99px; overflow: hidden;
