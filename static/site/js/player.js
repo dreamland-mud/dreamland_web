@@ -242,6 +242,15 @@
         tier.appendChild(jewel(r.gem, 'psheet__gem'));
         tier.appendChild(bi(r.en, r.uk));
         row(bi('Tier', 'Рівень'), tier);
+        // Rarity: the share of active accounts (seen within a year) holding it.
+        if (a.rarity && a.rarity.of > 0) {
+            var pct = a.rarity.have * 100 / a.rarity.of;
+            var shown = pct >= 10 ? Math.round(pct) : Math.round(pct * 10) / 10;
+            var txt = (a.rarity.have > 0 && shown === 0) ? '<0.1' : String(shown);
+            row(bi('Rarity', 'Рідкість'), bi(
+                txt + '% of players (' + a.rarity.have + ' of ' + a.rarity.of + ')',
+                txt + '% гравців (' + a.rarity.have + ' з ' + a.rarity.of + ')'));
+        }
         if (a.unlocked && a.former) {
             row(bi('Status', 'Статус'), bi('Previously held', 'Колишній титул'));
             row(bi('Last held', 'Востаннє'), shortDate(a.unlocked * 1000));
