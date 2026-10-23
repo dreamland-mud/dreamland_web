@@ -7,13 +7,12 @@
 
    Page order: account header with its numbers, then achievements (the heart of
    the page), then the characters as a card grid; a card opens its whois sheet
-   in a modal parchment. Achievements have no backend yet: the public page shows
-   a "coming soon" shelf, and ?mock=1 renders the full UI on sample data for
-   design review. Sample achievements never show on a real profile. */
+   in a modal parchment. Achievements come with the profile when the game sends
+   them (field "achievements"); otherwise the page shows a "coming soon" shelf.
+   An unearned secret arrives without name or description and stays "???". */
 (function () {
     var head = document.getElementById('profileHead');
     var body = document.getElementById('profileBody');
-    var MOCK = new URLSearchParams(location.search).get('mock') === '1';
 
     var EMBLEMS = ['anti-paladin', 'cleric', 'druid', 'necromancer', 'ninja', 'paladin',
         'ranger', 'samurai', 'thief', 'vampire', 'warlock', 'warrior', 'witch'];
@@ -243,59 +242,43 @@
 
     // ---------- achievements ----------
 
+    // Display groups, in shelf order. The game sends the key per achievement.
     var CATEGORIES = [
         { key: 'quests', en: 'Quests', uk: 'Квести' },
-        { key: 'explore', en: 'Exploration', uk: 'Мандри' },
         { key: 'combat', en: 'Combat', uk: 'Бій' },
+        { key: 'life', en: 'Lives and time', uk: 'Життя й час' },
         { key: 'craft', en: 'Crafting', uk: 'Ремесло' },
-        { key: 'rebirth', en: 'Rebirths', uk: 'Переродження' },
-        { key: 'lore', en: 'Lore', uk: 'Лор' },
-        { key: 'social', en: 'Community', uk: 'Спільнота' }
+        { key: 'world', en: 'World', uk: 'Світ' },
+        { key: 'clans', en: 'Clans', uk: 'Клани' },
+        { key: 'classes', en: 'Classes', uk: 'Класи' },
+        { key: 'titles', en: 'Titles', uk: 'Титули' },
+        { key: 'collection', en: 'Collection', uk: 'Колекція' },
+        { key: 'secrets', en: 'Secrets', uk: 'Таємниці' }
     ];
 
-    // Rarity = share of accounts holding it. The word always rides with the tint.
+    // Tier is set by hand from effort and luck. The word always rides with the tint.
     var RARITY = {
-        common: { mod: 'buff', en: 'Common', uk: 'Звичайне' },
-        rare: { mod: 'mind', en: 'Rare', uk: 'Рідкісне' },
-        epic: { mod: 'magic', en: 'Epic', uk: 'Епічне' },
-        legendary: { mod: 'gold', en: 'Legendary', uk: 'Легендарне' }
+        common: { mod: 'buff', en: 'Common', uk: 'Звичайне', rank: 3 },
+        rare: { mod: 'mind', en: 'Rare', uk: 'Рідкісне', rank: 2 },
+        epic: { mod: 'magic', en: 'Epic', uk: 'Епічне', rank: 1 },
+        legendary: { mod: 'gold', en: 'Legendary', uk: 'Легендарне', rank: 0 }
     };
 
-    function rarityOf(pct) {
-        return pct < 1 ? 'legendary' : pct < 5 ? 'epic' : pct < 20 ? 'rare' : 'common';
+    function rarityOf(a) {
+        return RARITY[a.tier] ? a.tier : 'common';
     }
 
-    // Sample shelf for ?mock=1 only. Shape of a future /api/profile "achievements".
-    function mockAchievements() {
-        var A = [
-            ['quests', 'First Errand', 'Перше доручення', 'Finish a quest for a questor.', 'Виконай перше завдання квестора.', 71, '2019-05-11'],
-            ['quests', 'Hundred Errands', 'Сто доручень', 'Finish 100 questor quests.', 'Виконай 100 завдань квестора.', 12, '2020-02-02'],
-            ['quests', 'The Long Contract', 'Довгий контракт', 'Finish 1,000 questor quests.', 'Виконай 1000 завдань квестора.', 0.8, null, 412, 1000],
-            ['quests', 'Explorer', 'Дослідник', 'Finish every area quest open to you in one life.', 'Пройди всі доступні квести зон за одне життя.', 3.1, '2021-07-19'],
-            ['explore', 'Footsore', 'Збиті ноги', 'Visit 1,000 rooms.', 'Побувай у 1000 кімнатах.', 44, '2019-06-03'],
-            ['explore', 'Cartographer', 'Картограф', 'Visit every zone on the Thera atlas.', 'Побувай у кожній зоні атласу Тери.', 2.4, null, 97, 118],
-            ['explore', 'Sea Legs', 'Морські ноги', 'Cross the sea on a ship.', 'Перепливи море на кораблі.', 35, '2019-08-14'],
-            ['combat', 'Blooded', 'Перша кров', 'Win your first fight.', 'Виграй перший бій.', 98, '2019-05-10'],
-            ['combat', 'Dragonsbane', 'Погибель драконів', 'Slay an ancient dragon.', 'Убий стародавнього дракона.', 4.2, '2022-01-30'],
-            ['combat', 'Untouchable', 'Недоторканний', 'Win a hero-level fight without taking damage.', 'Виграй бій героя, не отримавши ані подряпини.', 0.6, null],
-            ['craft', 'Apprentice', 'Підмайстер', 'Craft your first item.', 'Скрафти першу річ.', 30, '2026-08-02'],
-            ['craft', 'Masterwork', 'Шедевр', 'Craft a legendary-quality item.', 'Скрафти річ легендарної якості.', 0.4, null, 0, 1],
-            ['rebirth', 'Second Life', 'Друге життя', 'Be reborn once.', 'Переродися вперше.', 18, '2020-11-05'],
-            ['rebirth', 'Old Soul', 'Стара душа', 'Be reborn five times.', 'Переродися пʼять разів.', 1.9, '2024-03-12'],
-            ['rebirth', 'Every Path', 'Усі шляхи', 'Live a life in each of the 13 classes.', 'Проживи життя в кожному з 13 класів.', 0.2, null, 6, 13],
-            ['lore', 'Bookworm', 'Книжковий черв', 'Read every book in the Anon library.', 'Прочитай усі книжки бібліотеки Анона.', 1.1, null, 9, 21],
-            ['lore', 'Pilgrim', 'Прочанин', 'Pray at the altar of every god.', 'Помолися біля вівтаря кожного бога.', 2.7, '2023-10-01'],
-            ['social', 'Sworn', 'Присягнулий', 'Join a clan.', 'Вступи до клану.', 26, '2019-12-24'],
-            ['social', 'Mentor', 'Наставник', 'Help a newcomer reach level 20.', 'Допоможи новачкові дорости до 20 рівня.', 6.5, '2021-04-04'],
-            ['social', '???', '???', 'A secret. Keep playing.', 'Таємниця. Грай далі.', 0.1, null, null, null, true]
-        ];
-        return A.map(function (r, i) {
-            return {
-                id: 'm' + i, cat: r[0], name: { en: r[1], ua: r[2] }, desc: { en: r[3], ua: r[4] },
-                pct: r[5], unlocked: r[6], progress: r[7] == null ? null : { have: r[7], need: r[8] },
-                secret: !!r[9]
-            };
-        });
+    // Secrets nobody on the account has found come without words.
+    function nameOf(a) {
+        return a.name || { en: '???', ua: '???' };
+    }
+
+    function descOf(a) {
+        return a.desc || { en: 'A secret. Keep playing.', ua: 'Таємниця. Грай далі.' };
+    }
+
+    function progressOf(a) {
+        return a.progress && a.progress.need > 0 ? a.progress.have / a.progress.need : 0;
     }
 
     function progressBar(have, need, cls) {
@@ -313,36 +296,35 @@
     function achTile(a) {
         var locked = !a.unlocked;
         var li = el('li', 'windowlet pach' + (locked ? ' is-locked' : ''));
-        li.setAttribute('data-cat', a.cat);
+        li.setAttribute('data-cat', a.group);
 
         var gem = el('span', 'pach__gem');
         gem.setAttribute('aria-hidden', 'true');
-        gem.setAttribute('data-rarity', rarityOf(a.pct));
+        gem.setAttribute('data-rarity', rarityOf(a));
         li.appendChild(gem);
 
         var txt = el('div', 'pach__txt');
-        txt.appendChild(bi(a.name.en, a.name.ua, 'pach__name'));
-        txt.appendChild(bi(a.desc.en, a.desc.ua, 'pach__desc'));
+        txt.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'pach__name'));
+        txt.appendChild(bi(descOf(a).en, descOf(a).ua, 'pach__desc'));
         if (locked && a.progress) {
             txt.appendChild(progressBar(a.progress.have, a.progress.need));
             txt.appendChild(el('span', 'pach__count', [a.progress.have + ' / ' + a.progress.need]));
         }
 
         var meta = el('div', 'pach__meta');
-        var r = RARITY[rarityOf(a.pct)];
+        var r = RARITY[rarityOf(a)];
         var chip = el('span', 'ds-datachip ds-datachip--' + r.mod);
         var b = el('b'); b.appendChild(bi(r.en, r.uk)); chip.appendChild(b);
-        chip.appendChild(bi(' ' + a.pct + '%', ' ' + a.pct + '%', 'cur'));
         meta.appendChild(chip);
         if (locked) meta.appendChild(bi('Locked', 'Не здобуто', 'pach__state'));
-        else meta.appendChild(el('span', 'pach__date', [shortDate(a.unlocked)]));
+        else meta.appendChild(el('span', 'pach__date', [shortDate(a.unlocked * 1000)]));
         txt.appendChild(meta);
 
         li.appendChild(txt);
         return li;
     }
 
-    function achievementsMock(list) {
+    function achievementsShelf(list) {
         var sec = el('section', 'pach-sec');
         sec.setAttribute('aria-labelledby', 'achTitle');
         var h = el('h2', 'pach-sec__title', [bi('Achievements', 'Досягнення')]);
@@ -354,6 +336,14 @@
         sum.appendChild(el('p', 'pach-sum__count', [bi(
             got + ' of ' + list.length + ' unlocked', got + ' з ' + list.length + ' здобуто')]));
         sum.appendChild(progressBar(got, list.length, 'pbar--lg'));
+        // Secrets nobody on the account has found are only counted, never shown.
+        var secrets = list.filter(function (a) { return a.secret; });
+        if (secrets.length) {
+            var found = secrets.filter(function (a) { return a.unlocked; }).length;
+            sum.appendChild(el('p', 'pach-sum__secrets', [bi(
+                'Secrets found: ' + found + ' of ' + secrets.length,
+                'Знайдено таємниць: ' + found + ' з ' + secrets.length)]));
+        }
         sec.appendChild(sum);
 
         var state = { cat: 'all', locked: true, q: '', sort: 'recent' };
@@ -364,7 +354,7 @@
         var cats = el('div', 'pach-cats');
         cats.setAttribute('role', 'group');
         function catChip(key, en, uk) {
-            var inCat = list.filter(function (a) { return key === 'all' || a.cat === key; });
+            var inCat = list.filter(function (a) { return key === 'all' || a.group === key; });
             var have = inCat.filter(function (a) { return a.unlocked; }).length;
             var c = el('button', 'ds-chip', [bi(en, uk), el('span', 'pach-cats__n', [have + '/' + inCat.length])]);
             c.type = 'button';
@@ -430,24 +420,27 @@
 
         function draw() {
             var shown = list.filter(function (a) {
-                if (state.cat !== 'all' && a.cat !== state.cat) return false;
+                if (a.secret && !a.unlocked) return false;
+                if (state.cat !== 'all' && a.group !== state.cat) return false;
                 if (!state.locked && !a.unlocked) return false;
-                if (state.q && (a.name.en + ' ' + a.name.ua + ' ' + a.desc.en + ' ' + a.desc.ua)
+                var n = nameOf(a), d = descOf(a);
+                if (state.q && (n.en + ' ' + n.ua + ' ' + d.en + ' ' + d.ua)
                     .toLowerCase().indexOf(state.q) < 0) return false;
                 return true;
             });
             shown.sort(function (x, y) {
-                if (state.sort === 'rare') return x.pct - y.pct;
-                if (state.sort === 'name') return x.name.en.localeCompare(y.name.en);
-                // newest unlocks first, then the closest locked ones
+                var rx = RARITY[rarityOf(x)].rank, ry = RARITY[rarityOf(y)].rank;
+                if (state.sort === 'rare') return rx - ry;
+                if (state.sort === 'name') return nameOf(x).en.localeCompare(nameOf(y).en);
+                // newest unlocks first, then the locked ones closest to done
                 if (!!x.unlocked !== !!y.unlocked) return x.unlocked ? -1 : 1;
-                if (x.unlocked) return y.unlocked.localeCompare(x.unlocked);
-                return x.pct - y.pct;
+                if (x.unlocked) return y.unlocked - x.unlocked;
+                return progressOf(y) - progressOf(x) || ry - rx;
             });
             grid.innerHTML = '';
             shown.forEach(function (a) { grid.appendChild(achTile(a)); });
             empty.hidden = shown.length > 0;
-            live.textContent = shown.length + ' / ' + list.length;
+            live.textContent = String(shown.length);
         }
         draw();
         return sec;
@@ -483,7 +476,7 @@
     function renderProfile(p) {
         var chars = p.chars || [];
         var lead = chars[0];
-        var ach = MOCK ? mockAchievements() : null;
+        var ach = Array.isArray(p.achievements) && p.achievements.length ? p.achievements : null;
 
         head.innerHTML = '';
         var w = el('div', 'wrap phead');
@@ -497,7 +490,7 @@
         document.title = 'DreamLand — ' + (p.title || p.id);
 
         body.innerHTML = '';
-        body.appendChild(ach ? achievementsMock(ach) : achievementsSoon());
+        body.appendChild(ach ? achievementsShelf(ach) : achievementsSoon());
 
         var csec = el('section', 'pchars-sec');
         csec.setAttribute('aria-labelledby', 'charsTitle');
