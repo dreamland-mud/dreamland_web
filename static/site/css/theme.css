@@ -52,6 +52,7 @@
     --emerald: #2fa36b; --emerald-lo: #17603d;
     --sapphire: #4a74d4; --sapphire-lo: #274384;
     --amethyst: #9159c8;
+    --god-cyan: #9be4ef;
 
     /* parchment (reading surfaces) — aged, darker */
     --parchment:  #e4d6b2;
@@ -1157,3 +1158,44 @@ details.scroll > summary:hover { color: #fff; }
     .railed:hover::after { animation: none; opacity: .7; filter: drop-shadow(0 0 8px rgba(187,134,252,.7)); }
     * { transition: none !important; }
 }
+
+/* ---------- jewel + vital bar (ported from design/design.css) ----------
+   The shared faceted jewel: an inline #dl-gem symbol tinted by currentColor.
+   gold and stone are site variants: legendary rarity and "not yet". */
+.ds-tgem{width:20px;height:20px;flex:none;line-height:0}
+.ds-tgem svg{width:100%;height:100%;display:block}
+.ds-tgem--ruby{color:var(--ruby)} .ds-tgem--emerald{color:var(--emerald)}
+.ds-tgem--sapphire{color:var(--sapphire)} .ds-tgem--amethyst{color:var(--amethyst)}
+.ds-tgem--gold{color:var(--gold)} .ds-tgem--stone{color:var(--stone-600)}
+
+.ds-pbar{position:relative;height:14px;border-radius:200px;overflow:hidden;
+  --fill-edge:#7c1f30;--fill-mid:#c0384f;--glow:rgba(255,0,0,.40);
+  background:linear-gradient(180deg,rgba(13,11,18,.92),#241d30 50%,rgba(5,4,8,.98));
+  box-shadow:inset 0 0 0 1px rgba(212,215,207,.22),inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(0,0,0,.6)}
+.ds-pbar__fill{position:absolute;top:0;bottom:0;left:0;border-radius:200px;
+  background:linear-gradient(180deg,var(--fill-edge),var(--fill-mid) 48%,color-mix(in srgb,var(--fill-edge) 62%,#000));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 3px 5px var(--glow),0 0 7px var(--glow)}
+.ds-pbar.mana{--fill-edge:#3d2a63;--fill-mid:#bb86fc;--glow:rgba(187,134,252,.45)}
+.ds-pbar.move{--fill-edge:#5c4413;--fill-mid:#c6a24e;--glow:rgba(230,205,134,.42)}
+.ds-pbar__gem{position:absolute;left:-3px;top:50%;transform:translateY(-50%);z-index:3;
+  width:18px;height:18px;line-height:0;color:var(--fill-mid)}
+.ds-pbar__gem svg{width:100%;height:100%;display:block}
+
+/* ---------- side sheet (ported from the client's help sheet, mudjs) ----------
+   A native <dialog> docked to the right: focus trap, Esc and backdrop for free.
+   The content is a .ds-parch.ds-frame, so it wears the same modular frame. */
+.ds-sheet{position:fixed;inset:0 0 0 auto;margin:0;padding:10px;border:0;
+  width:min(460px,100vw);max-width:none;height:100%;max-height:none;box-sizing:border-box;
+  background:transparent;color:inherit;overflow:visible}
+.ds-sheet[open]{animation:ds-sheet-in .24s ease}
+.ds-sheet::backdrop{background:rgba(8,7,12,.55)}
+@keyframes ds-sheet-in{from{transform:translateX(100%)}to{transform:none}}
+@media (prefers-reduced-motion: reduce){.ds-sheet[open]{animation:none}}
+.ds-sheet__body{height:100%;overflow:auto}
+.ds-sheet__body > .ds-parch{min-height:100%;box-sizing:border-box}
+.ds-sheet__close{position:absolute;top:22px;right:24px;z-index:5;width:30px;height:30px;padding:0;
+  border-radius:5px;border:1px solid rgba(120,90,50,.45);background:rgba(70,50,20,.08);
+  color:var(--ink);font-size:16px;line-height:1;cursor:pointer}
+.ds-sheet__close:hover{background:rgba(70,50,20,.16);border-color:var(--parch-edge)}
+.ds-sheet__close:focus-visible{outline:2px solid #6a2fa6;outline-offset:2px}
+

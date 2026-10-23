@@ -1,14 +1,16 @@
 /* Public account profile (/player/<id>), loaded on top of theme.css.
    Layout only: every surface is a Nirvana component from theme.css --
    characters and achievements are .windowlet cards, facts are .ds-datachip /
-   .clan-chip, filters are .ds-chip / .ds-input / .ds-select, the whois sheet
-   is a .ds-parch with the modular frame in a native <dialog>. The class
+   .clan-chip, filters are .ds-chip / .ds-input / .ds-select, bars are
+   .ds-pbar, rarity is the .ds-tgem jewel, and every sheet is a .ds-parch with
+   the modular frame in the .ds-sheet side sheet (a native <dialog>). The class
    diamond is the Figma "Classes" emblem set. No monospace anywhere on this
    page (Kit 10-22): the parchment body is reset to the body face here. */
 
 .pagehead--player { padding-bottom: 34px; }
 .phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .phead__title { margin: 0; text-align: center; }
+.phead__sub { margin: 0; text-align: center; font-size: .95rem; color: var(--text-dim); }
 .phead__loading { color: var(--text-dim); }
 
 /* ---------- account numbers ---------- */
@@ -24,8 +26,7 @@
 .pemblem img { width: 100%; height: 100%; object-fit: contain; display: block;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
 .pemblem--head { width: 92px; height: 100px; margin-bottom: 4px; }
-.pemblem--card { width: 40px; height: 44px; }
-.pemblem--stat { width: 22px; height: 24px; }
+.pemblem--card { width: 56px; height: 62px; }
 .pemblem--blank::before {
     content: ''; position: absolute; inset: 22% 26%;
     transform: rotate(45deg); border: 2px solid var(--gold-dim);
@@ -49,6 +50,8 @@
 .pchar__name { display: block; margin: 0; font-size: 1.05rem; line-height: 1.15;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pchar__cls { font-size: .78rem; color: var(--text-dim); }
+/* gods: the name in light cyan, on the card and in the header */
+.pchar__name--god { color: var(--god-cyan); }
 
 .pchips { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap;
     align-items: center; gap: 6px; }
@@ -56,17 +59,21 @@
 .pchips .clan-chip { margin: 0 9px; }
 .pchips .ds-datachip { font-size: .74rem; padding: 0 8px; }
 
-/* ---------- whois sheet in a dialog ---------- */
-.pdialog { padding: 0; border: 0; background: transparent; color: inherit; overflow: visible;
-    width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
-.pdialog::backdrop { background: rgba(8,7,12,.72); }
-.pdialog__body { padding: 9px; max-height: calc(100vh - 32px); overflow: auto; }
-.pdialog__close { position: absolute; top: -6px; right: -2px; z-index: 5; font-family: var(--body); font-weight: 700; font-size: .84rem; cursor: pointer;
-    color: #1c1206; padding: 4px 12px; border: 0; border-radius: 999px;
-    background: var(--gem-face); box-shadow: var(--gem-shadow); }
-.pdialog__close:hover { color: #fff; background: var(--gem-face-hover); }
-.pdialog__close:focus-visible { outline: none; box-shadow: var(--gem-shadow), 0 0 0 2px rgba(230,205,134,.55); }
-.pchar__sheet .ds-parch__body { font-family: var(--body); letter-spacing: normal; font-size: 1rem; }
+/* ---------- side sheets (character and achievement) ---------- */
+.ds-sheet .ds-parch__body { font-family: var(--body); letter-spacing: normal; font-size: 1rem; }
+.psheet__title { margin-right: 34px; }
+.psheet__h { margin: 18px 0 6px; font-family: var(--display); font-size: 1.05rem; color: #241809; }
+.psheet__sub { margin: 10px 0 4px; color: var(--ink-dim); font-size: .9rem; }
+.psheet__desc { white-space: pre-wrap; line-height: 1.5; }
+.psheet__lead { margin: 0 0 12px; }
+.psheet__count { margin: 4px 0 0; color: var(--ink-dim); font-size: .85rem; }
+.psheet dd .psheet__gem { display: inline-block; vertical-align: -4px; margin-right: 6px; width: 18px; height: 18px; }
+.pmini { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.pmini__btn { display: flex; align-items: center; gap: 8px; width: 100%; padding: 4px 6px; border: 0; border-radius: 4px;
+    background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.pmini__btn:hover { background: rgba(70,50,20,.10); }
+.pmini__btn:focus-visible { outline: 2px solid #6a2fa6; outline-offset: 1px; }
+.pmini .ds-tgem { width: 18px; height: 18px; }
 .psheet { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 16px; }
 .psheet dt { color: var(--ink-dim); }
 .psheet dd { margin: 0; overflow-wrap: anywhere; }
@@ -76,11 +83,9 @@
 .pach-sum__count { margin: 0; white-space: nowrap; color: var(--gold-bright); font-weight: 700; }
 .pach-sum__secrets { margin: 0; flex-basis: 100%; color: var(--ink-dim); }
 
-/* progress: a gold gem fill in a dark well (same faces as the form well and gem) */
-.pbar { position: relative; flex: 1; height: 6px; border-radius: 99px; overflow: hidden;
-    background: #0b0a12; box-shadow: inset 0 1px 3px rgba(0,0,0,.7), 0 0 0 1px var(--gold-deep); }
-.pbar--lg { height: 10px; }
-.pbar__fill { position: absolute; inset: 0 auto 0 0; background: var(--gem-face); border-radius: inherit; }
+/* progress: Nirvana's .ds-pbar; the cap jewel overhangs the left end */
+.pbar { flex: 1 1 auto; overflow: visible; margin-left: 3px; }
+.pbar--lg { height: 16px; }
 
 .pach-tools { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
 .pach-cats, .pach-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -91,28 +96,23 @@
 
 .pach-grid { list-style: none; margin: 0; padding: 0;
     display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
-.pach { display: flex; gap: 12px; padding: 12px; min-width: 0; }
+.pach-cell { display: flex; min-width: 0; }
+.pach { display: flex; gap: 12px; padding: 12px; min-width: 0; width: 100%;
+    border: 0; text-align: left; font: inherit; color: inherit; cursor: pointer; }
+.pach:focus-visible { outline: none;
+    box-shadow: inset 0 -4px 12px rgba(8,7,12,.55), 0 0 0 2px rgba(230,205,134,.55); }
 .pach__txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
 .pach__name { font-family: var(--display); font-weight: 700; color: var(--gold-bright); line-height: 1.2; }
 .pach__desc { font-size: .82rem; line-height: 1.35; color: var(--text-dim); }
 .pach__count { font-size: .74rem; color: var(--text-dim); }
-.pach__meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-top: 4px; }
-.pach__meta .ds-datachip { font-size: .72rem; padding: 0 8px; }
-.pach__date, .pach__state { font-size: .74rem; color: var(--text-dim); }
-.pach .pbar { flex: none; margin-top: 4px; }
+.pach__former { font-size: .74rem; font-style: italic; color: var(--text-dim); }
+.pach .pbar { flex: none; margin-top: 6px; height: 10px; }
+.pach .ds-pbar__gem { width: 14px; height: 14px; }
 
-/* the gem: a rotated square in the rarity jewel. Rarity is ALSO in words on the
-   chip, so the hue never carries the meaning alone. */
-.pach__gem { flex: none; width: 22px; height: 22px; margin: 6px 4px 0;
-    transform: rotate(45deg); border-radius: 3px;
-    background: radial-gradient(120% 120% at 30% 20%, rgba(255,255,255,.55), transparent 45%), var(--gem, var(--gold));
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.35), 0 0 0 2px var(--gold-deep), 0 0 12px var(--gem-glow, transparent); }
-.pach__gem[data-rarity='common'] { --gem: var(--emerald); }
-.pach__gem[data-rarity='rare'] { --gem: var(--sapphire); --gem-glow: rgba(74,116,212,.4); }
-.pach__gem[data-rarity='epic'] { --gem: var(--amethyst); --gem-glow: var(--arcane-glow); }
-.pach__gem[data-rarity='legendary'] { --gem: var(--gold-bright); --gem-glow: rgba(230,205,134,.55); }
-
-.pach.is-locked .pach__gem { --gem: var(--stone-600); --gem-glow: transparent; }
+/* the jewel: tier colour when earned, stone while ahead. The tier is also in
+   words (sheet, and a screen-reader line on the card), never hue alone. */
+.pach__gem { width: 26px; height: 26px; margin-top: 2px; }
+.is-ghost .pach__gem { display: block; border-radius: 50%; background: var(--stone-700); }
 .pach.is-locked .pach__name { color: var(--text-dim); }
 .pach.is-locked .pach__desc { color: var(--text-faint); }
 .pach-empty { color: var(--text-dim); }
@@ -132,3 +132,4 @@
     .psheet dt { margin-top: 8px; font-size: .8rem; }
     .pach-sum { flex-direction: column; align-items: stretch; gap: 6px; }
 }
+.pach.is-ghost { cursor: default; }
