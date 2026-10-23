@@ -5,13 +5,17 @@
    at once (lang="en" / lang="uk"), like the rest of the site, so the language
    switch needs no re-render.
 
-   Page order: account header with its numbers, then achievements (the heart of
-   the page), then the characters as a card grid; a card opens its whois sheet
-   in a modal parchment. Achievements come with the profile when the game sends
+   Page order: header (the main character -- the one played longest -- with the
+   account title under it) and the account numbers, then achievements (the
+   heart of the page), then the characters as a card grid. A character card or
+   an achievement opens a side sheet: a parchment docked to the right. Achievements come with the profile when the game sends
    them (field "achievements"); otherwise the page shows a "coming soon" shelf.
    An unearned secret arrives without name or description and stays "???". */
 (function () {
     var head = document.getElementById('profileHead');
+    // Filled by renderProfile: the sheets look characters and achievements up.
+    var achList = null;
+    var charByLogin = {};
     var body = document.getElementById('profileBody');
 
     var EMBLEMS = ['anti-paladin', 'cleric', 'druid', 'necromancer', 'ninja', 'paladin',
@@ -84,6 +88,14 @@
         return box;
     }
 
+    // Nirvana's faceted jewel (#dl-gem in player.html), tinted by colour class.
+    function jewel(tint, cls) {
+        var g = el('span', 'ds-tgem ds-tgem--' + tint + (cls ? ' ' + cls : ''));
+        g.setAttribute('aria-hidden', 'true');
+        g.innerHTML = '<svg><use href="#dl-gem"/></svg>';
+        return g;
+    }
+
     // The game's own per-language name: the Ukrainian form, else the Russian one.
     function ukName(c) { return c.name.ua || c.name.ru || c.name.en; }
     // The login: a stable anchor for #Name deep links whatever the display form.
@@ -120,7 +132,7 @@
             return chip;
         }
         var fem = c.sex === 'f';
-        if (c.rank === 'immortal') add(dchip('magic', bi('Immortal', fem ? 'Безсмертна' : 'Безсмертний')));
+        if (c.rank === 'immortal') add(dchip('magic', bi(fem ? 'Goddess' : 'God', fem ? 'Богиня' : 'Бог')));
         else if (c.rank === 'legendary') add(dchip('gold', bi('Legend', 'Легенда')));
         if (c.clan) add(clanBadge(c.clan));
         if (c.online) add(dchip('buff', bi('online', 'онлайн')));
@@ -158,19 +170,103 @@
         }
         row(bi('Status', 'Статус'), c.online ? bi('in the world', 'у світі') : bi('away', 'не в грі'));
 
-        var parch = el('div', 'ds-parch ds-frame pchar__sheet');
-        var h = el('h4', null, [bi(c.name.en, ukName(c))]);
+        var bodyKids = [dl];
+        if (c.desc && (c.desc.en || c.desc.ua || c.desc.ru)) {
+            bodyKids.push(el('h5', 'psheet__h', [bi('Description', 'Опис')]));
+            bodyKids.push(el('div', 'psheet__desc', [bi(c.desc.en || c.desc.ru, c.desc.ua || c.desc.ru)]));
+        }
+
+        // What this character holds: its titles, then everything else it earned.
+        var mine = (achList || []).filter(function (a) {
+            return a.unlocked && (a.chars || []).indexOf(login(c)) >= 0;
+        });
+        bodyKids.push(el('h5', 'psheet__h', [bi(
+            'Achievements: ' + mine.length, 'Досягнення: ' + mine.length)]));
+        var titles = mine.filter(function (a) { return a.group === 'titles'; });
+        var rest = mine.filter(function (a) { return a.group !== 'titles'; });
+        rest.sort(function (x, y) { return RARITY[rarityOf(x)].rank - RARITY[rarityOf(y)].rank; });
+        if (titles.length) {
+            bodyKids.push(el('p', 'psheet__sub', [bi('Titles', 'Титули')]));
+            bodyKids.push(achMiniList(titles));
+        }
+        if (rest.length) {
+            if (titles.length) bodyKids.push(el('p', 'psheet__sub', [bi('Achievements', 'Досягнення')]));
+            bodyKids.push(achMiniList(rest));
+        }
+
+        return parchment(bi(c.name.en, ukName(c)), bodyKids, 'pchar__sheet');
+    }
+
+    // A side-sheet parchment: title, then the body nodes.
+    function parchment(title, kids, cls) {
+        var parch = el('div', 'ds-parch ds-frame ' + (cls || ''));
+        var h = el('h4', 'psheet__title', [title]);
         h.id = 'sheetTitle';
         parch.appendChild(h);
-        parch.appendChild(el('div', 'ds-parch__body', [dl]));
+        parch.appendChild(el('div', 'ds-parch__body', kids));
         return DLFrame.dress(parch);
     }
 
-    // One modal for every sheet: native <dialog> traps focus, closes on Esc and
-    // hands focus back to the card that opened it.
-    var dialog = el('dialog', 'pdialog');
-    var dialogBody = el('div', 'pdialog__body');
-    var closeBtn = el('button', 'pdialog__close', [bi('Close', 'Закрити')]);
+    // Achievements as gem + name rows; each opens its own sheet.
+    function achMiniList(list) {
+        var ul = el('ul', 'pmini');
+        list.forEach(function (a) {
+            var b = el('button', 'pmini__btn');
+            b.type = 'button';
+            b.appendChild(jewel(gemTint(a)));
+            b.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'pmini__name'));
+            b.addEventListener('click', function () { openAch(a); });
+            ul.appendChild(el('li', null, [b]));
+        });
+        return ul;
+    }
+
+    // Who on the account holds an achievement, by display name.
+    function holderNames(a) {
+        var names = [];
+        (a.chars || []).forEach(function (l) {
+            var c = charByLogin[l.toLowerCase()];
+            if (c) names.push(c);
+        });
+        return names;
+    }
+
+    function achSheet(a) {
+        var dl = el('dl', 'psheet');
+        function row(k, v) {
+            dl.appendChild(el('dt', null, [k]));
+            dl.appendChild(el('dd', null, [v]));
+        }
+        var r = RARITY[rarityOf(a)];
+        var tier = document.createDocumentFragment();
+        tier.appendChild(jewel(r.gem, 'psheet__gem'));
+        tier.appendChild(bi(r.en, r.uk));
+        row(bi('Tier', 'Рівень'), tier);
+        if (a.unlocked) {
+            row(bi('Earned', 'Здобуто'), shortDate(a.unlocked * 1000));
+            var who = holderNames(a);
+            if (who.length) {
+                var f = document.createDocumentFragment();
+                f.appendChild(bi(who.map(function (c) { return c.name.en; }).join(', '),
+                    who.map(ukName).join(', ')));
+                row(who.length === 1 ? bi('Character', 'Персонаж') : bi('Characters', 'Персонажі'), f);
+            }
+        } else {
+            row(bi('Status', 'Статус'), bi('Not earned yet', 'Ще не здобуто'));
+        }
+        var kids = [el('p', 'psheet__lead', [bi(descOf(a).en, descOf(a).ua)]), dl];
+        if (!a.unlocked && a.progress) {
+            kids.push(progressBar(a.progress.have, a.progress.need));
+            kids.push(el('p', 'psheet__count', [a.progress.have + ' / ' + a.progress.need]));
+        }
+        return parchment(bi(nameOf(a).en, nameOf(a).ua), kids, 'pach__sheet');
+    }
+
+    // One side sheet for every sheet: native <dialog> traps focus, closes on
+    // Esc and hands focus back to whatever opened it.
+    var dialog = el('dialog', 'ds-sheet');
+    var dialogBody = el('div', 'ds-sheet__body');
+    var closeBtn = el('button', 'ds-sheet__close', ['\u2715']);
     closeBtn.type = 'button';
     closeBtn.addEventListener('click', function () { dialog.close(); });
     dialog.appendChild(closeBtn);
@@ -181,13 +277,25 @@
     });
     document.body.appendChild(dialog);
 
-    function openSheet(c) {
+    function showSheet(node, hash) {
         dialogBody.innerHTML = '';
-        dialogBody.appendChild(sheet(c));
+        dialogBody.appendChild(node);
         dialog.setAttribute('aria-labelledby', 'sheetTitle');
-        dialog.showModal();
-        if (history.replaceState) history.replaceState(null, '', '#' + login(c));
+        if (!dialog.open) dialog.showModal();
+        dialogBody.scrollTop = 0;
+        if (history.replaceState) history.replaceState(null, '', '#' + hash);
     }
+
+    function openSheet(c) { showSheet(sheet(c), login(c)); }
+    function openAch(a) { showSheet(achSheet(a), a.id); }
+
+    // Close label follows the language switch (an aria-label holds no spans).
+    function relabelClose() {
+        closeBtn.setAttribute('aria-label',
+            document.documentElement.getAttribute('data-lang') === 'uk' ? 'Закрити' : 'Close');
+    }
+    relabelClose();
+    new MutationObserver(relabelClose).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
 
     function card(c) {
         var b = el('button', 'windowlet ds-card--hover pchar');
@@ -196,7 +304,8 @@
         b.setAttribute('aria-haspopup', 'dialog');
         b.appendChild(emblem(c.class, 'card'));
         var id = el('span', 'pchar__id');
-        id.appendChild(bi(c.name.en, ukName(c), 'ds-card__title pchar__name'));
+        id.appendChild(bi(c.name.en, ukName(c),
+            'ds-card__title pchar__name' + (c.rank === 'immortal' ? ' pchar__name--god' : '')));
         id.appendChild(bi(c.race.en + ' ' + c.class.en, c.race.ua + ' ' + c.class.ua, 'pchar__cls'));
         id.appendChild(chips(c));
         b.appendChild(id);
@@ -229,10 +338,8 @@
             bi(lives === 1 ? 'life lived' : 'lives lived',
                 ukPlural(lives, 'життя прожите', 'життя прожиті', 'життів прожито'))));
         if (a.favClass) {
-            var v = document.createDocumentFragment();
-            v.appendChild(emblem(a.favClass, 'stat'));
-            v.appendChild(bi(a.favClass.en, a.favClass.ua, 'pstat__cap'));
-            dl.appendChild(stat(v, bi('favourite class', 'улюблений клас')));
+            dl.appendChild(stat(bi(a.favClass.en, a.favClass.ua, 'pstat__cap'),
+                bi('favourite class', 'улюблений клас')));
         }
         if (ach)
             dl.appendChild(stat(document.createTextNode(ach.unlocked + ' / ' + ach.total),
@@ -258,11 +365,16 @@
 
     // Tier is set by hand from effort and luck. The word always rides with the tint.
     var RARITY = {
-        common: { mod: 'buff', en: 'Common', uk: 'Звичайне', rank: 3 },
-        rare: { mod: 'mind', en: 'Rare', uk: 'Рідкісне', rank: 2 },
-        epic: { mod: 'magic', en: 'Epic', uk: 'Епічне', rank: 1 },
-        legendary: { mod: 'gold', en: 'Legendary', uk: 'Легендарне', rank: 0 }
+        common: { gem: 'emerald', en: 'Common', uk: 'Звичайне', rank: 3 },
+        rare: { gem: 'sapphire', en: 'Rare', uk: 'Рідкісне', rank: 2 },
+        epic: { gem: 'amethyst', en: 'Epic', uk: 'Епічне', rank: 1 },
+        legendary: { gem: 'gold', en: 'Legendary', uk: 'Легендарне', rank: 0 }
     };
+
+    // An earned achievement wears its tier's jewel; one still ahead, plain stone.
+    function gemTint(a) {
+        return a.unlocked ? RARITY[rarityOf(a)].gem : 'stone';
+    }
 
     function rarityOf(a) {
         return RARITY[a.tier] ? a.tier : 'common';
@@ -281,27 +393,34 @@
         return a.progress && a.progress.need > 0 ? a.progress.have / a.progress.need : 0;
     }
 
+    // Nirvana's vital bar in the gold (move) colourway, the jewel on its cap.
     function progressBar(have, need, cls) {
-        var bar = el('div', 'pbar' + (cls ? ' ' + cls : ''));
+        var bar = el('div', 'ds-pbar move pbar' + (cls ? ' ' + cls : ''));
         bar.setAttribute('role', 'progressbar');
         bar.setAttribute('aria-valuemin', '0');
         bar.setAttribute('aria-valuemax', String(need));
         bar.setAttribute('aria-valuenow', String(have));
-        var fill = el('span', 'pbar__fill');
+        var gem = el('span', 'ds-pbar__gem');
+        gem.innerHTML = '<svg><use href="#dl-gem"/></svg>';
+        bar.appendChild(gem);
+        var fill = el('div', 'ds-pbar__fill');
         fill.style.width = (need > 0 ? Math.min(100, have / need * 100) : 0) + '%';
         bar.appendChild(fill);
         return bar;
     }
 
+    // A card opens the achievement's sheet: tier, when, on which characters.
     function achTile(a) {
         var locked = !a.unlocked;
-        var li = el('li', 'windowlet pach' + (locked ? ' is-locked' : ''));
-        li.setAttribute('data-cat', a.group);
+        var li = el('li', 'pach-cell');
+        var btn = el('button', 'windowlet ds-card--hover pach' + (locked ? ' is-locked' : ''));
+        btn.type = 'button';
+        btn.setAttribute('aria-haspopup', 'dialog');
+        btn.setAttribute('data-cat', a.group);
+        btn.addEventListener('click', function () { openAch(a); });
+        li.appendChild(btn);
 
-        var gem = el('span', 'pach__gem');
-        gem.setAttribute('aria-hidden', 'true');
-        gem.setAttribute('data-rarity', rarityOf(a));
-        li.appendChild(gem);
+        btn.appendChild(jewel(gemTint(a), 'pach__gem'));
 
         var txt = el('div', 'pach__txt');
         txt.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'pach__name'));
@@ -311,16 +430,13 @@
             txt.appendChild(el('span', 'pach__count', [a.progress.have + ' / ' + a.progress.need]));
         }
 
-        var meta = el('div', 'pach__meta');
+        // Tier in words for screen readers; the jewel carries it for the eye.
         var r = RARITY[rarityOf(a)];
-        var chip = el('span', 'ds-datachip ds-datachip--' + r.mod);
-        var b = el('b'); b.appendChild(bi(r.en, r.uk)); chip.appendChild(b);
-        meta.appendChild(chip);
-        if (locked) meta.appendChild(bi('Locked', 'Не здобуто', 'pach__state'));
-        else meta.appendChild(el('span', 'pach__date', [shortDate(a.unlocked * 1000)]));
-        txt.appendChild(meta);
+        txt.appendChild(el('span', 'sr-only', [bi(
+            r.en + (locked ? ', not earned yet' : ', earned'),
+            r.uk + (locked ? ', ще не здобуто' : ', здобуто'))]));
 
-        li.appendChild(txt);
+        btn.appendChild(txt);
         return li;
     }
 
@@ -346,7 +462,7 @@
         }
         sec.appendChild(sum);
 
-        var state = { cat: 'all', locked: true, q: '', sort: 'recent' };
+        var state = { cat: 'all', locked: true, q: '', sort: 'rare' };
 
         // Filters: categories as toggle-chips with their own counts, a locked
         // toggle, search and sort. With hundreds of entries, filters are the UI.
@@ -383,6 +499,7 @@
         SORTS.forEach(function (o) {
             var opt = el('option'); opt.value = o[0]; sort.appendChild(opt);
         });
+        sort.value = state.sort;
         sort.addEventListener('change', function () { state.sort = sort.value; draw(); });
         row.appendChild(sort);
 
@@ -430,7 +547,9 @@
             });
             shown.sort(function (x, y) {
                 var rx = RARITY[rarityOf(x)].rank, ry = RARITY[rarityOf(y)].rank;
-                if (state.sort === 'rare') return rx - ry;
+                // rarest first; within a tier, earned ones lead, then by name
+                if (state.sort === 'rare') return rx - ry || (!!y.unlocked - !!x.unlocked)
+                    || nameOf(x).en.localeCompare(nameOf(y).en);
                 if (state.sort === 'name') return nameOf(x).en.localeCompare(nameOf(y).en);
                 // newest unlocks first, then the locked ones closest to done
                 if (!!x.unlocked !== !!y.unlocked) return x.unlocked ? -1 : 1;
@@ -475,19 +594,28 @@
 
     function renderProfile(p) {
         var chars = p.chars || [];
-        var lead = chars[0];
+        var lead = chars.filter(function (c) { return c.main; })[0] || chars[0];
         var ach = Array.isArray(p.achievements) && p.achievements.length ? p.achievements : null;
+        achList = ach;
+        charByLogin = {};
+        chars.forEach(function (c) { charByLogin[login(c).toLowerCase()] = c; });
 
         head.innerHTML = '';
         var w = el('div', 'wrap phead');
-        if (lead) w.appendChild(emblem(lead.class, 'head'));
-        w.appendChild(el('h1', 'phead__title', [p.title || p.id]));
+        if (lead) {
+            w.appendChild(emblem(lead.class, 'head'));
+            w.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
+                [bi(lead.name.en, ukName(lead))]));
+            w.appendChild(el('p', 'phead__sub', [p.title || p.id]));
+        } else {
+            w.appendChild(el('h1', 'phead__title', [p.title || p.id]));
+        }
         w.appendChild(stats(p, chars, ach && {
             unlocked: ach.filter(function (a) { return a.unlocked; }).length, total: ach.length
         }));
         head.appendChild(w);
 
-        document.title = 'DreamLand — ' + (p.title || p.id);
+        document.title = 'DreamLand — ' + (lead ? lead.name.en : (p.title || p.id));
 
         body.innerHTML = '';
         body.appendChild(ach ? achievementsShelf(ach) : achievementsSoon());
@@ -504,6 +632,12 @@
 
         // Deep link: /player/<id>#Name opens that character's sheet.
         var want = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
+        if (want && ach) {
+            ach.forEach(function (a) {
+                if (!a.secret || a.unlocked)
+                    if (String(a.id).toLowerCase() === want) openAch(a);
+            });
+        }
         if (want) {
             chars.forEach(function (c) {
                 if (login(c).toLowerCase() === want) {
