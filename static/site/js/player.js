@@ -242,8 +242,13 @@
         tier.appendChild(jewel(r.gem, 'psheet__gem'));
         tier.appendChild(bi(r.en, r.uk));
         row(bi('Tier', 'Рівень'), tier);
-        if (a.unlocked) {
+        if (a.unlocked && a.former) {
+            row(bi('Status', 'Статус'), bi('Previously held', 'Колишній титул'));
+            row(bi('Last held', 'Востаннє'), shortDate(a.unlocked * 1000));
+        } else if (a.unlocked) {
             row(bi('Earned', 'Здобуто'), shortDate(a.unlocked * 1000));
+        }
+        if (a.unlocked) {
             var who = holderNames(a);
             if (who.length) {
                 var f = document.createDocumentFragment();
@@ -429,6 +434,9 @@
             txt.appendChild(progressBar(a.progress.have, a.progress.need));
             txt.appendChild(el('span', 'pach__count', [a.progress.have + ' / ' + a.progress.need]));
         }
+
+        // A title someone on the account held before (or a god topped).
+        if (a.former) txt.appendChild(bi('Previously held', 'Колишній титул', 'pach__former'));
 
         // Tier in words for screen readers; the jewel carries it for the eye.
         var r = RARITY[rarityOf(a)];

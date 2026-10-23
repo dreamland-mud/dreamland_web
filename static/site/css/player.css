@@ -105,6 +105,7 @@
 .pach__name { font-family: var(--display); font-weight: 700; color: var(--gold-bright); line-height: 1.2; }
 .pach__desc { font-size: .82rem; line-height: 1.35; color: var(--text-dim); }
 .pach__count { font-size: .74rem; color: var(--text-dim); }
+.pach__former { font-size: .74rem; font-style: italic; color: var(--text-dim); }
 .pach .pbar { flex: none; margin-top: 6px; height: 10px; }
 .pach .ds-pbar__gem { width: 14px; height: 14px; }
 
