@@ -420,20 +420,25 @@
         return bar;
     }
 
-    // A summary tube with its caption and have|need inside, as in the client.
+    // A summary tube: caption on the left, the tube, have|need on the right.
     // aria-label cannot hold the lang spans, so it follows the language switch.
     function labelBar(en, uk, have, need, mod) {
-        var bar = progressBar(have, need, 'pbar--lg pbar--label ' + mod);
-        var val = el('span', 'pbar__val', [bi(en, uk), ' ', el('b', null, [String(have)]), '|' + need]);
+        var row = el('div', 'ptube');
+        var cap = el('span', 'ptube__cap', [bi(en, uk)]);
+        cap.setAttribute('aria-hidden', 'true');
+        var bar = progressBar(have, need, 'pbar--label ' + mod);
+        var val = el('span', 'ptube__val', [el('b', null, [String(have)]), '|' + need]);
         val.setAttribute('aria-hidden', 'true');
-        bar.appendChild(val);
+        row.appendChild(cap);
+        row.appendChild(bar);
+        row.appendChild(val);
         function relabel() {
             var isUk = document.documentElement.getAttribute('data-lang') === 'uk';
             bar.setAttribute('aria-label', (isUk ? uk : en) + ': ' + have + (isUk ? ' з ' : ' of ') + need);
         }
         relabel();
         new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
-        return bar;
+        return row;
     }
 
     // A card opens the achievement's sheet: tier, when, on which characters.
@@ -492,37 +497,29 @@
     function achievementsShelf(list) {
         var sec = el('section', 'pach-sec');
         sec.setAttribute('aria-labelledby', 'achTitle');
-        var h = el('h2', 'pach-sec__title', [bi('Achievements', 'Досягнення')]);
+        // The card's tubes already say "Achievements"; the heading stays for screen readers.
+        var h = el('h2', 'sr-only', [bi('Achievements', 'Досягнення')]);
         h.id = 'achTitle';
         sec.appendChild(h);
 
         var state = { cat: 'all', locked: false, q: '', sort: 'rare' };
 
-        // Filters: categories as toggle-chips with their own counts, a locked
-        // toggle, search and sort. With hundreds of entries, filters are the UI.
-        var tools = el('div', 'pach-tools');
-        var cats = el('div', 'pach-cats');
-        cats.setAttribute('role', 'group');
-        function catChip(key, en, uk) {
-            var inCat = list.filter(function (a) { return key === 'all' || bucketOf(a) === key; });
-            if (!inCat.length) return;
-            var have = inCat.filter(function (a) { return a.unlocked; }).length;
-            var c = el('button', 'ds-chip', [bi(en, uk), el('span', 'pach-cats__n', [have + '/' + inCat.length])]);
-            c.type = 'button';
-            c.setAttribute('aria-pressed', key === state.cat ? 'true' : 'false');
-            c.addEventListener('click', function () {
-                state.cat = key;
-                Array.prototype.forEach.call(cats.children, function (x) { x.setAttribute('aria-pressed', 'false'); });
-                c.setAttribute('aria-pressed', 'true');
-                draw();
-            });
-            cats.appendChild(c);
-        }
-        catChip('all', 'All', 'Усі');
-        CATEGORIES.forEach(function (c) { catChip(c.key, c.en, c.uk); });
-        tools.appendChild(cats);
-
+        // One row of filters: category (with its count), search, sort and
+        // the locked toggle. With hundreds of entries, filters are the UI.
         var row = el('div', 'pach-row');
+        var cats = el('select', 'ds-select pach-cat');
+        var CATS = [{ key: 'all', en: 'All', uk: 'Усі' }].concat(CATEGORIES).map(function (c) {
+            var inCat = list.filter(function (a) { return c.key === 'all' || bucketOf(a) === c.key; });
+            return { key: c.key, en: c.en, uk: c.uk, total: inCat.length,
+                have: inCat.filter(function (a) { return a.unlocked; }).length };
+        }).filter(function (c) { return c.total > 0; });
+        CATS.forEach(function (c) {
+            var opt = el('option'); opt.value = c.key; cats.appendChild(opt);
+        });
+        cats.value = state.cat;
+        cats.addEventListener('change', function () { state.cat = cats.value; draw(); });
+        row.appendChild(cats);
+
         var search = el('input', 'ds-input pach-search');
         search.type = 'search';
         search.addEventListener('input', function () { state.q = search.value.trim().toLowerCase(); draw(); });
@@ -547,7 +544,6 @@
             draw();
         });
         row.appendChild(lockedBtn);
-        tools.appendChild(row);
 
         // Attributes and <option> text cannot hold the lang spans, so they follow the switch.
         function relabel() {
@@ -555,12 +551,15 @@
             search.placeholder = uk ? 'Шукати досягнення' : 'Search achievements';
             search.setAttribute('aria-label', search.placeholder);
             sort.setAttribute('aria-label', uk ? 'Порядок' : 'Sort');
-            cats.setAttribute('aria-label', uk ? 'Категорії' : 'Categories');
+            cats.setAttribute('aria-label', uk ? 'Категорія' : 'Category');
+            CATS.forEach(function (c, i) {
+                cats.options[i].textContent = (uk ? c.uk : c.en) + ' ' + c.have + '/' + c.total;
+            });
             SORTS.forEach(function (o, i) { sort.options[i].textContent = uk ? o[2] : o[1]; });
         }
         relabel();
         new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
-        sec.appendChild(tools);
+        sec.appendChild(row);
 
         var grid = el('ul', 'pach-grid');
         var empty = el('p', 'pach-empty', [bi('Nothing earned here yet. "Show locked" lists what is ahead.',
@@ -628,6 +627,19 @@
 
     // ---------- page ----------
 
+    // Two thirds of the card over the banner, one third below it. The card's
+    // height depends on its content and the viewport, so it is measured.
+    function overlapBanner(wrapper, card) {
+        var gap = 22;  // .ds-inset padding above the card
+        function place() {
+            var up = Math.round(card.offsetHeight * 2 / 3);
+            wrapper.style.marginTop = -(up + gap) + 'px';
+            head.style.paddingBottom = (up + 40) + 'px';
+        }
+        place();
+        if (window.ResizeObserver) new ResizeObserver(place).observe(card);
+    }
+
     function renderProfile(p) {
         var chars = p.chars || [];
         var lead = chars.filter(function (c) { return c.main; })[0] || chars[0];
@@ -639,7 +651,12 @@
         // The banner stays empty; the inset card straddles its bottom edge,
         // the class emblem sitting on the card's top rim where the keystone was.
         head.innerHTML = '';
-        var inset = el('div', 'windowlet ds-frame pinset');
+        if (lead) DLZoneBanner.apply(head, lead.home);
+        var wrapper = el('div', 'ds-inset pinset');
+        wrapper.appendChild(el('div', 'ds-inset__portal'));
+        var inset = el('div', 'ds-inset__card pinset__card');
+        wrapper.appendChild(inset);
+        inset.appendChild(DLFrame.dress(el('div', 'ds-inset__frame ds-frame')));
         if (lead) {
             inset.appendChild(emblem(lead.class, 'head'));
             inset.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
@@ -650,12 +667,12 @@
         }
         inset.appendChild(stats(p, chars));
         if (ach) inset.appendChild(achTubes(ach));
-        DLFrame.dress(inset);
 
         document.title = 'DreamLand — ' + (lead ? lead.name.en : (p.title || p.id));
 
         body.innerHTML = '';
-        body.appendChild(inset);
+        body.appendChild(wrapper);
+        overlapBanner(wrapper, inset);
         body.appendChild(ach ? achievementsShelf(ach) : achievementsSoon());
 
         var csec = el('section', 'pchars-sec');
