@@ -79,13 +79,20 @@
 .psheet dd { margin: 0; overflow-wrap: anywhere; }
 
 /* ---------- achievements ---------- */
-.pach-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 16px; }
-.pach-sum__count { margin: 0; white-space: nowrap; color: var(--gold-bright); font-weight: 700; }
-.pach-sum__secrets { margin: 0; flex-basis: 100%; color: var(--ink-dim); }
+.pach-sum { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
 
 /* progress: Nirvana's .ds-pbar; the cap jewel overhangs the left end */
 .pbar { flex: 1 1 auto; overflow: visible; margin-left: 3px; }
 .pbar--lg { height: 16px; }
+
+/* summary tubes: blue for the open list, gold (move) for secrets, the caption
+   and have|need inside the tube, as in the client's vitals */
+.pbar--label { height: 20px; }
+.ds-pbar.pbar--blue { --fill-edge: var(--sapphire-lo); --fill-mid: var(--sapphire); --glow: rgba(74,116,212,.45); }
+.pbar__val { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); z-index: 3;
+    font-family: var(--mono); font-size: .75rem; line-height: 1; letter-spacing: .02em; color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,.9); pointer-events: none; white-space: nowrap; }
+.pbar__val b { font-weight: 700; }
 
 .pach-tools { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
 .pach-cats, .pach-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
