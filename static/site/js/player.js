@@ -268,7 +268,10 @@
         } else {
             row(bi('Status', 'Статус'), bi('Not earned yet', 'Ще не здобуто'));
         }
-        var kids = [el('p', 'psheet__lead', [bi(descOf(a).en, descOf(a).ua)]), dl];
+        var art = el('div', 'ds-medal ds-medal--sheet ds-medal--' + rarityOf(a) + (a.unlocked ? '' : ' is-locked'));
+        art.setAttribute('aria-hidden', 'true');
+        art.innerHTML = DLMedal.svg(a);
+        var kids = [art, el('p', 'psheet__lead', [bi(descOf(a).en, descOf(a).ua)]), dl];
         if (!a.unlocked && a.progress) {
             kids.push(progressBar(a.progress.have, a.progress.need));
             kids.push(el('p', 'psheet__count', [a.progress.have + ' / ' + a.progress.need]));
@@ -441,38 +444,45 @@
         return row;
     }
 
-    // A card opens the achievement's sheet: tier, when, on which characters.
-    function achTile(a) {
+    // A medal opens the achievement's sheet: tier, when, on which characters.
+    // The tier shows as the medal and the name's colour; in words for screen readers.
+    function achTile(a, big) {
         var locked = !a.unlocked;
         var li = el('li', 'pach-cell');
-        var btn = el('button', 'windowlet ds-card--hover pach' + (locked ? ' is-locked' : ''));
+        var btn = el('button', 'ds-medal ds-medal--' + rarityOf(a) + (big ? ' ds-medal--lg' : '') + (locked ? ' is-locked' : ''));
         btn.type = 'button';
         btn.setAttribute('aria-haspopup', 'dialog');
-        btn.setAttribute('data-cat', a.group);
         btn.addEventListener('click', function () { openAch(a); });
         li.appendChild(btn);
 
-        btn.appendChild(jewel(gemTint(a), 'pach__gem'));
-
-        var txt = el('div', 'pach__txt');
-        txt.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'pach__name'));
-        txt.appendChild(bi(descOf(a).en, descOf(a).ua, 'pach__desc'));
-        if (locked && a.progress) {
-            txt.appendChild(progressBar(a.progress.have, a.progress.need));
-            txt.appendChild(el('span', 'pach__count', [a.progress.have + ' / ' + a.progress.need]));
-        }
-
+        var coin = el('span', 'ds-medal__art');
+        coin.innerHTML = DLMedal.svg(a);
+        btn.appendChild(coin);
+        btn.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'ds-medal__name'));
+        if (big) btn.appendChild(bi(descOf(a).en, descOf(a).ua, 'ds-medal__desc'));
+        if (locked && a.progress)
+            btn.appendChild(el('span', 'ds-medal__count', [a.progress.have + ' / ' + a.progress.need]));
         // A title someone on the account held before (or a god topped).
-        if (a.former) txt.appendChild(bi('Previously held', 'Колишній титул', 'pach__former'));
+        if (a.former) btn.appendChild(bi('Previously held', 'Колишній титул', 'ds-medal__note'));
 
-        // Tier in words for screen readers; the jewel carries it for the eye.
         var r = RARITY[rarityOf(a)];
-        txt.appendChild(el('span', 'sr-only', [bi(
-            r.en + (locked ? ', not earned yet' : ', earned'),
-            r.uk + (locked ? ', ще не здобуто' : ', здобуто'))]));
-
-        btn.appendChild(txt);
+        btn.appendChild(el('span', 'sr-only', [bi(
+            ', ' + r.en + (a.secret ? ', secret' : '') + (locked ? ', not earned yet' : ', earned'),
+            ', ' + r.uk + (a.secret ? ', таємниця' : '') + (locked ? ', ще не здобуто' : ', здобуто'))]));
         return li;
+    }
+
+    // The three rarest earned medals, large, above the filters.
+    function achShowcase(list) {
+        var won = list.filter(function (a) { return a.unlocked; });
+        won.sort(function (x, y) {
+            return RARITY[rarityOf(x)].rank - RARITY[rarityOf(y)].rank || y.unlocked - x.unlocked;
+        });
+        if (won.length < 3) return null;
+        var ul = el('ul', 'pach-show');
+        ul.setAttribute('aria-label', 'Rarest earned');
+        won.slice(0, 3).forEach(function (a) { ul.appendChild(achTile(a, true)); });
+        return ul;
     }
 
     // Every achievement sits in exactly one bucket: a secret one under
@@ -501,6 +511,9 @@
         var h = el('h2', 'sr-only', [bi('Achievements', 'Досягнення')]);
         h.id = 'achTitle';
         sec.appendChild(h);
+
+        var show = achShowcase(list);
+        if (show) sec.appendChild(show);
 
         var state = { cat: 'all', locked: false, q: '', sort: 'rare' };
 
@@ -561,7 +574,7 @@
         new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
         sec.appendChild(row);
 
-        var grid = el('ul', 'pach-grid');
+        var grid = el('ul', 'pach-grid pach-wall');
         var empty = el('p', 'pach-empty', [bi('Nothing earned here yet. "Show locked" lists what is ahead.',
             'Тут поки нічого не здобуто. "Показати не здобуті" покаже, що попереду.')]);
         var live = el('p', 'sr-only');
