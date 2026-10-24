@@ -1245,3 +1245,42 @@ details.scroll > summary:hover { color: #fff; }
 .ds-sheet__close:hover{background:rgba(70,50,20,.16);border-color:var(--parch-edge)}
 .ds-sheet__close:focus-visible{outline:2px solid #6a2fa6;outline-offset:2px}
 
+
+/* ---------- achievement medal (Nirvana) ----------
+   The coin is an inline SVG from site/js/medal.js. Tier lives in the medal and
+   the name's colour (words go to screen readers). Legendary carries the focus
+   orbit (pc-focus-orbit) scaled for a coin. */
+.ds-medal { --medal: 104px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+    min-width: 0; padding: 6px 2px; border: 0; background: none; color: inherit; font: inherit;
+    text-align: center; cursor: pointer; --tn: var(--gold-bright); }
+.ds-medal__art { line-height: 0; }
+.ds-medal__coin { width: var(--medal); height: calc(var(--medal) * 136 / 128); overflow: visible;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)); transition: transform .2s ease; }
+.ds-medal:hover .ds-medal__coin { transform: translateY(-3px) rotate(-2deg); }
+.ds-medal:focus-visible { outline: none; }
+.ds-medal:focus-visible .ds-medal__coin { animation: ds-medal-orbit 2.6s linear infinite; }
+.ds-medal__name { font: 700 .95rem/1.15 var(--display); color: var(--tn); max-width: 14ch; text-wrap: balance; }
+.ds-medal__desc { font-size: .84rem; line-height: 1.35; color: var(--text-dim); max-width: 26ch; }
+.ds-medal__count, .ds-medal__note { font-size: .76rem; color: var(--text-dim); font-variant-numeric: tabular-nums; }
+.ds-medal__note { font-style: italic; }
+.ds-medal--common { --tn: #5fc995; }
+.ds-medal--rare { --tn: #8eabf3; }
+.ds-medal--epic { --tn: #c29cf0; }
+.ds-medal--legendary { --tn: var(--gold-bright); }
+.ds-medal.is-locked { --tn: var(--text-dim); }
+.ds-medal--legendary:not(.is-locked) .ds-medal__coin { animation: ds-medal-orbit 2.6s linear infinite; }
+.ds-medal--lg { --medal: 156px; }
+.ds-medal--lg .ds-medal__name { font-size: 1.1rem; max-width: 18ch; }
+.ds-medal--sheet { --medal: 150px; cursor: default; margin: 0 auto 10px; }
+@keyframes ds-medal-orbit {
+    0%   { filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(0 -7px 10px rgba(187,134,252,.75)) drop-shadow(0 7px 8px rgba(128,67,202,.42)); }
+    25%  { filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(8px 0 11px rgba(187,134,252,.75)) drop-shadow(-8px 0 8px rgba(128,67,202,.42)); }
+    50%  { filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(0 7px 10px rgba(187,134,252,.75)) drop-shadow(0 -7px 8px rgba(128,67,202,.42)); }
+    75%  { filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(-8px 0 11px rgba(187,134,252,.75)) drop-shadow(8px 0 8px rgba(128,67,202,.42)); }
+    100% { filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(0 -7px 10px rgba(187,134,252,.75)) drop-shadow(0 7px 8px rgba(128,67,202,.42)); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .ds-medal__coin { transition: none; }
+    .ds-medal--legendary:not(.is-locked) .ds-medal__coin, .ds-medal:focus-visible .ds-medal__coin { animation: none;
+        filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(187,134,252,.6)); }
+}
