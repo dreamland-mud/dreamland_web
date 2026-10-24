@@ -33,7 +33,7 @@
 .pinset__card > .pemblem--head { position: absolute; top: -2.8px; left: 50%; z-index: 4; transform: translate(-50%, -50%); }
 .phead__title { margin: 0; text-align: center; font-size: clamp(1.7rem, 4.5vw, 2.6rem); line-height: 1.1; color: #fff;
     text-shadow: 0 3px 16px rgba(0,0,0,.8); }
-.pinset__card .pach-sum { align-self: stretch; margin: 16px 0 0; }
+.pinset__card .pach-sum { align-self: stretch; margin: 26px 0 0; }
 .pinset__card .pach-sum .pbar { margin-left: 4px; }
 .phead__sub { margin: 0; text-align: center; font-size: .95rem; color: var(--text-dim); }
 .phead__loading { color: var(--text-dim); }
@@ -115,7 +115,7 @@
    list, gold (move) for secrets. The cap jewel stands a little proud of the tube. */
 /* both tubes share one grid, so captions, tubes and counts line up */
 .pinset__card .pach-sum { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content;
-    align-items: center; gap: 10px 14px; }
+    align-items: center; gap: 4px 14px; }
 .ptube { display: contents; }
 .ptube__cap { text-align: left; font-size: .9rem; color: var(--text-dim); }
 .ptube__val { text-align: right; font-size: .9rem; color: var(--text-dim); white-space: nowrap; }
@@ -163,7 +163,7 @@
     .pinset { padding-left: 0; padding-right: 0; }
     .pinset__card { padding: 46px 18px 22px; }
     .pemblem--head { width: 70px; height: 76px; }
-    .pinset__card .pach-sum { gap: 10px 10px; }
+    .pinset__card .pach-sum { gap: 4px 10px; }
     .pchars { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
     .pchar { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
     .pchar__sheet { padding: 28px 24px; }

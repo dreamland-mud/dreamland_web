@@ -5,8 +5,9 @@
 (function () {
     var SHADE = 'linear-gradient(180deg, rgba(13,11,18,.4), rgba(13,11,18,.92))';
 
-    // file: an area file with or without ".are" ("midgaard" or "midgaard.are")
-    function apply(el, file) {
+    // file: an area file with or without ".are" ("midgaard" or "midgaard.are").
+    // fallback: another zone's banner to show when this one has none.
+    function apply(el, file, fallback) {
         if (!el) return;
         var want = file ? String(file).replace(/\.are$/, '') : '';
         el.setAttribute('data-banner', want);
@@ -21,6 +22,8 @@
         };
         img.onerror = function () {
             if (el.getAttribute('data-banner') !== want) return;
+            var alt = fallback ? String(fallback).replace(/\.are$/, '') : '';
+            if (alt && alt !== want) { apply(el, alt); return; }
             el.style.backgroundImage = '';
             el.classList.remove('has-banner');
         };

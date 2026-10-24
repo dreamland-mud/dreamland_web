@@ -651,7 +651,8 @@
         // The banner stays empty; the inset card straddles its bottom edge,
         // the class emblem sitting on the card's top rim where the keystone was.
         head.innerHTML = '';
-        if (lead) DLZoneBanner.apply(head, lead.home);
+        // the hometown's zone art; Midgaard's when that zone has none
+        if (lead) DLZoneBanner.apply(head, lead.home || 'midgaard', 'midgaard');
         var wrapper = el('div', 'ds-inset pinset');
         wrapper.appendChild(el('div', 'ds-inset__portal'));
         var inset = el('div', 'ds-inset__card pinset__card');
