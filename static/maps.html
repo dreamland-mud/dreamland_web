@@ -35,11 +35,11 @@
     </button>
 </header>
 
-<section class="pagehead pagehead--tight" id="mapsHead">
+<section class="pagehead pagehead--tight pagehead--zone" id="mapsHead">
     <div class="wrap">
-        <h1 lang="en">Maps</h1><h1 lang="uk">Карти</h1>
-        <p lang="en">Every zone in Thera, drawn from the same data the in-game map uses. Rooms are placed by their real exits, so the shape you see is the shape you walk.</p>
-        <p lang="uk">Кожна зона Тери, намальована з тих самих даних, що й карта у грі. Кімнати розставлені за справжніми виходами, тож форма, яку ти бачиш, — це форма, якою ти ходиш.</p>
+        <!-- the picked zone's name and facts replace these once a zone loads -->
+        <h1 id="zoneName"><span lang="en">Maps</span><span lang="uk">Карти</span></h1>
+        <p id="zoneMeta"><span lang="en">Every zone in Thera, drawn from the same data the in-game map uses.</span><span lang="uk">Кожна зона Тери, намальована з тих самих даних, що й карта у грі.</span></p>
     </div>
 </section>
 
@@ -54,10 +54,6 @@
 
     <main class="mapmain" id="mapmain">
         <div class="maptools" id="maptools" hidden>
-            <div class="maptools__title">
-                <h2 id="zoneName"></h2>
-                <span class="maptools__meta" id="zoneMeta"></span>
-            </div>
             <div class="maptools__ctl">
                 <div class="layers" id="layers" role="group" aria-label="Levels"></div>
                 <div class="zoombar" role="group" aria-label="Zoom">
