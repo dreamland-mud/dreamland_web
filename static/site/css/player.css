@@ -7,9 +7,21 @@
    diamond is the Figma "Classes" emblem set. No monospace anywhere on this
    page (Kit 10-22): the parchment body is reset to the body face here. */
 
-.pagehead--player { padding-bottom: 34px; }
+.pagehead--player { padding-bottom: 110px; }
 .phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.phead__title { margin: 0; text-align: center; }
+
+/* ---------- inset card: half on the banner, half below ----------
+   A .windowlet in the Nirvana frame. The emblem sits on the top rim in place
+   of the keystone, so the card lets it overhang instead of clipping it. */
+.pinset { max-width: 640px; margin: -96px auto 0; padding: 66px 28px 26px; overflow: visible;
+    display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+/* .windowlet > * puts every child in flow; the frame parts stay absolute */
+.pinset > .ds-frame__c, .pinset > .ds-frame__s, .pinset > .ds-frame__k { position: absolute; }
+.pinset > .ds-frame__k:not(.bottom) { display: none; }
+.pinset > .pemblem--head { position: absolute; top: 0; left: 50%; z-index: 4; transform: translate(-50%, -55%); }
+.phead__title { margin: 0; text-align: center; font-size: clamp(1.7rem, 4.5vw, 2.6rem); color: #fff;
+    text-shadow: 0 3px 16px rgba(0,0,0,.8); }
+.pinset .pach-sum { align-self: stretch; margin: 18px 0 0; }
 .phead__sub { margin: 0; text-align: center; font-size: .95rem; color: var(--text-dim); }
 .phead__loading { color: var(--text-dim); }
 
@@ -25,7 +37,7 @@
 .pemblem { display: block; flex: none; position: relative; }
 .pemblem img { width: 100%; height: 100%; object-fit: contain; display: block;
     filter: drop-shadow(0 2px 4px rgba(0,0,0,.6)); }
-.pemblem--head { width: 92px; height: 100px; margin-bottom: 4px; }
+.pemblem--head { width: 92px; height: 100px; }
 .pemblem--card { width: 84px; height: 92px; }
 .pemblem--blank::before {
     content: ''; position: absolute; inset: 22% 26%;
@@ -33,8 +45,9 @@
     background: var(--stone-800);
 }
 
-.playerpage { padding-top: 34px; padding-bottom: 70px; max-width: 1040px; }
+.playerpage { padding-top: 0; padding-bottom: 70px; max-width: 1040px; }
 .pach-sec__title { font-size: 1.5rem; margin: 0 0 14px; }
+.pach-sec { margin-top: 40px; }
 
 /* ---------- character grid ---------- */
 .pchars-sec { margin-top: 48px; }
@@ -51,7 +64,7 @@
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pchar__cls { font-size: .78rem; color: var(--text-dim); }
 /* gods: the name in light cyan, on the card and in the header */
-.pchar__name--god, .pagehead .phead__title.pchar__name--god { color: var(--god-cyan); -webkit-text-fill-color: var(--god-cyan); }
+.pchar__name--god, .pinset .phead__title.pchar__name--god { color: var(--god-cyan); -webkit-text-fill-color: var(--god-cyan); }
 
 .pchips { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap;
     align-items: center; gap: 6px; }
@@ -90,7 +103,7 @@
 .pbar--label { height: 20px; }
 .ds-pbar.pbar--blue { --fill-edge: var(--sapphire-lo); --fill-mid: var(--sapphire); --glow: rgba(74,116,212,.45); }
 .pbar__val { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); z-index: 3;
-    font-family: var(--mono); font-size: .75rem; line-height: 1; letter-spacing: .02em; color: #fff;
+    font-family: var(--body); font-size: .8rem; line-height: 1; color: #fff;
     text-shadow: 0 1px 1px rgba(0,0,0,.9); pointer-events: none; white-space: nowrap; }
 .pbar__val b { font-weight: 700; }
 
@@ -132,6 +145,8 @@
 
 @media (max-width: 560px) {
     .pstats { gap: 10px 22px; }
+    .pinset { padding: 52px 16px 20px; margin-top: -80px; }
+    .pemblem--head { width: 70px; height: 76px; }
     .pchars { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
     .pchar { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
     .pchar__sheet { padding: 28px 24px; }

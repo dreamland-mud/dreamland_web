@@ -337,7 +337,7 @@
         return s;
     }
 
-    function stats(p, chars, ach) {
+    function stats(p, chars) {
         var a = p.account || {};
         var dl = el('dl', 'pstats');
         if (a.since)
@@ -355,9 +355,6 @@
             dl.appendChild(stat(bi(a.favClass.en, a.favClass.ua, 'pstat__cap'),
                 bi('favourite class', 'улюблений клас')));
         }
-        if (ach)
-            dl.appendChild(stat(document.createTextNode(ach.unlocked + ' / ' + ach.total),
-                bi('achievements', 'досягнення')));
         return dl;
     }
 
@@ -473,24 +470,31 @@
         return li;
     }
 
+    // Every achievement sits in exactly one bucket: a secret one under
+    // Secrets whatever its group, the rest under their own group. Tubes and
+    // filter chips count by the same rule, so their numbers agree.
+    function bucketOf(a) { return a.secret ? 'secrets' : a.group; }
+
+    // Two tubes like the client's vitals: blue for the open list, gold for
+    // secrets. Secrets nobody on the account has found are only counted.
+    function achTubes(list) {
+        var sum = el('div', 'pach-sum');
+        var open = list.filter(function (a) { return bucketOf(a) !== 'secrets'; });
+        var secrets = list.filter(function (a) { return bucketOf(a) === 'secrets'; });
+        sum.appendChild(labelBar('Achievements', 'Досягнення',
+            open.filter(function (a) { return a.unlocked; }).length, open.length, 'pbar--blue'));
+        if (secrets.length)
+            sum.appendChild(labelBar('Secrets', 'Таємниці',
+                secrets.filter(function (a) { return a.unlocked; }).length, secrets.length, 'pbar--gold'));
+        return sum;
+    }
+
     function achievementsShelf(list) {
         var sec = el('section', 'pach-sec');
         sec.setAttribute('aria-labelledby', 'achTitle');
         var h = el('h2', 'pach-sec__title', [bi('Achievements', 'Досягнення')]);
         h.id = 'achTitle';
         sec.appendChild(h);
-
-        // Two tubes like the client's vitals: blue for the open list, gold for
-        // secrets. Secrets nobody on the account has found are only counted.
-        var sum = el('div', 'pach-sum');
-        var open = list.filter(function (a) { return !a.secret; });
-        var secrets = list.filter(function (a) { return a.secret; });
-        sum.appendChild(labelBar('Achievements', 'Досягнення',
-            open.filter(function (a) { return a.unlocked; }).length, open.length, 'pbar--blue'));
-        if (secrets.length)
-            sum.appendChild(labelBar('Secrets', 'Таємниці',
-                secrets.filter(function (a) { return a.unlocked; }).length, secrets.length, 'pbar--gold'));
-        sec.appendChild(sum);
 
         var state = { cat: 'all', locked: false, q: '', sort: 'rare' };
 
@@ -500,7 +504,8 @@
         var cats = el('div', 'pach-cats');
         cats.setAttribute('role', 'group');
         function catChip(key, en, uk) {
-            var inCat = list.filter(function (a) { return key === 'all' || a.group === key; });
+            var inCat = list.filter(function (a) { return key === 'all' || bucketOf(a) === key; });
+            if (!inCat.length) return;
             var have = inCat.filter(function (a) { return a.unlocked; }).length;
             var c = el('button', 'ds-chip', [bi(en, uk), el('span', 'pach-cats__n', [have + '/' + inCat.length])]);
             c.type = 'button';
@@ -569,7 +574,7 @@
         function draw() {
             var shown = list.filter(function (a) {
                 if (a.secret && !a.unlocked) return false;
-                if (state.cat !== 'all' && a.group !== state.cat) return false;
+                if (state.cat !== 'all' && bucketOf(a) !== state.cat) return false;
                 if (!state.locked && !a.unlocked) return false;
                 var n = nameOf(a), d = descOf(a);
                 if (state.q && (n.en + ' ' + n.ua + ' ' + d.en + ' ' + d.ua)
@@ -631,24 +636,26 @@
         charByLogin = {};
         chars.forEach(function (c) { charByLogin[login(c).toLowerCase()] = c; });
 
+        // The banner stays empty; the inset card straddles its bottom edge,
+        // the class emblem sitting on the card's top rim where the keystone was.
         head.innerHTML = '';
-        var w = el('div', 'wrap phead');
+        var inset = el('div', 'windowlet ds-frame pinset');
         if (lead) {
-            w.appendChild(emblem(lead.class, 'head'));
-            w.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
+            inset.appendChild(emblem(lead.class, 'head'));
+            inset.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
                 [bi(lead.name.en, ukName(lead))]));
-            w.appendChild(el('p', 'phead__sub', [p.title || p.id]));
+            inset.appendChild(el('p', 'phead__sub', [p.title || p.id]));
         } else {
-            w.appendChild(el('h1', 'phead__title', [p.title || p.id]));
+            inset.appendChild(el('h1', 'phead__title', [p.title || p.id]));
         }
-        w.appendChild(stats(p, chars, ach && {
-            unlocked: ach.filter(function (a) { return a.unlocked; }).length, total: ach.length
-        }));
-        head.appendChild(w);
+        inset.appendChild(stats(p, chars));
+        if (ach) inset.appendChild(achTubes(ach));
+        DLFrame.dress(inset);
 
         document.title = 'DreamLand — ' + (lead ? lead.name.en : (p.title || p.id));
 
         body.innerHTML = '';
+        body.appendChild(inset);
         body.appendChild(ach ? achievementsShelf(ach) : achievementsSoon());
 
         var csec = el('section', 'pchars-sec');
