@@ -197,14 +197,12 @@
         return parchment(bi(c.name.en, ukName(c)), bodyKids, 'pchar__sheet');
     }
 
-    // A side-sheet parchment: title, then the body nodes.
+    // A side sheet's content: the title goes to the sheet head, the body
+    // nodes onto a parchment inside the sheet's inset.
     function parchment(title, kids, cls) {
         var parch = el('div', 'ds-parch ds-frame ' + (cls || ''));
-        var h = el('h4', 'psheet__title', [title]);
-        h.id = 'sheetTitle';
-        parch.appendChild(h);
         parch.appendChild(el('div', 'ds-parch__body', kids));
-        return DLFrame.dress(parch);
+        return { title: title, node: DLFrame.dress(parch) };
     }
 
     // Achievements as gem + name rows; each opens its own sheet.
@@ -282,34 +280,65 @@
     // One side sheet for every sheet: native <dialog> traps focus, closes on
     // Esc and hands focus back to whatever opened it.
     var dialog = el('dialog', 'ds-sheet');
-    var dialogBody = el('div', 'ds-sheet__body');
-    var closeBtn = el('button', 'ds-sheet__close', ['\u2715']);
+    var panel = el('div', 'ds-sheet__panel');
+    var sheetHead = el('div', 'ds-sheet__head');
+    var backBtn = el('button', 'ds-sheet__btn ds-sheet__back', ['\u2190']);
+    backBtn.type = 'button';
+    var sheetTitle = el('h2', 'ds-sheet__title');
+    sheetTitle.id = 'sheetTitle';
+    var closeBtn = el('button', 'ds-sheet__btn ds-sheet__close', ['\u2715']);
     closeBtn.type = 'button';
-    closeBtn.addEventListener('click', function () { dialog.close(); });
-    dialog.appendChild(closeBtn);
-    dialog.appendChild(dialogBody);
-    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
-    dialog.addEventListener('close', function () {
-        if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
-    });
+    sheetHead.appendChild(backBtn);
+    sheetHead.appendChild(sheetTitle);
+    sheetHead.appendChild(closeBtn);
+    var insetBox = el('div', 'ds-sheet__inset');
+    var dialogBody = el('div', 'ds-sheet__body');
+    insetBox.appendChild(dialogBody);
+    panel.appendChild(sheetHead);
+    panel.appendChild(insetBox);
+    dialog.appendChild(panel);
+    dialog.setAttribute('aria-labelledby', 'sheetTitle');
     document.body.appendChild(dialog);
 
-    function showSheet(node, hash) {
+    // Sheets opened from a sheet stack up; Back returns to the previous one.
+    var trail = [], current = null;
+    closeBtn.addEventListener('click', function () { dialog.close(); });
+    backBtn.addEventListener('click', function () {
+        var prev = trail.pop();
+        if (prev) render(prev);
+    });
+    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', function () {
+        trail = []; current = null;
+        if (history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+    });
+
+    function render(entry) {
+        var built = entry.build();
+        current = entry;
+        sheetTitle.innerHTML = '';
+        sheetTitle.appendChild(built.title);
         dialogBody.innerHTML = '';
-        dialogBody.appendChild(node);
-        dialog.setAttribute('aria-labelledby', 'sheetTitle');
+        dialogBody.appendChild(built.node);
+        backBtn.hidden = trail.length === 0;
         if (!dialog.open) dialog.showModal();
         dialogBody.scrollTop = 0;
-        if (history.replaceState) history.replaceState(null, '', '#' + hash);
+        if (history.replaceState) history.replaceState(null, '', '#' + entry.hash);
     }
 
-    function openSheet(c) { showSheet(sheet(c), login(c)); }
-    function openAch(a) { showSheet(achSheet(a), a.id); }
+    function showSheet(build, hash) {
+        if (dialog.open && current) trail.push(current);
+        render({ build: build, hash: hash });
+    }
+
+    function openSheet(c) { showSheet(function () { return sheet(c); }, login(c)); }
+    function openAch(a) { showSheet(function () { return achSheet(a); }, a.id); }
 
     // Close label follows the language switch (an aria-label holds no spans).
     function relabelClose() {
-        closeBtn.setAttribute('aria-label',
-            document.documentElement.getAttribute('data-lang') === 'uk' ? 'Закрити' : 'Close');
+        var uk = document.documentElement.getAttribute('data-lang') === 'uk';
+        closeBtn.setAttribute('aria-label', uk ? 'Закрити' : 'Close');
+        backBtn.setAttribute('aria-label', uk ? 'Назад' : 'Back');
     }
     relabelClose();
     new MutationObserver(relabelClose).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
@@ -481,8 +510,9 @@
         if (won.length < 3) return null;
         var ul = el('ul', 'pach-show');
         ul.setAttribute('aria-label', 'Rarest earned');
-        won.slice(0, 3).forEach(function (a) { ul.appendChild(achTile(a, true)); });
-        return ul;
+        var top = won.slice(0, 3);
+        top.forEach(function (a) { ul.appendChild(achTile(a, true)); });
+        return { node: ul, ids: top.map(function (a) { return a.id; }) };
     }
 
     // Every achievement sits in exactly one bucket: a secret one under
@@ -512,8 +542,10 @@
         h.id = 'achTitle';
         sec.appendChild(h);
 
+        // The showcase stands above the wall, so the wall leaves those three out.
         var show = achShowcase(list);
-        if (show) sec.appendChild(show);
+        if (show) sec.appendChild(show.node);
+        var showIds = show ? show.ids : [];
 
         var state = { cat: 'all', locked: false, q: '', sort: 'rare' };
 
@@ -586,6 +618,7 @@
         function draw() {
             var shown = list.filter(function (a) {
                 if (a.secret && !a.unlocked) return false;
+                if (showIds.indexOf(a.id) >= 0) return false;
                 if (state.cat !== 'all' && bucketOf(a) !== state.cat) return false;
                 if (!state.locked && !a.unlocked) return false;
                 var n = nameOf(a), d = descOf(a);
@@ -671,6 +704,11 @@
         var inset = el('div', 'ds-inset__card pinset__card');
         wrapper.appendChild(inset);
         inset.appendChild(DLFrame.dress(el('div', 'ds-inset__frame ds-frame')));
+        ['tl', 'tr', 'bl', 'br'].forEach(function (k) {
+            var stud = el('span', 'pinset__stud pinset__stud--' + k);
+            stud.setAttribute('aria-hidden', 'true');
+            inset.appendChild(stud);
+        });
         if (lead) {
             inset.appendChild(emblem(lead.class, 'head'));
             inset.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),

@@ -1227,24 +1227,42 @@ details.scroll > summary:hover { color: #fff; }
   width:18px;height:18px;line-height:0;color:var(--fill-mid)}
 .ds-pbar__gem svg{width:100%;height:100%;display:block}
 
-/* ---------- side sheet (ported from the client's help sheet, mudjs) ----------
-   A native <dialog> docked to the right: focus trap, Esc and backdrop for free.
-   The content is a .ds-parch.ds-frame, so it wears the same modular frame. */
-.ds-sheet{position:fixed;inset:0 0 0 auto;margin:0;padding:10px;border:0;
-  width:min(460px,100vw);max-width:none;height:100%;max-height:none;box-sizing:border-box;
+/* ---------- side sheet (Nirvana canon) ----------
+   A native <dialog> docked right, full viewport height: focus trap, Esc and
+   backdrop for free. Dark panel in the gold rail; head row = back, title,
+   close on one centre line; below it the big-inset well holding the
+   parchment, which scrolls on its own. */
+.ds-sheet{position:fixed;inset:0 0 0 auto;margin:0;padding:0;border:0;
+  width:min(540px,100vw);max-width:none;height:100vh;height:100dvh;max-height:none;box-sizing:border-box;
   background:transparent;color:inherit;overflow:visible}
 .ds-sheet[open]{animation:ds-sheet-in .24s ease}
-.ds-sheet::backdrop{background:rgba(8,7,12,.55)}
+.ds-sheet::backdrop{background:rgba(8,7,12,.62)}
 @keyframes ds-sheet-in{from{transform:translateX(100%)}to{transform:none}}
 @media (prefers-reduced-motion: reduce){.ds-sheet[open]{animation:none}}
-.ds-sheet__body{height:100%;overflow:auto}
+.ds-sheet__panel{height:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;
+  padding:16px 18px 20px;border:5.6px solid transparent;border-image:var(--rail) 16 stretch;
+  background:radial-gradient(90% 40% at 50% 0%,rgba(187,134,252,.10),transparent 70%),
+    linear-gradient(180deg,var(--stone-900),var(--obsidian));background-clip:padding-box;
+  box-shadow:-18px 0 46px rgba(0,0,0,.6)}
+.ds-sheet__head{display:grid;grid-template-columns:34px minmax(0,1fr) 34px;align-items:center;gap:10px}
+.ds-sheet__title{margin:0;text-align:center;font-family:var(--display);font-weight:700;font-size:1.45rem;
+  line-height:1.15;color:var(--gold-bright);text-wrap:balance;overflow-wrap:anywhere}
+.ds-sheet__btn{width:34px;height:34px;padding:0;border-radius:var(--radius);border:1px solid var(--gold-deep);
+  background:#0b0a12;color:var(--gold-bright);font-size:16px;line-height:1;cursor:pointer;
+  box-shadow:inset 0 1px 5px rgba(0,0,0,.6);transition:border-color .15s,box-shadow .15s}
+.ds-sheet__btn:hover{border-color:var(--gold);box-shadow:inset 0 1px 5px rgba(0,0,0,.6),0 0 12px var(--arcane-glow)}
+.ds-sheet__btn:focus-visible{outline:none;border-color:var(--gold);animation:pc-focus-orbit 2.6s linear infinite}
+.ds-sheet__back{grid-column:1}
+.ds-sheet__back[hidden]{display:block!important;visibility:hidden}
+.ds-sheet__close{grid-column:3}
+.ds-sheet__inset{flex:1;min-height:0;position:relative;padding:12px;border:5.6px solid transparent;border-radius:6px;
+  border-image:var(--rail) 16 stretch;
+  background:var(--noise),radial-gradient(120% 50% at 50% 0%,rgba(187,134,252,.12),transparent 55%),
+    linear-gradient(180deg,var(--stone-850),var(--stone-950) 60%,var(--obsidian));
+  background-clip:padding-box;background-blend-mode:overlay,normal,normal;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 44px rgba(0,0,0,.5)}
+.ds-sheet__body{height:100%;overflow:auto;padding:10px;box-sizing:border-box}
 .ds-sheet__body > .ds-parch{min-height:100%;box-sizing:border-box}
-.ds-sheet__close{position:absolute;top:22px;right:24px;z-index:5;width:30px;height:30px;padding:0;
-  border-radius:5px;border:1px solid rgba(120,90,50,.45);background:rgba(70,50,20,.08);
-  color:var(--ink);font-size:16px;line-height:1;cursor:pointer}
-.ds-sheet__close:hover{background:rgba(70,50,20,.16);border-color:var(--parch-edge)}
-.ds-sheet__close:focus-visible{outline:2px solid #6a2fa6;outline-offset:2px}
-
 
 /* ---------- achievement medal (Nirvana) ----------
    The coin is an inline SVG from site/js/medal.js. Tier lives in the medal and
