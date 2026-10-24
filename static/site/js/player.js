@@ -423,6 +423,22 @@
         return bar;
     }
 
+    // A summary tube with its caption and have|need inside, as in the client.
+    // aria-label cannot hold the lang spans, so it follows the language switch.
+    function labelBar(en, uk, have, need, mod) {
+        var bar = progressBar(have, need, 'pbar--lg pbar--label ' + mod);
+        var val = el('span', 'pbar__val', [bi(en, uk), ' ', el('b', null, [String(have)]), '|' + need]);
+        val.setAttribute('aria-hidden', 'true');
+        bar.appendChild(val);
+        function relabel() {
+            var isUk = document.documentElement.getAttribute('data-lang') === 'uk';
+            bar.setAttribute('aria-label', (isUk ? uk : en) + ': ' + have + (isUk ? ' з ' : ' of ') + need);
+        }
+        relabel();
+        new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
+        return bar;
+    }
+
     // A card opens the achievement's sheet: tier, when, on which characters.
     function achTile(a) {
         var locked = !a.unlocked;
@@ -464,22 +480,19 @@
         h.id = 'achTitle';
         sec.appendChild(h);
 
-        var got = list.filter(function (a) { return a.unlocked; }).length;
+        // Two tubes like the client's vitals: blue for the open list, gold for
+        // secrets. Secrets nobody on the account has found are only counted.
         var sum = el('div', 'pach-sum');
-        sum.appendChild(el('p', 'pach-sum__count', [bi(
-            got + ' of ' + list.length + ' unlocked', got + ' з ' + list.length + ' здобуто')]));
-        sum.appendChild(progressBar(got, list.length, 'pbar--lg'));
-        // Secrets nobody on the account has found are only counted, never shown.
+        var open = list.filter(function (a) { return !a.secret; });
         var secrets = list.filter(function (a) { return a.secret; });
-        if (secrets.length) {
-            var found = secrets.filter(function (a) { return a.unlocked; }).length;
-            sum.appendChild(el('p', 'pach-sum__secrets', [bi(
-                'Secrets found: ' + found + ' of ' + secrets.length,
-                'Знайдено таємниць: ' + found + ' з ' + secrets.length)]));
-        }
+        sum.appendChild(labelBar('Achievements', 'Досягнення',
+            open.filter(function (a) { return a.unlocked; }).length, open.length, 'pbar--blue'));
+        if (secrets.length)
+            sum.appendChild(labelBar('Secrets', 'Таємниці',
+                secrets.filter(function (a) { return a.unlocked; }).length, secrets.length, 'pbar--gold'));
         sec.appendChild(sum);
 
-        var state = { cat: 'all', locked: true, q: '', sort: 'rare' };
+        var state = { cat: 'all', locked: false, q: '', sort: 'rare' };
 
         // Filters: categories as toggle-chips with their own counts, a locked
         // toggle, search and sort. With hundreds of entries, filters are the UI.
@@ -522,7 +535,7 @@
 
         var lockedBtn = el('button', 'ds-chip', [bi('Show locked', 'Показати не здобуті')]);
         lockedBtn.type = 'button';
-        lockedBtn.setAttribute('aria-pressed', 'true');
+        lockedBtn.setAttribute('aria-pressed', 'false');
         lockedBtn.addEventListener('click', function () {
             state.locked = !state.locked;
             lockedBtn.setAttribute('aria-pressed', state.locked ? 'true' : 'false');
@@ -545,7 +558,8 @@
         sec.appendChild(tools);
 
         var grid = el('ul', 'pach-grid');
-        var empty = el('p', 'pach-empty', [bi('Nothing here yet.', 'Тут поки порожньо.')]);
+        var empty = el('p', 'pach-empty', [bi('Nothing earned here yet. "Show locked" lists what is ahead.',
+            'Тут поки нічого не здобуто. "Показати не здобуті" покаже, що попереду.')]);
         var live = el('p', 'sr-only');
         live.setAttribute('aria-live', 'polite');
         sec.appendChild(grid);
