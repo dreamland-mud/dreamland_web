@@ -743,6 +743,7 @@
                 render();
                 openView();
                 loadZoneHelp(file);
+                DLZoneBanner.apply(document.getElementById('mapsHead'), file);
                 try { history.replaceState(null, '', '#' + file); } catch (e) {}
             });
     }

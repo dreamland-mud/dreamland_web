@@ -7,26 +7,39 @@
    diamond is the Figma "Classes" emblem set. No monospace anywhere on this
    page (Kit 10-22): the parchment body is reset to the body face here. */
 
-.pagehead--player { padding-bottom: 110px; }
+.pagehead--player { padding-bottom: 200px; }
 .phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 
-/* ---------- inset card: half on the banner, half below ----------
-   A .windowlet in the Nirvana frame. The emblem sits on the top rim in place
-   of the keystone, so the card lets it overhang instead of clipping it. */
-.pinset { max-width: 640px; margin: -96px auto 0; padding: 66px 28px 26px; overflow: visible;
-    display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
-/* .windowlet > * puts every child in flow; the frame parts stay absolute */
-.pinset > .ds-frame__c, .pinset > .ds-frame__s, .pinset > .ds-frame__k { position: absolute; }
-.pinset > .ds-frame__k:not(.bottom) { display: none; }
-.pinset > .pemblem--head { position: absolute; top: 0; left: 50%; z-index: 4; transform: translate(-50%, -55%); }
-.phead__title { margin: 0; text-align: center; font-size: clamp(1.7rem, 4.5vw, 2.6rem); color: #fff;
+/* ---------- header card: Nirvana's big inset straddling the banner ----------
+   player.js measures the card and pulls it up by two thirds of its height.
+   The class emblem sits centred on the top rail, so the card lets it overhang. */
+.pinset { padding-bottom: 0; }
+.pinset__card { width: min(640px, 100%); padding: 58px 32px 28px; overflow: visible;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center;
+    animation: pinset-orbit 2.6s linear infinite; }
+/* the focused-control orbit (theme.css pc-focus-orbit), sized up for a card,
+   over the card's own dark drop */
+@keyframes pinset-orbit {
+    0%   { filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 -9px 14px rgba(187,134,252,.75)) drop-shadow(0 9px 12px rgba(128,67,202,.42)); }
+    25%  { filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(10px 0 16px rgba(187,134,252,.75)) drop-shadow(-10px 0 12px rgba(128,67,202,.42)); }
+    50%  { filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 9px 14px rgba(187,134,252,.75)) drop-shadow(0 -9px 12px rgba(128,67,202,.42)); }
+    75%  { filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(-10px 0 16px rgba(187,134,252,.75)) drop-shadow(10px 0 12px rgba(128,67,202,.42)); }
+    100% { filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 -9px 14px rgba(187,134,252,.75)) drop-shadow(0 9px 12px rgba(128,67,202,.42)); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pinset__card { animation: none; filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 14px rgba(187,134,252,.6)); }
+}
+/* centre of the emblem on the middle of the 5.6px rail */
+.pinset__card > .pemblem--head { position: absolute; top: -2.8px; left: 50%; z-index: 4; transform: translate(-50%, -50%); }
+.phead__title { margin: 0; text-align: center; font-size: clamp(1.7rem, 4.5vw, 2.6rem); line-height: 1.1; color: #fff;
     text-shadow: 0 3px 16px rgba(0,0,0,.8); }
-.pinset .pach-sum { align-self: stretch; margin: 18px 0 0; }
+.pinset__card .pach-sum { align-self: stretch; margin: 16px 0 0; }
+.pinset__card .pach-sum .pbar { margin-left: 4px; }
 .phead__sub { margin: 0; text-align: center; font-size: .95rem; color: var(--text-dim); }
 .phead__loading { color: var(--text-dim); }
 
 /* ---------- account numbers ---------- */
-.pstats { margin: 14px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 34px; }
+.pstats { margin: 8px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 34px; }
 .pstat { display: flex; flex-direction: column-reverse; align-items: center; min-width: 0; }
 .pstat__value { margin: 0; display: inline-flex; align-items: center; gap: 6px;
     font-family: var(--display); font-weight: 700; font-size: 1.3rem; line-height: 1.2; color: var(--gold-bright); }
@@ -47,7 +60,7 @@
 
 .playerpage { padding-top: 0; padding-bottom: 70px; max-width: 1040px; }
 .pach-sec__title { font-size: 1.5rem; margin: 0 0 14px; }
-.pach-sec { margin-top: 40px; }
+.pach-sec { margin-top: 28px; }
 
 /* ---------- character grid ---------- */
 .pchars-sec { margin-top: 48px; }
@@ -64,7 +77,7 @@
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pchar__cls { font-size: .78rem; color: var(--text-dim); }
 /* gods: the name in light cyan, on the card and in the header */
-.pchar__name--god, .pinset .phead__title.pchar__name--god { color: var(--god-cyan); -webkit-text-fill-color: var(--god-cyan); }
+.pchar__name--god, .pinset__card .phead__title.pchar__name--god { color: var(--god-cyan); -webkit-text-fill-color: var(--god-cyan); }
 
 .pchips { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-wrap: wrap;
     align-items: center; gap: 6px; }
@@ -98,19 +111,21 @@
 .pbar { flex: 1 1 auto; overflow: visible; margin-left: 3px; }
 .pbar--lg { height: 16px; }
 
-/* summary tubes: blue for the open list, gold (move) for secrets, the caption
-   and have|need inside the tube, as in the client's vitals */
-.pbar--label { height: 20px; }
+/* summary tubes: caption left, the tube, have|need right; blue for the open
+   list, gold (move) for secrets. The cap jewel stands a little proud of the tube. */
+/* both tubes share one grid, so captions, tubes and counts line up */
+.pinset__card .pach-sum { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content;
+    align-items: center; gap: 10px 14px; }
+.ptube { display: contents; }
+.ptube__cap { text-align: left; font-size: .9rem; color: var(--text-dim); }
+.ptube__val { text-align: right; font-size: .9rem; color: var(--text-dim); white-space: nowrap; }
+.ptube__val b { font-weight: 700; color: var(--text); }
+.pbar--label { height: 14px; margin-left: 0; }
+.pbar--label .ds-pbar__gem { width: 20px; height: 20px; left: -4px; }
 .ds-pbar.pbar--blue { --fill-edge: var(--sapphire-lo); --fill-mid: var(--sapphire); --glow: rgba(74,116,212,.45); }
-.pbar__val { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); z-index: 3;
-    font-family: var(--body); font-size: .8rem; line-height: 1; color: #fff;
-    text-shadow: 0 1px 1px rgba(0,0,0,.9); pointer-events: none; white-space: nowrap; }
-.pbar__val b { font-weight: 700; }
 
-.pach-tools { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-.pach-cats, .pach-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.pach-cats .ds-chip { padding: 4px 12px; }
-.pach-cats__n { font-weight: 400; opacity: .75; }
+.pach-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+.pach-cat { flex: 0 0 auto; }
 .pach-search { flex: 1 1 220px; min-width: 0; }
 .pach-sort { flex: 0 0 auto; }
 
@@ -145,13 +160,14 @@
 
 @media (max-width: 560px) {
     .pstats { gap: 10px 22px; }
-    .pinset { padding: 52px 16px 20px; margin-top: -80px; }
+    .pinset { padding-left: 0; padding-right: 0; }
+    .pinset__card { padding: 46px 18px 22px; }
     .pemblem--head { width: 70px; height: 76px; }
+    .pinset__card .pach-sum { gap: 10px 10px; }
     .pchars { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
     .pchar { flex-direction: column; align-items: flex-start; gap: 8px; padding: 10px; }
     .pchar__sheet { padding: 28px 24px; }
     .psheet { grid-template-columns: minmax(0, 1fr); gap: 0; }
     .psheet dt { margin-top: 8px; font-size: .8rem; }
-    .pach-sum { flex-direction: column; align-items: stretch; gap: 6px; }
 }
 .pach.is-ghost { cursor: default; }
