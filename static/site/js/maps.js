@@ -845,7 +845,13 @@
             drawZoneList('');
             var want = (location.hash || '').replace('#', '');
             if (want && INDEX.some(function (z) { return z.file === want; })) loadZone(want);
-            // nobody arrives wanting an empty stage: open the first zone listed
-            else { var first = sortedZones('')[0]; if (first) loadZone(first.file); }
+            // nobody arrives wanting an empty stage: open a random player zone
+            else {
+                var open = INDEX.filter(function (z) {
+                    return !(z.flags || []).some(function (f) { return ['hidden', 'system', 'wizlock'].indexOf(f) >= 0; });
+                });
+                var pick = open[Math.floor(Math.random() * open.length)];
+                if (pick) loadZone(pick.file);
+            }
         });
 })();

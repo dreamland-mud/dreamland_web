@@ -3,6 +3,9 @@
    site's parchment: it is the game's picture, drawn in the game's colours. */
 
 .pagehead--tight { padding-bottom: 26px; }
+/* taller hero: the picked zone's banner, name and facts */
+.pagehead--zone { padding: 170px 0 90px; }
+.pagehead--zone p { font-size: 1.05rem; }
 
 /* Full-bleed like the searcher: a map wants every pixel it can get. Three
    columns — pick a zone, walk it, read about it. */
@@ -78,12 +81,7 @@ details.zband > .zone:last-child { margin-bottom: 10px; }
 
 .maptools {
     display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px;
-    justify-content: space-between; margin-bottom: 12px;
-}
-.maptools__title h2 { margin: 0; font-size: 1.6rem; color: #fff; }
-.maptools__meta {
-    display: block; font-family: var(--mono); font-size: .74rem;
-    color: var(--text-faint); margin-top: 2px;
+    justify-content: flex-end; margin-bottom: 12px;
 }
 .maptools__ctl { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
