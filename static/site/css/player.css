@@ -181,13 +181,13 @@ body { overflow-x: clip; }
 @media (max-width: 560px) {
     .pstats { gap: 10px 22px; }
     .pinset { padding-left: 0; padding-right: 0; }
-    .pinset__card { padding: 46px 18px 22px; }
+    .pinset__card { padding: 46px 30px 26px; }
     .pemblem--head { width: 70px; height: 76px; }
     .pinset__card .pach-sum { gap: 4px 10px; }
     .pach-show { grid-template-columns: minmax(0, 1fr); }
     .pach-show .ds-medal { --medal: 160px; }
-    .pach-grid.pach-wall { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
-    .pach-wall .ds-medal { --medal: 84px; }
+    .pach-grid.pach-wall { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .pach-wall .ds-medal { --medal: 96px; }
     .pchars { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     .pchar { gap: 8px; padding: 14px 8px 12px; }
     .pemblem--portrait { width: 84px; height: 92px; }

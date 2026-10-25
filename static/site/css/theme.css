@@ -397,7 +397,7 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
 /* wide enough that the Ukrainian headline still breaks into three lines — it is
    the longest of the three languages, so it sets this width, not English */
 .hero__inner .wrap { max-width: var(--maxw); text-align: center;
-    padding-left: clamp(38px, 6vw, 74px); padding-right: clamp(38px, 6vw, 74px); }
+    padding-left: clamp(48px, 6vw, 74px); padding-right: clamp(48px, 6vw, 74px); }
 
 .hero__kicker {
     display: inline-block; font-family: var(--body); font-weight: 500;
