@@ -238,6 +238,9 @@
         tier.appendChild(jewel(r.gem, 'psheet__gem'));
         tier.appendChild(bi(r.en, r.uk));
         row(bi('Tier', 'Рівень'), tier);
+        // A secret says so: it was hidden from everyone until found.
+        if (a.secret)
+            row(bi('Secret', 'Таємниця'), bi('Hidden until found', 'Прихована, доки не знайдеш'));
         // Rarity: the share of active accounts (seen within a year) holding it.
         if (a.rarity && a.rarity.of > 0) {
             var pct = a.rarity.have * 100 / a.rarity.of;
