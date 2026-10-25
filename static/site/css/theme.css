@@ -1310,3 +1310,11 @@ details.scroll > summary:hover { color: #fff; }
   background:var(--gem-face);box-shadow:var(--gem-shadow);animation:ds-pop .2s cubic-bezier(.34,1.56,.64,1)}
 .ds-tab-pill[aria-selected="true"]:hover{box-shadow:var(--gem-shadow),0 0 16px var(--arcane-glow)}
 .ds-tab-pill:focus-visible{outline:2px solid var(--arcane);outline-offset:2px}
+
+/* Nirvana table (ported from design/design.css, alias table). */
+.ds-table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+.ds-table th, .ds-table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--stone-700); vertical-align: top; }
+.ds-table th { font-family: var(--display); color: var(--gold-bright); font-weight: 600; font-size: .82rem;
+    text-transform: uppercase; letter-spacing: .06em; }
+.ds-table td code { font-size: .78rem; }
+.ds-table tr:last-child td { border-bottom: 0; }
