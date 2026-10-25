@@ -241,7 +241,7 @@
         // A secret says so: it was hidden from everyone until found.
         if (a.secret)
             row(bi('Secret', 'Таємниця'), bi('Hidden until found', 'Прихована, доки не знайдеш'));
-        // Rarity: the share of active accounts (seen within a year) holding it.
+        // Rarity: the share of all accounts with a pfile holding it.
         if (a.rarity && a.rarity.of > 0) {
             var pct = a.rarity.have * 100 / a.rarity.of;
             var shown = pct >= 10 ? Math.round(pct) : Math.round(pct * 10) / 10;
