@@ -349,7 +349,7 @@
         b.type = 'button';
         b.id = login(c);
         b.setAttribute('aria-haspopup', 'dialog');
-        b.appendChild(emblem(c.class, 'card'));
+        b.appendChild(emblem(c.class, 'portrait'));
         var id = el('span', 'pchar__id');
         id.appendChild(bi(c.name.en, ukName(c),
             'ds-card__title pchar__name' + (c.rank === 'immortal' ? ' pchar__name--god' : '')));
@@ -358,6 +358,51 @@
         b.appendChild(id);
         b.addEventListener('click', function () { openSheet(c); });
         return b;
+    }
+
+    // Two tabs under the band (Nirvana .ds-tabs-pill): each list stays short
+    // enough to reach without scrolling past the other. ARIA tabs pattern:
+    // arrows move between tabs, only the chosen one is in the tab order.
+    function profileTabs(list) {
+        var wrap = el('div', 'ptabs');
+        var bar = el('div', 'ds-tabs-pill ptabs__bar');
+        bar.setAttribute('role', 'tablist');
+        wrap.appendChild(bar);
+        var btns = [];
+        list.forEach(function (t, i) {
+            var b = el('button', 'ds-tab-pill');
+            b.type = 'button';
+            b.id = 'tab-' + t.key;
+            b.setAttribute('role', 'tab');
+            b.setAttribute('aria-controls', 'panel-' + t.key);
+            b.appendChild(bi(t.en, t.uk));
+            b.appendChild(el('span', 'ptabs__count', [String(t.count)]));
+            b.addEventListener('click', function () { select(t.key); });
+            b.addEventListener('keydown', function (e) {
+                var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+                if (!d) return;
+                e.preventDefault();
+                var n = list[(i + d + list.length) % list.length];
+                select(n.key);
+                document.getElementById('tab-' + n.key).focus();
+            });
+            bar.appendChild(b);
+            btns.push(b);
+            t.panel.id = 'panel-' + t.key;
+            t.panel.setAttribute('role', 'tabpanel');
+            t.panel.setAttribute('aria-labelledby', b.id);
+            wrap.appendChild(t.panel);
+        });
+        function select(key) {
+            list.forEach(function (t, i) {
+                var on = t.key === key;
+                btns[i].setAttribute('aria-selected', on ? 'true' : 'false');
+                btns[i].tabIndex = on ? 0 : -1;
+                t.panel.hidden = !on;
+            });
+        }
+        select(list[0].key);
+        return { node: wrap, select: select };
     }
 
     // ---------- account numbers ----------
@@ -724,17 +769,20 @@
         if (show) band.appendChild(show.node);
         body.appendChild(band);
         overlapBanner(wrapper, inset);
-        body.appendChild(ach ? achievementsShelf(ach, show ? show.ids : []) : achievementsSoon());
-
         var csec = el('section', 'pchars-sec');
-        csec.setAttribute('aria-labelledby', 'charsTitle');
-        var ch = el('h2', 'pach-sec__title', [bi('Characters', 'Персонажі')]);
-        ch.id = 'charsTitle';
+        var ch = el('h2', 'sr-only', [bi('Characters', 'Персонажі')]);
         csec.appendChild(ch);
         var list = el('div', 'pchars');
         chars.forEach(function (c) { list.appendChild(card(c)); });
         csec.appendChild(list);
-        body.appendChild(csec);
+
+        var earned = ach ? ach.filter(function (a) { return a.unlocked; }).length : 0;
+        var tabs = profileTabs([
+            { key: 'ach', en: 'Achievements', uk: 'Досягнення', count: earned,
+              panel: ach ? achievementsShelf(ach, show ? show.ids : []) : achievementsSoon() },
+            { key: 'chars', en: 'Characters', uk: 'Персонажі', count: chars.length, panel: csec }
+        ]);
+        body.appendChild(tabs.node);
 
         // Deep link: /player/<id>#Name opens that character's sheet.
         var want = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
@@ -747,7 +795,7 @@
         if (want) {
             chars.forEach(function (c) {
                 if (login(c).toLowerCase() === want) {
-                    document.getElementById(login(c)).scrollIntoView({ block: 'center' });
+                    tabs.select('chars');
                     openSheet(c);
                 }
             });
