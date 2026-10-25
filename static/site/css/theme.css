@@ -1298,3 +1298,15 @@ details.scroll > summary:hover { color: #fff; }
     .ds-medal--legendary:not(.is-locked) .ds-medal__coin, .ds-medal:focus-visible .ds-medal__coin { animation: none;
         filter: drop-shadow(0 4px 6px rgba(0,0,0,.55)) drop-shadow(0 0 10px rgba(187,134,252,.6)); }
 }
+
+/* ---------- pill tabs (Nirvana canon, design/design.css) ---------- */
+.ds-tabs-pill{display:flex;gap:8px;flex-wrap:wrap}
+.ds-tab-pill{display:inline-flex;align-items:center;gap:9px;padding:8px 18px;cursor:pointer;
+  font-family:var(--body);font-weight:700;font-size:.95rem;color:var(--gold-dim);
+  background:rgba(19,16,25,.5);border:1px solid var(--gold-dim);border-radius:999px;
+  transition:color .18s,border-color .18s,background .18s,box-shadow .18s}
+.ds-tab-pill:hover{color:var(--gold-bright);border-color:var(--gold);box-shadow:0 0 16px var(--arcane-glow)}
+.ds-tab-pill[aria-selected="true"]{color:#1c1206;border-color:transparent;text-shadow:0 1px 0 rgba(255,255,255,.3);
+  background:var(--gem-face);box-shadow:var(--gem-shadow);animation:ds-pop .2s cubic-bezier(.34,1.56,.64,1)}
+.ds-tab-pill[aria-selected="true"]:hover{box-shadow:var(--gem-shadow),0 0 16px var(--arcane-glow)}
+.ds-tab-pill:focus-visible{outline:2px solid var(--arcane);outline-offset:2px}
