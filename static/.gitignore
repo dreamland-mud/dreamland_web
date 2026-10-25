@@ -10,6 +10,7 @@
 !/help.html
 !/about.html
 !/player.html
+!/leaderboard.html
 
 /maps/*.html
 !/maps/*-v2.html

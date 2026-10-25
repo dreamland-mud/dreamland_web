@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DreamLand — Leaderboard</title>
+<meta name="description" content="DreamLand MUD players ranked by achievements, with links to their public pages."/>
+<link rel="icon" href="/favicon.ico" sizes="any"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="stylesheet" href="/site/css/theme.css"/>
+<link rel="stylesheet" href="/site/css/leaderboard.css"/>
+</head>
+<body>
+<header class="topbar scrolled" id="topbar">
+    <div class="navpill" id="navpill">
+        <a class="brand" href="/index.html"><img src="/site/assets/logo-alt.png" alt="DreamLand"/></a>
+        <nav class="topnav">
+            <a class="navlink" href="/index.html#start" lang="en">Start</a><a class="navlink" href="/index.html#start" lang="uk">Старт</a>
+            <a class="navlink" href="/searcher.html" lang="en">Items</a><a class="navlink" href="/searcher.html" lang="uk">Речі</a>
+            <a class="navlink" href="/maps.html" lang="en">Maps</a><a class="navlink" href="/maps.html" lang="uk">Карти</a>
+            <a class="navlink" href="/help.html" lang="en">Help</a><a class="navlink" href="/help.html" lang="uk">Довідка</a>
+            <a class="navlink" href="/news.html" lang="en">News</a><a class="navlink" href="/news.html" lang="uk">Новини</a>
+            <a class="navlink" href="/leaderboard.html" lang="en">Leaders</a><a class="navlink" href="/leaderboard.html" lang="uk">Лідери</a>
+        </nav>
+    </div>
+    <div class="langswitch" role="group" aria-label="Language">
+        <button type="button" data-setlang="en">EN</button>
+        <button type="button" data-setlang="uk">UA</button>
+    </div>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="navpill">
+        <span lang="en" class="sr-only">Menu</span><span lang="uk" class="sr-only">Меню</span>
+        <i></i><i></i><i></i>
+    </button>
+</header>
+
+<section class="pagehead">
+    <div class="wrap">
+        <h1 lang="en">Leaderboard</h1><h1 lang="uk">Таблиця лідерів</h1>
+        <p lang="en">Players ranked by achievements: common 1 point, rare 3, epic 10, legendary 25. Each name opens that player's public page.</p>
+        <p lang="uk">Гравці за досягненнями: звичайне 1 бал, рідкісне 3, епічне 10, легендарне 25. Кожне імʼя відкриває публічну сторінку гравця.</p>
+    </div>
+</section>
+
+<main class="wrap boardpage" id="board" aria-live="polite">
+    <p class="board-soon" lang="en">Asking the Archivist...</p>
+    <p class="board-soon" lang="uk">Питаємо Архіваріуса...</p>
+</main>
+
+<footer class="footer" style="padding:40px 0 30px;">
+    <div class="wrap footer__bottom" style="margin:0;padding-top:0;border:0;">
+        <span lang="en">DreamLand MUD · <a href="/index.html">back home</a> · in game: <b>account profile off</b> keeps you off this list</span>
+        <span lang="uk">DreamLand MUD · <a href="/index.html">на головну</a> · у грі: <b>акаунт профіль вимк</b> прибирає тебе з цього списку</span>
+    </div>
+</footer>
+
+<script src="/site/js/src.js"></script>
+<script src="/site/js/nav.js"></script>
+<script src="/site/js/i18n.js"></script>
+<script src="/site/js/leaderboard.js"></script>
+</body>
+</html>

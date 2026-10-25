@@ -1,0 +1,13 @@
+/* Leaderboard page: layout only, the table is Nirvana's .ds-table. */
+.boardpage { padding-top: 32px; padding-bottom: 60px; }
+.board { overflow-x: auto; padding: 8px 4px; }
+.board caption { caption-side: top; text-align: left; padding: 8px 12px 12px; color: var(--text-dim); }
+.board td.num, .board th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.board td.rank { color: var(--text-dim); width: 3ch; }
+.board .bname { color: var(--gold-bright); font-weight: 600; }
+.board .btitle { display: block; color: var(--text-dim); font-size: .82rem; }
+.board-soon { text-align: center; color: var(--text-dim); max-width: 60ch; margin: 0 auto; }
+@media (max-width: 560px) {
+    .board .col-secrets, .board .col-earned { display: none; }
+    .ds-table th, .ds-table td { padding: 8px 6px; }
+}
