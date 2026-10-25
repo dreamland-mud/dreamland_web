@@ -198,11 +198,9 @@
     }
 
     // A side sheet's content: the title goes to the sheet head, the body
-    // nodes onto a parchment inside the sheet's inset.
+    // nodes into its scrolling body.
     function parchment(title, kids, cls) {
-        var parch = el('div', 'ds-parch ds-frame ' + (cls || ''));
-        parch.appendChild(el('div', 'ds-parch__body', kids));
-        return { title: title, node: DLFrame.dress(parch) };
+        return { title: title, node: el('div', 'psheet__content ' + (cls || ''), kids) };
     }
 
     // Achievements as gem + name rows; each opens its own sheet.
@@ -279,8 +277,10 @@
 
     // One side sheet for every sheet: native <dialog> traps focus, closes on
     // Esc and hands focus back to whatever opened it.
+    // The client's help sheet (mudjs .hs-sheet): one parchment the full
+    // height, head = back, title, close; the body scrolls inside the frame.
     var dialog = el('dialog', 'ds-sheet');
-    var panel = el('div', 'ds-sheet__panel');
+    var paper = el('div', 'ds-sheet__paper ds-frame');
     var sheetHead = el('div', 'ds-sheet__head');
     var backBtn = el('button', 'ds-sheet__btn ds-sheet__back', ['\u2190']);
     backBtn.type = 'button';
@@ -291,12 +291,10 @@
     sheetHead.appendChild(backBtn);
     sheetHead.appendChild(sheetTitle);
     sheetHead.appendChild(closeBtn);
-    var insetBox = el('div', 'ds-sheet__inset');
     var dialogBody = el('div', 'ds-sheet__body');
-    insetBox.appendChild(dialogBody);
-    panel.appendChild(sheetHead);
-    panel.appendChild(insetBox);
-    dialog.appendChild(panel);
+    paper.appendChild(sheetHead);
+    paper.appendChild(dialogBody);
+    dialog.appendChild(DLFrame.dress(paper));
     dialog.setAttribute('aria-labelledby', 'sheetTitle');
     document.body.appendChild(dialog);
 
@@ -534,7 +532,8 @@
         return sum;
     }
 
-    function achievementsShelf(list) {
+    // showIds: the showcase's medals, already on show above the wall.
+    function achievementsShelf(list, showIds) {
         var sec = el('section', 'pach-sec');
         sec.setAttribute('aria-labelledby', 'achTitle');
         // The card's tubes already say "Achievements"; the heading stays for screen readers.
@@ -542,10 +541,6 @@
         h.id = 'achTitle';
         sec.appendChild(h);
 
-        // The showcase stands above the wall, so the wall leaves those three out.
-        var show = achShowcase(list);
-        if (show) sec.appendChild(show.node);
-        var showIds = show ? show.ids : [];
 
         var state = { cat: 'all', locked: false, q: '', sort: 'rare' };
 
@@ -704,11 +699,6 @@
         var inset = el('div', 'ds-inset__card pinset__card');
         wrapper.appendChild(inset);
         inset.appendChild(DLFrame.dress(el('div', 'ds-inset__frame ds-frame')));
-        ['tl', 'tr', 'bl', 'br'].forEach(function (k) {
-            var stud = el('span', 'pinset__stud pinset__stud--' + k);
-            stud.setAttribute('aria-hidden', 'true');
-            inset.appendChild(stud);
-        });
         if (lead) {
             inset.appendChild(emblem(lead.class, 'head'));
             inset.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
@@ -722,10 +712,16 @@
 
         document.title = 'DreamLand — ' + (lead ? lead.name.en : (p.title || p.id));
 
+        // One band under the banner: the card's lower third, then the three
+        // rarest medals (left out of the wall below).
         body.innerHTML = '';
-        body.appendChild(wrapper);
+        var band = el('div', 'ptop');
+        band.appendChild(wrapper);
+        var show = ach ? achShowcase(ach) : null;
+        if (show) band.appendChild(show.node);
+        body.appendChild(band);
         overlapBanner(wrapper, inset);
-        body.appendChild(ach ? achievementsShelf(ach) : achievementsSoon());
+        body.appendChild(ach ? achievementsShelf(ach, show ? show.ids : []) : achievementsSoon());
 
         var csec = el('section', 'pchars-sec');
         csec.setAttribute('aria-labelledby', 'charsTitle');

@@ -29,20 +29,6 @@
 @media (prefers-reduced-motion: reduce) {
     .pinset__card { animation: none; filter: drop-shadow(0 20px 46px rgba(0,0,0,.7)) drop-shadow(0 0 14px rgba(187,134,252,.6)); }
 }
-/* the medal's dress: near-black body with an arcane glow, a thin gold inner
-   rim (as on every medal) and amethyst studs at its corners */
-.ds-inset__card.pinset__card { background: var(--noise),
-        radial-gradient(70% 55% at 50% 0%, rgba(187,134,252,.20), transparent 70%),
-        radial-gradient(120% 90% at 50% 40%, #0d0b12, #050408 75%, #000);
-    background-clip: padding-box; background-blend-mode: overlay, normal, normal; }
-.pinset__card::after { content: ""; position: absolute; inset: 9px; z-index: 0; pointer-events: none; border-radius: 3px;
-    border: 2px solid transparent;
-    border-image: linear-gradient(180deg, #f6e3ab, #c6a24e 45%, #7e6127 80%, #33250b) 1;
-    box-shadow: inset 0 0 0 1px rgba(36,26,8,.8), inset 0 0 30px rgba(0,0,0,.6); }
-.pinset__stud { position: absolute; z-index: 2; width: 9px; height: 9px; transform: translate(-50%, -50%) rotate(45deg);
-    background: #b48ae6; border: 1px solid #33250b; box-shadow: 0 0 6px rgba(187,134,252,.6); pointer-events: none; }
-.pinset__stud--tl { top: 10px; left: 10px; } .pinset__stud--tr { top: 10px; left: calc(100% - 10px); }
-.pinset__stud--bl { top: calc(100% - 10px); left: 10px; } .pinset__stud--br { top: calc(100% - 10px); left: calc(100% - 10px); }
 /* centre of the emblem on the middle of the 5.6px rail */
 .pinset__card > .pemblem--head { position: absolute; top: -2.8px; left: 50%; z-index: 4; transform: translate(-50%, -50%); }
 .phead__title { margin: 0; text-align: center; font-size: clamp(1.7rem, 4.5vw, 2.6rem); line-height: 1.1; color: #fff;
@@ -100,7 +86,7 @@
 .pchips .ds-datachip { font-size: .74rem; padding: 0 8px; }
 
 /* ---------- side sheets (character and achievement) ---------- */
-.ds-sheet .ds-parch__body { font-family: var(--body); letter-spacing: normal; font-size: 1rem; }
+.ds-sheet__body { letter-spacing: normal; }
 .psheet__h { margin: 18px 0 6px; font-family: var(--display); font-size: 1.05rem; color: #241809; }
 .psheet__sub { margin: 10px 0 4px; color: var(--ink-dim); font-size: .9rem; }
 .psheet__desc { white-space: pre-wrap; line-height: 1.5; }
@@ -165,17 +151,17 @@
 .pach.is-locked .pach__desc { color: var(--text-faint); }
 .pach-empty { color: var(--text-dim); }
 
-/* the three rarest: a full-bleed stripe of their own, bigger medals.
-   The box-shadow and clip-path widen the band to the viewport without
-   widening the page (no horizontal scroll). */
-.pach-show { list-style: none; margin: 4px 0 30px; padding: 34px 0 26px; position: relative;
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
-    background: radial-gradient(50% 120% at 50% 0%, rgba(187,134,252,.18), transparent 70%), #0d0a13;
-    box-shadow: 0 0 0 100vmax #0d0a13; clip-path: inset(0 -100vmax);
-    border-top: 1px solid var(--gold-deep); border-bottom: 1px solid var(--gold-deep); }
-.pach-show::before, .pach-show::after { content: ""; position: absolute; left: -100vmax; right: -100vmax; height: 1px;
-    background: var(--gold-deep); }
-.pach-show::before { top: -1px; } .pach-show::after { bottom: -1px; }
+/* one band under the banner: the card's lower third, then the three rarest
+   medals. The band's ground bleeds to the viewport edges (body clips the
+   overflow, so no sideways scroll). flow-root keeps the card's negative
+   margin inside the band. */
+body { overflow-x: clip; }
+.ptop { position: relative; isolation: isolate; display: flow-root; margin-bottom: 30px; }
+.ptop::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: -100vmax; right: -100vmax;
+    background: radial-gradient(40% 70% at 50% 100%, rgba(187,134,252,.14), transparent 70%), #0d0a13;
+    border-bottom: 1px solid var(--gold-deep); }
+.pach-show { list-style: none; margin: 18px 0 0; padding: 0 0 28px;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .pach-show .ds-medal { --medal: 200px; width: 100%; }
 .pach-show .ds-medal__name { font-size: 1.2rem; }
 .pach-grid.pach-wall { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 18px 8px; }
