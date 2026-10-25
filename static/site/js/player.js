@@ -808,8 +808,8 @@
         var h1 = el('h1', null, [bi('No such profile', 'Такого профілю немає')]);
         w.appendChild(h1);
         w.appendChild(el('p', null, [bi(
-            'Either the link is wrong, or the player keeps their characters to themselves. A profile opens once one of the account\'s characters has been reborn.',
-            'Або посилання хибне, або гравець тримає своїх персонажів при собі. Профіль відкривається, коли хтось із персонажів акаунта переродиться.')]));
+            'Either the link is wrong, or the player keeps their characters to themselves. A profile opens once one of the account\'s characters has been reborn or finished more than 50 questor tasks.',
+            'Або посилання хибне, або гравець тримає своїх персонажів при собі. Профіль відкривається, коли хтось із персонажів акаунта переродиться або виконає понад 50 завдань квестора.')]));
         head.appendChild(w);
         body.innerHTML = '';
     }
