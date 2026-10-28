@@ -1,8 +1,11 @@
 /* Help browser over the game's own dump.
  *
  * The markup renderer lives in helpmarkup.js — the maps page shows the same
- * articles in its zone sidebar and needs the identical treatment. */
+ * articles in its zone sidebar and needs the identical treatment. Ranking,
+ * facet words, kinds and excerpts live in helpsearch.js, shared with mudjs
+ * and the MCP server. */
 (function () {
+    var S = window.DLHelpSearch;
     var idxEl   = document.getElementById('helpIndex');
     var artEl   = document.getElementById('helpArticle');
     var searchEl= document.getElementById('helpSearch');
@@ -18,7 +21,7 @@
     function t(obj) { return (obj && (obj[L()] || obj.ru)) || ''; }
     /* the index used to carry a joined `kw` string purely as a title fallback;
        it was 27% of the file, so the first keyword stands in for it */
-    function label(a) { return t(a.toc) || t(a.title) || (a.kwList && a.kwList[0]) || ('#' + a.id); }
+    function label(a) { return S.label(a, L()); }
 
     /* ---- categories (HELP_IA.md) -------------------------------------------
      * The article's category is resolved at build time and shipped as `cat` in
@@ -70,31 +73,7 @@
      * the name now stands alone and the kind is a chip beside it. Order matters
      * for the same reason it does in the category resolver: spell before skill,
      * or every spell reads as a skill. */
-    var KINDS = [
-        { label: 'spell',    en: 'spell',    ua: 'закляття' },
-        { label: 'social',   en: 'social',   ua: 'соціал' },
-        { label: 'race',     en: 'race',     ua: 'раса' },
-        { label: 'raceaptitude', en: 'race', ua: 'раса' },
-        { label: 'religion', en: 'religion', ua: 'релігія' },
-        { label: 'class',    en: 'class',    ua: 'клас' },
-        { label: 'skillgroup', en: 'group',  ua: 'група' },
-        { label: 'craftskill', en: 'craft',  ua: 'ремесло' },
-        { label: 'craft',    en: 'craft',    ua: 'ремесло' },
-        { label: 'item',     en: 'behavior', ua: 'поведінка' },
-        { label: 'clanskill', en: 'skill',   ua: 'вміння' },
-        { label: 'cardskill', en: 'skill',   ua: 'вміння' },
-        { label: 'language', en: 'language', ua: 'мова' },
-        { label: 'skill',    en: 'skill',    ua: 'вміння' },
-        { label: 'area',     en: 'zone',     ua: 'зона' },
-        { label: 'cmd',      en: 'command',  ua: 'команда' },
-    ];
-
-    function kindOf(a) {
-        var labels = (a && a.labels) || [];
-        for (var i = 0; i < KINDS.length; i++)
-            if (labels.indexOf(KINDS[i].label) >= 0) return KINDS[i];
-        return null;
-    }
+    var kindOf = S.kind;
     function badge(a) {
         var k = kindOf(a);
         if (!k) return '';
@@ -106,7 +85,7 @@
      * a leading facet word in the query narrows the search only, exactly like
      * `help spell fire` in game (plug-ins/comm/help.cpp help_facet_labels), so
      * the habit carries over. mudjs helpSearch.js keeps the same word table. */
-    function hasLabel(a, l) { return ((a && a.labels) || []).indexOf(l) >= 0; }
+    var hasLabel = S.hasLabel;
     function kindIs(name) { return function (a) { var k = kindOf(a); return !!k && k.en === name; }; }
 
     // the 13 player classes; other `<x>-skills` labels are clans and mob races
@@ -152,31 +131,6 @@
         }
         var kp = KIND_PICKS.filter(function (k) { return k.key === m[2]; })[0];
         return kp ? kindIs(kp.key) : null;
-    }
-
-    /* The game's eight facet words plus their RU/UA forms. "skill" takes spells
-       too, as it does in game. Only a word with more query after it counts:
-       a bare "race" is still a search for the article called race. */
-    var FACET_WORDS = [
-        { words: ['skill', 'skills', 'умение', 'умения', 'вміння'],
-          test: function (a) { return hasLabel(a, 'skill') || hasLabel(a, 'spell'); } },
-        { words: ['spell', 'spells', 'заклинание', 'заклинания', 'закляття'], test: function (a) { return hasLabel(a, 'spell'); } },
-        { words: ['class', 'класс', 'клас'], test: function (a) { return hasLabel(a, 'class'); } },
-        { words: ['race', 'раса'], test: function (a) { return hasLabel(a, 'race') || hasLabel(a, 'raceaptitude'); } },
-        { words: ['command', 'cmd', 'команда'], test: function (a) { return hasLabel(a, 'cmd'); } },
-        { words: ['area', 'zone', 'зона'], test: function (a) { return hasLabel(a, 'area'); } },
-        { words: ['religion', 'религия', 'релігія'], test: function (a) { return hasLabel(a, 'religion'); } },
-        { words: ['clan', 'клан'], test: function (a) { return hasLabel(a, 'clan') || hasLabel(a, 'clanskill'); } },
-    ];
-    // q is already squashed and lowercased; returns { q, test } with the word cut
-    function facetFromQuery(q) {
-        var sp = q.indexOf(' ');
-        if (sp < 0) return { q: q, test: null };
-        var w = q.slice(0, sp);
-        for (var i = 0; i < FACET_WORDS.length; i++)
-            if (FACET_WORDS[i].words.indexOf(w) >= 0)
-                return { q: q.slice(sp + 1), test: FACET_WORDS[i].test };
-        return { q: q, test: null };
     }
 
     var kindPick = '';                      // picker value: '' | 'k:<kind>' | 'c:<class>'
@@ -263,7 +217,7 @@
     function loadOverlay(lang) {
         return fetchData('help-body-' + (lang === 'ua' ? 'ua' : 'en') + '.json')
             .catch(function () { return {}; })
-            .then(function (d) { overlay = d || {}; textCache = {}; textLang = ''; });
+            .then(function (d) { overlay = d || {}; textFor = null; });
     }
 
     /* The index is ~0.5 MB and the bodies are ~5 MB across the three languages.
@@ -492,110 +446,31 @@
 
     // ---- search -----------------------------------------------------------
     /* Each hit shows a slice of the article in the page language with the query
-       marked, instead of a keyword dump. The same logic lives in mudjs
-       (src/components/windowletsPanel/helpSearch.js) for the in-game search;
-       keep the two in step. */
-    var textCache = {}, textLang = '';
-
-    function plainText(markup) {
-        return String(markup || '').replace(/<[^>]*>/g, '')
-            .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
-    }
-    function squash(s) { return s.replace(/\s+/g, ' ').trim(); }
-    // usage lines ("Format: c fireball", plus indented continuations) are noise in an
-    // excerpt; a line longer than 80 chars has the description glued on, so it stays
-    var USAGE_RE = /(^|\n)[ \t]*(Format|Syntax|Формат|Синтаксис)[ \t]*:[^\n]{0,80}(?=\n|$)(\n[ \t]+\S[^\n]{0,80}(?=\n|$))*/g;
-    /* stripped body, cached per language: raw (paragraphs intact), flat
-       (one line) and low (flat, lowercased, what the query is matched against).
-       null until the bodies are in. */
-    function textFor(id) {
+       marked, instead of a keyword dump. Ranking and excerpts come from
+       helpsearch.js; only the HTML around them lives here. */
+    var textFor = null, textLang = '';   // S.textCache over the page language
+    function textOf(id) {
         if (!bodiesIn) return null;
-        if (textLang !== L()) { textCache = {}; textLang = L(); }
-        if (textCache[id] === undefined) {
-            var raw = plainText(bodyFor(id)).replace(USAGE_RE, '$1');
-            // bullets and ruler lines read as noise once the lines are joined
-            var flat = squash(raw.replace(/(^|\n)[ \t]*\*[ \t]+/g, '$1· ').replace(/[-=]{4,}/g, ' '));
-            var lead = leadParagraph(raw) || flat;
-            textCache[id] = { flat: flat, low: flat.toLowerCase(), lead: lead,
-                              // where the prose starts: hits in the boilerplate above it lose
-                              leadAt: Math.max(0, flat.indexOf(lead.slice(0, 40))) };
-        }
-        return textCache[id];
+        if (!textFor || textLang !== L()) { textFor = S.textCache(bodyFor); textLang = L(); }
+        return textFor(id);
     }
 
-    /* Skill and spell articles open with the same boilerplate ("Skill 'x' or
-       'y'.", then indented stats and a Format: line), so a hit-less excerpt
-       skips to the first paragraph of real prose. */
-    var HEADER_RE = /'[^'\n]+' (or|или|або) '/;
-    function leadParagraph(text) {
-        // stats and tables are indented by two or more; some prose starts with one space
-        var paras = text.split(/\n\s*\n/).map(function (para) {
-            return squash(para.split('\n').filter(function (ln) {
-                return ln.trim() && !/^\s{2,}/.test(ln) && !/^\s*[*\-=]/.test(ln);
-            }).join(' '));
-        }).filter(function (p) { return p && !HEADER_RE.test(p); });
-        // a real paragraph first; failing that, any short line of prose
-        for (var i = 0; i < paras.length; i++)
-            if (paras[i].length >= 40) return paras[i];
-        return paras.length ? paras[0] : '';   // header-only article
-    }
-
-    /* First hit of q at or after `from`, preferring one at the start of a word:
-       "sword" should mark the sword, not pas[sword]. */
-    var WORD_CH = /[\p{L}\p{N}]/u;
-    function findHit(low, q, from) {
-        var first = low.indexOf(q, from);
-        for (var at = first; at >= 0; at = low.indexOf(q, at + 1))
-            if (at === 0 || !WORD_CH.test(low.charAt(at - 1))) return { at: at, word: true };
-        return { at: first, word: false };
-    }
-
-    var EXCERPT = 160;
     function excerpt(txt, q) {
-        var flat = txt.flat;
-        var at = findHit(txt.low, q, txt.leadAt).at;
-        if (at < 0) {
-            var lead = txt.lead;
-            return esc(lead.length > EXCERPT ? lead.slice(0, EXCERPT).replace(/\s\S*$/, '') + '...' : lead);
-        }
-        var from = Math.max(txt.leadAt, at - 50), cut = from > txt.leadAt;
-        if (cut) {                                   // start on a word
-            var sp0 = flat.indexOf(' ', from);
-            if (sp0 >= 0 && sp0 < at) from = sp0 + 1;
-        }
-        var to = Math.min(flat.length, from + EXCERPT);
-        if (to < flat.length) {
-            var sp = flat.lastIndexOf(' ', to);
-            if (sp > at + q.length) to = sp;
-        }
-        return (cut ? '...' : '') +
-            esc(flat.slice(from, at).replace(/^[·\s]+/, '')) + '<mark>' + esc(flat.slice(at, at + q.length)) + '</mark>' +
-            esc(flat.slice(at + q.length, to)) + (to < flat.length ? '...' : '');
+        var p = S.excerpt(txt, q);
+        return p[1] ? esc(p[0]) + '<mark>' + esc(p[1]) + '</mark>' + esc(p[2]) : esc(p[0]);
     }
 
     function searchFor(q) {
-        q = squash(q).toLowerCase();
-        var facet = facetFromQuery(q);
+        var facet = S.parseQuery(S.normQuery(q));
         q = facet.q;
         if (!q) { resEl.hidden = true; resEl.innerHTML = ''; return; }
-        var exact = [], partial = [], inWord = [], inPart = [], LIMIT = 24;
-        for (var i = 0; i < index.length && exact.length + partial.length < LIMIT; i++) {
-            var a = index[i];
-            if (!passes(a) || (facet.test && !facet.test(a))) continue;
-            var kws = (a.kwList || []).map(function (k) { return k.toLowerCase(); });
-            var title = label(a).toLowerCase();
-            if (kws.indexOf(q) >= 0) exact.push(a);
-            else if (title.indexOf(q) >= 0 || kws.some(function (k) { return k.indexOf(q) === 0; })) partial.push(a);
-            else if (inWord.length < LIMIT && q.length >= 3) {
-                var txt = textFor(a.id), hit = txt && findHit(txt.low, q, txt.leadAt);
-                if (hit && hit.at >= 0) (hit.word ? inWord : inPart).push(a);
-            }
-        }
-        var hits = exact.concat(partial, inWord, inPart).slice(0, LIMIT);
+        var hits = S.search(index, q, L(), bodiesIn ? textOf : null, 24, function (a) {
+            return passes(a) && (!facet.test || facet.test(a));
+        });
         resEl.hidden = false;
         resEl.innerHTML = hits.length
             ? hits.map(function (a) {
-                var txt = textFor(a.id), ex = txt && txt.flat ? excerpt(txt, q) : '';
+                var txt = textOf(a.id), ex = txt && txt.flat ? excerpt(txt, q) : '';
                 var sub = ex
                     ? '<span class="hsearch__excerpt">' + ex + '</span>'
                     : '<span>' + esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span>';
