@@ -1,0 +1,38 @@
+// help.html type picker + leading facet word: rail counts, search narrowing, URL round trip
+const http=require('http'),fs=require('fs'),path=require('path'),puppeteer=require('puppeteer');
+const ROOT=path.resolve(__dirname, '../static');
+const MIME={'.html':'text/html','.css':'text/css','.js':'text/javascript','.json':'application/json'};
+const srv=http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split('?')[0]);if(p==='/')p='/index.html';
+  fs.readFile(path.join(ROOT,p),(e,d)=>{if(e){r.statusCode=404;return r.end('nf')}r.setHeader('Content-Type',MIME[path.extname(p)]||'text/plain');r.end(d)})});
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+(async()=>{
+  await new Promise(r=>srv.listen(0,'127.0.0.1',r));
+  const b=await puppeteer.launch({headless:'new',args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage']});
+  const p=await b.newPage(); await p.setViewport({width:1440,height:1100});
+  const errs=[]; p.on('pageerror',e=>errs.push(e.message));
+  const base=`http://127.0.0.1:${srv.address().port}/help.html`;
+  await p.goto(base+'#h995',{waitUntil:'networkidle0'}); await wait(1200);
+  const rail=()=>p.evaluate(()=>document.querySelectorAll('#helpIndex .ds-menu__item').length);
+  const all=await rail();
+  const opts=await p.$$eval('#helpKind option',o=>o.map(x=>x.value+'='+x.textContent));
+  await p.select('#helpKind','k:spell'); await wait(300);
+  const spells=await rail(), badges=await p.$$eval('#helpIndex .hkind',n=>[...new Set(n.map(x=>x.textContent))]);
+  const url1=await p.evaluate(()=>location.search+location.hash), status=await p.$eval('#helpFilterStatus',e=>e.textContent);
+  await p.type('#helpSearch','fire'); await wait(500);
+  const spellFire=await p.$$eval('#helpResults a .hkind',n=>[...new Set(n.map(x=>x.textContent))]);
+  await p.select('#helpKind','c:warrior'); await wait(300);
+  const warrior=await rail();
+  await p.select('#helpKind',''); await wait(300);
+  await p.$eval('#helpSearch',e=>e.value=''); await p.type('#helpSearch','command look'); await wait(500);
+  const cmdLook=await p.$$eval('#helpResults a b',n=>n.slice(0,4).map(x=>x.innerText));
+  await p.$eval('#helpSearch',e=>e.value=''); await p.type('#helpSearch','race'); await wait(500);
+  const bareRace=await p.$$eval('#helpResults a b',n=>n.slice(0,2).map(x=>x.innerText));
+  await p.goto(base+'?kind=social#h995',{waitUntil:'networkidle0'}); await wait(1200);
+  const deep={pick:await p.$eval('#helpKind',e=>e.value), rail:await rail()};
+  await p.click('[data-setlang="uk"]'); await wait(1500);
+  const ua={pick:await p.$eval('#helpKind',e=>e.value), first:await p.$$eval('#helpKind option',o=>o.slice(0,3).map(x=>x.textContent))};
+  await p.setViewport({width:390,height:800}); await wait(300);
+  const narrow=await p.evaluate(()=>({sw:document.documentElement.scrollWidth, cw:document.documentElement.clientWidth}));
+  console.log(JSON.stringify({all,opts,spells,badges,url1,status,spellFire,warrior,cmdLook,bareRace,deep,ua,narrow,errors:errs},null,1));
+  await b.close(); srv.close();
+})().catch(e=>{console.error('ERR',e.message);srv.close();process.exit(1)});
