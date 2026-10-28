@@ -275,6 +275,21 @@
     }
 
     // ---- article ----------------------------------------------------------
+    // The automatic "see also": the same ids the game prints after the body.
+    // A plain list of links, so a screen reader announces how many there are.
+    function related(a) {
+        var items = (a.related || []).map(function (id) { return byId[id]; })
+            .filter(function (r) { return r; });
+        if (!items.length) return '';
+        var title = L() === 'ua' ? 'Див. також' : 'See also';
+        return '<nav class="hart__related" aria-label="' + esc(title) + '">' +
+            '<h2>' + esc(title) + '</h2><ul>' +
+            items.map(function (r) {
+                return '<li><a href="#h' + r.id + '" data-hid="' + r.id + '">' + esc(label(r)) + '</a></li>';
+            }).join('') +
+            '</ul></nav>';
+    }
+
     function show(id) {
         var a = byId[id];
         if (a && !bodiesIn) {
@@ -296,6 +311,7 @@
                 '<div class="hart__body">' +
                     DLMarkup.render(bodyFor(a.id), { resolveLink: resolveLink }) +
                 '</div>' +
+                related(a) +
             '</article>';
         artEl.scrollTop = 0;
         markCurrent(a.id);

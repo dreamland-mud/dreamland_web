@@ -32,6 +32,13 @@
 /* A reference the anchor text could not be resolved to an article: still the
    emphasis the author meant, minus a link that would go nowhere. */
 .hart__body b.hlink-plain { color: #241809; font-weight: 600; }
+/* The automatic "see also" under the body. */
+.hart__related { margin-top: 1.6em; padding-top: 14px; border-top: 1px solid rgba(150,120,70,.3); }
+.hart__related h2 { font-family: var(--display); font-size: 1.15rem; color: #241809; margin: 0 0 .5em; }
+.hart__related ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.hart__related a { font-family: var(--article); font-size: .92rem; color: var(--arcane-ink);
+    border-bottom: 1px solid rgba(106,47,166,.38); }
+.hart__related a:hover { color: var(--arcane-ink-hi); border-bottom-color: var(--arcane-ink-hi); }
 .hart__body code.hcmd { font-family: var(--article); font-size: .84em; color: #5c4a1e;
     letter-spacing: var(--mono-track);
     background: rgba(70,50,20,.1); border: 1px solid rgba(120,90,50,.24);

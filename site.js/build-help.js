@@ -88,6 +88,8 @@ for (const a of raw) {
         title: {},
         toc: {},
     };
+    // the automatic "see also" ids the game computes (help revamp Phase 2 task 4)
+    if (a.related && a.related.length) entry.related = a.related;
 
     for (const L of LANGS) {
         // the dump only grew per-language keys once #843 shipped; before that
