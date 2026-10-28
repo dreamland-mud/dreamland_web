@@ -101,6 +101,103 @@
         return '<span class="hkind">' + esc(L() === 'ua' ? k.ua : k.en) + '</span>';
     }
 
+    /* ---- facet filter --------------------------------------------------------
+     * Two ways in, same tests. The type picker narrows the rail and the search;
+     * a leading facet word in the query narrows the search only, exactly like
+     * `help spell fire` in game (plug-ins/comm/help.cpp help_facet_labels), so
+     * the habit carries over. mudjs helpSearch.js keeps the same word table. */
+    function hasLabel(a, l) { return ((a && a.labels) || []).indexOf(l) >= 0; }
+    function kindIs(name) { return function (a) { var k = kindOf(a); return !!k && k.en === name; }; }
+
+    // the 13 player classes; other `<x>-skills` labels are clans and mob races
+    var CLASSES = [
+        { key: 'warrior', en: 'warrior', ua: 'воїн' },
+        { key: 'ranger', en: 'ranger', ua: 'рейнджер' },
+        { key: 'samurai', en: 'samurai', ua: 'самурай' },
+        { key: 'thief', en: 'thief', ua: 'крадій' },
+        { key: 'ninja', en: 'ninja', ua: 'ніндзя' },
+        { key: 'paladin', en: 'paladin', ua: 'паладин' },
+        { key: 'anti-paladin', en: 'anti-paladin', ua: 'анти-паладин' },
+        { key: 'vampire', en: 'vampire', ua: 'вампір' },
+        { key: 'cleric', en: 'cleric', ua: 'клірик' },
+        { key: 'witch', en: 'witch', ua: 'відьма' },
+        { key: 'warlock', en: 'warlock', ua: 'чаклун' },
+        { key: 'druid', en: 'druid', ua: 'друїд' },
+        { key: 'necromancer', en: 'necromancer', ua: 'некромант' },
+    ];
+
+    // picker entries: one per badge kind, in the rail's reading order
+    var KIND_PICKS = [
+        { key: 'skill', en: 'skills', ua: 'вміння' },
+        { key: 'spell', en: 'spells', ua: 'закляття' },
+        { key: 'command', en: 'commands', ua: 'команди' },
+        { key: 'social', en: 'socials', ua: 'соціали' },
+        { key: 'race', en: 'races', ua: 'раси' },
+        { key: 'class', en: 'classes', ua: 'класи' },
+        { key: 'religion', en: 'religions', ua: 'релігії' },
+        { key: 'zone', en: 'zones', ua: 'зони' },
+        { key: 'craft', en: 'crafts', ua: 'ремесла' },
+        { key: 'group', en: 'skill groups', ua: 'групи вмінь' },
+        { key: 'behavior', en: 'behaviors', ua: 'поведінки' },
+        { key: 'language', en: 'languages', ua: 'мови' },
+    ];
+
+    function pickTest(v) {
+        if (!v) return null;
+        var m = /^(k|c):(.+)$/.exec(v);
+        if (!m) return null;
+        if (m[1] === 'c') {
+            var cls = CLASSES.filter(function (c) { return c.key === m[2]; })[0];
+            return cls ? function (a) { return hasLabel(a, cls.key + '-skills'); } : null;
+        }
+        var kp = KIND_PICKS.filter(function (k) { return k.key === m[2]; })[0];
+        return kp ? kindIs(kp.key) : null;
+    }
+
+    /* The game's eight facet words plus their RU/UA forms. "skill" takes spells
+       too, as it does in game. Only a word with more query after it counts:
+       a bare "race" is still a search for the article called race. */
+    var FACET_WORDS = [
+        { words: ['skill', 'skills', 'умение', 'умения', 'вміння'],
+          test: function (a) { return hasLabel(a, 'skill') || hasLabel(a, 'spell'); } },
+        { words: ['spell', 'spells', 'заклинание', 'заклинания', 'закляття'], test: function (a) { return hasLabel(a, 'spell'); } },
+        { words: ['class', 'класс', 'клас'], test: function (a) { return hasLabel(a, 'class'); } },
+        { words: ['race', 'раса'], test: function (a) { return hasLabel(a, 'race') || hasLabel(a, 'raceaptitude'); } },
+        { words: ['command', 'cmd', 'команда'], test: function (a) { return hasLabel(a, 'cmd'); } },
+        { words: ['area', 'zone', 'зона'], test: function (a) { return hasLabel(a, 'area'); } },
+        { words: ['religion', 'религия', 'релігія'], test: function (a) { return hasLabel(a, 'religion'); } },
+        { words: ['clan', 'клан'], test: function (a) { return hasLabel(a, 'clan') || hasLabel(a, 'clanskill'); } },
+    ];
+    // q is already squashed and lowercased; returns { q, test } with the word cut
+    function facetFromQuery(q) {
+        var sp = q.indexOf(' ');
+        if (sp < 0) return { q: q, test: null };
+        var w = q.slice(0, sp);
+        for (var i = 0; i < FACET_WORDS.length; i++)
+            if (FACET_WORDS[i].words.indexOf(w) >= 0)
+                return { q: q.slice(sp + 1), test: FACET_WORDS[i].test };
+        return { q: q, test: null };
+    }
+
+    var kindPick = '';                      // picker value: '' | 'k:<kind>' | 'c:<class>'
+    var kindTest = null;
+    function passes(a) { return !kindTest || kindTest(a); }
+
+    // ?kind=spell or ?class=warrior, so a filtered view can be linked
+    function readPickFromUrl() {
+        var p = new URLSearchParams(location.search);
+        var v = p.get('class') ? 'c:' + p.get('class') : (p.get('kind') ? 'k:' + p.get('kind') : '');
+        kindTest = pickTest(v);
+        kindPick = kindTest ? v : '';
+    }
+    function writePickToUrl() {
+        var p = new URLSearchParams(location.search);
+        p.delete('kind'); p.delete('class');
+        if (kindPick) p.set(kindPick.charAt(0) === 'c' ? 'class' : 'kind', kindPick.slice(2));
+        var s = p.toString();
+        history.replaceState(null, '', location.pathname + (s ? '?' + s : '') + location.hash);
+    }
+
     // ---- data -------------------------------------------------------------
     var index = [], byId = {}, bodyRu = {}, overlay = {}, ready = false;
     var byKeyword = {};
@@ -198,6 +295,7 @@
             index.forEach(function (a) { byId[a.id] = a; });
             buildKeywordIndex();
             ready = true;              // search, random and the rail work from here
+            readPickFromUrl();
             buildIndex();
             openFromHash();
             loadBodies();
@@ -241,10 +339,12 @@
     function buildIndex() {
         var groups = {};
         SECTIONS.concat([FALLBACK]).forEach(function (s) { groups[s.key] = { sec: s, items: [] }; });
+        var shown = 0;
         index.forEach(function (a) {
             var s = sectionFor(a);
-            if (s) groups[s.key].items.push(a);   // null = deliberately not indexed
+            if (s && passes(a)) { groups[s.key].items.push(a); shown++; }   // null = deliberately not indexed
         });
+        buildKindPick();
 
         var html = '', opts = '';
         SECTIONS.concat([FALLBACK]).forEach(function (s) {
@@ -265,14 +365,59 @@
                         '<span class="ds-menu__name">' + esc(label(a)) + '</span>' + badge(a) + '</a></li>';
                 }).join('') + '</ul></details>';
         });
+        if (!shown) html = '<p class="help-empty">' +
+            (L() === 'ua' ? 'Статей такого типу немає.' : 'No articles of this type.') + '</p>';
         idxEl.innerHTML =
-            '<select class="catpick" id="helpCatPick" aria-label="' +
-                esc(L() === 'ua' ? 'Категорія довідки' : 'Help category') + '">' + opts + '</select>' +
+            (opts ? '<select class="catpick" id="helpCatPick" aria-label="' +
+                esc(L() === 'ua' ? 'Категорія довідки' : 'Help category') + '">' + opts + '</select>' : '') +
             html;
         var pick = document.getElementById('helpCatPick');
         if (pick) pick.addEventListener('change', function () { setCat(pick.value); });
         setCat(curCat);
+        return shown;
     }
+
+    /* The picker lists only what the rail can show, with the count it would
+       show, so no option leads to an empty rail. */
+    var kindEl = document.getElementById('helpKind');
+    function buildKindPick() {
+        if (!kindEl) return;
+        var ua = L() === 'ua';
+        function count(test) {
+            var n = 0;
+            index.forEach(function (a) { if (sectionFor(a) && test(a)) n++; });
+            return n;
+        }
+        function opt(v, text, n) {
+            return '<option value="' + esc(v) + '"' + (v === kindPick ? ' selected' : '') + '>' +
+                esc(text) + (n == null ? '' : ' (' + n + ')') + '</option>';
+        }
+        var html = opt('', ua ? 'Усі типи' : 'All types', null);
+        KIND_PICKS.forEach(function (k) {
+            var n = count(kindIs(k.key));
+            if (n) html += opt('k:' + k.key, ua ? k.ua : k.en, n);
+        });
+        var cls = '';
+        CLASSES.forEach(function (c) {
+            var n = count(function (a) { return hasLabel(a, c.key + '-skills'); });
+            if (n) cls += opt('c:' + c.key, ua ? c.ua : c.en, n);
+        });
+        if (cls) html += '<optgroup label="' + esc(ua ? 'Вміння класу' : 'Class skills') + '">' + cls + '</optgroup>';
+        kindEl.innerHTML = html;
+        kindEl.value = kindPick;
+        kindEl.classList.toggle('is-on', !!kindPick);
+        kindEl.setAttribute('aria-label', ua ? 'Тип статті' : 'Article type');
+    }
+    if (kindEl) kindEl.addEventListener('change', function () {
+        kindPick = kindEl.value;
+        kindTest = pickTest(kindPick);
+        writePickToUrl();
+        var n = buildIndex();
+        markCurrent(curId);
+        var st = document.getElementById('helpFilterStatus');
+        if (st) st.textContent = L() === 'ua' ? ('Статей у списку: ' + n) : (n + ' articles listed');
+        if (searchEl && searchEl.value) searchFor(searchEl.value);
+    });
 
     // ---- article ----------------------------------------------------------
     // The automatic "see also": the same ids the game prints after the body.
@@ -314,6 +459,7 @@
                 related(a) +
             '</article>';
         artEl.scrollTop = 0;
+        curId = a.id;
         markCurrent(a.id);
     }
 
@@ -336,6 +482,7 @@
     /* Landing on the page with no article chosen, open the one that explains
        the help system itself — the same thing a bare `help` gives you in game. */
     var DEFAULT_ID = 995;
+    var curId = 0;                   // the article on show, so a re-filtered rail can light it again
     function openFromHash() {
         var m = /^#h(\d+)$/.exec(location.hash || '');
         if (m) show(parseInt(m[1], 10));
@@ -428,10 +575,13 @@
 
     function searchFor(q) {
         q = squash(q).toLowerCase();
+        var facet = facetFromQuery(q);
+        q = facet.q;
         if (!q) { resEl.hidden = true; resEl.innerHTML = ''; return; }
         var exact = [], partial = [], inWord = [], inPart = [], LIMIT = 24;
         for (var i = 0; i < index.length && exact.length + partial.length < LIMIT; i++) {
             var a = index[i];
+            if (!passes(a) || (facet.test && !facet.test(a))) continue;
             var kws = (a.kwList || []).map(function (k) { return k.toLowerCase(); });
             var title = label(a).toLowerCase();
             if (kws.indexOf(q) >= 0) exact.push(a);

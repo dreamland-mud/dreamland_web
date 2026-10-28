@@ -47,11 +47,13 @@
             <div class="hsearch__row">
                 <input class="ds-input" type="search" id="helpSearch" autocomplete="off"
                        placeholder="Search anything" aria-label="Search help"/>
+                <select class="hkindpick" id="helpKind" aria-label="Article type"></select>
                 <button type="button" class="hrandom" id="helpRandom">
                     <span lang="en">Random article</span><span lang="uk">Випадкова стаття</span>
                 </button>
             </div>
             <div class="hsearch__results" id="helpResults" hidden></div>
+            <p class="sr-only" id="helpFilterStatus" aria-live="polite"></p>
         </div>
     </div>
 </section>
