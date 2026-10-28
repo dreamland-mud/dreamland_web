@@ -48,6 +48,13 @@ steps:
   commands:
   - sudo systemctl restart dreamland-searcher.service
 
+# Public help MCP server (mcp-help/README.md). The unit restarts itself when
+# these files change, so installing dependencies is all this step does.
+- name: mcp_help
+  commands:
+  - export PATH=/home/dreamland/.nodejs/current/bin:$PATH
+  - cd /var/www/dreamland_web/mcp-help && npm install --omit=dev --no-audit --no-fund
+
 # After every generator above, so the sitemap lists what they just wrote. Last,
 # so a failure here can't skip the searcher restart.
 - name: build_sitemap
