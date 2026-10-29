@@ -1,0 +1,21 @@
+# Installed as /etc/systemd/system/dreamland-help-mcp.service (root).
+# nginx proxies https://dreamland.rocks/mcp/help here; see README.md.
+[Unit]
+Description=DreamLand help MCP server (read-only, public)
+After=network.target
+# a deploy can restart it a few times in a row while npm install runs
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=dreamland
+WorkingDirectory=/var/www/dreamland_web/mcp-help
+Environment=PORT=8003
+Environment=HELP_DATA=/var/www/dreamland_web/static/data
+ExecStart=/home/dreamland/.nodejs/current/bin/node server.js
+# the server exits by itself when drone deploys new code
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
