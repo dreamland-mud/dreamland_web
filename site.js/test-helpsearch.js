@@ -35,6 +35,10 @@ function eq(name, got, want) {
 }
 
 eq('exact keyword first', ids('fire'), [2, 1]);
+eq('title beats a shared keyword', S.search([
+    { id: 10, kwList: ['MIDGAARD'], toc: { en: 'Midgaard bank', ru: 'Банк Мидгаарда' } },
+    { id: 11, kwList: ['MIDGAARD'], toc: { en: 'Midgaard', ru: 'Мидгаард' } },
+], 'midgaard', 'ru', null, 24).map(a => a.id), [11, 10]);
 eq('facet word narrows', ids('spell fire'), [1]);
 eq('bare facet word is a query', ids('spell'), []);
 eq('RU title', ids('огненный', 'ru'), [1]);
