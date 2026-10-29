@@ -10,7 +10,7 @@
     var titleUk = document.getElementById('board-title-uk');
     var tabs = [document.getElementById('tab-players'), document.getElementById('tab-world')];
     var panels = [document.getElementById('panel-players'), document.getElementById('panel-world')];
-    var worldRoot = document.getElementById('world');
+    var worldRoot = document.getElementById('world-list');
 
     var POINTS_EN = 'Points: common 1, rare 3, epic 10, legendary 25.';
     var POINTS_UK = 'Бали: звичайне 1, рідкісне 3, епічне 10, легендарне 25.';
