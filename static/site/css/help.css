@@ -57,6 +57,7 @@
 .hsearch__results .hsearch__excerpt { margin-top: 3px; font-family: inherit;
     font-size: .86rem; line-height: 1.4; color: var(--text-dim);
     display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.hsearch__results .hsearch__maybe { margin: 0; padding: 9px 16px 4px; font-size: .86rem; color: var(--text-dim); }
 .hsearch__results mark { background: none; color: var(--gold-bright); font-weight: 700; }
 
 /* ---------- layout ---------- */

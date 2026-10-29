@@ -461,23 +461,38 @@
     }
 
     function searchFor(q) {
-        var facet = S.parseQuery(S.normQuery(q));
+        var full = S.normQuery(q), facet = S.parseQuery(full);
         q = facet.q;
         if (!q) { resEl.hidden = true; resEl.innerHTML = ''; return; }
         var hits = S.search(index, q, L(), bodiesIn ? textOf : null, 24, function (a) {
             return passes(a) && (!facet.test || facet.test(a));
         });
         resEl.hidden = false;
-        resEl.innerHTML = hits.length
-            ? hits.map(function (a) {
-                var txt = textOf(a.id), ex = txt && txt.flat ? excerpt(txt, q) : '';
-                var sub = ex
-                    ? '<span class="hsearch__excerpt">' + ex + '</span>'
-                    : '<span>' + esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span>';
-                return '<a href="#h' + a.id + '" data-hid="' + a.id + '"><b>' +
-                    esc(label(a)) + badge(a) + '</b>' + sub + '</a>';
-              }).join('')
-            : '<p class="help-empty">' + (L() === 'ua' ? 'Нічого не знайшлося.' : 'Nothing found.') + '</p>';
+        if (!hits.length) { resEl.innerHTML = suggestions(full); return; }
+        resEl.innerHTML = hits.map(function (a) {
+            var txt = textOf(a.id), ex = txt && txt.flat ? excerpt(txt, q) : '';
+            var sub = ex
+                ? '<span class="hsearch__excerpt">' + ex + '</span>'
+                : '<span>' + esc((a.kwList || []).slice(0, 4).join(' · ').toLowerCase()) + '</span>';
+            return '<a href="#h' + a.id + '" data-hid="' + a.id + '"><b>' +
+                esc(label(a)) + badge(a) + '</b>' + sub + '</a>';
+        }).join('');
+    }
+
+    /* Nothing matched: what `help` suggests in game for the same miss (a
+       keyboard layout slip, a typo, another form of the word). One link per
+       line, the matched word under it when the title does not show it. */
+    function suggestions(full) {
+        var sug = S.fuzzy(index, full, L(), kindTest);
+        var none = '<p class="help-empty">' + (L() === 'ua' ? 'Нічого не знайшлося.' : 'Nothing found.') + '</p>';
+        if (!sug.length) return none;
+        return '<p class="hsearch__maybe">' + (L() === 'ua' ? 'Можливо, мали на увазі:' : 'Did you mean:') + '</p>' +
+            sug.map(function (h) {
+                var hint = S.fuzzyHint(h, L());
+                return '<a href="#h' + h.article.id + '" data-hid="' + h.article.id + '"><b>' +
+                    esc(label(h.article)) + badge(h.article) + '</b>' +
+                    (hint ? '<span>' + esc(hint) + '</span>' : '') + '</a>';
+            }).join('');
     }
 
     /* Random article: 1340 of them, most of which nobody would ever think to
