@@ -3,9 +3,9 @@
 .boardpage { padding-top: 28px; padding-bottom: 60px; }
 .boardbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
     gap: 12px 24px; margin-bottom: 14px; }
-.boardbar__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px;
-    margin-left: auto; flex: 0 1 auto; }
-.boardbar__pick { flex: 0 1 260px; min-width: 0; }
+.boardbar__filters { display: flex; flex-wrap: nowrap; align-items: center; gap: 12px;
+    margin-left: auto; flex: 0 1 600px; min-width: 0; }
+.boardbar__pick { flex: 0 1 250px; min-width: 160px; }
 .boardbar__pick[hidden] { display: none; }
 .boardbar__select { width: 100%; }
 .boardbar__title { margin: 0 0 10px; font-family: var(--display); font-size: 1.35rem; font-weight: 600;
@@ -16,7 +16,7 @@
     color: var(--gold-bright); }
 .wtable .wname { display: inline-block; color: #2a1d0d; font-weight: 600; }
 .wtable .wname::first-letter { text-transform: uppercase; }
-.boardbar__search { flex: 0 1 320px; }
+.boardbar__search { flex: 1 1 320px; min-width: 200px; }
 .board td.num, .board th.num { text-align: right; font-variant-numeric: tabular-nums; }
 .board td.rank { width: 3ch; white-space: nowrap; color: var(--ink-dim); }
 .board .bname { color: #2a1d0d; font-weight: 600; }
@@ -27,7 +27,7 @@
     border-top: 1px solid var(--parch-edge); border-radius: 0 0 6px 6px; }
 .board-soon { text-align: center; color: var(--text-dim); max-width: 60ch; margin: 0 auto; }
 @media (max-width: 720px) {
-    .boardbar__filters { flex-basis: 100%; margin-left: 0; }
+    .boardbar__filters { flex-basis: 100%; flex-wrap: wrap; margin-left: 0; }
     .boardbar__search, .boardbar__pick { flex-basis: 100%; }
     .wgrid { grid-template-columns: 1fr; }
     .board table.results { min-width: 0; }
