@@ -5,6 +5,10 @@ DreamLand MUD: static web site pages and searcher app.
 [![Deploy Status](https://drone.dreamland.rocks/api/badges/dreamland-mud/dreamland_web/status.svg)](https://drone.dreamland.rocks/dreamland-mud/dreamland_web)
 
 
+## Help MCP server
+
+`mcp-help/` serves the help corpus to AI agents at https://dreamland.rocks/mcp/help (read-only MCP, Streamable HTTP). Setup, tools and the live unit are in [mcp-help/README.md](mcp-help/README.md).
+
 ## Local development
 
 To start searcher app locally on http://localhost:8001, run
