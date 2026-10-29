@@ -1,15 +1,19 @@
-/* Leaderboards: account pages ranked by one number each, and "who plays what"
-   counts, from the game's public /api/leaderboard (daily sums, cached 10
-   minutes server side). Both languages are rendered and i18n.js shows one;
-   the native select is relabelled on a language switch. The chosen board
-   lives in the hash (#deaths, #world) so a link opens it. */
+/* Leaderboards from the game's public /api/leaderboard (daily sums, cached 10
+   minutes server side): Accounts (open account pages, one row each under the
+   main character), Players (every character on its own) and World ("who
+   plays what" counts). Both languages are rendered and i18n.js shows one;
+   the native select is relabelled on a language switch. The view lives in
+   the hash (#deaths, #players/deaths, #world) so a link opens it. */
 (function () {
     var root = document.getElementById('board');
     var pick = document.getElementById('board-pick');
     var titleEn = document.getElementById('board-title-en');
     var titleUk = document.getElementById('board-title-uk');
-    var tabs = [document.getElementById('tab-players'), document.getElementById('tab-world')];
-    var panels = [document.getElementById('panel-players'), document.getElementById('panel-world')];
+    var pickWrap = document.getElementById('board-pickwrap');
+    var SCOPES = ['accounts', 'players', 'world'];
+    var tabs = SCOPES.map(function (k) { return document.getElementById('tab-' + k); });
+    var boardPanel = document.getElementById('panel-board');
+    var worldPanel = document.getElementById('panel-world');
     var worldRoot = document.getElementById('world-list');
 
     var POINTS_EN = 'Points: common 1, rare 3, epic 10, legendary 25.';
@@ -55,7 +59,9 @@
     var byKey = {};
     BOARDS.forEach(function (b) { byKey[b.key] = b; });
     var cache = {};
-    var current = null;
+    var current = null;     // "<scope>/<board>" on screen
+    var scope = 'accounts';
+    var board = 'score';
 
     function isUk() { return document.documentElement.getAttribute('data-lang') === 'uk'; }
 
@@ -86,17 +92,18 @@
         return c;
     }
 
-    function fetchBoard(key) {
-        if (cache[key]) return Promise.resolve(cache[key]);
+    function fetchBoard(sc, key) {
+        var ck = sc + '/' + key;
+        if (cache[ck]) return Promise.resolve(cache[ck]);
         return fetch('/api/leaderboard', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ args: { board: key } })
+            body: JSON.stringify({ args: { board: key, scope: sc } })
         }).then(function (r) {
             if (!r.ok) throw new Error(r.status);
             return r.json();
         }).then(function (data) {
-            cache[key] = data;
+            cache[ck] = data;
             if (data.names && window.DLPlayerSearch) window.DLPlayerSearch.setNames(data.names);
             return data;
         });
@@ -104,7 +111,38 @@
 
     // ---------- players ----------
 
-    function renderBoard(b, data) {
+    function playerCell(r) {
+        var who = el('td');
+        var nm = both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login);
+        var a;
+        if (r.link) {
+            a = el('a', 'bname');
+            a.href = '/player/' + encodeURIComponent(r.name.login);
+        } else {
+            a = el('span', 'bname bname--plain');
+        }
+        a.appendChild(nm);
+        who.appendChild(a);
+        if (r.race && r.class) {
+            var cap = function (t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : ''; };
+            who.appendChild(both('span', 'btitle',
+                cap(r.race.en) + ' · ' + cap(r.class.en),
+                cap(r.race.ua || r.race.ru) + ' · ' + cap(r.class.ua || r.class.ru)));
+        }
+        return who;
+    }
+
+    function accountCell(r) {
+        var who = el('td');
+        var a = el('a', 'bname');
+        a.href = '/player/' + encodeURIComponent(r.name.login);
+        a.appendChild(both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login));
+        who.appendChild(a);
+        if (r.title) who.appendChild(el('span', 'btitle', r.title));
+        return who;
+    }
+
+    function renderBoard(b, data, players) {
         if (!data.open) {
             message(root, 'The list is not open yet.', 'Список ще не відкрито.');
             return;
@@ -118,7 +156,7 @@
         table.setAttribute('aria-labelledby', 'board-title');
         var head = el('thead'), hr = el('tr');
         hr.appendChild(th('#', '#', 'num'));
-        hr.appendChild(th('Player', 'Гравець'));
+        hr.appendChild(players ? th('Character', 'Персонаж') : th('Account', 'Акаунт'));
         hr.appendChild(th(b.col[0], b.col[1], 'num'));
         if (b.extra) {
             hr.appendChild(th('Legendary', 'Легендарні', 'num'));
@@ -131,13 +169,7 @@
         data.rows.forEach(function (r, i) {
             var tr = el('tr');
             tr.appendChild(el('td', 'num rank', String(i + 1)));
-            var who = el('td');
-            var a = el('a', 'bname');
-            a.href = '/player/' + encodeURIComponent(r.name.login);
-            a.appendChild(both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login));
-            who.appendChild(a);
-            if (r.title) who.appendChild(el('span', 'btitle', r.title));
-            tr.appendChild(who);
+            tr.appendChild(players ? playerCell(r) : accountCell(r));
             tr.appendChild(el('td', 'num', String(r[b.key]) + (b.pct ? '%' : '')));
             if (b.extra) {
                 tr.appendChild(el('td', 'num', String(r.legendary)));
@@ -149,24 +181,31 @@
         table.appendChild(body);
         box.appendChild(table);
         var note = b.note || ['', ''];
+        var tailEn = players
+            ? 'Every character on its own. Updated daily. A linked name opens that player\'s public page.'
+            : 'One row per account, under its most played character. Updated daily. Each name opens that player\'s public page.';
+        var tailUk = players
+            ? 'Кожен персонаж окремо. Оновлюється щодня. Імʼя з посиланням відкриває публічну сторінку гравця.'
+            : 'Один рядок на акаунт, під найбільш граним персонажем. Оновлюється щодня. Кожне імʼя відкриває публічну сторінку гравця.';
         box.appendChild(both('p', 'board-note',
-            (note[0] ? note[0] + ' ' : '') + 'Updated daily. Each name opens that player\'s public page.',
-            (note[1] ? note[1] + ' ' : '') + 'Оновлюється щодня. Кожне імʼя відкриває публічну сторінку гравця.'));
+            (note[0] ? note[0] + ' ' : '') + tailEn,
+            (note[1] ? note[1] + ' ' : '') + tailUk));
         root.textContent = '';
         root.appendChild(box);
     }
 
-    function showBoard(key) {
+    function showBoard(sc, key) {
         var b = byKey[key] || BOARDS[0];
-        current = b.key;
+        var ck = sc + '/' + b.key;
+        current = ck;
         pick.value = b.key;
         titleEn.textContent = b.en;
         titleUk.textContent = b.uk;
         message(root, 'Asking the Archivist...', 'Питаємо Архіваріуса...');
-        fetchBoard(b.key).then(function (data) {
-            if (current === b.key) renderBoard(b, data);
+        fetchBoard(sc, b.key).then(function (data) {
+            if (current === ck) renderBoard(b, data, sc === 'players');
         }).catch(function () {
-            if (current === b.key)
+            if (current === ck)
                 message(root, 'The Archivist is not answering. Try again in a minute.', 'Архіваріус не відповідає. Спробуй за хвилину.');
         });
     }
@@ -186,7 +225,7 @@
     });
     labelOptions();
     new MutationObserver(labelOptions).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
-    pick.addEventListener('change', function () { go(pick.value); });
+    pick.addEventListener('change', function () { go(scope, pick.value); });
 
     // ---------- world ----------
 
@@ -246,25 +285,29 @@
     }
 
     function showWorld() {
-        if (cache.world) { renderWorld(cache.world); return; }
+        if (cache['accounts/world']) { renderWorld(cache['accounts/world']); return; }
         message(worldRoot, 'Asking the Archivist...', 'Питаємо Архіваріуса...');
-        fetchBoard('world').then(renderWorld).catch(function () {
+        fetchBoard('accounts', 'world').then(renderWorld).catch(function () {
             message(worldRoot, 'The Archivist is not answering. Try again in a minute.', 'Архіваріус не відповідає. Спробуй за хвилину.');
         });
     }
 
     // ---------- tabs + hash ----------
 
-    function selectTab(i) {
+    function selectTab(sc) {
         tabs.forEach(function (t, j) {
-            t.setAttribute('aria-selected', i === j ? 'true' : 'false');
-            t.tabIndex = i === j ? 0 : -1;
-            panels[j].hidden = i !== j;
+            var on = SCOPES[j] === sc;
+            t.setAttribute('aria-selected', on ? 'true' : 'false');
+            t.tabIndex = on ? 0 : -1;
         });
+        boardPanel.hidden = sc === 'world';
+        worldPanel.hidden = sc !== 'world';
+        pickWrap.hidden = sc === 'world';
+        if (sc !== 'world') boardPanel.setAttribute('aria-labelledby', 'tab-' + sc);
     }
 
     tabs.forEach(function (t, i) {
-        t.addEventListener('click', function () { go(i === 1 ? 'world' : (current || 'score')); });
+        t.addEventListener('click', function () { go(SCOPES[i], board); });
         t.addEventListener('keydown', function (e) {
             var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
             if (!d) return;
@@ -275,20 +318,32 @@
         });
     });
 
+    // "" or "#<board>" = accounts, "#players[/<board>]", "#world".
+    function parseHash() {
+        var parts = location.hash.replace('#', '').split('/');
+        if (parts[0] === 'world') return { scope: 'world', board: board };
+        if (parts[0] === 'players') return { scope: 'players', board: byKey[parts[1]] ? parts[1] : board };
+        return { scope: 'accounts', board: byKey[parts[0]] ? parts[0] : 'score' };
+    }
+
+    function hashOf(sc, key) {
+        if (sc === 'world') return '#world';
+        if (sc === 'players') return key === 'score' ? '#players' : '#players/' + key;
+        return key === 'score' ? '' : '#' + key;
+    }
+
     function route() {
-        var key = location.hash.replace('#', '');
-        if (key === 'world') {
-            selectTab(1);
-            showWorld();
-        } else {
-            selectTab(0);
-            showBoard(key);
-        }
+        var v = parseHash();
+        scope = v.scope;
+        board = v.board;
+        selectTab(scope);
+        if (scope === 'world') showWorld();
+        else showBoard(scope, board);
     }
 
     // Boards are cached, so routing to the one already shown only redraws it.
-    function go(key) {
-        var h = key === 'score' ? '' : '#' + key;
+    function go(sc, key) {
+        var h = hashOf(sc, key);
         if (location.hash === h) { route(); return; }
         if (h) {
             location.hash = h;

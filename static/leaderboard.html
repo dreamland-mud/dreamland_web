@@ -41,15 +41,15 @@
 </section>
 
 <main class="wrap boardpage">
-    <div class="ds-tabs-pill boardtabs" role="tablist" aria-label="Leaderboards">
-        <button class="ds-tab-pill" type="button" role="tab" id="tab-players" aria-controls="panel-players" aria-selected="true"><span lang="en">Players</span><span lang="uk">Гравці</span></button>
-        <button class="ds-tab-pill" type="button" role="tab" id="tab-world" aria-controls="panel-world" aria-selected="false" tabindex="-1"><span lang="en">World</span><span lang="uk">Світ</span></button>
-    </div>
-
-    <section id="panel-players" role="tabpanel" aria-labelledby="tab-players">
-        <div class="boardbar">
-            <div class="boardbar__pick">
-                <label class="boardbar__label" for="board-pick"><span lang="en">Ranking</span><span lang="uk">Рейтинг</span></label>
+    <div class="boardbar">
+        <div class="ds-tabs-pill boardtabs" role="tablist" aria-label="Leaderboards">
+            <button class="ds-tab-pill" type="button" role="tab" id="tab-accounts" aria-controls="panel-board" aria-selected="true"><span lang="en">Accounts</span><span lang="uk">Акаунти</span></button>
+            <button class="ds-tab-pill" type="button" role="tab" id="tab-players" aria-controls="panel-board" aria-selected="false" tabindex="-1"><span lang="en">Players</span><span lang="uk">Гравці</span></button>
+            <button class="ds-tab-pill" type="button" role="tab" id="tab-world" aria-controls="panel-world" aria-selected="false" tabindex="-1"><span lang="en">World</span><span lang="uk">Світ</span></button>
+        </div>
+        <div class="boardbar__filters">
+            <div class="boardbar__pick" id="board-pickwrap">
+                <label class="sr-only" for="board-pick"><span lang="en">Ranking</span><span lang="uk">Рейтинг</span></label>
                 <select class="ds-select boardbar__select" id="board-pick"></select>
             </div>
             <form class="ds-search boardbar__search" id="find" role="search" data-playersearch>
@@ -65,6 +65,9 @@
                 <p class="ds-search__msg" data-playersearch-msg aria-live="polite"></p>
             </form>
         </div>
+    </div>
+
+    <section id="panel-board" role="tabpanel" aria-labelledby="tab-accounts">
         <h2 class="boardbar__title" id="board-title"><span lang="en" id="board-title-en">Achievements</span><span lang="uk" id="board-title-uk">Досягнення</span></h2>
         <div id="board" aria-live="polite">
             <p class="board-soon" lang="en">Asking the Archivist...</p>
@@ -80,8 +83,8 @@
 
 <footer class="footer" style="padding:40px 0 30px;">
     <div class="wrap footer__bottom" style="margin:0;padding-top:0;border:0;">
-        <span lang="en">DreamLand MUD · <a href="/index.html">back home</a> · in game: <b>account profile off</b> keeps you off this list</span>
-        <span lang="uk">DreamLand MUD · <a href="/index.html">на головну</a> · у грі: <b>акаунт профіль вимк</b> прибирає тебе з цього списку</span>
+        <span lang="en">DreamLand MUD · <a href="/index.html">back home</a> · in game: <b>account profile off</b> keeps your account off the Accounts list</span>
+        <span lang="uk">DreamLand MUD · <a href="/index.html">на головну</a> · у грі: <b>акаунт профіль вимк</b> прибирає твій акаунт зі списку «Акаунти»</span>
     </div>
 </footer>
 
