@@ -90,6 +90,8 @@ for (const a of raw) {
     };
     // the automatic "see also" ids the game computes (help revamp Phase 2 task 4)
     if (a.related && a.related.length) entry.related = a.related;
+    // retired ids that open this article (help revamp Phase 1), so old #h<id> links still land
+    if (a.aliases && a.aliases.length) entry.aliases = a.aliases;
 
     for (const L of LANGS) {
         // the dump only grew per-language keys once #843 shipped; before that

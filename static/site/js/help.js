@@ -153,7 +153,7 @@
     }
 
     // ---- data -------------------------------------------------------------
-    var index = [], byId = {}, bodyRu = {}, overlay = {}, ready = false;
+    var index = [], byId = {}, aliasOf = {}, bodyRu = {}, overlay = {}, ready = false;
     var byKeyword = {};
 
     /* The [square bracket] references in the corpus arrive with no article id
@@ -247,6 +247,9 @@
         .then(function (data) {
             index = data;
             index.forEach(function (a) { byId[a.id] = a; });
+            index.forEach(function (a) {
+                (a.aliases || []).forEach(function (x) { if (!byId[x]) aliasOf[x] = a.id; });
+            });
             buildKeywordIndex();
             ready = true;              // search, random and the rail work from here
             readPickFromUrl();
@@ -390,6 +393,10 @@
     }
 
     function show(id) {
+        if (!byId[id] && aliasOf[id]) {          // a retired id: open its article, fix the address
+            id = aliasOf[id];
+            history.replaceState(null, '', location.pathname + location.search + '#h' + id);
+        }
         var a = byId[id];
         if (a && !bodiesIn) {
             // the bodies are still on the wire -- claim the slot and come back

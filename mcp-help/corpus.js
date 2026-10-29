@@ -68,6 +68,8 @@ class Corpus {
             try { bodies[l] = read('help-body-' + l + '.json'); } catch (e) { bodies[l] = {}; }
         }
         const byId = new Map(index.map(a => [a.id, a]));
+        // retired ids answer with the article that absorbed them
+        index.forEach(a => (a.aliases || []).forEach(x => { if (!byId.has(x)) byId.set(x, a); }));
         const norm = k => String(k || '').replace(/^'|'$/g, '').trim().toLowerCase();
         const titlesOf = a => LANGS.reduce((t, l) => t.concat([a.toc && a.toc[l], a.title && a.title[l]]), []);
         // bare [links]: keywords first, then titles, first come wins, as on the site
