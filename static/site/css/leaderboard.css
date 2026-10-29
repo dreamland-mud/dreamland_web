@@ -1,18 +1,23 @@
-/* Leaderboard page: layout only, the table is Nirvana's .ds-table. */
-.boardpage { padding-top: 32px; padding-bottom: 60px; }
-.board { overflow-x: auto; padding: 8px 4px; }
-.board caption { caption-side: top; text-align: left; padding: 8px 12px 12px; color: var(--text-dim); }
+/* Leaderboard page: layout only. The table is the parchment ledger and the
+   search the client-style well, both canon in theme.css. */
+.boardpage { padding-top: 28px; padding-bottom: 60px; }
+.boardbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+    gap: 12px 24px; margin-bottom: 14px; }
+.boardbar__title { margin: 0; font-family: var(--display); font-size: 1.35rem; font-weight: 600;
+    color: var(--gold-bright); }
+.boardbar__search { flex: 0 1 340px; margin-left: auto; }
 .board td.num, .board th.num { text-align: right; font-variant-numeric: tabular-nums; }
-.board td.rank { color: var(--text-dim); width: 3ch; }
-.board .bname { color: var(--gold-bright); font-weight: 600; }
-.board .btitle { display: block; color: var(--text-dim); font-size: .82rem; }
-.psearch { margin-top: 20px; max-width: 30rem; }
-.psearch label { display: block; margin-bottom: 6px; color: var(--text-dim); }
-.psearch__row { display: flex; gap: 10px; }
-.psearch__row .ds-input { flex: 1; min-width: 0; }
-.psearch__msg { min-height: 1.4em; margin: 8px 0 0; color: var(--text-dim); }
+.board td.rank { width: 3ch; color: var(--ink-dim); }
+.board .bname { color: #2a1d0d; font-weight: 600; }
+.board .bname:hover { color: #7a3597; }
+.board .btitle { display: block; color: var(--ink-dim); font-size: .82rem; }
+.board-note { margin: 0; padding: 10px 14px; font-size: .8rem; color: var(--ink-dim);
+    background: var(--parchment-2);
+    border-top: 1px solid var(--parch-edge); border-radius: 0 0 6px 6px; }
 .board-soon { text-align: center; color: var(--text-dim); max-width: 60ch; margin: 0 auto; }
-@media (max-width: 560px) {
+@media (max-width: 720px) {
+    .boardbar__search { flex-basis: 100%; }
+    .board table.results { min-width: 0; }
     .board .col-secrets, .board .col-earned { display: none; }
-    .ds-table th, .ds-table td { padding: 8px 6px; }
+    .board table.results thead th, .board table.results tbody td { padding: 9px 8px; }
 }

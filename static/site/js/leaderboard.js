@@ -33,20 +33,16 @@
 
     function render(data) {
         if (!data.open) {
-            message('The list opens on November 1, so everyone has a week to read the news and hide their page if they want.',
-                    'Список відкриється 1 листопада: за тиждень кожен встигне прочитати новину й сховати свою сторінку, якщо захоче.');
+            message('The list is not open yet.', 'Список ще не відкрито.');
             return;
         }
         if (!data.rows || !data.rows.length) {
             message('Nobody on the list yet.', 'У списку ще нікого.');
             return;
         }
-        var box = el('div', 'board windowlet');
-        var table = el('table', 'ds-table');
-        var cap = el('caption');
-        cap.appendChild(both('span', null, 'Top players by achievement points, updated daily',
-                                            'Найкращі гравці за балами досягнень, оновлюється щодня'));
-        table.appendChild(cap);
+        var box = el('div', 'board tablewrap');
+        var table = el('table', 'results');
+        table.setAttribute('aria-labelledby', 'board-title');
         var head = el('thead'), hr = el('tr');
         hr.appendChild(th('#', '#', 'num'));
         hr.appendChild(th('Player', 'Гравець'));
@@ -75,6 +71,9 @@
         });
         table.appendChild(body);
         box.appendChild(table);
+        box.appendChild(both('p', 'board-note',
+            'Points: common 1, rare 3, epic 10, legendary 25. Updated daily. Each name opens that player\'s public page.',
+            'Бали: звичайне 1, рідкісне 3, епічне 10, легендарне 25. Оновлюється щодня. Кожне імʼя відкриває публічну сторінку гравця.'));
         root.textContent = '';
         root.appendChild(box);
     }
@@ -86,7 +85,10 @@
     }).then(function (r) {
         if (!r.ok) throw new Error(r.status);
         return r.json();
-    }).then(render).catch(function () {
+    }).then(function (data) {
+        if (data.names && window.DLPlayerSearch) window.DLPlayerSearch.setNames(data.names);
+        render(data);
+    }).catch(function () {
         message('The Archivist is not answering. Try again in a minute.', 'Архіваріус не відповідає. Спробуй за хвилину.');
     });
 })();

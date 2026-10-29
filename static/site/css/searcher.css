@@ -83,28 +83,7 @@
     color: var(--text-dim); font-size: .92rem; }
 .result-meta b { color: var(--gold-bright); font-family: var(--display); }
 
-/* results table on parchment. On desktop the container is wide enough that
-   cells wrap instead of scrolling; the min-width + scroll only kicks in on
-   narrow screens, where columns genuinely cannot fit. */
-.tablewrap { border-radius: 6px;
-    border: 1px solid var(--parch-edge); box-shadow: 0 12px 30px rgba(0,0,0,.5); }
-@media (max-width: 720px) { .tablewrap { overflow-x: auto; } }
-table.results {
-    width: 100%; border-collapse: collapse;
-    background: linear-gradient(175deg, var(--parchment), var(--parchment-2)); color: var(--ink);
-    font-size: .96rem;
-}
-table.results thead th {
-    font-family: var(--display); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase;
-    text-align: left; color: #4a3a1e; padding: 12px 14px; position: sticky; top: 0;
-    background: linear-gradient(180deg, #d8c496, #cdb684); border-bottom: 2px solid var(--parch-edge);
-    white-space: nowrap;
-}
-table.results tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(150,120,70,.25);
-    vertical-align: top; overflow-wrap: anywhere; }
-@media (max-width: 720px) { table.results { min-width: 640px; } }
-table.results tbody tr:nth-child(even) { background: rgba(150,120,70,.07); }
-table.results tbody tr:hover { background: rgba(120,90,50,.14); }
+/* the results table (.tablewrap + table.results) is canon now: theme.css */
 .i-name { font-weight: 600; color: #2a1d0d; }
 /* limited items -- only N exist in the world at once -- read as arcane, not as
    an error: purple name, purple diamond. #7a3597, not the UI's --arcane, which

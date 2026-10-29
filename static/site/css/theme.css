@@ -715,6 +715,59 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     .ds-input:focus, .ds-select:focus { animation: none; filter: drop-shadow(0 0 7px rgba(187,134,252,.6)); }
 }
 
+/* ---------- search well (ported from the client's help box) ----------
+   Dark well, magnifier inside on the left, compact height; the suggestion list
+   is an ARIA listbox under the field (the help search dropdown look). */
+.ds-search { position: relative; display: flex; align-items: center; gap: 8px; }
+.ds-search__well { position: relative; flex: 1 1 auto; min-width: 0; }
+.ds-search__icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+    width: 15px; height: 15px; fill: var(--gold-dim); pointer-events: none; }
+.ds-search__input { width: 100%; height: 36px; padding: 0 12px 0 32px; margin: 0;
+    font-family: var(--body); font-size: .95rem; color: #f2ead6; background-color: #0b0a12;
+    border: 1px solid var(--gold-deep); border-radius: 5px; box-shadow: inset 0 1px 4px rgba(0,0,0,.6); }
+.ds-search__input::placeholder { color: var(--text-faint); }
+.ds-search__input::-webkit-search-cancel-button { display: none; }
+.ds-search__input:focus { outline: none; background-color: #000; border-color: var(--gold); }
+.ds-search__list { position: absolute; z-index: 30; left: 0; right: 0; top: calc(100% + 6px);
+    margin: 0; padding: 0; list-style: none; max-height: 50vh; overflow-y: auto; text-align: left;
+    background: linear-gradient(180deg, var(--stone-850), var(--stone-950));
+    border: 1px solid var(--gold-dim); border-radius: 10px; box-shadow: 0 20px 44px rgba(0,0,0,.65); }
+.ds-search__opt { display: block; padding: 8px 14px; cursor: pointer; color: var(--text);
+    border-bottom: 1px solid rgba(133,102,50,.16); }
+.ds-search__opt:last-child { border-bottom: 0; }
+.ds-search__opt b { color: var(--gold-bright); font-weight: 600; }
+.ds-search__opt small { margin-left: 8px; color: var(--text-faint); }
+.ds-search__opt:hover, .ds-search__opt[aria-selected="true"] { background: rgba(187,134,252,.12); color: #fff; }
+.ds-search__msg { position: absolute; top: calc(100% + 6px); right: 0; margin: 0;
+    font-size: .85rem; color: var(--text-dim); }
+.ds-search__msg:empty { display: none; }
+/* the client's .btn-sm: same gem, a toolbar-sized face */
+.btn--sm { padding: 0 14px; height: 36px; font-size: .9rem; gap: 6px; }
+
+/* ---------- results table on parchment (searcher, leaderboard) ----------
+   On desktop the container is wide enough that
+   cells wrap instead of scrolling; the min-width + scroll only kicks in on
+   narrow screens, where columns genuinely cannot fit. */
+.tablewrap { border-radius: 6px;
+    border: 1px solid var(--parch-edge); box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+@media (max-width: 720px) { .tablewrap { overflow-x: auto; } }
+table.results {
+    width: 100%; border-collapse: collapse;
+    background: linear-gradient(175deg, var(--parchment), var(--parchment-2)); color: var(--ink);
+    font-size: .96rem;
+}
+table.results thead th {
+    font-family: var(--display); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase;
+    text-align: left; color: #4a3a1e; padding: 12px 14px; position: sticky; top: 0;
+    background: linear-gradient(180deg, #d8c496, #cdb684); border-bottom: 2px solid var(--parch-edge);
+    white-space: nowrap;
+}
+table.results tbody td { padding: 11px 14px; border-bottom: 1px solid rgba(150,120,70,.25);
+    vertical-align: top; overflow-wrap: anywhere; }
+@media (max-width: 720px) { table.results { min-width: 640px; } }
+table.results tbody tr:nth-child(even) { background: rgba(150,120,70,.07); }
+table.results tbody tr:hover { background: rgba(120,90,50,.14); }
+
 /* ---------- toggle-chip ----------
    Ghost when off, the gold gem when on (same grammar as tabs/segmented).
    Drive it with .is-on or aria-pressed="true". */
