@@ -58,6 +58,7 @@
     ];
     var byKey = {};
     BOARDS.forEach(function (b) { byKey[b.key] = b; });
+    var WORLD_TOP = 10;
     var cache = {};
     var current = null;     // "<scope>/<board>" on screen
     var scope = 'accounts';
@@ -254,7 +255,7 @@
         head.appendChild(hr);
         table.appendChild(head);
         var body = el('tbody');
-        list.forEach(function (e, i) {
+        list.slice(0, WORLD_TOP).forEach(function (e, i) {
             var tr = el('tr');
             tr.appendChild(el('td', 'num rank', String(i + 1)));
             var n = nameOf(e);
@@ -273,15 +274,15 @@
 
     function renderWorld(data) {
         worldRoot.textContent = '';
-        worldRoot.appendChild(both('p', 'wlead',
-            data.active + ' characters entered the world in the last ' + data.days + ' days. Counts only, no names.',
-            data.active + ' персонажів заходили у світ за останні ' + data.days + ' днів. Лише числа, без імен.'));
         var grid = el('div', 'wgrid');
         grid.appendChild(worldTable('classes', 'Classes', 'Класи', data.classes));
         grid.appendChild(worldTable('races', 'Races', 'Раси', data.races));
         grid.appendChild(worldTable('religions', 'Gods', 'Боги', data.religions));
         grid.appendChild(worldTable('clans', 'Clans', 'Клани', data.clans, true));
         worldRoot.appendChild(grid);
+        worldRoot.appendChild(both('p', 'wlead',
+            data.active + ' characters entered the world in the last ' + data.days + ' days.',
+            data.active + ' персонажів заходили у світ за останні ' + data.days + ' днів.'));
     }
 
     function showWorld() {
