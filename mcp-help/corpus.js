@@ -116,16 +116,22 @@ class Corpus {
         return hit ? { article: hit } : {};
     }
 
-    /* The shared ranking on the whole query. A phrase that matches nothing as
-       a whole ("how to level up") falls back to its words of 3+ letters:
+    /* The shared ranking on the whole query, then the game's suggestions
+       (S.fuzzy: typos, layout, stems over keywords). A phrase neither finds
+       ("how to level up") falls back to its words of 3+ letters:
        articles hit by more words first, then by their best rank. MCP clients
        type sentences far more often than the site's search box sees them.
-       Returns { hits, words }: words is set when the fallback ran. */
+       Returns { hits, words, suggested }: words is set when the word fallback
+       ran, suggested (S.fuzzy hits with their hints) when the suggestions did. */
     search(query, lang, limit) {
         const p = S.parseQuery(S.normQuery(query));
         const hits = S.search(this.index, p.q, lang, this.text[lang], limit, p.test);
+        if (hits.length) return { hits, words: null };
+        // what `help` suggests in game: layout flip, typos, other word forms
+        const sug = S.fuzzy(this.index, query, lang).slice(0, limit);
+        if (sug.length) return { hits: sug.map(h => h.article), words: null, suggested: sug };
         const words = [...new Set(p.q.split(' ').filter(w => w.length >= 3 && !STOP.has(w)))];
-        if (hits.length || !words.length || words.join(' ') === p.q) return { hits, words: null };
+        if (!words.length || (words.length === 1 && words[0] === p.q)) return { hits, words: null };
         const score = new Map();
         words.forEach(w => S.search(this.index, w, lang, this.text[lang], 200, p.test).forEach((a, rank) => {
             const s = score.get(a) || { n: 0, rank: Infinity };
@@ -150,7 +156,7 @@ class Corpus {
             const ex = S.excerpt(txt, w);
             return { article: a, before: ex[0], match: ex[1], after: ex[2] };
         });
-        return { hits, words: r.words };
+        return { hits, words: r.words, suggested: r.suggested || null };
     }
 
     categories(lang) {

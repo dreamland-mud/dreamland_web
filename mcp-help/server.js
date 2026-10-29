@@ -13,6 +13,7 @@ const path = require('path');
 const { McpServer } = require('@modelcontextprotocol/server');
 const { NodeStreamableHTTPServerTransport } = require('@modelcontextprotocol/node');
 const { z } = require('zod');
+const S = require('../static/site/js/helpsearch.js');
 const { Corpus, CATEGORIES, url, title, kindOf, categoryName, toMarkdown } = require('./corpus');
 
 const PORT = Number(process.env.PORT || 8003);
@@ -70,11 +71,15 @@ function buildServer() {
         l = normLang(l);
         const r = c.searchWithExcerpts(query, l, limit);
         if (!r.hits.length) return text('No help articles match "' + query + '".');
-        const head = r.words ? 'Nothing matches the whole phrase; articles with most of its words (' +
-            r.words.join(', ') + '):\n\n' : '';
-        return text(head + r.hits.map(h => {
+        let head = '';
+        if (r.suggested) head = 'No article matches "' + query + '"; did you mean (typos and other word forms, as in game):\n\n';
+        else if (r.words) head = 'Nothing matches the whole phrase; articles with most of its words (' +
+            r.words.join(', ') + '):\n\n';
+        return text(head + r.hits.map((h, i) => {
             const ex = (h.before + h.match + h.after).trim();
-            return line(h.article, l) + '\n' + url(h.article.id) + (ex ? '\n' + ex : '');
+            const hint = r.suggested ? S.fuzzyHint(r.suggested[i], l) : '';
+            return line(h.article, l) + (hint ? ' [matched: ' + hint + ']' : '') + '\n' + url(h.article.id) +
+                (ex ? '\n' + ex : '');
         }).join('\n\n'));
     });
 

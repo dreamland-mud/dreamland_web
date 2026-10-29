@@ -61,7 +61,13 @@ async function run(endpoint) {
     check('get: exact title beats a shared keyword', r.text.startsWith('# Midgaard'), r.text.slice(0, 80));
     r = await call(endpoint, 'help_get', { keyword: 'мидгаарда' });
     check('get: shared keyword lists candidates', /keyword of \d+ articles/.test(r.text) && r.text.includes('[1844]'), r.text.slice(0, 200));
+    r = await call(endpoint, 'help_search', { query: 'fierbal' });
+    check('search: typo gets the game suggestion', /^No article matches/.test(r.text) && r.text.includes('[625]'), r.text.slice(0, 200));
+    r = await call(endpoint, 'help_search', { query: 'ghjrfxrf', lang: 'ru' });
+    check('search: layout flip', r.text.includes('[998]') && r.text.includes('matched: прокачка'), r.text.slice(0, 300));
     r = await call(endpoint, 'help_search', { query: 'how to level up' });
+    check('search: a question finds its keyword', r.text.includes('[14]'), r.text.slice(0, 300));
+    r = await call(endpoint, 'help_search', { query: 'pirates sleeping quietly' });
     check('search: phrase falls back to its words', /^Nothing matches the whole phrase/.test(r.text) && /\n\[\d+\]/.test(r.text), r.text.slice(0, 300));
     r = await call(endpoint, 'help_get', { id: 999999 });
     check('get: unknown id is an error', r.isError, r.text);
