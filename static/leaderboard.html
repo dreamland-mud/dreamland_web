@@ -39,6 +39,14 @@
         <h1 lang="en">Leaderboard</h1><h1 lang="uk">Таблиця лідерів</h1>
         <p lang="en">Players ranked by achievements: common 1 point, rare 3, epic 10, legendary 25. Each name opens that player's public page.</p>
         <p lang="uk">Гравці за досягненнями: звичайне 1 бал, рідкісне 3, епічне 10, легендарне 25. Кожне імʼя відкриває публічну сторінку гравця.</p>
+        <form class="psearch" id="find" role="search" data-playersearch>
+            <label for="psearch-name"><span lang="en">Find a player</span><span lang="uk">Знайти гравця</span></label>
+            <div class="psearch__row">
+                <input class="ds-input" id="psearch-name" type="search" autocomplete="off" spellcheck="false" maxlength="40"/>
+                <button class="btn btn--gold" type="submit"><span lang="en">Find</span><span lang="uk">Знайти</span></button>
+            </div>
+            <p class="psearch__msg" data-playersearch-msg aria-live="polite"></p>
+        </form>
     </div>
 </section>
 
@@ -58,5 +66,6 @@
 <script src="/site/js/nav.js"></script>
 <script src="/site/js/i18n.js"></script>
 <script src="/site/js/leaderboard.js"></script>
+<script src="/site/js/playersearch.js"></script>
 </body>
 </html>
