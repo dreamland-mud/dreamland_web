@@ -13,10 +13,11 @@
 .wgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .wtable__title { margin: 0 0 8px; font-family: var(--display); font-size: 1.15rem; font-weight: 600;
     color: var(--gold-bright); }
-.wtable .wname { color: #2a1d0d; font-weight: 600; }
+.wtable .wname { display: inline-block; color: #2a1d0d; font-weight: 600; }
+.wtable .wname::first-letter { text-transform: uppercase; }
 .boardbar__search { flex: 0 1 340px; margin-left: auto; }
 .board td.num, .board th.num { text-align: right; font-variant-numeric: tabular-nums; }
-.board td.rank { width: 3ch; color: var(--ink-dim); }
+.board td.rank { width: 3ch; white-space: nowrap; color: var(--ink-dim); }
 .board .bname { color: #2a1d0d; font-weight: 600; }
 .board .bname:hover { color: #7a3597; }
 .board .btitle { display: block; color: var(--ink-dim); font-size: .82rem; }
