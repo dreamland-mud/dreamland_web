@@ -37,22 +37,29 @@
 <section class="pagehead">
     <div class="wrap">
         <h1 lang="en">Leaderboard</h1><h1 lang="uk">Таблиця лідерів</h1>
-        <p lang="en">Players ranked by achievements: common 1 point, rare 3, epic 10, legendary 25. Each name opens that player's public page.</p>
-        <p lang="uk">Гравці за досягненнями: звичайне 1 бал, рідкісне 3, епічне 10, легендарне 25. Кожне імʼя відкриває публічну сторінку гравця.</p>
-        <form class="psearch" id="find" role="search" data-playersearch>
-            <label for="psearch-name"><span lang="en">Find a player</span><span lang="uk">Знайти гравця</span></label>
-            <div class="psearch__row">
-                <input class="ds-input" id="psearch-name" type="search" autocomplete="off" spellcheck="false" maxlength="40"/>
-                <button class="btn btn--gold" type="submit"><span lang="en">Find</span><span lang="uk">Знайти</span></button>
-            </div>
-            <p class="psearch__msg" data-playersearch-msg aria-live="polite"></p>
-        </form>
     </div>
 </section>
 
-<main class="wrap boardpage" id="board" aria-live="polite">
-    <p class="board-soon" lang="en">Asking the Archivist...</p>
-    <p class="board-soon" lang="uk">Питаємо Архіваріуса...</p>
+<main class="wrap boardpage">
+    <div class="boardbar">
+        <h2 class="boardbar__title" id="board-title"><span lang="en">Top by achievements</span><span lang="uk">Найкращі за досягненнями</span></h2>
+        <form class="ds-search boardbar__search" id="find" role="search" data-playersearch>
+            <label class="sr-only" for="psearch-name"><span lang="en">Find a player</span><span lang="uk">Знайти гравця</span></label>
+            <div class="ds-search__well">
+                <svg class="ds-search__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+                <input class="ds-search__input" id="psearch-name" type="search" autocomplete="off" spellcheck="false" maxlength="40"
+                       role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="psearch-list"
+                       data-ph-en="Find a player" data-ph-uk="Знайти гравця"/>
+                <ul class="ds-search__list" id="psearch-list" role="listbox" hidden></ul>
+            </div>
+            <button class="btn btn--gold btn--sm" type="submit"><span lang="en">Find</span><span lang="uk">Знайти</span></button>
+            <p class="ds-search__msg" data-playersearch-msg aria-live="polite"></p>
+        </form>
+    </div>
+    <div id="board" aria-live="polite">
+        <p class="board-soon" lang="en">Asking the Archivist...</p>
+        <p class="board-soon" lang="uk">Питаємо Архіваріуса...</p>
+    </div>
 </main>
 
 <footer class="footer" style="padding:40px 0 30px;">
@@ -65,7 +72,7 @@
 <script src="/site/js/src.js"></script>
 <script src="/site/js/nav.js"></script>
 <script src="/site/js/i18n.js"></script>
-<script src="/site/js/leaderboard.js"></script>
 <script src="/site/js/playersearch.js"></script>
+<script src="/site/js/leaderboard.js"></script>
 </body>
 </html>
