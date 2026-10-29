@@ -2,23 +2,27 @@
    search the client-style well, both canon in theme.css. */
 .boardpage { padding-top: 28px; padding-bottom: 60px; }
 .boardbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-    gap: 12px 24px; margin-bottom: 14px; }
+    gap: 12px 24px; margin-bottom: 32px; }
 .boardbar__filters { display: flex; flex-wrap: nowrap; align-items: center; gap: 12px;
     margin-left: auto; flex: 0 1 600px; min-width: 0; }
 .boardbar__pick { flex: 0 1 250px; min-width: 160px; }
 .boardbar__pick[hidden] { display: none; }
 .boardbar__select { width: 100%; }
-.boardbar__title { margin: 0 0 10px; font-family: var(--display); font-size: 1.35rem; font-weight: 600;
+.boardbar__title { margin: 0 0 14px; font-family: var(--display); font-size: 1.35rem; font-weight: 600;
     color: var(--gold-bright); }
-.wlead { color: var(--text-dim); margin: 0 0 16px; }
-.wgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-.wtable__title { margin: 0 0 8px; font-family: var(--display); font-size: 1.15rem; font-weight: 600;
+.wlead { color: var(--text-dim); margin: 22px 0 0; }
+.wgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
+.wtable__title { margin: 0 0 14px; font-family: var(--display); font-size: 1.15rem; font-weight: 600;
     color: var(--gold-bright); }
 .wtable .wname { display: inline-block; color: #2a1d0d; font-weight: 600; }
 .wtable .wname::first-letter { text-transform: uppercase; }
 .boardbar__search { flex: 1 1 320px; min-width: 200px; }
 .board td.num, .board th.num { text-align: right; font-variant-numeric: tabular-nums; }
-.board td.rank { width: 3ch; white-space: nowrap; color: var(--ink-dim); }
+/* Values read first: bigger and bolder than the names around them. */
+.board td.num { font-size: 1.15rem; font-weight: 700; color: #2a1d0d; }
+/* One fixed rank column, so every board's names start at the same x. */
+.board th:first-child, .board td.rank { width: 3.5rem; white-space: nowrap; }
+.board td.rank { font-size: 1rem; font-weight: 600; color: var(--ink-dim); }
 .board .bname { color: #2a1d0d; font-weight: 600; }
 .board .bname:hover { color: #7a3597; }
 .board .btitle { display: block; color: var(--ink-dim); font-size: .82rem; }
@@ -31,6 +35,7 @@
     .boardbar__search, .boardbar__pick { flex-basis: 100%; }
     .wgrid { grid-template-columns: 1fr; }
     .board table.results { min-width: 0; }
+    .board th:first-child, .board td.rank { width: 2.6rem; }
     .board .col-secrets, .board .col-earned { display: none; }
     .board table.results thead th, .board table.results tbody td { padding: 9px 8px; }
 }
