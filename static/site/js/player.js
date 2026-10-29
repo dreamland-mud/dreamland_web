@@ -810,6 +810,9 @@
         w.appendChild(el('p', null, [bi(
             'Either the link is wrong, or the player keeps their characters to themselves. A profile opens once one of the account\'s characters has been reborn or finished more than 50 questor tasks.',
             'Або посилання хибне, або гравець тримає своїх персонажів при собі. Профіль відкривається, коли хтось із персонажів акаунта переродиться або виконає понад 50 завдань квестора.')]));
+        var a = el('a', null, [bi('Find a player by name', 'Знайти гравця за імʼям')]);
+        a.href = '/leaderboard.html#find';
+        w.appendChild(el('p', null, [a]));
         head.appendChild(w);
         body.innerHTML = '';
     }

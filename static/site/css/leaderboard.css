@@ -6,6 +6,11 @@
 .board td.rank { color: var(--text-dim); width: 3ch; }
 .board .bname { color: var(--gold-bright); font-weight: 600; }
 .board .btitle { display: block; color: var(--text-dim); font-size: .82rem; }
+.psearch { margin-top: 20px; max-width: 30rem; }
+.psearch label { display: block; margin-bottom: 6px; color: var(--text-dim); }
+.psearch__row { display: flex; gap: 10px; }
+.psearch__row .ds-input { flex: 1; min-width: 0; }
+.psearch__msg { min-height: 1.4em; margin: 8px 0 0; color: var(--text-dim); }
 .board-soon { text-align: center; color: var(--text-dim); max-width: 60ch; margin: 0 auto; }
 @media (max-width: 560px) {
     .board .col-secrets, .board .col-earned { display: none; }
