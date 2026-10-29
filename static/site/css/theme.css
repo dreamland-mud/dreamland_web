@@ -720,7 +720,7 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
    is an ARIA listbox under the field (the help search dropdown look). */
 .ds-search { position: relative; display: flex; align-items: center; gap: 8px; }
 .ds-search__well { position: relative; flex: 1 1 auto; min-width: 0; }
-.ds-search__icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+.ds-search__icon { position: absolute; z-index: 1; left: 10px; top: 50%; transform: translateY(-50%);
     width: 15px; height: 15px; fill: var(--gold-dim); pointer-events: none; }
 /* The field itself is the Nirvana .ds-input (well + focus orbit); this only
    sizes it for the toolbar and makes room for the magnifier. */
