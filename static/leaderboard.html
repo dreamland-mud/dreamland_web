@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>DreamLand — Leaderboard</title>
-<meta name="description" content="DreamLand MUD players ranked by achievements, with links to their public pages."/>
+<meta name="description" content="DreamLand MUD leaderboards: achievements, rebirths, quests, slayers, explorers, the hall of shame, and who plays what."/>
 <link rel="icon" href="/favicon.ico" sizes="any"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
@@ -41,25 +41,41 @@
 </section>
 
 <main class="wrap boardpage">
-    <div class="boardbar">
-        <h2 class="boardbar__title" id="board-title"><span lang="en">Top by achievements</span><span lang="uk">Найкращі за досягненнями</span></h2>
-        <form class="ds-search boardbar__search" id="find" role="search" data-playersearch>
-            <label class="sr-only" for="psearch-name"><span lang="en">Find a player</span><span lang="uk">Знайти гравця</span></label>
-            <div class="ds-search__well">
-                <svg class="ds-search__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
-                <input class="ds-search__input" id="psearch-name" type="search" autocomplete="off" spellcheck="false" maxlength="40"
-                       role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="psearch-list"
-                       data-ph-en="Find a player" data-ph-uk="Знайти гравця"/>
-                <ul class="ds-search__list" id="psearch-list" role="listbox" hidden></ul>
+    <div class="ds-tabs-pill boardtabs" role="tablist" aria-label="Leaderboards">
+        <button class="ds-tab-pill" type="button" role="tab" id="tab-players" aria-controls="panel-players" aria-selected="true"><span lang="en">Players</span><span lang="uk">Гравці</span></button>
+        <button class="ds-tab-pill" type="button" role="tab" id="tab-world" aria-controls="panel-world" aria-selected="false" tabindex="-1"><span lang="en">World</span><span lang="uk">Світ</span></button>
+    </div>
+
+    <section id="panel-players" role="tabpanel" aria-labelledby="tab-players">
+        <div class="boardbar">
+            <div class="boardbar__pick">
+                <label class="boardbar__label" for="board-pick"><span lang="en">Ranking</span><span lang="uk">Рейтинг</span></label>
+                <select class="ds-select boardbar__select" id="board-pick"></select>
             </div>
-            <button class="btn btn--gold btn--sm" type="submit"><span lang="en">Find</span><span lang="uk">Знайти</span></button>
-            <p class="ds-search__msg" data-playersearch-msg aria-live="polite"></p>
-        </form>
-    </div>
-    <div id="board" aria-live="polite">
-        <p class="board-soon" lang="en">Asking the Archivist...</p>
-        <p class="board-soon" lang="uk">Питаємо Архіваріуса...</p>
-    </div>
+            <form class="ds-search boardbar__search" id="find" role="search" data-playersearch>
+                <label class="sr-only" for="psearch-name"><span lang="en">Find a player</span><span lang="uk">Знайти гравця</span></label>
+                <div class="ds-search__well">
+                    <svg class="ds-search__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>
+                    <input class="ds-search__input" id="psearch-name" type="search" autocomplete="off" spellcheck="false" maxlength="40"
+                           role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="psearch-list"
+                           data-ph-en="Find a player" data-ph-uk="Знайти гравця"/>
+                    <ul class="ds-search__list" id="psearch-list" role="listbox" hidden></ul>
+                </div>
+                <button class="btn btn--gold btn--sm" type="submit"><span lang="en">Find</span><span lang="uk">Знайти</span></button>
+                <p class="ds-search__msg" data-playersearch-msg aria-live="polite"></p>
+            </form>
+        </div>
+        <h2 class="boardbar__title" id="board-title"><span lang="en" id="board-title-en">Achievements</span><span lang="uk" id="board-title-uk">Досягнення</span></h2>
+        <div id="board" aria-live="polite">
+            <p class="board-soon" lang="en">Asking the Archivist...</p>
+            <p class="board-soon" lang="uk">Питаємо Архіваріуса...</p>
+        </div>
+    </section>
+
+    <section id="panel-world" role="tabpanel" aria-labelledby="tab-world" hidden>
+        <h2 class="sr-only"><span lang="en">Who plays what</span><span lang="uk">Хто чим грає</span></h2>
+        <div id="world" aria-live="polite"></div>
+    </section>
 </main>
 
 <footer class="footer" style="padding:40px 0 30px;">
