@@ -150,6 +150,7 @@ code {
 }
 /* long URLs in code must wrap, or they clip at 320px (WCAG reflow) */
 code.url { white-space: normal; overflow-wrap: anywhere; }
+a:hover code.url { color: inherit; }
 
 /* dark textured page backdrop with an arcane bloom */
 body::before {
