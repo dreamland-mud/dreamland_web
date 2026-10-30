@@ -7,6 +7,7 @@
  *
  * Without HELP_DATA or --fresh the local ../static/data is used; the site
  * build fills it, so on a dev box it is usually stale and help checks fail.
+ * who asks MUD_API, by default the public https://dreamland.rocks/api.
  */
 'use strict';
 const { spawn } = require('child_process');
@@ -15,7 +16,7 @@ const fs = require('fs');
 const os = require('os');
 
 const DATA_FILES = ['help-index.json', 'help-body-ru.json', 'help-body-en.json', 'help-body-ua.json',
-    'db_armor.json', 'db_weapon.json', 'db_magic.json', 'db_pets.json'];
+    'db_armor.json', 'db_weapon.json', 'db_magic.json', 'db_pets.json', 'news-all.json'];
 
 // the data the live server reads, downloaded from the site into a temp dir
 async function fetchData() {
@@ -58,7 +59,8 @@ async function run(endpoint) {
 
     const list = await rpc(endpoint, 'tools/list');
     const names = list.msg.result.tools.map(t => t.name).sort();
-    check('five tools', JSON.stringify(names) === JSON.stringify(['help_categories', 'help_get', 'help_list', 'help_search', 'item_search']), names);
+    check('eight tools', JSON.stringify(names) === JSON.stringify(['help_categories', 'help_get', 'help_list', 'help_search',
+        'item_search', 'news_get', 'news_list', 'who']), names);
     check('all read-only', list.msg.result.tools.every(t => t.annotations && t.annotations.readOnlyHint));
 
     let r = await call(endpoint, 'help_search', { query: 'fireball' });
@@ -114,6 +116,27 @@ async function run(endpoint) {
     const badItem = await rpc(endpoint, 'tools/call', { name: 'item_search', arguments: { type: 'mob' } });
     check('items: unknown type rejected', (badItem.msg.error != null) || (badItem.msg.result && badItem.msg.result.isError), JSON.stringify(badItem.msg).slice(0, 200));
 
+    r = await call(endpoint, 'who', {});
+    check('who: list with week stats', /^\d+ in the game.*peak \d+ at once, \d+ different players/.test(r.text), r.text.slice(0, 300));
+    r = await call(endpoint, 'who', { name: 'Taiphoen', lang: 'ua' });
+    check('who: whois UA', /^Taiphoen \(Тайфоэн\): дуергар/.test(r.text), r.text);
+    r = await call(endpoint, 'who', { name: 'Nosuchguyxx' });
+    check('who: unknown name is not an error', !r.isError && /No character named/.test(r.text), r.text);
+    const badWho = await rpc(endpoint, 'tools/call', { name: 'who', arguments: { name: 'a b' } });
+    check('who: non-Latin name rejected', (badWho.msg.error != null) || (badWho.msg.result && badWho.msg.result.isError), JSON.stringify(badWho.msg).slice(0, 200));
+
+    r = await call(endpoint, 'news_list', { limit: 3 });
+    const ids = (r.text.match(/^\[(\d+)\]/mg) || []).map(x => +x.slice(1, -1));
+    check('news: newest first', /^\d+ posts, newest 3:/.test(r.text) && ids.length === 3 && ids[0] > ids[1] && ids[1] > ids[2], r.text);
+    r = await call(endpoint, 'news_get', { id: ids[1] });
+    check('news: get by id, permalink', r.text.startsWith('# ') && r.text.includes('news.html#n' + ids[1]), r.text.slice(0, 200));
+    r = await call(endpoint, 'news_get', {});
+    check('news: no id = newest', r.text.includes('#n' + ids[0]), r.text.slice(0, 200));
+    r = await call(endpoint, 'news_list', { query: 'qqqzzzxxx' });
+    check('news: no hits is not an error', !r.isError && /No news posts/.test(r.text), r.text);
+    r = await call(endpoint, 'news_get', { id: 1 });
+    check('news: unknown id is an error', r.isError, r.text);
+
     const bad = await rpc(endpoint, 'tools/call', { name: 'help_search', arguments: { query: '' } });
     check('bad args rejected', (bad.msg.error != null) || (bad.msg.result && bad.msg.result.isError), JSON.stringify(bad.msg));
 
@@ -126,7 +149,7 @@ async function run(endpoint) {
     const remote = args.find(a => !a.startsWith('--'));
     if (remote) { await run(remote); }
     else {
-        const env = Object.assign({}, process.env);
+        const env = Object.assign({ MUD_API: 'https://dreamland.rocks/api' }, process.env);
         let fresh = null;
         if (args.includes('--fresh')) env.HELP_DATA = fresh = await fetchData();
         const port = 18000 + Math.floor(Math.random() * 1000);
