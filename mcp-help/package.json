@@ -1,6 +1,6 @@
 {
   "name": "dreamland-help-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "description": "Public read-only MCP server over the DreamLand help corpus (dreamland.rocks/mcp/help).",
   "main": "server.js",

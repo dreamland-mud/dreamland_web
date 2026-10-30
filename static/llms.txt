@@ -10,7 +10,7 @@ How it is built: most spells, skills, quests and NPC behaviour run on Fenia, the
 
 The pages below marked "app" render in the browser from JSON, so a plain fetch gets an empty shell. The static help index has the same articles as plain HTML (in Russian).
 
-Agents can read the help directly: https://dreamland.rocks/mcp/help is a public read-only MCP server (Streamable HTTP, no auth) with `help_search`, `help_get`, `help_categories` and `help_list`, plus `item_search` (armor, weapons, magic items and pets with stats and where they come from, as on the searcher page), in English, Ukrainian or Russian.
+Agents can read the help directly: https://dreamland.rocks/mcp/help is a public read-only MCP server (Streamable HTTP, no auth) with `help_search`, `help_get`, `help_categories` and `help_list`, plus `item_search` (armor, weapons, magic items and pets with stats and where they come from, as on the searcher page), `who` (who is playing now) and `news_list`/`news_get` (the game news), in English, Ukrainian or Russian.
 
 ## Pages
 

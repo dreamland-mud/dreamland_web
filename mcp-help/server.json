@@ -1,0 +1,12 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "rocks.dreamland/help",
+  "title": "DreamLand MUD",
+  "description": "Help, item search, news and who is online for DreamLand, a text MUD. EN/RU/UA, read-only.",
+  "version": "1.1.0",
+  "websiteUrl": "https://dreamland.rocks",
+  "repository": { "url": "https://github.com/dreamland-mud/dreamland_web", "source": "github", "subfolder": "mcp-help" },
+  "remotes": [
+    { "type": "streamable-http", "url": "https://dreamland.rocks/mcp/help" }
+  ]
+}
