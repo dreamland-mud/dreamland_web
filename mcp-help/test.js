@@ -2,13 +2,31 @@
 /* End-to-end test: start server.js on a spare port and talk MCP to it.
  *
  *   HELP_DATA=/path/to/static/data node test.js
+ *   node test.js --fresh                              # live site data, fetched to a temp dir
  *   node test.js https://dreamland.rocks/mcp/help     # against a running server
  *
- * Without HELP_DATA the local ../static/data is used; the site build fills it.
+ * Without HELP_DATA or --fresh the local ../static/data is used; the site
+ * build fills it, so on a dev box it is usually stale and help checks fail.
  */
 'use strict';
 const { spawn } = require('child_process');
 const path = require('path');
+const fs = require('fs');
+const os = require('os');
+
+const DATA_FILES = ['help-index.json', 'help-body-ru.json', 'help-body-en.json', 'help-body-ua.json',
+    'db_armor.json', 'db_weapon.json', 'db_magic.json', 'db_pets.json'];
+
+// the data the live server reads, downloaded from the site into a temp dir
+async function fetchData() {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'dl-mcp-data-'));
+    await Promise.all(DATA_FILES.map(async f => {
+        const r = await fetch('https://dreamland.rocks/data/' + f);
+        if (!r.ok) throw new Error(f + ': HTTP ' + r.status);
+        fs.writeFileSync(path.join(dir, f), Buffer.from(await r.arrayBuffer()));
+    }));
+    return dir;
+}
 
 let failed = 0;
 function check(name, ok, detail) {
@@ -104,17 +122,26 @@ async function run(endpoint) {
 }
 
 (async () => {
-    const remote = process.argv[2];
+    const args = process.argv.slice(2);
+    const remote = args.find(a => !a.startsWith('--'));
     if (remote) { await run(remote); }
     else {
+        const env = Object.assign({}, process.env);
+        let fresh = null;
+        if (args.includes('--fresh')) env.HELP_DATA = fresh = await fetchData();
         const port = 18000 + Math.floor(Math.random() * 1000);
+        env.PORT = String(port);
         const child = spawn(process.execPath, [path.join(__dirname, 'server.js')], {
-            env: Object.assign({}, process.env, { PORT: String(port) }), stdio: ['ignore', 'pipe', 'inherit'] });
+            env, stdio: ['ignore', 'pipe', 'inherit'] });
         await new Promise((ok, no) => {
             child.stdout.on('data', d => { if (String(d).includes('MCP on')) ok(); });
             child.on('exit', code => no(new Error('server exited ' + code)));
         });
-        try { await run('http://127.0.0.1:' + port + '/mcp/help'); } finally { child.kill(); }
+        try { await run('http://127.0.0.1:' + port + '/mcp/help'); }
+        finally {
+            child.kill();
+            if (fresh) fs.rmSync(fresh, { recursive: true, force: true });
+        }
     }
     console.log(failed ? failed + ' failed' : 'all passed');
     process.exit(failed ? 1 : 0);
