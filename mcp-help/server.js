@@ -2,11 +2,12 @@
  *
  * Read-only tools over the same help corpus dreamland.rocks/help.html shows:
  * search, read an article, browse categories; plus the item search
- * dreamland.rocks/searcher.html shows. Streamable HTTP, stateless (a
- * fresh server per request), no auth, no player data. nginx proxies
+ * dreamland.rocks/searcher.html shows, the news archive and who is online.
+ * Streamable HTTP, stateless (a fresh server per request), no auth, only
+ * what the site and the Discord bot already show. nginx proxies
  * https://dreamland.rocks/mcp/help to 127.0.0.1:$PORT and rate-limits it.
  *
- *   PORT=8003 HELP_DATA=/var/www/dreamland_web/static/data node server.js
+ *   PORT=8003 HELP_DATA=/var/www/dreamland_web/static/data MUD_API=http://127.0.0.1:1235 node server.js
  */
 'use strict';
 const http = require('http');
@@ -18,18 +19,22 @@ const S = require('../static/site/js/helpsearch.js');
 const { Corpus, CATEGORIES, url, title, kindOf, categoryName, toMarkdown } = require('./corpus');
 const I = require('../static/site/js/itemsearch.js');
 const { Items, line: itemLine, KINDS: ITEM_KINDS, MAXLEVEL } = require('./items');
+const { News, url: newsUrl, line: newsLine } = require('./news');
 
 const PORT = Number(process.env.PORT || 8003);
 const DATA = process.env.HELP_DATA || path.resolve(__dirname, '../static/data');
+// the engine's servlet port; /who there is the public endpoint the Discord bot uses
+const MUD_API = (process.env.MUD_API || 'http://127.0.0.1:1235').replace(/\/+$/, '');
 const VERSION = require('./package.json').version;
 
 const corpus = new Corpus(DATA);
 const items = new Items(DATA);
+const news = new News(DATA);
 
 /* Drone pulls new code but cannot restart this unit, so the process exits
    when its own sources change and systemd (Restart=always) starts the new
    version. package.json covers a dependency bump after drone's npm install. */
-['server.js', 'corpus.js', 'items.js', 'package.json', '../static/site/js/helpsearch.js',
+['server.js', 'corpus.js', 'items.js', 'news.js', 'package.json', '../static/site/js/helpsearch.js',
  '../static/site/js/itemsearch.js'].forEach(f =>
     require('fs').watchFile(path.resolve(__dirname, f), { interval: 5000 }, (cur, prev) => {
         if (cur.mtimeMs !== prev.mtimeMs) { console.log(f + ' changed, exiting for a restart'); process.exit(0); }
@@ -46,6 +51,30 @@ const normLang = l => (l === 'uk' ? 'ua' : l || 'en');
 const text = s => ({ content: [{ type: 'text', text: s }] });
 const fail = s => ({ content: [{ type: 'text', text: s }], isError: true });
 
+async function mudWho(name) {
+    const r = await fetch(MUD_API + '/who', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(name ? { args: { message: name } } : {}),
+        signal: AbortSignal.timeout(5000),
+    });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+}
+
+// one game query per 30 s however many clients ask
+let whoCache = { at: 0, body: null };
+async function whoList() {
+    if (Date.now() - whoCache.at < 30000) return whoCache.body;
+    const body = await mudWho('');
+    whoCache = { at: Date.now(), body };
+    return body;
+}
+
+// the game's own forms: names have en and ru only, titles are as the player set them
+const pick = (o, l) => (o ? o[l] || (l === 'en' ? null : o.ru) || o.en || '' : '');
+const remorts = (n, l) => ({ en: 'remorts ', ru: 'ремортов ', ua: 'ремортів ' }[l]) + n;
+
 function line(a, l) {
     const k = kindOf(a, l);
     return '[' + a.id + '] ' + title(a, l) + (k ? ' (' + k + ')' : '');
@@ -59,7 +88,8 @@ function buildServer() {
             'Help articles of DreamLand, a text MUD (dreamland.rocks): game rules, classes, races, ' +
             'skills, spells, commands, zones, religions, clans. Search first, then read an article by id. ' +
             'Article text is the in-game help, in English, Russian or Ukrainian. ' +
-            'item_search finds armor, weapons, magic items and pets with their stats and the zone they come from.' });
+            'item_search finds armor, weapons, magic items and pets with their stats and the zone they come from. ' +
+            'who shows who is playing now; news_list and news_get read the game news.' });
 
     server.registerTool('help_search', {
         title: 'Search DreamLand help',
@@ -197,6 +227,78 @@ function buildServer() {
         return text(head + '\n' + r.items.map(it => '- ' + itemLine(args.type, it, l)).join('\n'));
     });
 
+    server.registerTool('who', {
+        title: 'Who is playing DreamLand',
+        description: 'Characters in the game right now with race, clan, title and remorts, people on the ' +
+            'Discord bridge, and this week\'s peak and unique players. With a name: that character\'s race, ' +
+            'clan, clan rank and remorts, online or not. The same data the game\'s Discord bot shows.',
+        inputSchema: z.object({
+            name: z.string().regex(/^[A-Za-z]{2,20}$/).optional().describe('Character name in Latin letters.'),
+            lang,
+        }),
+        annotations: Object.assign({}, READ_ONLY, { idempotentHint: false }),
+    }, async ({ name, lang: l }) => {
+        l = normLang(l);
+        let w;
+        try { w = name ? await mudWho(name) : await whoList(); }
+        catch (e) { return fail('The game server is not answering, try again in a minute.'); }
+
+        if (name) {
+            if (w.error) return text('No character named ' + name + '.');
+            const race = { en: w.raceEn, ru: w.race, ua: w.raceUa }[l] || w.raceEn;
+            const out = [w.name.en + (w.name.ru ? ' (' + w.name.ru + ')' : '') + ': ' + race + ', ' + remorts(w.remorts, l)];
+            if (w.clan) {
+                const c = w.clan;
+                const cn = { en: c.nameEn, ru: c.name, ua: c.nameUa }[l] || c.nameEn;
+                const ct = { en: c.titleEn, ru: c.title, ua: c.titleUa }[l] || c.titleEn;
+                const role = [c.leader === 'true' ? 'leader' : '', c.recruiter === 'true' ? 'recruiter' : ''].filter(Boolean);
+                out.push('Clan: ' + cn + ', ' + ct + ', clan level ' + c.level + (role.length ? ', ' + role.join(', ') : ''));
+            }
+            return text(out.join('\n'));
+        }
+
+        const people = w.people || [];
+        const discord = w.discord || [];
+        const out = [people.length + ' in the game' + (discord.length ? ', ' + discord.length + ' on Discord only' : '') +
+            '. This week: peak ' + w.weekPeak + ' at once, ' + w.weekUniques + ' different players.'];
+        people.forEach(p => {
+            const nm = pick(p.name, l);
+            const pre = p.pretitle ? (p.pretitle.ru || p.pretitle.en) + ' ' : '';
+            const bits = [pick(p.race, l), pick(p.clan, l), remorts(p.remorts, l)].filter(Boolean);
+            out.push('- ' + pre + nm + (p.title || '') + ' -- ' + bits.join(', '));
+        });
+        if (discord.length) out.push('On Discord: ' + discord.map(p => pick(p.name, l)).join(', '));
+        return text(out.join('\n'));
+    });
+
+    server.registerTool('news_list', {
+        title: 'DreamLand news',
+        description: 'Game news posted by the immortals, newest first: id, date, author, subject. ' +
+            'A query keeps posts whose subject or text has every word of it. Posts are in the language ' +
+            'they were written in, mostly Ukrainian, the oldest Russian. Read one with news_get.',
+        inputSchema: z.object({
+            query: z.string().max(100).optional(),
+            limit: z.number().int().min(1).max(50).default(10),
+        }),
+        annotations: READ_ONLY,
+    }, ({ query, limit }) => {
+        const r = news.list(query, limit);
+        if (!r.total) return text('No news posts match.');
+        const head = r.total + ' posts' + (r.total > r.rows.length ? ', newest ' + r.rows.length : '') + ':';
+        return text(head + '\n' + r.rows.map(newsLine).join('\n'));
+    });
+
+    server.registerTool('news_get', {
+        title: 'Read a DreamLand news post',
+        description: 'The full text of one news post. Pass the id from news_list; without one, the newest post.',
+        inputSchema: z.object({ id: z.number().int().positive().optional() }),
+        annotations: READ_ONLY,
+    }, ({ id }) => {
+        const r = id != null ? news.get(id) : news.all()[0];
+        if (!r) return fail('No news post ' + id + '. Ids come from news_list.');
+        return text('# ' + r.subject + '\n' + r.date + ', ' + r.from + ' · ' + newsUrl(r.id) + '\n\n' + r.text);
+    });
+
     return server;
 }
 
@@ -208,9 +310,9 @@ function cors(res) {
     res.setHeader('Access-Control-Expose-Headers', 'Mcp-Session-Id, Mcp-Protocol-Version');
 }
 
-const ABOUT = 'DreamLand help MCP server (read-only).\n' +
+const ABOUT = 'DreamLand MCP server (read-only).\n' +
     'Add it to an MCP client as a Streamable HTTP server: https://dreamland.rocks/mcp/help\n' +
-    'Tools: help_search, help_get, help_categories, help_list, item_search.\n';
+    'Tools: help_search, help_get, help_categories, help_list, item_search, who, news_list, news_get.\n';
 
 http.createServer(async (req, res) => {
     cors(res);
