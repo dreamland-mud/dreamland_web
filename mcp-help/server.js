@@ -20,6 +20,7 @@ const { Corpus, CATEGORIES, url, title, kindOf, categoryName, toMarkdown } = req
 const I = require('../static/site/js/itemsearch.js');
 const { Items, line: itemLine, KINDS: ITEM_KINDS, MAXLEVEL } = require('./items');
 const { News, url: newsUrl, line: newsLine } = require('./news');
+const { Stats } = require('./stats');
 
 const PORT = Number(process.env.PORT || 8003);
 const DATA = process.env.HELP_DATA || path.resolve(__dirname, '../static/data');
@@ -30,14 +31,15 @@ const VERSION = require('./package.json').version;
 const corpus = new Corpus(DATA);
 const items = new Items(DATA);
 const news = new News(DATA);
+const stats = new Stats(process.env.MCP_STATS || path.join(require('os').homedir(), 'mcp-help-stats.json'));
 
 /* Drone pulls new code but cannot restart this unit, so the process exits
    when its own sources change and systemd (Restart=always) starts the new
    version. package.json covers a dependency bump after drone's npm install. */
-['server.js', 'corpus.js', 'items.js', 'news.js', 'package.json', '../static/site/js/helpsearch.js',
+['server.js', 'corpus.js', 'items.js', 'news.js', 'stats.js', 'package.json', '../static/site/js/helpsearch.js',
  '../static/site/js/itemsearch.js'].forEach(f =>
     require('fs').watchFile(path.resolve(__dirname, f), { interval: 5000 }, (cur, prev) => {
-        if (cur.mtimeMs !== prev.mtimeMs) { console.log(f + ' changed, exiting for a restart'); process.exit(0); }
+        if (cur.mtimeMs !== prev.mtimeMs) { console.log(f + ' changed, exiting for a restart'); stats.flush(); process.exit(0); }
     }));
 
 const READ_ONLY = { readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false };
@@ -90,6 +92,10 @@ function buildServer() {
             'Article text is the in-game help, in English, Russian or Ukrainian. ' +
             'item_search finds armor, weapons, magic items and pets with their stats and the zone they come from. ' +
             'who shows who is playing now; news_list and news_get read the game news.' });
+
+    // every tool call counts once, before its arguments are even validated
+    const register = server.registerTool.bind(server);
+    server.registerTool = (name, def, fn) => register(name, def, (...a) => { stats.tool(name); return fn(...a); });
 
     server.registerTool('help_search', {
         title: 'Search DreamLand help',
@@ -314,6 +320,27 @@ const ABOUT = 'DreamLand MCP server (read-only).\n' +
     'Add it to an MCP client as a Streamable HTTP server: https://dreamland.rocks/mcp/help\n' +
     'Tools: help_search, help_get, help_categories, help_list, item_search, who, news_list, news_get.\n';
 
+function readBody(req) {
+    return new Promise((ok, no) => {
+        const chunks = [];
+        let size = 0;
+        req.on('data', c => {
+            size += c.length;
+            if (size > 1 << 20) { no(new Error('body too large')); req.destroy(); }
+            else chunks.push(c);
+        });
+        req.on('end', () => ok(Buffer.concat(chunks).toString('utf8')));
+        req.on('error', no);
+    });
+}
+
+const rpcError = (res, status, code, message) => {
+    res.writeHead(status, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ jsonrpc: '2.0', error: { code, message }, id: null }));
+};
+
+for (const sig of ['SIGTERM', 'SIGINT']) process.on(sig, () => { stats.flush(); process.exit(0); });
+
 http.createServer(async (req, res) => {
     cors(res);
     if (req.method === 'OPTIONS') { res.writeHead(204); return res.end(); }
@@ -322,17 +349,23 @@ http.createServer(async (req, res) => {
         res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
         return res.end(ABOUT);
     }
+    // the body is read here so initialize can be counted by client name
+    let body;
+    if (req.method === 'POST') {
+        try { body = JSON.parse(await readBody(req)); }
+        catch (e) { return rpcError(res, 400, -32700, 'Parse error'); }
+        [].concat(body).forEach(m => {
+            if (m && m.method === 'initialize') stats.client(m.params && m.params.clientInfo && m.params.clientInfo.name);
+        });
+    }
     try {
         const server = buildServer();
         const transport = new NodeStreamableHTTPServerTransport({ sessionIdGenerator: undefined });
         res.on('close', () => { transport.close(); server.close(); });
         await server.connect(transport);
-        await transport.handleRequest(req, res);
+        await transport.handleRequest(req, res, body);
     } catch (e) {
         console.error('request failed:', e);
-        if (!res.headersSent) {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32603, message: 'Internal error' }, id: null }));
-        }
+        if (!res.headersSent) rpcError(res, 500, -32603, 'Internal error');
     }
 }).listen(PORT, '127.0.0.1', () => console.log('dreamland-help MCP on 127.0.0.1:' + PORT + ', data ' + DATA));
