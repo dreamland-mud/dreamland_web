@@ -40,7 +40,7 @@ async function run(endpoint) {
 
     const list = await rpc(endpoint, 'tools/list');
     const names = list.msg.result.tools.map(t => t.name).sort();
-    check('four tools', JSON.stringify(names) === JSON.stringify(['help_categories', 'help_get', 'help_list', 'help_search']), names);
+    check('five tools', JSON.stringify(names) === JSON.stringify(['help_categories', 'help_get', 'help_list', 'help_search', 'item_search']), names);
     check('all read-only', list.msg.result.tools.every(t => t.annotations && t.annotations.readOnlyHint));
 
     let r = await call(endpoint, 'help_search', { query: 'fireball' });
@@ -78,6 +78,23 @@ async function run(endpoint) {
     check('list: category, uk alias', /^\d+ articles\n/.test(r.text) && r.text.includes('(клас)'), r.text.slice(0, 200));
     r = await call(endpoint, 'help_list', { kind: 'spell', category: 'magic' });
     check('list: kind + category', /^\d+ articles\n/.test(r.text) && !/\((skill|command)\)/.test(r.text), r.text.slice(0, 200));
+
+    r = await call(endpoint, 'item_search', { type: 'armor', slot: ['torso'], level_min: 10, level_max: 20, sort: 'hp', limit: 5 });
+    const hps = r.text.split('\n').slice(1).map(x => +((x.match(/hp \+(\d+)/) || [])[1] || 0));
+    check('items: armor by slot, sorted by hp', /^\d+ found/.test(r.text) && hps.length === 5 &&
+        hps.every((v, i) => !i || v <= hps[i - 1]) && r.text.includes('torso'), r.text);
+    r = await call(endpoint, 'item_search', { type: 'magic', query: 'chill touch' });
+    check('items: magic by spell name', /chill touch/.test(r.text) && /spell level \d+, charges/.test(r.text), r.text.slice(0, 300));
+    r = await call(endpoint, 'item_search', { type: 'weapon', weapon_class: ['dagger'], sort: 'damage', lang: 'ua', limit: 3 });
+    check('items: weapon UA, damage dice', /кинджал/.test(r.text) && /\dd\d+/.test(r.text) && !/dagger/.test(r.text), r.text.slice(0, 300));
+    r = await call(endpoint, 'item_search', { type: 'pet', query: 'dodge', lang: 'ru', limit: 3 });
+    check('items: pet by trick, RU', /уклоняется/.test(r.text), r.text.slice(0, 300));
+    r = await call(endpoint, 'item_search', { type: 'armor', query: 'qqqzzzxxx' });
+    check('items: no hits is not an error', !r.isError && /Nothing matches/.test(r.text), r.text);
+    r = await call(endpoint, 'item_search', { type: 'armor', include_limited: false, limit: 50 });
+    check('items: limited dropped', !/limited quantity/.test(r.text), r.text.slice(0, 200));
+    const badItem = await rpc(endpoint, 'tools/call', { name: 'item_search', arguments: { type: 'mob' } });
+    check('items: unknown type rejected', (badItem.msg.error != null) || (badItem.msg.result && badItem.msg.result.isError), JSON.stringify(badItem.msg).slice(0, 200));
 
     const bad = await rpc(endpoint, 'tools/call', { name: 'help_search', arguments: { query: '' } });
     check('bad args rejected', (bad.msg.error != null) || (bad.msg.result && bad.msg.result.isError), JSON.stringify(bad.msg));

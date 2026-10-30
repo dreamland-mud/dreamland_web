@@ -17,11 +17,8 @@
     }
     function esc(s) { return String(s == null ? '' : s).replace(/[&<>]/g, function (c) {
         return c === '&' ? '&amp;' : c === '<' ? '&lt;' : '&gt;'; }); }
-    // coerce a field that may be number, "-", "" → number or null
-    function num(v) { if (v === '-' || v === '' || v == null) return null;
-        var n = parseInt(v, 10); return isNaN(n) ? null : n; }
-    function nz(v) { var n = num(v); return n !== null && n !== 0 ? n : null; } // non-zero
-    function sign(n) { return (n > 0 ? '+' : '') + n; }
+    var S = window.DLItemSearch;
+    var num = S.num, nz = S.nz, sign = S.sign;
 
     var UI = {
         lvlRange:{ en: 'Level range', uk: 'Діапазон рівнів' },
@@ -54,15 +51,7 @@
         spells:{ en: 'Spells', uk: 'Закляття' }, aff:{ en: 'Affects', uk: 'Аффекти' },
         tricks:{ en: 'Tricks', uk: 'Прийоми' }
     };
-    // stat fields for bonus summary
-    var STATS = [
-        { k: 'hr',   en: 'hit', uk: 'точ' }, { k: 'dr', en: 'dam', uk: 'уро' },
-        { k: 'hp',   en: 'hp',  uk: 'зд'  }, { k: 'mana', en: 'mana', uk: 'мн' },
-        { k: 'saves',en: 'save',uk: 'спас'}, { k: 'move', en: 'mv', uk: 'рух' },
-        { k: 'stat_str', en: 'str', uk: 'сил' }, { k: 'stat_int', en: 'int', uk: 'ум' },
-        { k: 'stat_wis', en: 'wis', uk: 'мдр' }, { k: 'stat_dex', en: 'dex', uk: 'лвк' },
-        { k: 'stat_con', en: 'con', uk: 'слж' }, { k: 'stat_cha', en: 'cha', uk: 'оба' }
-    ];
+    var STATS = S.STATS;
     function bonusCell(item) {
         var out = [];
         STATS.forEach(function (s) {
@@ -71,20 +60,8 @@
         });
         return out.length ? out.join('') : '<span class="i-dim">—</span>';
     }
-    var ALIGN = {
-        G: { icon: 'al-sun',    en: 'good',    uk: 'добра' },
-        N: { icon: 'al-scales', en: 'neutral', uk: 'нейтральна' },
-        E: { icon: 'al-skull',  en: 'evil',    uk: 'зла' }
-    };
-    // match against every name variant present, so a search works in any language
-    function nameHit(item, needle) {
-        var keys = ['name', 'nameEn', 'nameUa'];
-        for (var i = 0; i < keys.length; i++) {
-            var v = item[keys[i]];
-            if (v && String(v).toLowerCase().indexOf(needle) >= 0) return true;
-        }
-        return false;
-    }
+    var ALIGN = S.ALIGN;
+    var nameHit = S.nameHit;
     function alignCell(a) {
         if (!a || a === '-') return '<span class="i-dim">—</span>';
         var letters = String(a).match(/[GNE]/g);
@@ -96,11 +73,7 @@
                 esc(tr(d)) + '"><title>' + esc(tr(d)) + '</title><use href="#' + d.icon + '"/></svg></span>';
         }).join('');
     }
-    // limited = the world holds only N of them at once; the dump says -1 otherwise
-    function isLimited(item) {
-        var n = num(item.limit);
-        return n !== null && n >= 0;
-    }
+    var isLimited = S.isLimited;
     function nameCell(item) {
         if (!isLimited(item))
             return '<span class="i-name">' + esc(dl(item, 'name')) + '</span>';
@@ -128,80 +101,10 @@
                esc(label) + '</a></td>';
     }
 
-    // wearloc + weapon-class + itemtype option lists (value → {en,uk})
-    var SLOTS = {
-        light:{en:'light',uk:'світло'}, finger:{en:'finger',uk:'палець'}, neck:{en:'neck',uk:'шия'},
-        body:{en:'about body',uk:'навколо тіла'}, head:{en:'head',uk:'голова'}, legs:{en:'legs',uk:'ноги'},
-        feet:{en:'feet',uk:'стопи'}, hands:{en:'hands',uk:'кисті'}, arms:{en:'arms',uk:'руки'},
-        shield:{en:'shield',uk:'щит'}, torso:{en:'torso',uk:'тіло'}, waist:{en:'waist',uk:'пояс'},
-        wrist:{en:'wrist',uk:'запʼястя'}, hold:{en:'held',uk:'у руках'}, float:{en:'floating',uk:'кружляє'},
-        face:{en:'face',uk:'обличчя'}, ears:{en:'ears',uk:'вуха'}, horse:{en:'horse body',uk:'кінське тіло'},
-        hooves:{en:'hooves',uk:'копита'}, tattoo:{en:'tattoo',uk:'татуювання'}
-    };
-    var WCLASS = {
-        exotic:{en:'exotic',uk:'екзотика'}, sword:{en:'sword',uk:'меч'}, dagger:{en:'dagger',uk:'кинджал'},
-        spear:{en:'spear/staff',uk:'спис/посох'}, mace:{en:'mace',uk:'булава'}, axe:{en:'axe',uk:'сокира'},
-        flail:{en:'flail',uk:'ціп'}, whip:{en:'whip',uk:'батіг'}, polearm:{en:'polearm',uk:'алебарда'},
-        bow:{en:'bow',uk:'лук'}, arrow:{en:'arrow',uk:'стріла'}, lance:{en:'lance',uk:'піка'},
-        stone:{en:'stone',uk:'камінь'}
-    };
-    var ITYPE = {
-        potion:{en:'potion',uk:'зілля'}, pill:{en:'pill',uk:'пігулка'}, scroll:{en:'scroll',uk:'сувій'},
-        wand:{en:'wand',uk:'жезл'}, staff:{en:'staff',uk:'посох'},
-        warp_stone:{en:'warp stone',uk:'камінь спотворення'}, spellbook:{en:'spellbook',uk:'книга заклять'}
-    };
-    /* --- game-data enumerations, translated token by token ---
-       Item names, zone names and "found on" stay Russian: they're free text
-       straight out of the game with no EN/UA counterpart in the dump. */
-    var KIND = {                                   // armor/gear itemtype (RU in dump)
-        'доспех':{en:'armor',uk:'обладунок'}, 'сокровище':{en:'treasure',uk:'скарб'},
-        'драгоценность':{en:'jewellery',uk:'коштовність'}, 'источник света':{en:'light source',uk:'джерело світла'},
-        'одежда':{en:'clothing',uk:'одяг'}, 'контейнер':{en:'container',uk:'контейнер'},
-        'посох':{en:'staff',uk:'посох'}, 'драгоценный камень':{en:'gemstone',uk:'самоцвіт'},
-        'безделушка':{en:'trinket',uk:'дрібничка'}, 'жезл':{en:'wand',uk:'жезл'},
-        'свиток':{en:'scroll',uk:'сувій'}, 'искажающий камень':{en:'warp stone',uk:'камінь спотворення'},
-        'пища':{en:'food',uk:'їжа'}, 'емкость для жидкости':{en:'drink container',uk:'посудина'},
-        'ключ':{en:'key',uk:'ключ'}, 'портал':{en:'portal',uk:'портал'},
-        'отмычка':{en:'lockpick',uk:'відмичка'}, 'мебель':{en:'furniture',uk:'меблі'},
-        'пергамент':{en:'parchment',uk:'пергамент'}, 'зелье':{en:'potion',uk:'зілля'},
-        'лодка':{en:'boat',uk:'човен'}, 'знак религии':{en:'holy symbol',uk:'знак релігії'}
-    };
-    var WSPECIAL = {                               // weapon flags (RU in dump)
-        'отточенное':{en:'sharp',uk:'відточена'}, 'двуручное':{en:'two-handed',uk:'дворучна'},
-        'шокирующее':{en:'shocking',uk:'струмом'}, 'отравленное':{en:'poisoned',uk:'отруєна'},
-        'обмораживающее':{en:'freezing',uk:'морозна'}, 'обжигающее':{en:'flaming',uk:'вогняна'},
-        'вампирическое':{en:'vampiric',uk:'вампірична'}, 'священное':{en:'holy',uk:'священна'},
-        'смертельное':{en:'deadly',uk:'смертельна'}, 'призрачное':{en:'ghostly',uk:'примарна'},
-        'для татуировок':{en:'for tattoos',uk:'для татуювань'}
-    };
-    var PETFLAG = {                                // pet affects / offence / act (EN in dump)
-        flying:{en:'flying',uk:'літає'}, haste:{en:'haste',uk:'пришвидшення'},
-        invisible:{en:'invisible',uk:'невидимий'}, pass_door:{en:'pass door',uk:'крізь двері'},
-        protect_evil:{en:'protect evil',uk:'захист від зла'}, protect_good:{en:'protect good',uk:'захист від добра'},
-        regeneration:{en:'regeneration',uk:'регенерація'}, sanctuary:{en:'sanctuary',uk:'святиня'},
-        slow:{en:'slow',uk:'сповільнення'}, sneak:{en:'sneak',uk:'скрадається'}, swim:{en:'swim',uk:'плаває'},
-        area_attack:{en:'area attack',uk:'атака по площі'}, backstab:{en:'backstab',uk:'удар у спину'},
-        bash:{en:'bash',uk:'збиває з ніг'}, berserk:{en:'berserk',uk:'берсерк'},
-        crush:{en:'crush',uk:'трощить'}, disarm:{en:'disarm',uk:'обеззброює'},
-        dodge:{en:'dodge',uk:'ухиляється'}, fast:{en:'fast',uk:'швидкий'},
-        kick:{en:'kick',uk:'копає'}, kick_dirt:{en:'dirt kick',uk:'пісок в очі'},
-        parry:{en:'parry',uk:'парирує'}, rescue:{en:'rescue',uk:'рятує'},
-        tail:{en:'tail',uk:'хвостом'}, trip:{en:'trip',uk:'підніжка'},
-        /* NPC class flags — UA forms are the canonical ones from CLASSES.md */
-        warrior:{en:'warrior',uk:'воїн'}, mage:{en:'mage',uk:'чаклун'},
-        cleric:{en:'cleric',uk:'клірик'}, thief:{en:'thief',uk:'крадій'},
-        necromancer:{en:'necromancer',uk:'некромант'}, rideable:{en:'rideable',uk:'їздовий'}
-    };
-    // translate a space-separated flag string into tokens; unknown ones pass through
-    function flags(str, map) {
-        if (!str || str === '-') return [];
-        var v = String(str);
-        if (map === WSPECIAL) v = v.replace('для татуировок', 'для_татуировок');
-        return v.split(/\s+/).filter(Boolean).map(function (t) {
-            var key = t.replace('для_татуировок', 'для татуировок');
-            return map[key] ? tr(map[key]) : key.replace(/_/g, ' ');
-        });
-    }
+    var SLOTS = S.SLOTS, WCLASS = S.WCLASS, ITYPE = S.ITYPE, KIND = S.KIND,
+        WSPECIAL = S.WSPECIAL, PETFLAG = S.PETFLAG;
+    // a space-separated flag string -> labels in the page language
+    function flags(str, map) { return S.flagLabels(str, map, T()); }
     /* One chip per flag, never one long nowrap span: a single span of joined
        flags cannot break, and forced the pets table 1625px wide at any viewport. */
     function flagChips(list) {
@@ -210,27 +113,7 @@
     }
     function kindOf(v) { return KIND[v] ? tr(KIND[v]) : (v || ''); }
 
-    /* Two shapes of bonus live in the dump: the six attributes are stored as
-       stat_<k>, the combat/pool bonuses under their own bare key. `field` says
-       which, so one chip row can filter both. */
-    var STATFILT = [
-        {k:'str',field:'stat_str',en:'Str',uk:'Сил'},  {k:'int',field:'stat_int',en:'Int',uk:'Ум'},
-        {k:'wis',field:'stat_wis',en:'Wis',uk:'Мдр'},  {k:'dex',field:'stat_dex',en:'Dex',uk:'Лвк'},
-        {k:'con',field:'stat_con',en:'Con',uk:'Слж'},  {k:'cha',field:'stat_cha',en:'Cha',uk:'Оба'},
-        {k:'hr', field:'hr',      en:'Acc',  uk:'Точн'},
-        {k:'dr', field:'dr',      en:'Dam',  uk:'Урон'},
-        {k:'hp', field:'hp',      en:'HP',   uk:'Здор'},
-        {k:'mana',field:'mana',   en:'Mana', uk:'Мана'},
-        {k:'saves',field:'saves', en:'Saves',uk:'Спас'}
-    ];
-    var STATFIELD = {};
-    STATFILT.forEach(function (s) { STATFIELD[s.k] = s.field; });
-    // every checked chip must be a non-zero bonus on the item
-    function hasStats(it, keys) {
-        for (var i = 0; i < keys.length; i++)
-            if (nz(it[STATFIELD[keys[i]] || ('stat_' + keys[i])]) === null) return false;
-        return true;
-    }
+    var STATFILT = S.STATFILT;
 
     // ---------- Tab specs ----------
     var TABS = [
@@ -240,14 +123,7 @@
             controls: ['level', 'name', 'slots', 'stats', 'align', 'limited'],
             statKeys: ['str','int','wis','dex','con','cha','hr','dr','hp','mana','saves'],
             columns: [C.name, C.lvl, C.kind, C.bonus, C.align, C.zone, C.where],
-            filter: function (it, f) {
-                var lv = it.level;
-                if (lv < f.lo || lv > f.hi) return false;
-                if (f.slots.length && f.slots.indexOf(it.wearloc) < 0) return false;
-                if (!hasStats(it, f.stats)) return false;
-                if (f.name && !nameHit(it, f.name)) return false;
-                return true;
-            },
+            filter: S.FILTERS.armor,
             row: function (it) {
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' + it.level + '</td>' +
                     '<td class="i-dim">' + esc(kindOf(it.itemtype)) + '</td>' +
@@ -262,13 +138,7 @@
             controls: ['level', 'name', 'wclass', 'stats', 'align', 'limited'],
             statKeys: ['str','int','wis','dex','con','hr','dr','hp','mana','saves'],
             columns: [C.name, C.lvl, C.dice, C.effects, C.bonus, C.align, C.zone, C.where],
-            filter: function (it, f) {
-                if (it.level < f.lo || it.level > f.hi) return false;
-                if (f.wclass.length && f.wclass.indexOf(it.wclass) < 0) return false;
-                if (!hasStats(it, f.stats)) return false;
-                if (f.name && !nameHit(it, f.name)) return false;
-                return true;
-            },
+            filter: S.FILTERS.weapon,
             row: function (it) {
                 var d1 = num(it.d1), d2 = num(it.d2);
                 var dice = (d1 && d2) ? (d1 + 'd' + d2 + (it.ave && it.ave !== '-' ? ' <span class="i-dim">(~' + esc(it.ave) + ')</span>' : ''))
@@ -286,18 +156,7 @@
             label: { en: 'Magic', uk: 'Магія' },
             controls: ['level', 'itype', 'spellsearch', 'limited'],
             columns: [C.name, C.lvl, C.kind, C.slvl, C.chg, C.spells, C.zone, C.where],
-            filter: function (it, f) {
-                if (it.level < f.lo || it.level > f.hi) return false;
-                if (f.itype && it.itemtype !== f.itype) return false;
-                if (f.name) {
-                    var s = f.name;
-                    var hit = (it.spells && it.spells.toLowerCase().indexOf(s) >= 0) ||
-                              (it.ruspells && it.ruspells.toLowerCase().indexOf(s) >= 0) ||
-                              nameHit(it, s);
-                    if (!hit) return false;
-                }
-                return true;
-            },
+            filter: S.FILTERS.magic,
             row: function (it) {
                 // show RU spell list if the query looked Russian; else English
                 var ru = /[а-яё]/i.test(currentSearch);
@@ -315,15 +174,7 @@
             label: { en: 'Pets', uk: 'Улюбленці' },
             controls: ['level', 'name'],
             columns: [C.name, C.lvl, C.aff, C.tricks, C.zone],
-            filter: function (it, f) {
-                if (it.level < f.lo || it.level > f.hi) return false;
-                if (f.name) {
-                    var s = f.name;
-                    if (!nameHit(it, s) &&
-                        String(it.off || '').toLowerCase().indexOf(s) < 0) return false;
-                }
-                return true;
-            },
+            filter: S.FILTERS.pet,
             row: function (it) {
                 var tricks = flags(it.off, PETFLAG).concat(flags(it.act, PETFLAG));
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' +
@@ -509,17 +360,7 @@
     /* Filters every tab shares, kept out of the per-tab predicates so a tab
        cannot quietly forget one. An item with no alignment letters is
        unrestricted and matches no chip -- see ctrl_align. */
-    function passesCommon(it, f) {
-        if (!f.limited && isLimited(it)) return false;
-        if (f.align.length) {
-            var a = String(it.align || '');
-            var hit = false;
-            for (var i = 0; i < f.align.length; i++)
-                if (a.indexOf(f.align[i]) >= 0) { hit = true; break; }
-            if (!hit) return false;
-        }
-        return true;
-    }
+    var passesCommon = S.passesCommon;
     function matches(it, f) { return passesCommon(it, f) && active.filter(it, f); }
 
     function runSearch() {

@@ -15,12 +15,15 @@ Claude Desktop / claude.ai: Settings -> Connectors -> Add custom connector, URL 
 - `help_search(query, lang, limit)`: ids, titles, kinds and an excerpt. Same ranking as the site and the game client (`static/site/js/helpsearch.js`). A leading facet word narrows it: `spell fire`, `race elf`. A phrase that matches nothing as a whole falls back to its words.
 - `help_get(id | keyword, lang)`: the article as Markdown with links to the site, plus See also. A keyword several articles share returns the list to pick from.
 - `help_categories(lang)`, `help_list(category, kind, lang)`: browse.
+- `item_search(type, query, level_min, level_max, slot, weapon_class, magic_type, stats, align, include_limited, sort, lang, limit)`: armor, weapons, magic items or pets with stats, who may use them, zone and the mob or room they come from. Same data and filters as https://dreamland.rocks/searcher.html (shared `static/site/js/itemsearch.js`); no vnums, limited items marked.
 
 `lang` is `en`, `ru` or `ua` (`uk` works too). Untranslated text falls back to Russian, like the game.
 
 ## Data and freshness
 
 Reads `static/data/help-index.json` and `help-body-{ru,en,ua}.json`, which `site.js/build-help.js` writes from the game's dump, and re-reads them when the index changes. The dump is rendered for a level-1 character, so nothing immortal-only or level-gated is served. A help edit reaches the server as: content deploy -> `plug reload web` (or the hourly dump) -> site data build (drone, or the 30-minute timer).
+
+Items come from `static/data/db_{armor,weapon,magic,pets}.json`: `searcher.cpp` dumps them to `/tmp` at boot and every 4 hours, drone copies them here. Only items placed by zone resets, outside clan and hidden zones, are in them; noident items show no stats. Each file is re-read when it changes.
 
 ## Running
 
