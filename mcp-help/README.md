@@ -31,6 +31,7 @@ Items come from `static/data/db_{armor,weapon,magic,pets}.json`: `searcher.cpp` 
 npm install
 PORT=8003 HELP_DATA=../static/data node server.js
 HELP_DATA=/path/to/data npm test              # starts the server and calls every tool
+node test.js --fresh                          # same, on live data fetched from dreamland.rocks/data
 node test.js https://dreamland.rocks/mcp/help  # same checks against a running server
 ```
 
