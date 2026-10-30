@@ -1,7 +1,8 @@
 /* DreamLand help as a public MCP server.
  *
  * Read-only tools over the same help corpus dreamland.rocks/help.html shows:
- * search, read an article, browse categories. Streamable HTTP, stateless (a
+ * search, read an article, browse categories; plus the item search
+ * dreamland.rocks/searcher.html shows. Streamable HTTP, stateless (a
  * fresh server per request), no auth, no player data. nginx proxies
  * https://dreamland.rocks/mcp/help to 127.0.0.1:$PORT and rate-limits it.
  *
@@ -15,17 +16,21 @@ const { NodeStreamableHTTPServerTransport } = require('@modelcontextprotocol/nod
 const { z } = require('zod');
 const S = require('../static/site/js/helpsearch.js');
 const { Corpus, CATEGORIES, url, title, kindOf, categoryName, toMarkdown } = require('./corpus');
+const I = require('../static/site/js/itemsearch.js');
+const { Items, line: itemLine, KINDS: ITEM_KINDS, MAXLEVEL } = require('./items');
 
 const PORT = Number(process.env.PORT || 8003);
 const DATA = process.env.HELP_DATA || path.resolve(__dirname, '../static/data');
 const VERSION = require('./package.json').version;
 
 const corpus = new Corpus(DATA);
+const items = new Items(DATA);
 
 /* Drone pulls new code but cannot restart this unit, so the process exits
    when its own sources change and systemd (Restart=always) starts the new
    version. package.json covers a dependency bump after drone's npm install. */
-['server.js', 'corpus.js', 'package.json', '../static/site/js/helpsearch.js'].forEach(f =>
+['server.js', 'corpus.js', 'items.js', 'package.json', '../static/site/js/helpsearch.js',
+ '../static/site/js/itemsearch.js'].forEach(f =>
     require('fs').watchFile(path.resolve(__dirname, f), { interval: 5000 }, (cur, prev) => {
         if (cur.mtimeMs !== prev.mtimeMs) { console.log(f + ' changed, exiting for a restart'); process.exit(0); }
     }));
@@ -53,7 +58,8 @@ function buildServer() {
         { instructions:
             'Help articles of DreamLand, a text MUD (dreamland.rocks): game rules, classes, races, ' +
             'skills, spells, commands, zones, religions, clans. Search first, then read an article by id. ' +
-            'Article text is the in-game help, in English, Russian or Ukrainian.' });
+            'Article text is the in-game help, in English, Russian or Ukrainian. ' +
+            'item_search finds armor, weapons, magic items and pets with their stats and the zone they come from.' });
 
     server.registerTool('help_search', {
         title: 'Search DreamLand help',
@@ -155,6 +161,42 @@ function buildServer() {
         return text(list.length + ' articles\n' + list.map(a => line(a, l)).join('\n'));
     });
 
+    const ALIGNS = { good: 'G', neutral: 'N', evil: 'E' };
+    server.registerTool('item_search', {
+        title: 'Search DreamLand items',
+        description: 'Armor and gear, weapons, magic items (potions, pills, scrolls, wands, staves) or pets ' +
+            'from the game world, with their stats, who may use them and the zone and mob they come from: ' +
+            'the same data as https://dreamland.rocks/searcher.html. Only items placed in the world by zone ' +
+            'resets are listed. Sorted by level, or by one bonus, highest first.',
+        inputSchema: z.object({
+            type: z.enum(ITEM_KINDS).describe('armor (all wearable gear), weapon, magic or pet.'),
+            query: z.string().max(100).optional()
+                .describe('Part of the name in any language; for magic also a spell name, for pets also a trick.'),
+            level_min: z.number().int().min(0).max(MAXLEVEL).optional(),
+            level_max: z.number().int().min(0).max(MAXLEVEL).optional(),
+            slot: z.array(z.enum(Object.keys(I.SLOTS))).optional().describe('armor: any of these wear slots.'),
+            weapon_class: z.array(z.enum(Object.keys(I.WCLASS))).optional().describe('weapon: any of these classes.'),
+            magic_type: z.enum(Object.keys(I.ITYPE)).optional(),
+            stats: z.array(z.enum(I.STATFILT.map(s => s.k))).optional()
+                .describe('armor/weapon: must give every one of these bonuses (hr = hit, dr = damage).'),
+            align: z.array(z.enum(Object.keys(ALIGNS))).optional()
+                .describe('Only items restricted to these alignments; unrestricted items match none.'),
+            include_limited: z.boolean().default(true).describe('false drops items the world holds only a few of.'),
+            sort: z.enum(['level', 'damage'].concat(I.STATFILT.map(s => s.k))).default('level')
+                .describe('level (lowest first), damage (weapon average), or a bonus, highest first.'),
+            lang,
+            limit: z.number().int().min(1).max(50).default(20),
+        }),
+        annotations: READ_ONLY,
+    }, (args) => {
+        const l = normLang(args.lang);
+        const r = items.search(args.type, Object.assign({}, args,
+            { align: (args.align || []).map(a => ALIGNS[a]) }), args.limit);
+        if (!r.total) return text('Nothing matches. Loosen the filters a little.');
+        const head = r.total + ' found' + (r.total > r.items.length ? ', showing ' + r.items.length : '') + ':';
+        return text(head + '\n' + r.items.map(it => '- ' + itemLine(args.type, it, l)).join('\n'));
+    });
+
     return server;
 }
 
@@ -168,7 +210,7 @@ function cors(res) {
 
 const ABOUT = 'DreamLand help MCP server (read-only).\n' +
     'Add it to an MCP client as a Streamable HTTP server: https://dreamland.rocks/mcp/help\n' +
-    'Tools: help_search, help_get, help_categories, help_list.\n';
+    'Tools: help_search, help_get, help_categories, help_list, item_search.\n';
 
 http.createServer(async (req, res) => {
     cors(res);
