@@ -154,6 +154,7 @@ async function run(endpoint) {
         if (args.includes('--fresh')) env.HELP_DATA = fresh = await fetchData();
         const port = 18000 + Math.floor(Math.random() * 1000);
         env.PORT = String(port);
+        const statsFile = env.MCP_STATS = path.join(os.tmpdir(), 'dl-mcp-stats-' + port + '.json');
         const child = spawn(process.execPath, [path.join(__dirname, 'server.js')], {
             env, stdio: ['ignore', 'pipe', 'inherit'] });
         await new Promise((ok, no) => {
@@ -162,9 +163,18 @@ async function run(endpoint) {
         });
         try { await run('http://127.0.0.1:' + port + '/mcp/help'); }
         finally {
+            const gone = new Promise(ok => child.on('exit', ok));
             child.kill();
+            await gone;
             if (fresh) fs.rmSync(fresh, { recursive: true, force: true });
         }
+        // the server flushes its counters on SIGTERM; no arguments or addresses in them
+        let st = {};
+        try { st = JSON.parse(fs.readFileSync(statsFile, 'utf8')); fs.rmSync(statsFile); } catch (e) {}
+        const day = st[Object.keys(st)[0]] || { tools: {}, clients: {} };
+        check('stats: tools and clients counted', day.tools.help_search >= 5 && day.tools.who >= 3 && day.clients.test === 1,
+            JSON.stringify(st));
+        check('stats: nothing but counters', !/fireball|Taiphoen|127\.0\.0\.1/.test(JSON.stringify(st)), JSON.stringify(st));
     }
     console.log(failed ? failed + ' failed' : 'all passed');
     process.exit(failed ? 1 : 0);

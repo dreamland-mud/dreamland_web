@@ -32,6 +32,10 @@ News come from `static/data/news-all.json`, which `site.js/build-news.js` writes
 
 Items come from `static/data/db_{armor,weapon,magic,pets}.json`: `searcher.cpp` dumps them to `/tmp` at boot and every 4 hours, drone copies them here. Only items placed by zone resets, outside clan and hidden zones, are in them; noident items show no stats. Each file is re-read when it changes.
 
+## Usage counters
+
+`stats.js` counts, per UTC day, each tool call and each connecting client program (`clientInfo.name` from `initialize`). No IPs, no arguments. File: `MCP_STATS`, default `~/mcp-help-stats.json` (live: `/home/dreamland/mcp-help-stats.json`), flushed every minute and on exit, 120 days kept.
+
 ## Running
 
 ```bash
