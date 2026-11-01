@@ -53,3 +53,5 @@ To generate News section, the following files are needed:
 ```
 Again, either run `webdump news`, `webdump story` on your local server, or ask admins for samples.
 
+English translations of the news live in `site.js/news-en.json` (`{id: {subject, text}}`, keyed by the note id). `site.js/build-news.js` merges them in as `en_subject`/`en_text`, and the English home page shows only the notes that have one. The file is written by the maintainers' narrative pipeline after each English post, so update it by PR.
+
