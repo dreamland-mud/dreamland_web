@@ -1,7 +1,11 @@
 /* News widget: one big featured entry that unfolds on "read more", plus a
    horizontal gallery of the older entries (date + title only). Clicking a
    gallery card promotes it into the featured slot — the entries have no
-   permalinks of their own, so swapping in place beats a dead link. */
+   permalinks of their own, so swapping in place beats a dead link.
+
+   The English site shows only notes that have an English translation
+   (en_subject/en_text from site.js/build-news.js); the Ukrainian one shows the
+   notes as posted. news.json carries enough rows for both. */
 (function () {
     var featWrap = document.getElementById('newsfeatured');
     var gallery  = document.getElementById('newsgallery');
@@ -9,6 +13,7 @@
     if (!featWrap || !gallery) return;
 
     var COLLAPSED = '8.6em';          /* must match the mask ramp in theme.css */
+    var HOME_COUNT = 8;               /* must match HOME_COUNT in site.js/build-news.js */
     var LABELS = {
         more: { en: 'Read more', uk: 'Читати далі' },
         less: { en: 'Show less', uk: 'Згорнути' }
@@ -23,7 +28,27 @@
         return document.documentElement.getAttribute('data-lang') === 'uk' ? 'uk' : 'en';
     }
 
-    var items = [], current = 0;
+    var all = [], items = [], current = 0;
+
+    /* the notes this language shows, newest first */
+    function pick() {
+        if (curLang() !== 'en') return all.slice(0, HOME_COUNT);
+        return all.filter(function (n) { return n.en_subject; })
+            .slice(0, HOME_COUNT)
+            .map(function (n) {
+                return { id: n.id, date: n.date, from: n.from, subject: n.en_subject, text: n.en_text };
+            });
+    }
+
+    function render() {
+        items = pick();
+        current = 0;
+        featWrap.innerHTML = '';
+        gallery.innerHTML = '';
+        if (!items.length) return;
+        renderFeatured(items[0]);
+        renderGallery();
+    }
 
     /* ---- featured card ---- */
     function renderFeatured(n) {
@@ -73,7 +98,6 @@
             if (body.scrollHeight <= body.clientHeight + 4) btn.style.display = 'none';
         });
         setLabel();
-        el._setLabel = setLabel;
     }
 
     /* ---- gallery of the rest ---- */
@@ -100,11 +124,9 @@
     fetch('data/news.json')
         .then(function (r) { return r.json(); })
         .then(function (data) {
-            items = data || [];
+            all = data || [];
             if (loading) loading.remove();
-            if (!items.length) return;
-            renderFeatured(items[0]);
-            renderGallery();
+            render();
         })
         .catch(function () {
             if (loading) {
@@ -113,11 +135,11 @@
             }
         });
 
-    // refresh the "read more" label when the language flips
+    /* the language flip swaps the whole set: EN and UA show different notes.
+       i18n.js is loaded first, so its click handler has already set data-lang. */
     document.querySelectorAll('[data-setlang]').forEach(function (b) {
         b.addEventListener('click', function () {
-            var el = featWrap.firstElementChild;
-            if (el && el._setLabel) el._setLabel();
+            if (all.length) render();
         });
     });
 })();
