@@ -103,6 +103,9 @@ function saveCategory(labelsInclude, labelsExclude, title) {
     let t = {};
     t.kw = topic.kw;
     t.title = topic.title;
+    // Zone articles come without a title: show the zone name from the menu.
+    if (!t.title && topic.labels.includes('area'))
+      t.title = topic.toc;
     t.toc = topic.toc;
     t.text = transformText(topic.text);
     t.id = topic.id;
