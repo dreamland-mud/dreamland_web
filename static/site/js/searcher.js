@@ -55,8 +55,8 @@
     function bonusCell(item) {
         var out = [];
         STATS.forEach(function (s) {
-            var v = nz(item[s.k]);
-            if (v !== null) out.push('<span class="ds-datachip ds-datachip--parch"><b>' + sign(v) + '</b>' + tr(s) + '</span>');
+            var v = S.statText(item, s);
+            if (v !== null) out.push('<span class="ds-datachip ds-datachip--parch"><b>' + esc(v) + '</b>' + tr(s) + '</span>');
         });
         return out.length ? out.join('') : '<span class="i-dim">—</span>';
     }

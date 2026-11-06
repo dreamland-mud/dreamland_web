@@ -24,6 +24,22 @@
     }
     function nz(v) { var n = num(v); return n !== null && n !== 0 ? n : null; } // non-zero
     function sign(n) { return (n > 0 ? '+' : '') + n; }
+    // A bonus as shown, or null when the item has none. Saves read as the change
+    // in the chance to resist a spell for a char of the item's level
+    // (saves_pm, permille, from searcher.cpp), never as the raw number; an
+    // older dump without saves_pm keeps the raw number.
+    function statText(it, s) {
+        var v = nz(it[s.k]);
+        if (v === null) return null;
+        if (s.k === 'saves' && it.saves_pm !== undefined) {
+            var pm = num(it.saves_pm);
+            if (pm === null) return sign(v);
+            var a = Math.abs(pm);
+            var t = a < 10 ? '<1%' : (Math.floor(a / 10) + '.' + (a % 10) + '%');
+            return (pm < 0 ? '-' : '+') + t;
+        }
+        return sign(v);
+    }
 
     // stat fields for the bonus summary
     var STATS = [
@@ -218,7 +234,7 @@
     function matches(kind, it, f) { return passesCommon(it, f) && FILTERS[kind](it, f); }
 
     return {
-        num: num, nz: nz, sign: sign, STATS: STATS, ALIGN: ALIGN, SLOTS: SLOTS, WCLASS: WCLASS,
+        num: num, nz: nz, sign: sign, statText: statText, STATS: STATS, ALIGN: ALIGN, SLOTS: SLOTS, WCLASS: WCLASS,
         ITYPE: ITYPE, KIND: KIND, WSPECIAL: WSPECIAL, PETFLAG: PETFLAG, STATFILT: STATFILT,
         hasStats: hasStats, nameHit: nameHit, isLimited: isLimited, flagKeys: flagKeys,
         flagLabels: flagLabels, FILTERS: FILTERS, passesCommon: passesCommon, matches: matches,

@@ -90,7 +90,7 @@ function dl(item, key, lang) {
 
 function bonuses(it, l) {
     const out = [];
-    I.STATS.forEach(s => { const v = I.nz(it[s.k]); if (v !== null) out.push(s[l] + ' ' + I.sign(v)); });
+    I.STATS.forEach(s => { const v = I.statText(it, s); if (v !== null) out.push(s[l] + ' ' + v); });
     return out.length ? out.join(', ') : UI.nobonus[l];
 }
 
