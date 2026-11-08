@@ -75,7 +75,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
         const link = await h.$('.hcat a, .hlist a, a[data-help], .harticle-link');   // rail entry
         if (link) { await link.click(); await sleep(900); }
         R.help.article = await h.evaluate(() => {
-            const t = document.querySelector('#helpArticle .hart h1');
+            const t = document.querySelector('#helpArticle .hart > h2');
             const body = document.querySelector('#helpArticle .hart');
             return {
                 title: t ? t.innerText.trim() : null,

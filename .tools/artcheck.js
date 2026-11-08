@@ -39,7 +39,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
             got[lang].arts[id] = await p.evaluate(() => {
                 const a = document.querySelector('.hart');
                 if (!a) return null;
-                const h = a.querySelector('h1');
+                const h = a.querySelector(':scope > h2');
                 const body = a.innerText.trim().split('\n').filter(Boolean);
                 return { h1: h ? h.innerText.trim() : null, lines: body.slice(1, 5), chars: a.innerText.length };
             });

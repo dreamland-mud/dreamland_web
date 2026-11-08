@@ -172,7 +172,7 @@
 
         var bodyKids = [dl];
         if (c.desc && (c.desc.en || c.desc.ua || c.desc.ru)) {
-            bodyKids.push(el('h5', 'psheet__h', [bi('Description', 'Опис')]));
+            bodyKids.push(el('h3', 'psheet__h', [bi('Description', 'Опис')]));
             bodyKids.push(el('div', 'psheet__desc', [bi(c.desc.en || c.desc.ru, c.desc.ua || c.desc.ru)]));
         }
 
@@ -180,7 +180,7 @@
         var mine = (achList || []).filter(function (a) {
             return a.unlocked && (a.chars || []).indexOf(login(c)) >= 0;
         });
-        bodyKids.push(el('h5', 'psheet__h', [bi(
+        bodyKids.push(el('h3', 'psheet__h', [bi(
             'Achievements: ' + mine.length, 'Досягнення: ' + mine.length)]));
         var titles = mine.filter(function (a) { return a.group === 'titles'; });
         var rest = mine.filter(function (a) { return a.group !== 'titles'; });

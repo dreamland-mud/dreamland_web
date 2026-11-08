@@ -29,7 +29,7 @@ const srv=http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split('?')[0]
       const pre=[...body.querySelectorAll('pre')];
       return {len:txt.length, paras:body.querySelectorAll('p').length, pres:pre.length,
         preLines:pre.reduce((a,e)=>a+e.innerText.split('\n').length,0),
-        title:(document.querySelector('.hart h1')||{innerText:''}).innerText.slice(0,40)};
+        title:(document.querySelector('.hart > h2')||{innerText:''}).innerText.slice(0,40)};
     });
     if(!m||m.len<2){stat.empty++;bad.push({id,why:'empty',m});continue;}
     if(m.pres&&m.paras===0){stat.allPre++;bad.push({id,why:'all-pre',m});continue;}

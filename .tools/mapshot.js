@@ -38,7 +38,7 @@ const sleep=ms=>new Promise(r=>setTimeout(r,ms));
       if(r) r.dispatchEvent(new MouseEvent('click',{bubbles:true}));});
     await sleep(500);
     info.card=await p.evaluate(()=>{const c=document.getElementById('roomCard');
-      return c&&!c.hidden?{h3:c.querySelector('h3').textContent,ex:[...c.querySelectorAll('li')].slice(0,3).map(e=>e.textContent.trim())}:null;});
+      return c&&!c.hidden?{h3:c.querySelector('h2').textContent,ex:[...c.querySelectorAll('li')].slice(0,3).map(e=>e.textContent.trim())}:null;});
     await p.screenshot({path:`${OUT}/maps-${lang}-room.png`});
     // text view
     await p.click('#viewToggle'); await sleep(500);

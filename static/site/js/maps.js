@@ -504,8 +504,8 @@
                 var tgt = area.rooms[e.to];
                 return d + ' → ' + (roomName(tgt) || ('#' + e.to));
             });
-            rows.push('<div class="trow"><h4>' + esc(roomName(room) || t('unnamed')) +
-                ' <span class="trow__sec">' + esc(sectorLabel(room)) + '</span></h4>' +
+            rows.push('<div class="trow"><h2>' + esc(roomName(room) || t('unnamed')) +
+                ' <span class="trow__sec">' + esc(sectorLabel(room)) + '</span></h2>' +
                 '<p>' + (ex.length ? esc(ex.join(' · ')) : '<em>' + esc(t('noExits')) + '</em>') + '</p></div>');
         });
         textEl.innerHTML = rows.join('');
@@ -682,9 +682,9 @@
         });
         cardEl.innerHTML =
             '<button type="button" class="roomcard__x" id="roomClose" aria-label="Close">&times;</button>' +
-            '<h3>' + esc(roomName(room) || t('unnamed')) + '</h3>' +
+            '<h2>' + esc(roomName(room) || t('unnamed')) + '</h2>' +
             '<p class="roomcard__sec">' + esc(sectorLabel(room)) + '</p>' +
-            '<h5>' + esc(t('exits')) + '</h5>' +
+            '<h3>' + esc(t('exits')) + '</h3>' +
             (ex.length ? '<ul class="roomcard__ex">' + ex.join('') + '</ul>'
                        : '<p class="roomcard__none">' + esc(t('noExits')) + '</p>');
         cardEl.hidden = false;
@@ -798,7 +798,7 @@
         var body = a.text[l] || a.text.ru || '';
         helpEl.innerHTML =
             '<article class="hart">' +
-                '<h1>' + esc(title) + '</h1>' +
+                '<h2>' + esc(title) + '</h2>' +
                 '<div class="hart__body">' + DLMarkup.render(body, { hrefBase: 'help.html' }) + '</div>' +
                 '<a class="zonehelp__more" href="help.html#h' + a.id + '">' + esc(t('fullHelp')) + '</a>' +
             '</article>';
