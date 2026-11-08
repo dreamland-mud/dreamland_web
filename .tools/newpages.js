@@ -61,7 +61,7 @@ function measureSideways(page){
     return {links:document.querySelectorAll('#zoneHelp a.hlink').length,
             sampleHref:a?a.getAttribute('href'):null,
             more:document.querySelector('.zonehelp__more')?.getAttribute('href')||null,
-            title:document.querySelector('#zoneHelp h1')?.textContent||null};
+            title:document.querySelector('#zoneHelp .hart > h2')?.textContent||null};
   });
 
   // 3. news: deep link, rail search, mobile

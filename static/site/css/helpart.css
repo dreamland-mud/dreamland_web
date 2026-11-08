@@ -10,7 +10,7 @@
     border: 1px solid var(--parch-edge);
     box-shadow: 0 14px 34px rgba(0,0,0,.5), inset 0 0 60px rgba(120,95,50,.16);
 }
-.hart h1 { font-family: var(--display); font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+.hart > h2 { font-family: var(--display); font-size: clamp(1.7rem, 3.4vw, 2.4rem);
     color: #241809; margin: 0 0 18px; line-height: 1.12;
     padding-bottom: 14px; border-bottom: 1px solid rgba(150,120,70,.3); }
 /* .96rem, not the 1.04rem this carried under Alegreya Sans: a monospace face
@@ -34,7 +34,7 @@
 .hart__body b.hlink-plain { color: #241809; font-weight: 600; }
 /* The automatic "see also" under the body. */
 .hart__related { margin-top: 1.6em; padding-top: 14px; border-top: 1px solid rgba(150,120,70,.3); }
-.hart__related h2 { font-family: var(--display); font-size: 1.15rem; color: #241809; margin: 0 0 .5em; }
+.hart__related h3 { font-family: var(--display); font-size: 1.15rem; color: #241809; margin: 0 0 .5em; }
 .hart__related ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .hart__related a { font-family: var(--article); font-size: .92rem; color: var(--arcane-ink);
     border-bottom: 1px solid rgba(106,47,166,.38); }
@@ -85,7 +85,7 @@
     color: var(--ink-dim); background: rgba(70,50,20,.1);
     border: 1px solid rgba(120,90,50,.26); white-space: nowrap;
 }
-.hart h1 .hkind { font-size: .7rem; vertical-align: .35em; }
+.hart > h2 .hkind { font-size: .7rem; vertical-align: .35em; }
 
 /* mudjs terminal palette remapped for ink-on-parchment: the originals are tuned
    for a black background and several of them are invisible here */

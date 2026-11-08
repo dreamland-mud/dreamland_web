@@ -143,7 +143,7 @@
                     '<span class="news-full__date">' + esc(n.date) + '</span>' +
                     '<span class="news-full__from">' + esc(n.from) + '</span>' +
                 '</div>' +
-                '<h1 class="news-full__subject">' + esc(subjectOf(n)) + '</h1>' +
+                '<h2 class="news-full__subject">' + esc(subjectOf(n)) + '</h2>' +
                 '<div class="news-full__text">' + esc(n.text) + '</div>' +
             '</article>';
         markCurrent();

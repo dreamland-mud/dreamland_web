@@ -15,7 +15,7 @@ const srv=http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split('?')[0]
   await p.goto(base+'#h1022',{waitUntil:'networkidle0'}); await new Promise(r=>setTimeout(r,700));
   const art=await p.evaluate(()=>{
     const a=document.querySelector('.hart'); if(!a) return null;
-    return {title:a.querySelector('h1').innerText.trim(),
+    return {title:a.querySelector(':scope > h2').innerText.trim(),
       paras:a.querySelectorAll('.hart__body p').length,
       pres:a.querySelectorAll('.hart__body pre').length,
       preText:(a.querySelector('.hart__body pre')||{innerText:''}).innerText.split('\n').slice(0,4),
@@ -25,10 +25,10 @@ const srv=http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split('?')[0]
   await (await p.$('.hart')).screenshot({path:process.argv[2]+'/help-article.png'});
 
   // 2. cross-link navigation
-  const before=await p.$eval('.hart h1',e=>e.innerText);
+  const before=await p.$eval('.hart > h2',e=>e.innerText);
   const hl=await p.$('a.hlink');
   let after=before;
-  if(hl){ await hl.click(); await new Promise(r=>setTimeout(r,600)); after=await p.$eval('.hart h1',e=>e.innerText); }
+  if(hl){ await hl.click(); await new Promise(r=>setTimeout(r,600)); after=await p.$eval('.hart > h2',e=>e.innerText); }
 
   // 3. search
   await p.click('#helpSearch'); await p.type('#helpSearch','sanctuary');

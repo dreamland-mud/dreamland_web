@@ -182,7 +182,7 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
 .ds-callout{border-left:3px solid var(--arcane);background:rgba(187,134,252,.06);
   border-radius:0 6px 6px 0;padding:16px 18px;margin:18px 0}
 .ds-callout--warn{border-left-color:#c4674a;background:rgba(196,103,74,.08)}
-.ds-callout h4{margin:0 0 6px;color:#fff;font-size:1.05rem}
+.ds-callout h3{margin:0 0 6px;color:#fff;font-size:1.05rem}
 .ds-callout p{margin:0;color:var(--text-dim);font-size:.95rem}
 .ds-callout code{font-size:.8em}
 
@@ -535,8 +535,8 @@ code,kbd{font-family:var(--mono);font-size:.82em;letter-spacing:var(--mono-track
   background:var(--noise),linear-gradient(172deg,var(--parchment),var(--parchment-2));
   background-blend-mode:multiply,normal;box-shadow:inset 0 0 44px rgba(120,95,50,.18);
   -webkit-mask:var(--torn) no-repeat center/100% 100%;mask:var(--torn) no-repeat center/100% 100%}
-.ds-parch > h4,.ds-parch > .ds-parch__body{position:relative;z-index:1}
-.ds-parch h4{font-family:var(--display);color:#241809;margin:0 0 8px;font-size:1.3rem}
+.ds-parch > h3,.ds-parch > .ds-parch__body{position:relative;z-index:1}
+.ds-parch > h3{font-family:var(--display);color:#241809;margin:0 0 8px;font-size:1.3rem}
 .ds-parch__body{font-family:var(--article);font-size:.96rem;line-height:1.62;letter-spacing:var(--mono-track);color:var(--ink)}
 .ds-parch a{color:var(--arcane-ink);border-bottom:1px solid rgba(106,47,166,.38)}
 /* parchment-tuned ANSI (light ground) */

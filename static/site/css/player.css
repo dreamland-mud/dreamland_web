@@ -92,7 +92,7 @@
 
 /* ---------- side sheets (character and achievement) ---------- */
 .ds-sheet__body { letter-spacing: normal; }
-.psheet__h { margin: 18px 0 6px; font-family: var(--display); font-size: 1.05rem; color: #241809; }
+.psheet__h { margin: 18px 0 6px; font-weight: 700; line-height: inherit; letter-spacing: inherit; font-feature-settings: inherit; font-family: var(--display); font-size: 1.05rem; color: #241809; }
 .psheet__sub { margin: 10px 0 4px; color: var(--ink-dim); font-size: .9rem; }
 .psheet__desc { white-space: pre-wrap; line-height: 1.5; }
 .psheet__lead { margin: 0 0 12px; }

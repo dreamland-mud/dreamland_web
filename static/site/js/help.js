@@ -385,7 +385,7 @@
         if (!items.length) return '';
         var title = L() === 'ua' ? 'Див. також' : 'See also';
         return '<nav class="hart__related" aria-label="' + esc(title) + '">' +
-            '<h2>' + esc(title) + '</h2><ul>' +
+            '<h3>' + esc(title) + '</h3><ul>' +
             items.map(function (r) {
                 return '<li><a href="#h' + r.id + '" data-hid="' + r.id + '">' + esc(label(r)) + '</a></li>';
             }).join('') +
@@ -413,7 +413,7 @@
         }
         artEl.innerHTML =
             '<article class="hart" id="h' + a.id + '">' +
-                '<h1>' + esc(label(a)) + badge(a) + '</h1>' +
+                '<h2>' + esc(label(a)) + badge(a) + '</h2>' +
                 '<div class="hart__body">' +
                     DLMarkup.render(bodyFor(a.id), { resolveLink: resolveLink }) +
                 '</div>' +

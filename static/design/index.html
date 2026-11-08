@@ -73,7 +73,7 @@
       single canon.</p>
 
       <div class="ds-callout ds-callout--warn">
-        <h4>Three constraints that override everything</h4>
+        <h3>Three constraints that override everything</h3>
         <p><strong>1.</strong> The terminal, the map, and any panel that renders ANSI game colour stay on a
         <strong>dark</strong> surface — the ANSI palette and screen-reader contrast are tuned for dark ground.
         <strong>2.</strong> Parchment is for <strong>reading only</strong> (articles, news, hints, modals), never for game colour.
@@ -129,7 +129,7 @@
       </div>
 
       <div class="ds-callout">
-        <h4>The ligature rule</h4>
+        <h3>The ligature rule</h3>
         <p>Fira Code ships with programming ligatures. In <strong>reading</strong> (article bodies) they stay
         <strong>ON</strong>. In the <strong>terminal / map / any aligned output</strong> they go
         <strong>OFF</strong> (<code>font-variant-ligatures: none</code>) — ligatures glue <code>-&gt;</code>,
@@ -408,7 +408,7 @@
       <code>--parch-edge</code>). Help articles, news, hints, side-sheet modals. Game colour gets a light-tuned
       ANSI remap — never the dark palette on parchment.</p>
       <div class="ds-parch ds-frame">
-        <h4>On Ereshkigal, the Silent</h4>
+        <h3>On Ereshkigal, the Silent</h3>
         <div class="ds-parch__body">The temple doors stand <span class="c-fgby">gilded</span> and shut. A
         <span class="c-fgbm">violet</span> glow leaks from the seam. See also <a href="#">the Eight Paths</a>.</div>
       </div>
@@ -521,6 +521,7 @@ The <span class="fgbr">orc</span> snarls: <span class="fgbg">"You'll not pass!"<
           <tr><td><strong>Focus</strong></td><td>Arcane orbit on every focusable field, both surfaces. Reduced-motion → steady glow.</td></tr>
           <tr><td><strong>Ornament is modular</strong></td><td>Corners and sides reuse at one weight; recolour with <code>currentColor</code>. No stretching an ornament to fit.</td></tr>
           <tr><td><strong>Accessibility</strong></td><td>Colour is never the only signal. Native <code>&lt;select&gt;</code> on narrow screens. ~30% of players read by screen reader.</td></tr>
+          <tr><td><strong>Headings</strong></td><td>One <code>&lt;h1&gt;</code> per page: the page title. Anything rendered into the page (an article, a news story, a zone note, a card, a sheet) starts at <code>&lt;h2&gt;</code>. Never skip a level (<code>h2</code> → <code>h4</code> is a bug). Pick the level by structure, size it with a class. A page with no visible title gets a visually hidden <code>&lt;h1&gt;</code>. Screen-reader users jump by heading; a broken tree is a broken page.</td></tr>
         </tbody>
       </table>
       <p class="ds-note" style="margin-top:22px">Source of truth. Live <code>theme.css</code> (site) and
