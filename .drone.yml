@@ -21,6 +21,12 @@ steps:
   - git pull
   - kill -9 $SSH_AGENT_PID
   
+# website.js runs on the system node 16 below, but npm itself needs the newer node.
+- name: website_deps
+  commands:
+  - export PATH=/home/dreamland/.nodejs/current/bin:$PATH
+  - cd /var/www/dreamland_web/website.js && npm ci --omit=dev --no-audit --no-fund
+
 - name: update_website
   commands:
   - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime

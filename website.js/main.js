@@ -2,7 +2,11 @@ const cheerio = require('cheerio')
 const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
-const xmlParser = require('fast-xml-parser')
+const { XMLParser } = require('fast-xml-parser')
+
+// Game dumps carry entities that he.decode handles later, so keep them raw
+// here the way fast-xml-parser 3 did.
+const parseXml = (xml, opts) => new XMLParser({ processEntities: false, ...opts }).parse(xml)
 const he = require('he')
 
 if (process.argv.length <= 2) {
@@ -145,7 +149,7 @@ const nominativeCase = phrase =>
 var areaList = [];
 fs.readdirSync(areaDir).filter(fn => fn.endsWith('.are.xml')).forEach(fn => {
     var areaXml = fs.readFileSync(path.resolve(areaDir, fn), {encoding: 'utf-8'})
-    var areaObj = xmlParser.parse(areaXml, {})
+    var areaObj = parseXml(areaXml, {})
     var area = areaObj.area.areadata
     if (area.speedwalk && area.speedwalk.length > 1) {
         let speedwalk = stripTags(area.speedwalk[1])
@@ -173,8 +177,8 @@ fs.writeFileSync(destMapDir + '/index.json', JSON.stringify(areaList))
   * search engines file them as duplicates of each other. */
 const areaAbout = fn => {
     let xml = fs.readFileSync(path.resolve(areaDir, fn), {encoding: 'utf-8'})
-    let area = xmlParser.parse(xml, {
-        ignoreAttributes: false, attributeNamePrefix: '@_', textNodeName: '#text', parseNodeValue: false
+    let area = parseXml(xml, {
+        ignoreAttributes: false, attributeNamePrefix: '@_', textNodeName: '#text', parseTagValue: false
     }).area
     let lang = (field, l) => {
         let v = [].concat(field || []).find(x => x['@_l'] == l)
@@ -245,7 +249,7 @@ console.log('Reading news...')
 let newsPath = '/tmp/news.xml';
 if (fs.existsSync(newsPath)) {
     var newsXml = fs.readFileSync(newsPath, {encoding: 'utf-8'})
-    var newsObj = xmlParser.parse(newsXml, {})
+    var newsObj = parseXml(newsXml, {})
     render('news', newsObj.NoteBucket.node, (a,b) => b.id - a.id, newsTransformer);
 } else {
     console.log('File ', newsPath, 'not found, generate it with \'webdump news\' command.');
@@ -253,11 +257,11 @@ if (fs.existsSync(newsPath)) {
 
 console.log('Reading legends...')
 var legendsXml = fs.readFileSync('data/legends-dump.xml', {encoding: 'utf-8'})
-var legendsObj = xmlParser.parse(legendsXml, {
+var legendsObj = parseXml(legendsXml, {
     ignoreAttributes: false,
     parseAttributeValue: true,
     attributeNamePrefix : "",
-    attrNodeName: "attr",
+    attributesGroupName: "attr",
     textNodeName: "text"
 })
 render('legends', legendsObj.book.node, (a,b) => a.attr.keyword > b.attr.keyword, nodes => nodes);
@@ -268,8 +272,7 @@ let storiesPath = '/tmp/story2.xml';
 if (fs.existsSync(storiesPath)) {
     var storiesXml = fs.readFileSync(storiesPath, {encoding: 'utf-8'})
     const stories = 
-        xmlParser
-        .parse(storiesXml, {stopNodes: ['text']})
+        parseXml(storiesXml, {stopNodes: ['*.text']})
         .NoteBucket.node
         .map(n => {
             n.text = colourConv(n.text)
@@ -286,8 +289,7 @@ let samuraiPath = '/tmp/story1.xml';
 if (fs.existsSync(storiesPath)) {
     var samuraiXml = fs.readFileSync(samuraiPath, {encoding: 'utf-8'})
     const samurai = 
-        xmlParser
-        .parse(samuraiXml, {stopNodes: ['text']})
+        parseXml(samuraiXml, {stopNodes: ['*.text']})
         .NoteBucket.node
         .map(n => {
             n.text = colourConv(n.text)
