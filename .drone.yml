@@ -21,10 +21,6 @@ steps:
   - git pull
   - kill -9 $SSH_AGENT_PID
   
-- name: update_website
-  commands:
-  - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime
-  
 - name: update_helps
   commands:
   - /usr/bin/node /var/www/dreamland_web/help.js/help.js /var/www/dreamland_web/static/help
@@ -47,6 +43,21 @@ steps:
 - name: restart_searcher
   commands:
   - sudo systemctl restart dreamland-searcher.service
+
+# Installs from the committed lockfile. On live: npm ci only, never npm install,
+# which would rewrite the tracked lockfile and break the next pull. npm needs the
+# newer node, but the generator runs on system node 16, so any dependency bump
+# (Dependabot included) must still load on node 16 -- that is why cheerio is
+# pinned to 1.0.0-rc.3. After the searcher restart, so a registry hiccup here
+# can't skip the steps above.
+- name: website_deps
+  commands:
+  - export PATH=/home/dreamland/.nodejs/current/bin:$PATH
+  - cd /var/www/dreamland_web/website.js && npm ci --omit=dev --no-audit --no-fund
+
+- name: update_website
+  commands:
+  - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime
 
 # Public help MCP server (mcp-help/README.md). The unit restarts itself when
 # these files change, so installing dependencies is all this step does.
