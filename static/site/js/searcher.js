@@ -5,12 +5,16 @@
    searcher.cpp is live; older dumps only have the bare Russian key, so every
    read goes through dl() and falls back to it. */
 (function () {
-    var T = function () { return document.documentElement.getAttribute('data-lang') === 'uk' ? 'uk' : 'en'; };
+    var T = function () {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' || l === 'ru' ? l : 'en';
+    };
     function tr(o) { return o[T()]; }
     /* Pick the viewer-language variant of a dump field, falling back to the
-       bare (Russian) key. Lets the same code run against old and new dumps. */
+       bare (Russian) key. Lets the same code run against old and new dumps.
+       Russian IS the bare key. */
     function dl(item, key) {
-        var suffix = T() === 'uk' ? 'Ua' : 'En';
+        var suffix = { uk: 'Ua', en: 'En', ru: '' }[T()];
         var v = item[key + suffix];
         if (v == null || v === '') v = item[key];
         return v == null ? '' : v;
@@ -21,35 +25,37 @@
     var num = S.num, nz = S.nz, sign = S.sign;
 
     var UI = {
-        lvlRange:{ en: 'Level range', uk: 'Діапазон рівнів' },
-        name:    { en: 'Name',      uk: 'Назва' },
-        slot:    { en: 'Worn on',   uk: 'Куди' },
-        wtype:   { en: 'Weapon type', uk: 'Тип зброї' },
-        itype:   { en: 'Item type', uk: 'Тип' },
-        reqstat: { en: 'Gives a bonus', uk: 'Дає бонус' },
-        search:  { en: 'Search',    uk: 'Шукати' },
-        reset:   { en: 'Reset',     uk: 'Скинути' },
-        found:   { en: 'found',     uk: 'знайдено' },
-        showing: { en: 'showing first', uk: 'показано перші' },
-        none:    { en: 'Nothing matches. Loosen the filters a little.', uk: 'Нічого не знайшлося. Послаб фільтри.' },
-        loading: { en: 'Searching the vaults…', uk: 'Шукаю в сховищах…' },
-        anylvl:  { en: 'any',       uk: 'будь-який' },
-        limited: { en: 'limited quantity', uk: 'обмежена кількість' },
-        alignf:  { en: 'Usable by', uk: 'Кому доступна' },
-        showLimited: { en: 'Show limited', uk: 'Показувати обмежені' },
+        lvlRange:{ en: 'Level range', uk: 'Діапазон рівнів', ru: 'Диапазон уровней' },
+        name:    { en: 'Name',      uk: 'Назва',     ru: 'Название' },
+        slot:    { en: 'Worn on',   uk: 'Куди',      ru: 'Куда' },
+        wtype:   { en: 'Weapon type', uk: 'Тип зброї', ru: 'Тип оружия' },
+        itype:   { en: 'Item type', uk: 'Тип',       ru: 'Тип' },
+        reqstat: { en: 'Gives a bonus', uk: 'Дає бонус', ru: 'Дает бонус' },
+        search:  { en: 'Search',    uk: 'Шукати',    ru: 'Искать' },
+        reset:   { en: 'Reset',     uk: 'Скинути',   ru: 'Сбросить' },
+        found:   { en: 'found',     uk: 'знайдено',  ru: 'найдено' },
+        showing: { en: 'showing first', uk: 'показано перші', ru: 'показаны первые' },
+        none:    { en: 'Nothing matches. Loosen the filters a little.', uk: 'Нічого не знайшлося. Послаб фільтри.',
+                   ru: 'Ничего не нашлось. Ослабь фильтры.' },
+        loading: { en: 'Searching the vaults…', uk: 'Шукаю в сховищах…', ru: 'Ищу в хранилищах…' },
+        anylvl:  { en: 'any',       uk: 'будь-який', ru: 'любой' },
+        limited: { en: 'limited quantity', uk: 'обмежена кількість', ru: 'ограниченное количество' },
+        alignf:  { en: 'Usable by', uk: 'Кому доступна', ru: 'Кому доступна' },
+        showLimited: { en: 'Show limited', uk: 'Показувати обмежені', ru: 'Показывать ограниченные' },
         spellHint: { en: 'Type an English spell name, e.g. "cure light", or an item name.',
-                     uk: 'Впиши англійську назву закляття, напр. "cure light", або назву речі.' }
+                     uk: 'Впиши англійську назву закляття, напр. "cure light", або назву речі.',
+                     ru: 'Впиши английское название заклинания, напр. "cure light", или название вещи.' }
     };
     // shared column headers
     var C = {
-        name: { en: 'Name', uk: 'Назва' }, lvl: { en: 'Lvl', uk: 'Рів' },
-        kind: { en: 'Kind', uk: 'Тип' }, slot: { en: 'Slot', uk: 'Куди' },
-        bonus:{ en: 'Bonuses', uk: 'Бонуси' }, align:{ en: 'Align', uk: 'Натура' },
-        zone: { en: 'Zone', uk: 'Зона' }, where:{ en: 'Found on', uk: 'Де' },
-        dice: { en: 'Damage', uk: 'Урон' }, effects:{ en: 'Effects', uk: 'Ефекти' },
-        slvl: { en: 'Spell lv', uk: 'Ур.закл' }, chg:{ en: 'Charges', uk: 'Заряди' },
-        spells:{ en: 'Spells', uk: 'Закляття' }, aff:{ en: 'Affects', uk: 'Аффекти' },
-        tricks:{ en: 'Tricks', uk: 'Прийоми' }
+        name: { en: 'Name', uk: 'Назва', ru: 'Название' }, lvl: { en: 'Lvl', uk: 'Рів', ru: 'Ур' },
+        kind: { en: 'Kind', uk: 'Тип', ru: 'Тип' }, slot: { en: 'Slot', uk: 'Куди', ru: 'Куда' },
+        bonus:{ en: 'Bonuses', uk: 'Бонуси', ru: 'Бонусы' }, align:{ en: 'Align', uk: 'Натура', ru: 'Натура' },
+        zone: { en: 'Zone', uk: 'Зона', ru: 'Зона' }, where:{ en: 'Found on', uk: 'Де', ru: 'Где' },
+        dice: { en: 'Damage', uk: 'Урон', ru: 'Урон' }, effects:{ en: 'Effects', uk: 'Ефекти', ru: 'Эффекты' },
+        slvl: { en: 'Spell lv', uk: 'Ур.закл', ru: 'Ур.закл' }, chg:{ en: 'Charges', uk: 'Заряди', ru: 'Заряды' },
+        spells:{ en: 'Spells', uk: 'Закляття', ru: 'Заклинания' }, aff:{ en: 'Affects', uk: 'Аффекти', ru: 'Аффекты' },
+        tricks:{ en: 'Tricks', uk: 'Прийоми', ru: 'Приемы' }
     };
     var STATS = S.STATS;
     function bonusCell(item) {
@@ -119,7 +125,7 @@
     var TABS = [
         {
             key: 'armor', file: 'data/db_armor.json', gem: 'ruby',
-            label: { en: 'Armor & gear', uk: 'Броня і речі' },
+            label: { en: 'Armor & gear', uk: 'Броня і речі', ru: 'Броня и вещи' },
             controls: ['level', 'name', 'slots', 'stats', 'align', 'limited'],
             statKeys: ['str','int','wis','dex','con','cha','hr','dr','hp','mana','saves'],
             columns: [C.name, C.lvl, C.kind, C.bonus, C.align, C.zone, C.where],
@@ -134,7 +140,7 @@
         },
         {
             key: 'weapon', file: 'data/db_weapon.json', gem: 'sapphire',
-            label: { en: 'Weapons', uk: 'Зброя' },
+            label: { en: 'Weapons', uk: 'Зброя', ru: 'Оружие' },
             controls: ['level', 'name', 'wclass', 'stats', 'align', 'limited'],
             statKeys: ['str','int','wis','dex','con','hr','dr','hp','mana','saves'],
             columns: [C.name, C.lvl, C.dice, C.effects, C.bonus, C.align, C.zone, C.where],
@@ -153,7 +159,7 @@
         },
         {
             key: 'magic', file: 'data/db_magic.json', gem: 'amethyst',
-            label: { en: 'Magic', uk: 'Магія' },
+            label: { en: 'Magic', uk: 'Магія', ru: 'Магия' },
             controls: ['level', 'itype', 'spellsearch', 'limited'],
             columns: [C.name, C.lvl, C.kind, C.slvl, C.chg, C.spells, C.zone, C.where],
             filter: S.FILTERS.magic,
@@ -162,7 +168,7 @@
                 var ru = /[а-яё]/i.test(currentSearch);
                 var spells = ru ? (it.ruspells || it.spells) : (it.spells || it.ruspells);
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' + it.level + '</td>' +
-                    '<td class="i-dim">' + esc(tr(ITYPE[it.itemtype] || { en: it.itemtype, uk: it.itemtype })) + '</td>' +
+                    '<td class="i-dim">' + esc(tr(ITYPE[it.itemtype] || { en: it.itemtype, uk: it.itemtype, ru: it.itemtype })) + '</td>' +
                     '<td class="i-lvl">' + (num(it.spellLevel) || '<span class="i-dim">—</span>') + '</td>' +
                     '<td class="i-lvl">' + (num(it.charges) !== null ? it.charges : '<span class="i-dim">—</span>') + '</td>' +
                     '<td class="i-bonus">' + (spells ? esc(spells) : '<span class="i-dim">—</span>') + '</td>' +
@@ -171,7 +177,7 @@
         },
         {
             key: 'pet', file: 'data/db_pets.json', gem: 'emerald',
-            label: { en: 'Pets', uk: 'Улюбленці' },
+            label: { en: 'Pets', uk: 'Улюбленці', ru: 'Питомцы' },
             controls: ['level', 'name'],
             columns: [C.name, C.lvl, C.aff, C.tricks, C.zone],
             filter: S.FILTERS.pet,
@@ -200,7 +206,7 @@
         b.className = 'tab'; b.setAttribute('role', 'tab');
         b.setAttribute('aria-selected', t === active ? 'true' : 'false');
         b.innerHTML = '<span class="tgem tgem--' + t.gem + '"></span>' +
-            '<span lang="en">' + t.label.en + '</span><span lang="uk">' + t.label.uk + '</span>';
+            '<span lang="en">' + t.label.en + '</span><span lang="uk">' + t.label.uk + '</span><span lang="ru">' + t.label.ru + '</span>';
         b.addEventListener('click', function () { selectTab(t); });
         t._btn = b; tabbar.appendChild(b);
     });
@@ -215,7 +221,7 @@
     // ---------- controls ----------
     // one label over both bounds; the pair reads as a single range control
     function ctrl_level() {
-        return '<div class="field"><label lang="en">' + UI.lvlRange.en + '</label><label lang="uk">' + UI.lvlRange.uk + '</label>' +
+        return '<div class="field"><label lang="en">' + UI.lvlRange.en + '</label><label lang="uk">' + UI.lvlRange.uk + '</label><label lang="ru">' + UI.lvlRange.ru + '</label>' +
             '<div class="lvlrange">' +
                 '<input class="ds-input" type="number" id="f_lo" min="0" max="' + MAXLEVEL + '" placeholder="0" aria-label="from"/>' +
                 '<input class="ds-input" type="number" id="f_hi" min="0" max="' + MAXLEVEL + '" placeholder="' + MAXLEVEL + '" aria-label="to"/>' +
@@ -223,7 +229,7 @@
     }
     function ctrl_name(hintKey) {
         var lbl = hintKey === 'spellsearch' ? UI.search : UI.name;
-        return '<div class="field field--name"><label lang="en">' + lbl.en + '</label><label lang="uk">' + lbl.uk + '</label>' +
+        return '<div class="field field--name"><label lang="en">' + lbl.en + '</label><label lang="uk">' + lbl.uk + '</label><label lang="ru">' + lbl.ru + '</label>' +
             '<input class="ds-input" type="text" id="f_name" autocomplete="off" placeholder=""/></div>';
     }
     function ctrl_select(id, map, labelObj) {
@@ -231,16 +237,16 @@
         Object.keys(map).forEach(function (k) {
             opts += '<option value="' + k + '">' + esc(tr(map[k])) + ' (' + k + ')</option>';
         });
-        return '<div class="field"><label lang="en">' + labelObj.en + '</label><label lang="uk">' + labelObj.uk + '</label>' +
+        return '<div class="field"><label lang="en">' + labelObj.en + '</label><label lang="uk">' + labelObj.uk + '</label><label lang="ru">' + labelObj.ru + '</label>' +
             '<select class="ds-select" id="' + id + '">' + opts + '</select></div>';
     }
     function ctrl_chips(id, map, labelObj) {
         var chips = '';
         Object.keys(map).forEach(function (k) {
             chips += '<label class="chip"><input type="checkbox" value="' + k + '"/>' +
-                '<span lang="en">' + map[k].en + '</span><span lang="uk">' + map[k].uk + '</span></label>';
+                '<span lang="en">' + map[k].en + '</span><span lang="uk">' + map[k].uk + '</span><span lang="ru">' + map[k].ru + '</span></label>';
         });
-        return '<div style="flex-basis:100%"><div class="chips-label"><span lang="en">' + labelObj.en + '</span><span lang="uk">' + labelObj.uk + '</span></div>' +
+        return '<div style="flex-basis:100%"><div class="chips-label"><span lang="en">' + labelObj.en + '</span><span lang="uk">' + labelObj.uk + '</span><span lang="ru">' + labelObj.ru + '</span></div>' +
             '<div class="chips" id="' + id + '">' + chips + '</div></div>';
     }
     /* Alignment chips carry the same three icons the column does. The dump only
@@ -254,10 +260,10 @@
             chips += '<label class="chip chip--icon"><input type="checkbox" value="' + k + '"/>' +
                 '<svg class="alignicon align-' + k + '" viewBox="0 0 24 24" aria-hidden="true"><use href="#' +
                 d.icon + '"/></svg>' +
-                '<span lang="en">' + d.en + '</span><span lang="uk">' + d.uk + '</span></label>';
+                '<span lang="en">' + d.en + '</span><span lang="uk">' + d.uk + '</span><span lang="ru">' + d.ru + '</span></label>';
         });
         return '<div class="ctrlgroup"><div class="chips-label"><span lang="en">' + UI.alignf.en +
-            '</span><span lang="uk">' + UI.alignf.uk + '</span></div>' +
+            '</span><span lang="uk">' + UI.alignf.uk + '</span><span lang="ru">' + UI.alignf.ru + '</span></div>' +
             '<div class="chips" id="c_align">' + chips + '</div></div>';
     }
     /* Limited items are IN by default -- this chip is a way to take them out
@@ -271,7 +277,7 @@
             '<label class="chip chip--icon chip--limit on" id="c_limited">' +
             '<input type="checkbox" value="1" checked/>' +
             '<svg class="i-limit" viewBox="0 0 24 24" aria-hidden="true"><use href="#al-limit"/></svg>' +
-            '<span lang="en">' + UI.showLimited.en + '</span><span lang="uk">' + UI.showLimited.uk + '</span>' +
+            '<span lang="en">' + UI.showLimited.en + '</span><span lang="uk">' + UI.showLimited.uk + '</span><span lang="ru">' + UI.showLimited.ru + '</span>' +
             '</label></div></div>';
     }
 
@@ -279,9 +285,9 @@
         var chips = '';
         STATFILT.forEach(function (s) {
             chips += '<label class="chip"><input type="checkbox" value="' + s.k + '"/>' +
-                '<span lang="en">' + s.en + '</span><span lang="uk">' + s.uk + '</span></label>';
+                '<span lang="en">' + s.en + '</span><span lang="uk">' + s.uk + '</span><span lang="ru">' + s.ru + '</span></label>';
         });
-        return '<div class="ctrlgroup ctrlgroup--wide"><div class="chips-label"><span lang="en">' + UI.reqstat.en + '</span><span lang="uk">' + UI.reqstat.uk + '</span></div>' +
+        return '<div class="ctrlgroup ctrlgroup--wide"><div class="chips-label"><span lang="en">' + UI.reqstat.en + '</span><span lang="uk">' + UI.reqstat.uk + '</span><span lang="ru">' + UI.reqstat.ru + '</span></div>' +
             '<div class="chips" id="c_stats">' + chips + '</div></div>';
     }
 
@@ -303,20 +309,20 @@
         if (groups) rows += '<div class="row row--groups">' + groups + '</div>';
 
         var hint = t.controls.indexOf('spellsearch') >= 0 ?
-            '<p class="legend"><span lang="en">' + UI.spellHint.en + '</span><span lang="uk">' + UI.spellHint.uk + '</span></p>' : '';
+            '<p class="legend"><span lang="en">' + UI.spellHint.en + '</span><span lang="uk">' + UI.spellHint.uk + '</span><span lang="ru">' + UI.spellHint.ru + '</span></p>' : '';
 
         panel.innerHTML =
             '<div class="filters windowlet">' +
                 '<div class="row">' + top +
                     '<div class="field"><label>&nbsp;</label><button class="btn btn--gold" id="btnSearch">' +
-                        '<span lang="en">' + UI.search.en + '</span><span lang="uk">' + UI.search.uk + '</span></button></div>' +
+                        '<span lang="en">' + UI.search.en + '</span><span lang="uk">' + UI.search.uk + '</span><span lang="ru">' + UI.search.ru + '</span></button></div>' +
                     '<div class="field"><label>&nbsp;</label><button class="btn btn--ghost" id="btnReset">' +
-                        '<span lang="en">' + UI.reset.en + '</span><span lang="uk">' + UI.reset.uk + '</span></button></div>' +
+                        '<span lang="en">' + UI.reset.en + '</span><span lang="uk">' + UI.reset.uk + '</span><span lang="ru">' + UI.reset.ru + '</span></button></div>' +
                 '</div>' + rows + hint +
             '</div>' +
             '<div class="result-meta" id="meta"></div>' +
             '<div class="tablewrap"><table class="results"><thead><tr>' +
-                t.columns.map(function (c) { return '<th><span lang="en">' + c.en + '</span><span lang="uk">' + c.uk + '</span></th>'; }).join('') +
+                t.columns.map(function (c) { return '<th><span lang="en">' + c.en + '</span><span lang="uk">' + c.uk + '</span><span lang="ru">' + c.ru + '</span></th>'; }).join('') +
             '</tr></thead><tbody id="rows"></tbody></table></div>';
 
         // wire chips (toggle .on class) + live search
@@ -378,13 +384,14 @@
             meta.innerHTML = '';
             document.getElementById('rows').innerHTML =
                 '<tr><td colspan="' + active.columns.length + '" class="empty">' +
-                '<span lang="en">' + UI.none.en + '</span><span lang="uk">' + UI.none.uk + '</span></td></tr>';
+                '<span lang="en">' + UI.none.en + '</span><span lang="uk">' + UI.none.uk + '</span><span lang="ru">' + UI.none.ru + '</span></td></tr>';
             return;
         }
         var capped = total > CAP;
         meta.innerHTML = '<b>' + total + '</b> ' +
             '<span lang="en">' + UI.found.en + (capped ? ' · ' + UI.showing.en + ' ' + CAP : '') + '</span>' +
-            '<span lang="uk">' + UI.found.uk + (capped ? ' · ' + UI.showing.uk + ' ' + CAP : '') + '</span>';
+            '<span lang="uk">' + UI.found.uk + (capped ? ' · ' + UI.showing.uk + ' ' + CAP : '') + '</span>' +
+            '<span lang="ru">' + UI.found.ru + (capped ? ' · ' + UI.showing.ru + ' ' + CAP : '') + '</span>';
         var html = '';
         for (var r = 0; r < out.length; r++) html += '<tr>' + active.row(out[r]) + '</tr>';
         document.getElementById('rows').innerHTML = html;
@@ -394,7 +401,7 @@
         if (cache[t.file]) return Promise.resolve(cache[t.file]);
         document.getElementById('rows').innerHTML =
             '<tr><td colspan="' + t.columns.length + '" class="empty">' +
-            '<span lang="en">' + UI.loading.en + '</span><span lang="uk">' + UI.loading.uk + '</span></td></tr>';
+            '<span lang="en">' + UI.loading.en + '</span><span lang="uk">' + UI.loading.uk + '</span><span lang="ru">' + UI.loading.ru + '</span></td></tr>';
         return fetch(t.file).then(function (r) { return r.json(); }).then(function (d) {
             cache[t.file] = d; return d;
         });

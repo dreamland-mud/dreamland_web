@@ -50,8 +50,10 @@
     var run = 0; // bumps on every new animation; older loops see it and stop
 
     function siteLang() {
-        return document.documentElement.getAttribute('data-lang') === 'uk' ? 'ua' : 'en';
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' ? 'ua' : l === 'ru' ? 'ru' : 'en';
     }
+    var SEG_LABEL = { en: 'Room language', ua: 'Мова кімнати', ru: 'Язык комнаты' };
 
     // A room as terminal lines; each line is a list of [colour class, text].
     function lines(r) {
@@ -129,7 +131,7 @@
         btns.forEach(function (b) {
             b.setAttribute('aria-pressed', b.getAttribute('data-owlang') === lang ? 'true' : 'false');
         });
-        seg.setAttribute('aria-label', siteLang() === 'ua' ? 'Мова кімнати' : 'Room language');
+        seg.setAttribute('aria-label', SEG_LABEL[siteLang()]);
         moveInd();
 
         var v = layout(ls);
@@ -246,7 +248,7 @@
 
     new MutationObserver(function () {
         if (!picked && lang !== siteLang()) { lang = siteLang(); render(); }
-        else seg.setAttribute('aria-label', siteLang() === 'ua' ? 'Мова кімнати' : 'Room language');
+        else seg.setAttribute('aria-label', SEG_LABEL[siteLang()]);
     }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
 
     window.addEventListener('resize', moveInd);

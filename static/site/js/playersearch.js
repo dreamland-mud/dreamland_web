@@ -8,11 +8,14 @@
     var MAX = 8;
     var names = [];
 
-    function lang() { return document.documentElement.getAttribute('data-lang') === 'uk' ? 'uk' : 'en'; }
+    function lang() {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' || l === 'ru' ? l : 'en';
+    }
 
-    function say(msg, en, uk) {
+    function say(msg, en, uk, ru) {
         msg.innerHTML = '';
-        [['en', en], ['uk', uk]].forEach(function (p) {
+        [['en', en], ['uk', uk], ['ru', ru]].forEach(function (p) {
             var s = document.createElement('span');
             s.setAttribute('lang', p[0]);
             s.textContent = p[1];
@@ -22,7 +25,9 @@
 
     // The name in the page language, and the other spellings beside it.
     function label(n) {
-        var main = lang() === 'uk' ? (n.ua || n.ru || n.en || n.login) : (n.en || n.login);
+        var l = lang();
+        var main = l === 'uk' ? (n.ua || n.ru || n.en || n.login)
+            : l === 'ru' ? (n.ru || n.en || n.login) : (n.en || n.login);
         var other = [n.login, n.en, n.ua, n.ru].filter(function (v, i, a) {
             return v && v !== main && a.indexOf(v) === i;
         });
@@ -115,7 +120,7 @@
             var name = input.value.trim();
             if (!name) { input.focus(); return; }
             if (hits.length === 1) { go(hits[0].login); return; }
-            say(msg, 'Looking...', 'Шукаємо...');
+            say(msg, 'Looking...', 'Шукаємо...', 'Ищем...');
             fetch('/api/profile', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -126,10 +131,12 @@
                 return r.json();
             }).then(function (p) {
                 if (p && p.id) { location.href = '/player/' + encodeURIComponent(p.id); return; }
-                say(msg, 'No public page under that name.', 'Під таким імʼям публічної сторінки немає.');
+                say(msg, 'No public page under that name.', 'Під таким імʼям публічної сторінки немає.',
+                    'Под таким именем публичной страницы нет.');
                 input.focus();
             }).catch(function () {
-                say(msg, 'The game did not answer. Try again in a minute.', 'Гра не відповіла. Спробуй за хвилину.');
+                say(msg, 'The game did not answer. Try again in a minute.', 'Гра не відповіла. Спробуй за хвилину.',
+                    'Игра не ответила. Попробуй через минуту.');
             });
         });
     }

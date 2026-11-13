@@ -162,8 +162,9 @@ body::before {
 }
 
 /* ---------- Language visibility ---------- */
-html[data-lang="en"] [lang="uk"] { display: none !important; }
-html[data-lang="uk"] [lang="en"] { display: none !important; }
+html[data-lang="en"] [lang="uk"], html[data-lang="en"] [lang="ru"] { display: none !important; }
+html[data-lang="uk"] [lang="en"], html[data-lang="uk"] [lang="ru"] { display: none !important; }
+html[data-lang="ru"] [lang="en"], html[data-lang="ru"] [lang="uk"] { display: none !important; }
 
 /* ---------- Layout ---------- */
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
@@ -290,7 +291,6 @@ html[data-lang="uk"] [lang="en"] { display: none !important; }
     background: radial-gradient(130% 130% at 50% 0%, var(--gold-bright), var(--gold) 58%, var(--gold-dim));
     box-shadow: inset 0 1px 1px rgba(255,255,255,.7), 0 0 12px rgba(198,162,78,.35);
 }
-.langswitch a.lang-out { color: var(--gold-dim); }
 
 /* hamburger — mobile only; it replaces the language switch in the bar and the
    pill expands downward into a panel holding the nav links *and* the switch */

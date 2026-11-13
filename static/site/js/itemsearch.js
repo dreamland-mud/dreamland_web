@@ -6,8 +6,8 @@
  * db_{armor,weapon,magic,pets}.json, copied to static/data by drone.
  *
  * Plain ES5, no DOM: a <script> tag sets window.DLItemSearch, require() gets
- * module.exports. Labels are { en, uk, ru }: the site speaks en/uk, the MCP
- * server all three.
+ * module.exports. Labels are { en, uk, ru }: the site and the MCP server
+ * both speak all three.
  */
 (function (root, factory) {
     var api = factory();
@@ -133,14 +133,14 @@
     /* Two shapes of bonus live in the dump: the six attributes are stored as
        stat_<k>, the combat/pool bonuses under their own bare key. */
     var STATFILT = [
-        {k:'str',field:'stat_str',en:'Str',uk:'Сил'},  {k:'int',field:'stat_int',en:'Int',uk:'Ум'},
-        {k:'wis',field:'stat_wis',en:'Wis',uk:'Мдр'},  {k:'dex',field:'stat_dex',en:'Dex',uk:'Лвк'},
-        {k:'con',field:'stat_con',en:'Con',uk:'Слж'},  {k:'cha',field:'stat_cha',en:'Cha',uk:'Оба'},
-        {k:'hr', field:'hr',      en:'Acc',  uk:'Точн'},
-        {k:'dr', field:'dr',      en:'Dam',  uk:'Урон'},
-        {k:'hp', field:'hp',      en:'HP',   uk:'Здор'},
-        {k:'mana',field:'mana',   en:'Mana', uk:'Мана'},
-        {k:'saves',field:'saves', en:'Saves',uk:'Спас'}
+        {k:'str',field:'stat_str',en:'Str',uk:'Сил',ru:'Сил'},  {k:'int',field:'stat_int',en:'Int',uk:'Ум',ru:'Ум'},
+        {k:'wis',field:'stat_wis',en:'Wis',uk:'Мдр',ru:'Мдр'},  {k:'dex',field:'stat_dex',en:'Dex',uk:'Лвк',ru:'Лвк'},
+        {k:'con',field:'stat_con',en:'Con',uk:'Слж',ru:'Слж'},  {k:'cha',field:'stat_cha',en:'Cha',uk:'Оба',ru:'Оба'},
+        {k:'hr', field:'hr',      en:'Acc',  uk:'Точн', ru:'Точн'},
+        {k:'dr', field:'dr',      en:'Dam',  uk:'Урон', ru:'Урон'},
+        {k:'hp', field:'hp',      en:'HP',   uk:'Здор', ru:'Здор'},
+        {k:'mana',field:'mana',   en:'Mana', uk:'Мана', ru:'Мана'},
+        {k:'saves',field:'saves', en:'Saves',uk:'Спас',ru:'Спас'}
     ];
     var STATFIELD = {};
     STATFILT.forEach(function (s) { STATFIELD[s.k] = s.field; });

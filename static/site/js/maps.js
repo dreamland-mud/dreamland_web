@@ -12,7 +12,11 @@
 (function () {
     'use strict';
 
-    var L = function () { return document.documentElement.getAttribute('data-lang') === 'uk' ? 'ua' : 'en'; };
+    // 'en' | 'ua' | 'ru': the keys the zone data and help articles use
+    var L = function () {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' ? 'ua' : l === 'ru' ? 'ru' : 'en';
+    };
 
     // ---- geometry (dreamland_mapper: Map.tsx / render-svg.mjs) -------------
     var TILE_W = 124, TILE_H = 72, GAP_X = 74, GAP_Y = 70;
@@ -24,21 +28,21 @@
 
     // ---- palette (dreamland_mapper/src/sectors.ts) -------------------------
     var SECTOR = {
-        inside:       { text: '#d9b94a', en: 'Inside',        ua: 'Приміщення' },
-        city:         { text: '#ffffff', en: 'City',          ua: 'Місто' },
-        field:        { text: '#8ee34f', en: 'Field',         ua: 'Поле' },
-        forest:       { text: '#6cba2e', en: 'Forest',        ua: 'Ліс' },
-        hills:        { text: '#c4a000', en: 'Hills',         ua: 'Пагорби' },
-        mountain:     { text: '#a7aaa3', en: 'Mountain',      ua: 'Гори' },
-        water_swim:   { text: '#55a3f2', en: 'Water (swim)',  ua: 'Вода (вплав)' },
-        water_noswim: { text: '#4a86d8', en: 'Water (deep)',  ua: 'Вода (глибоко)' },
-        underwater:   { text: '#5a90d0', en: 'Underwater',    ua: 'Під водою' },
-        air:          { text: '#7fc0ff', en: 'Air',           ua: 'Повітря' },
-        desert:       { text: '#fdea56', en: 'Desert',        ua: 'Пустеля' },
-        cave:         { text: '#a7aaa3', en: 'Cave',          ua: 'Печера' },
-        jungle:       { text: '#45c9b0', en: 'Jungle',        ua: 'Джунглі' },
-        tundra:       { text: '#e6e9e1', en: 'Tundra',        ua: 'Тундра' },
-        unknown:      { text: '#a7aaa3', en: 'Unknown',       ua: 'Невідомо' }
+        inside:       { text: '#d9b94a', en: 'Inside',        ua: 'Приміщення', ru: 'Помещение' },
+        city:         { text: '#ffffff', en: 'City',          ua: 'Місто', ru: 'Город' },
+        field:        { text: '#8ee34f', en: 'Field',         ua: 'Поле', ru: 'Поле' },
+        forest:       { text: '#6cba2e', en: 'Forest',        ua: 'Ліс', ru: 'Лес' },
+        hills:        { text: '#c4a000', en: 'Hills',         ua: 'Пагорби', ru: 'Холмы' },
+        mountain:     { text: '#a7aaa3', en: 'Mountain',      ua: 'Гори', ru: 'Горы' },
+        water_swim:   { text: '#55a3f2', en: 'Water (swim)',  ua: 'Вода (вплав)', ru: 'Вода (вплавь)' },
+        water_noswim: { text: '#4a86d8', en: 'Water (deep)',  ua: 'Вода (глибоко)', ru: 'Вода (глубоко)' },
+        underwater:   { text: '#5a90d0', en: 'Underwater',    ua: 'Під водою', ru: 'Под водой' },
+        air:          { text: '#7fc0ff', en: 'Air',           ua: 'Повітря', ru: 'Воздух' },
+        desert:       { text: '#fdea56', en: 'Desert',        ua: 'Пустеля', ru: 'Пустыня' },
+        cave:         { text: '#a7aaa3', en: 'Cave',          ua: 'Печера', ru: 'Пещера' },
+        jungle:       { text: '#45c9b0', en: 'Jungle',        ua: 'Джунглі', ru: 'Джунгли' },
+        tundra:       { text: '#e6e9e1', en: 'Tundra',        ua: 'Тундра', ru: 'Тундра' },
+        unknown:      { text: '#a7aaa3', en: 'Unknown',       ua: 'Невідомо', ru: 'Неизвестно' }
     };
     var COLOR = { edge: '#888888', warp: '#d384cb', rust: '#cc0000', pick: '#ed2330',
                   crossArea: '#06989a', accent: '#bb86fc', ink: '#121212' };
@@ -49,27 +53,27 @@
                       warp: '3 5', random: '2 6', cross_area: '10 5' };
 
     var DIRNAME = {
-        north: { en: 'north', ua: 'північ' }, south: { en: 'south', ua: 'південь' },
-        east:  { en: 'east',  ua: 'схід' },   west:  { en: 'west',  ua: 'захід' },
-        up:    { en: 'up',    ua: 'вгору' },  down:  { en: 'down',  ua: 'вниз' }
+        north: { en: 'north', ua: 'північ', ru: 'север' }, south: { en: 'south', ua: 'південь', ru: 'юг' },
+        east:  { en: 'east',  ua: 'схід', ru: 'восток' },   west:  { en: 'west',  ua: 'захід', ru: 'запад' },
+        up:    { en: 'up',    ua: 'вгору', ru: 'вверх' },  down:  { en: 'down',  ua: 'вниз', ru: 'вниз' }
     };
 
     var UI = {
-        locations:{ en: 'locations',    ua: 'локацій' },
-        levels:   { en: 'levels',       ua: 'рівні' },
-        layer:    { en: 'Level',        ua: 'Рівень' },
-        ground:   { en: 'Ground',       ua: 'Земля' },
-        exits:    { en: 'Exits',        ua: 'Виходи' },
-        noExits:  { en: 'no exits',     ua: 'виходів немає' },
-        toZone:   { en: 'to another zone', ua: 'в іншу зону' },
-        nothing:  { en: 'Nothing found', ua: 'Нічого не знайдено' },
-        bandPick: { en: 'Level range',  ua: 'Діапазон рівнів' },
-        allZones: { en: 'zones',        ua: 'зон' },
-        unnamed:  { en: 'unnamed room', ua: 'кімната без назви' },
-        walk:     { en: 'How to get there', ua: 'Як дістатися' },
-        searchHint:{ en: 'Search by zone name', ua: 'Пошук за назвою зони' },
-        fullHelp: { en: 'Open in Help',  ua: 'Відкрити в довідці' },
-        loading:  { en: 'Loading…',      ua: 'Вантажимо…' }
+        locations:{ en: 'locations',    ua: 'локацій', ru: 'локаций' },
+        levels:   { en: 'levels',       ua: 'рівні', ru: 'уровни' },
+        layer:    { en: 'Level',        ua: 'Рівень', ru: 'Уровень' },
+        ground:   { en: 'Ground',       ua: 'Земля', ru: 'Земля' },
+        exits:    { en: 'Exits',        ua: 'Виходи', ru: 'Выходы' },
+        noExits:  { en: 'no exits',     ua: 'виходів немає', ru: 'выходов нет' },
+        toZone:   { en: 'to another zone', ua: 'в іншу зону', ru: 'в другую зону' },
+        nothing:  { en: 'Nothing found', ua: 'Нічого не знайдено', ru: 'Ничего не найдено' },
+        bandPick: { en: 'Level range',  ua: 'Діапазон рівнів', ru: 'Диапазон уровней' },
+        allZones: { en: 'zones',        ua: 'зон', ru: 'зон' },
+        unnamed:  { en: 'unnamed room', ua: 'кімната без назви', ru: 'комната без названия' },
+        walk:     { en: 'How to get there', ua: 'Як дістатися', ru: 'Как добраться' },
+        searchHint:{ en: 'Search by zone name', ua: 'Пошук за назвою зони', ru: 'Поиск по названию зоны' },
+        fullHelp: { en: 'Open in Help',  ua: 'Відкрити в довідці', ru: 'Открыть в справке' },
+        loading:  { en: 'Loading…',      ua: 'Вантажимо…', ru: 'Грузим…' }
     };
     function t(k) { return UI[k][L()]; }
 
@@ -99,15 +103,15 @@
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
         });
     }
-    function zoneName(z) { var l = L(); return (l === 'ua' ? z.nameUa : z.nameEn) || z.name; }
+    function zoneName(z) { var l = L(); return (l === 'ua' ? z.nameUa : l === 'en' ? z.nameEn : z.name) || z.name; }
     /* A speedwalk is normally a compass path and reads the same in any language.
        Thirty zones carry prose there instead ("enter the portal in your city's
        temple"), so it localizes like a name, with the same fall back to RU. */
-    function zoneWalk(z) { var l = L(); return (l === 'ua' ? z.speedwalkUa : z.speedwalkEn) || z.speedwalk; }
+    function zoneWalk(z) { var l = L(); return (l === 'ua' ? z.speedwalkUa : l === 'en' ? z.speedwalkEn : z.speedwalk) || z.speedwalk; }
     function roomName(r) {
         if (!r) return '';
         var l = L();
-        return (l === 'ua' ? r.nu : r.ne) || r.n || '';
+        return (l === 'ua' ? r.nu : l === 'en' ? r.ne : r.n) || r.n || '';
     }
     function sectorOf(r) {
         if (!r) return SECTOR.unknown;
@@ -121,12 +125,12 @@
     // sorted by band first -- sorting by levelLow alone interleaves them and
     // the same heading reappears a dozen times down the rail.
     var BANDS = [
-        { key: 0, max: 15,       en: 'Levels 1–15',  ua: 'Рівні 1–15' },
-        { key: 1, max: 40,       en: 'Levels 16–40', ua: 'Рівні 16–40' },
-        { key: 2, max: 70,       en: 'Levels 41–70', ua: 'Рівні 41–70' },
-        { key: 3, max: Infinity, en: 'Levels 71+',   ua: 'Рівні 71+' }
+        { key: 0, max: 15,       en: 'Levels 1–15',  ua: 'Рівні 1–15', ru: 'Уровни 1–15' },
+        { key: 1, max: 40,       en: 'Levels 16–40', ua: 'Рівні 16–40', ru: 'Уровни 16–40' },
+        { key: 2, max: 70,       en: 'Levels 41–70', ua: 'Рівні 41–70', ru: 'Уровни 41–70' },
+        { key: 3, max: Infinity, en: 'Levels 71+',   ua: 'Рівні 71+', ru: 'Уровни 71+' }
     ];
-    var SPECIAL = { key: 4, en: 'Special', ua: 'Особливі' };
+    var SPECIAL = { key: 4, en: 'Special', ua: 'Особливі', ru: 'Особые' };
     function levelBand(z) {
         if (!z.levelHigh) return SPECIAL;
         for (var i = 0; i < BANDS.length; i++) if (z.levelHigh <= BANDS[i].max) return BANDS[i];
@@ -136,7 +140,7 @@
     function bandSort(a, b) {
         var d = levelBand(a).key - levelBand(b).key;
         if (d) return d;
-        return zoneName(a).localeCompare(zoneName(b), L() === 'ua' ? 'uk' : 'en');
+        return zoneName(a).localeCompare(zoneName(b), { ua: 'uk', ru: 'ru', en: 'en' }[L()]);
     }
     function sortedZones(filter) {
         var q = (filter || '').trim().toLowerCase();

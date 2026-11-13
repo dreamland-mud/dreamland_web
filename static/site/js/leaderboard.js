@@ -1,7 +1,7 @@
 /* Leaderboards from the game's public /api/leaderboard (daily sums, cached 10
    minutes server side): Accounts (open account pages, one row each under the
    main character), Players (every character on its own) and World ("who
-   plays what" counts). Both languages are rendered and i18n.js shows one;
+   plays what" counts). All three languages are rendered and i18n.js shows one;
    the native select is relabelled on a language switch. The view lives in
    the hash (#deaths, #players/deaths, #world) so a link opens it. */
 (function () {
@@ -9,6 +9,7 @@
     var pick = document.getElementById('board-pick');
     var titleEn = document.getElementById('board-title-en');
     var titleUk = document.getElementById('board-title-uk');
+    var titleRu = document.getElementById('board-title-ru');
     var pickWrap = document.getElementById('board-pickwrap');
     var SCOPES = ['accounts', 'players', 'world'];
     var tabs = SCOPES.map(function (k) { return document.getElementById('tab-' + k); });
@@ -18,43 +19,52 @@
 
     var POINTS_EN = 'Points: common 1, rare 3, epic 10, legendary 25.';
     var POINTS_UK = 'Бали: звичайне 1, рідкісне 3, епічне 10, легендарне 25.';
+    var POINTS_RU = 'Очки: обычное 1, редкое 3, эпическое 10, легендарное 25.';
 
     // key, select label, title, value column, note (the daily line is added).
+    // col and note are [en, uk, ru].
     var BOARDS = [
-        { key: 'score', en: 'Achievements', uk: 'Досягнення',
-          col: ['Points', 'Бали'], extra: true, note: [POINTS_EN, POINTS_UK] },
-        { key: 'month', en: 'Achievements, last 30 days', uk: 'Досягнення за 30 днів',
-          col: ['Points', 'Бали'],
+        { key: 'score', en: 'Achievements', uk: 'Досягнення', ru: 'Достижения',
+          col: ['Points', 'Бали', 'Очки'], extra: true, note: [POINTS_EN, POINTS_UK, POINTS_RU] },
+        { key: 'month', en: 'Achievements, last 30 days', uk: 'Досягнення за 30 днів', ru: 'Достижения за 30 дней',
+          col: ['Points', 'Бали', 'Очки'],
           note: [POINTS_EN + ' Counts what was earned since November 1, 2026.',
-                 POINTS_UK + ' Рахує здобуте з 1 листопада 2026.'] },
-        { key: 'lives', en: 'Rebirths', uk: 'Реморти',
-          col: ['Rebirths', 'Реморти'],
-          note: ['Every rebirth of every character on the account.', 'Усі реморти всіх персонажів акаунта.'] },
-        { key: 'quests', en: 'Questor tasks', uk: 'Завдання квестора',
-          col: ['Tasks', 'Завдання'] },
-        { key: 'aquests', en: 'Area quests', uk: 'Зональні квести',
-          col: ['Quests', 'Квести'] },
-        { key: 'gquests', en: 'Global quests', uk: 'Глобальні квести',
-          col: ['Wins', 'Перемоги'] },
-        { key: 'kills', en: 'Slayers', uk: 'Мʼясники',
-          col: ['Monsters slain', 'Убито монстрів'],
+                 POINTS_UK + ' Рахує здобуте з 1 листопада 2026.',
+                 POINTS_RU + ' Считает добытое с 1 ноября 2026.'] },
+        { key: 'lives', en: 'Rebirths', uk: 'Реморти', ru: 'Реморты',
+          col: ['Rebirths', 'Реморти', 'Реморты'],
+          note: ['Every rebirth of every character on the account.', 'Усі реморти всіх персонажів акаунта.',
+                 'Все реморты всех персонажей аккаунта.'] },
+        { key: 'quests', en: 'Questor tasks', uk: 'Завдання квестора', ru: 'Задания квестора',
+          col: ['Tasks', 'Завдання', 'Задания'] },
+        { key: 'aquests', en: 'Area quests', uk: 'Зональні квести', ru: 'Зональные квесты',
+          col: ['Quests', 'Квести', 'Квесты'] },
+        { key: 'gquests', en: 'Global quests', uk: 'Глобальні квести', ru: 'Глобальные квесты',
+          col: ['Wins', 'Перемоги', 'Победы'] },
+        { key: 'kills', en: 'Slayers', uk: 'Мʼясники', ru: 'Мясники',
+          col: ['Monsters slain', 'Убито монстрів', 'Убито монстров'],
           note: ['Kills of the current life of each character: a rebirth starts the count over.',
-                 'Убивства поточного життя кожного персонажа: ремортом лік починається знову.'] },
-        { key: 'bosses', en: 'Boss hunters', uk: 'Мисливці на босів',
-          col: ['Bosses', 'Боси'],
-          note: ['Different bosses slain, counted since October 2026.', 'Різні вбиті боси, лік з жовтня 2026.'] },
-        { key: 'craft', en: 'Craftsmen', uk: 'Майстри',
-          col: ['Craft levels', 'Рівні ремесел'],
+                 'Убивства поточного життя кожного персонажа: ремортом лік починається знову.',
+                 'Убийства текущей жизни каждого персонажа: с ремортом счет начинается заново.'] },
+        { key: 'bosses', en: 'Boss hunters', uk: 'Мисливці на босів', ru: 'Охотники на боссов',
+          col: ['Bosses', 'Боси', 'Боссы'],
+          note: ['Different bosses slain, counted since October 2026.', 'Різні вбиті боси, лік з жовтня 2026.',
+                 'Разные убитые боссы, счет с октября 2026.'] },
+        { key: 'craft', en: 'Craftsmen', uk: 'Майстри', ru: 'Мастера',
+          col: ['Craft levels', 'Рівні ремесел', 'Уровни ремесел'],
           note: ['Sum of craft skill levels. A character shows up after the next login.',
-                 'Сума рівнів ремесел. Персонаж зʼявиться після наступного входу в гру.'] },
-        { key: 'rooms', en: 'Explorers', uk: 'Мандрівники',
-          col: ['World seen', 'Побачено світу'], pct: true,
+                 'Сума рівнів ремесел. Персонаж зʼявиться після наступного входу в гру.',
+                 'Сумма уровней ремесел. Персонаж появится после следующего входа в игру.'] },
+        { key: 'rooms', en: 'Explorers', uk: 'Мандрівники', ru: 'Странники',
+          col: ['World seen', 'Побачено світу', 'Увидено мира'], pct: true,
           note: ['Share of the ordinary rooms seen, by the most travelled character.',
-                 'Частка звичайних кімнат, де ступала нога, у найбільш мандрівного персонажа.'] },
-        { key: 'deaths', en: 'Hall of shame', uk: 'Зал ганьби',
-          col: ['Deaths to monsters', 'Смертей від монстрів'],
+                 'Частка звичайних кімнат, де ступала нога, у найбільш мандрівного персонажа.',
+                 'Доля обычных комнат, где ступала нога, у самого бывалого персонажа.'] },
+        { key: 'deaths', en: 'Hall of shame', uk: 'Зал ганьби', ru: 'Зал позора',
+          col: ['Deaths to monsters', 'Смертей від монстрів', 'Смертей от монстров'],
           note: ['Every death to a monster, all lives included. Wear it with pride.',
-                 'Усі смерті від монстрів за всі життя. Носи з гордістю.'] }
+                 'Усі смерті від монстрів за всі життя. Носи з гордістю.',
+                 'Все смерти от монстров за все жизни. Носи с гордостью.'] }
     ];
     var byKey = {};
     BOARDS.forEach(function (b) { byKey[b.key] = b; });
@@ -64,7 +74,10 @@
     var scope = 'accounts';
     var board = 'score';
 
-    function isUk() { return document.documentElement.getAttribute('data-lang') === 'uk'; }
+    function lang() {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' || l === 'ru' ? l : 'en';
+    }
 
     function el(tag, cls, text) {
         var e = document.createElement(tag);
@@ -73,25 +86,31 @@
         return e;
     }
 
-    function both(tag, cls, en, uk) {
+    // one element per language; i18n.js CSS shows the current one
+    function both(tag, cls, en, uk, ru) {
         var f = document.createDocumentFragment();
-        var a = el(tag, cls, en); a.setAttribute('lang', 'en');
-        var b = el(tag, cls, uk); b.setAttribute('lang', 'uk');
-        f.appendChild(a); f.appendChild(b);
+        [['en', en], ['uk', uk], ['ru', ru]].forEach(function (p) {
+            var e = el(tag, cls, p[1]); e.setAttribute('lang', p[0]);
+            f.appendChild(e);
+        });
         return f;
     }
 
-    function message(box, en, uk) {
+    function message(box, en, uk, ru) {
         box.textContent = '';
-        box.appendChild(both('p', 'board-soon', en, uk));
+        box.appendChild(both('p', 'board-soon', en, uk, ru));
     }
 
-    function th(en, uk, cls) {
+    function th(en, uk, ru, cls) {
         var c = el('th', cls);
         c.setAttribute('scope', 'col');
-        c.appendChild(both('span', null, en, uk));
+        c.appendChild(both('span', null, en, uk, ru));
         return c;
     }
+
+    var ASKING = ['Asking the Archivist...', 'Питаємо Архіваріуса...', 'Спрашиваем Архивариуса...'];
+    var SILENT = ['The Archivist is not answering. Try again in a minute.', 'Архіваріус не відповідає. Спробуй за хвилину.',
+                  'Архивариус не отвечает. Попробуй через минуту.'];
 
     function fetchBoard(sc, key) {
         var ck = sc + '/' + key;
@@ -114,7 +133,8 @@
 
     function playerCell(r) {
         var who = el('td');
-        var nm = both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login);
+        var nm = both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login,
+            r.name.ru || r.name.login);
         var a;
         if (r.link) {
             a = el('a', 'bname');
@@ -128,7 +148,8 @@
             var cap = function (t) { return t ? t.charAt(0).toUpperCase() + t.slice(1) : ''; };
             who.appendChild(both('span', 'btitle',
                 cap(r.race.en) + ' · ' + cap(r.class.en),
-                cap(r.race.ua || r.race.ru) + ' · ' + cap(r.class.ua || r.class.ru)));
+                cap(r.race.ua || r.race.ru) + ' · ' + cap(r.class.ua || r.class.ru),
+                cap(r.race.ru) + ' · ' + cap(r.class.ru)));
         }
         return who;
     }
@@ -137,7 +158,8 @@
         var who = el('td');
         var a = el('a', 'bname');
         a.href = '/player/' + encodeURIComponent(r.name.login);
-        a.appendChild(both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login));
+        a.appendChild(both('span', null, r.name.en || r.name.login, r.name.ua || r.name.ru || r.name.login,
+            r.name.ru || r.name.login));
         who.appendChild(a);
         if (r.title) who.appendChild(el('span', 'btitle', r.title));
         return who;
@@ -145,24 +167,24 @@
 
     function renderBoard(b, data, players) {
         if (!data.open) {
-            message(root, 'The list is not open yet.', 'Список ще не відкрито.');
+            message(root, 'The list is not open yet.', 'Список ще не відкрито.', 'Список еще не открыт.');
             return;
         }
         if (!data.rows || !data.rows.length) {
-            message(root, 'Nobody on this list yet.', 'У цьому списку ще нікого.');
+            message(root, 'Nobody on this list yet.', 'У цьому списку ще нікого.', 'В этом списке еще никого.');
             return;
         }
         var box = el('div', 'board tablewrap');
         var table = el('table', 'results');
         table.setAttribute('aria-labelledby', 'board-title');
         var head = el('thead'), hr = el('tr');
-        hr.appendChild(th('#', '#', 'num'));
-        hr.appendChild(players ? th('Character', 'Персонаж') : th('Account', 'Акаунт'));
-        hr.appendChild(th(b.col[0], b.col[1], 'num'));
+        hr.appendChild(th('#', '#', '#', 'num'));
+        hr.appendChild(players ? th('Character', 'Персонаж', 'Персонаж') : th('Account', 'Акаунт', 'Аккаунт'));
+        hr.appendChild(th(b.col[0], b.col[1], b.col[2], 'num'));
         if (b.extra) {
-            hr.appendChild(th('Legendary', 'Легендарні', 'num'));
-            hr.appendChild(th('Secrets', 'Таємниці', 'num col-secrets'));
-            hr.appendChild(th('Earned', 'Здобуто', 'num col-earned'));
+            hr.appendChild(th('Legendary', 'Легендарні', 'Легендарные', 'num'));
+            hr.appendChild(th('Secrets', 'Таємниці', 'Тайны', 'num col-secrets'));
+            hr.appendChild(th('Earned', 'Здобуто', 'Добыто', 'num col-earned'));
         }
         head.appendChild(hr);
         table.appendChild(head);
@@ -181,16 +203,20 @@
         });
         table.appendChild(body);
         box.appendChild(table);
-        var note = b.note || ['', ''];
+        var note = b.note || ['', '', ''];
         var tailEn = players
             ? 'Every character on its own. Updated daily. A linked name opens that player\'s public page.'
             : 'One row per account, under its most played character. Updated daily. Each name opens that player\'s public page.';
         var tailUk = players
             ? 'Кожен персонаж окремо. Оновлюється щодня. Імʼя з посиланням відкриває публічну сторінку гравця.'
             : 'Один рядок на акаунт, під найбільш граним персонажем. Оновлюється щодня. Кожне імʼя відкриває публічну сторінку гравця.';
+        var tailRu = players
+            ? 'Каждый персонаж отдельно. Обновляется ежедневно. Имя со ссылкой открывает публичную страницу игрока.'
+            : 'Одна строка на аккаунт, под самым играемым персонажем. Обновляется ежедневно. Каждое имя открывает публичную страницу игрока.';
         box.appendChild(both('p', 'board-note',
             (note[0] ? note[0] + ' ' : '') + tailEn,
-            (note[1] ? note[1] + ' ' : '') + tailUk));
+            (note[1] ? note[1] + ' ' : '') + tailUk,
+            (note[2] ? note[2] + ' ' : '') + tailRu));
         root.textContent = '';
         root.appendChild(box);
     }
@@ -202,20 +228,21 @@
         pick.value = b.key;
         titleEn.textContent = b.en;
         titleUk.textContent = b.uk;
-        message(root, 'Asking the Archivist...', 'Питаємо Архіваріуса...');
+        if (titleRu) titleRu.textContent = b.ru;
+        message(root, ASKING[0], ASKING[1], ASKING[2]);
         fetchBoard(sc, b.key).then(function (data) {
             if (current === ck) renderBoard(b, data, sc === 'players');
         }).catch(function () {
             if (current === ck)
-                message(root, 'The Archivist is not answering. Try again in a minute.', 'Архіваріус не відповідає. Спробуй за хвилину.');
+                message(root, SILENT[0], SILENT[1], SILENT[2]);
         });
     }
 
     function labelOptions() {
-        var uk = isUk();
+        var l = lang();
         Array.prototype.forEach.call(pick.options, function (o) {
             var b = byKey[o.value];
-            o.textContent = uk ? b.uk : b.en;
+            o.textContent = b[l];
         });
     }
 
@@ -231,27 +258,27 @@
     // ---------- world ----------
 
     function nameOf(e) {
-        return { en: e.en || e.key, uk: e.ua || e.ru || e.en || e.key };
+        return { en: e.en || e.key, uk: e.ua || e.ru || e.en || e.key, ru: e.ru || e.en || e.key };
     }
 
-    function worldTable(id, en, uk, list, clans) {
+    function worldTable(id, en, uk, ru, list, clans) {
         var sec = el('section', 'wtable');
         var h = el('h3', 'wtable__title');
         h.id = 'w-' + id;
-        h.appendChild(both('span', null, en, uk));
+        h.appendChild(both('span', null, en, uk, ru));
         sec.appendChild(h);
         if (!list || !list.length) {
-            sec.appendChild(both('p', 'board-soon', 'Nobody yet.', 'Поки нікого.'));
+            sec.appendChild(both('p', 'board-soon', 'Nobody yet.', 'Поки нікого.', 'Пока никого.'));
             return sec;
         }
         var box = el('div', 'board tablewrap');
         var table = el('table', 'results');
         table.setAttribute('aria-labelledby', h.id);
         var head = el('thead'), hr = el('tr');
-        hr.appendChild(th('#', '#', 'num'));
-        hr.appendChild(th(clans ? 'Clan' : 'Name', clans ? 'Клан' : 'Назва'));
-        hr.appendChild(th('Active', 'Активні', 'num'));
-        if (clans) hr.appendChild(th('All members', 'Усього членів', 'num'));
+        hr.appendChild(th('#', '#', '#', 'num'));
+        hr.appendChild(th(clans ? 'Clan' : 'Name', clans ? 'Клан' : 'Назва', clans ? 'Клан' : 'Название'));
+        hr.appendChild(th('Active', 'Активні', 'Активные', 'num'));
+        if (clans) hr.appendChild(th('All members', 'Усього членів', 'Всего членов', 'num'));
         head.appendChild(hr);
         table.appendChild(head);
         var body = el('tbody');
@@ -260,7 +287,7 @@
             tr.appendChild(el('td', 'num rank', String(i + 1)));
             var n = nameOf(e);
             var td = el('td');
-            td.appendChild(both('span', 'wname', n.en, n.uk));
+            td.appendChild(both('span', 'wname', n.en, n.uk, n.ru));
             tr.appendChild(td);
             tr.appendChild(el('td', 'num', String(e.n)));
             if (clans) tr.appendChild(el('td', 'num', String(e.members)));
@@ -275,21 +302,22 @@
     function renderWorld(data) {
         worldRoot.textContent = '';
         var grid = el('div', 'wgrid');
-        grid.appendChild(worldTable('classes', 'Classes', 'Класи', data.classes));
-        grid.appendChild(worldTable('races', 'Races', 'Раси', data.races));
-        grid.appendChild(worldTable('religions', 'Gods', 'Боги', data.religions));
-        grid.appendChild(worldTable('clans', 'Clans', 'Клани', data.clans, true));
+        grid.appendChild(worldTable('classes', 'Classes', 'Класи', 'Классы', data.classes));
+        grid.appendChild(worldTable('races', 'Races', 'Раси', 'Расы', data.races));
+        grid.appendChild(worldTable('religions', 'Gods', 'Боги', 'Боги', data.religions));
+        grid.appendChild(worldTable('clans', 'Clans', 'Клани', 'Кланы', data.clans, true));
         worldRoot.appendChild(grid);
         worldRoot.appendChild(both('p', 'wlead',
             data.active + ' characters entered the world in the last ' + data.days + ' days.',
-            data.active + ' персонажів заходили у світ за останні ' + data.days + ' днів.'));
+            data.active + ' персонажів заходили у світ за останні ' + data.days + ' днів.',
+            'За последние дни (' + data.days + ') в мир заходило персонажей: ' + data.active + '.'));
     }
 
     function showWorld() {
         if (cache['accounts/world']) { renderWorld(cache['accounts/world']); return; }
-        message(worldRoot, 'Asking the Archivist...', 'Питаємо Архіваріуса...');
+        message(worldRoot, ASKING[0], ASKING[1], ASKING[2]);
         fetchBoard('accounts', 'world').then(renderWorld).catch(function () {
-            message(worldRoot, 'The Archivist is not answering. Try again in a minute.', 'Архіваріус не відповідає. Спробуй за хвилину.');
+            message(worldRoot, SILENT[0], SILENT[1], SILENT[2]);
         });
     }
 

@@ -12,7 +12,13 @@
     var resEl   = document.getElementById('helpResults');
     if (!idxEl || !artEl) return;
 
-    function L() { return document.documentElement.getAttribute('data-lang') === 'uk' ? 'ua' : 'en'; }
+    // 'en' | 'ua' | 'ru': the keys the help data uses
+    function L() {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' ? 'ua' : l === 'ru' ? 'ru' : 'en';
+    }
+    // a chrome string in the page language
+    function tx(en, ua, ru) { var l = L(); return l === 'ua' ? ua : l === 'ru' ? ru : en; }
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
@@ -33,26 +39,26 @@
      * Order is the reading order a newcomer wants, not alphabetical: where to
      * start, then your character, then what you do, then the world around it. */
     var SECTIONS = [
-        { key: 'start',   en: 'Getting started',   ua: 'З чого почати' },
-        { key: 'char',    en: 'Your character',    ua: 'Твій персонаж' },
-        { key: 'skills',  en: 'Skills and learning', ua: 'Вміння й навчання' },
-        { key: 'magic',   en: 'Spells and magic',    ua: 'Закляття й магія' },
-        { key: 'combat',  en: 'Combat',            ua: 'Бій' },
-        { key: 'classes', en: 'Classes',           ua: 'Класи' },
-        { key: 'races',   en: 'Races',             ua: 'Раси' },
-        { key: 'gods',    en: 'Gods and religions',  ua: 'Боги й релігії' },
-        { key: 'items',   en: 'Items and economy',   ua: 'Речі й господарство' },
-        { key: 'world',   en: 'World and travel',    ua: 'Світ і подорожі' },
-        { key: 'quests',  en: 'Quests',            ua: 'Квести' },
-        { key: 'society', en: 'Players and clans',   ua: 'Гравці й клани' },
+        { key: 'start',   en: 'Getting started',   ua: 'З чого почати', ru: 'С чего начать' },
+        { key: 'char',    en: 'Your character',    ua: 'Твій персонаж', ru: 'Твой персонаж' },
+        { key: 'skills',  en: 'Skills and learning', ua: 'Вміння й навчання', ru: 'Умения и обучение' },
+        { key: 'magic',   en: 'Spells and magic',    ua: 'Закляття й магія', ru: 'Заклинания и магия' },
+        { key: 'combat',  en: 'Combat',            ua: 'Бій', ru: 'Бой' },
+        { key: 'classes', en: 'Classes',           ua: 'Класи', ru: 'Классы' },
+        { key: 'races',   en: 'Races',             ua: 'Раси', ru: 'Расы' },
+        { key: 'gods',    en: 'Gods and religions',  ua: 'Боги й релігії', ru: 'Боги и религии' },
+        { key: 'items',   en: 'Items and economy',   ua: 'Речі й господарство', ru: 'Вещи и хозяйство' },
+        { key: 'world',   en: 'World and travel',    ua: 'Світ і подорожі', ru: 'Мир и путешествия' },
+        { key: 'quests',  en: 'Quests',            ua: 'Квести', ru: 'Квесты' },
+        { key: 'society', en: 'Players and clans',   ua: 'Гравці й клани', ru: 'Игроки и кланы' },
         { key: 'comm',    en: 'Communication and settings',
-          ua: 'Спілкування й налаштування' },
-        { key: 'socials', en: 'Socials',           ua: 'Соціали' },
+          ua: 'Спілкування й налаштування', ru: 'Общение и настройки' },
+        { key: 'socials', en: 'Socials',           ua: 'Соціали', ru: 'Социалы' },
     ];
     /* Anything the resolver could not place. Should stay empty -- if this band
        ever appears, an article slipped through and the IA needs a rule, so it is
        deliberately not given a friendly name. */
-    var FALLBACK = { key: 'more', en: 'Uncategorised', ua: 'Без категорії' };
+    var FALLBACK = { key: 'more', en: 'Uncategorised', ua: 'Без категорії', ru: 'Без категории' };
 
     /* Immortal docs, licences and engine-internal articles stay reachable by
        search and by direct link, but never clutter the browsable index. */
@@ -77,7 +83,7 @@
     function badge(a) {
         var k = kindOf(a);
         if (!k) return '';
-        return '<span class="hkind">' + esc(L() === 'ua' ? k.ua : k.en) + '</span>';
+        return '<span class="hkind">' + esc(k[L()]) + '</span>';
     }
 
     /* ---- facet filter --------------------------------------------------------
@@ -90,35 +96,35 @@
 
     // the 13 player classes; other `<x>-skills` labels are clans and mob races
     var CLASSES = [
-        { key: 'warrior', en: 'warrior', ua: 'воїн' },
-        { key: 'ranger', en: 'ranger', ua: 'рейнджер' },
-        { key: 'samurai', en: 'samurai', ua: 'самурай' },
-        { key: 'thief', en: 'thief', ua: 'крадій' },
-        { key: 'ninja', en: 'ninja', ua: 'ніндзя' },
-        { key: 'paladin', en: 'paladin', ua: 'паладин' },
-        { key: 'anti-paladin', en: 'anti-paladin', ua: 'анти-паладин' },
-        { key: 'vampire', en: 'vampire', ua: 'вампір' },
-        { key: 'cleric', en: 'cleric', ua: 'клірик' },
-        { key: 'witch', en: 'witch', ua: 'відьма' },
-        { key: 'warlock', en: 'warlock', ua: 'чаклун' },
-        { key: 'druid', en: 'druid', ua: 'друїд' },
-        { key: 'necromancer', en: 'necromancer', ua: 'некромант' },
+        { key: 'warrior', en: 'warrior', ua: 'воїн', ru: 'воин' },
+        { key: 'ranger', en: 'ranger', ua: 'рейнджер', ru: 'рейнджер' },
+        { key: 'samurai', en: 'samurai', ua: 'самурай', ru: 'самурай' },
+        { key: 'thief', en: 'thief', ua: 'крадій', ru: 'вор' },
+        { key: 'ninja', en: 'ninja', ua: 'ніндзя', ru: 'ниндзя' },
+        { key: 'paladin', en: 'paladin', ua: 'паладин', ru: 'паладин' },
+        { key: 'anti-paladin', en: 'anti-paladin', ua: 'анти-паладин', ru: 'анти-паладин' },
+        { key: 'vampire', en: 'vampire', ua: 'вампір', ru: 'вампир' },
+        { key: 'cleric', en: 'cleric', ua: 'клірик', ru: 'клерик' },
+        { key: 'witch', en: 'witch', ua: 'відьма', ru: 'ведьма' },
+        { key: 'warlock', en: 'warlock', ua: 'чаклун', ru: 'колдун' },
+        { key: 'druid', en: 'druid', ua: 'друїд', ru: 'друид' },
+        { key: 'necromancer', en: 'necromancer', ua: 'некромант', ru: 'некромант' },
     ];
 
     // picker entries: one per badge kind, in the rail's reading order
     var KIND_PICKS = [
-        { key: 'skill', en: 'skills', ua: 'вміння' },
-        { key: 'spell', en: 'spells', ua: 'закляття' },
-        { key: 'command', en: 'commands', ua: 'команди' },
-        { key: 'social', en: 'socials', ua: 'соціали' },
-        { key: 'race', en: 'races', ua: 'раси' },
-        { key: 'class', en: 'classes', ua: 'класи' },
-        { key: 'religion', en: 'religions', ua: 'релігії' },
-        { key: 'zone', en: 'zones', ua: 'зони' },
-        { key: 'craft', en: 'crafts', ua: 'ремесла' },
-        { key: 'group', en: 'skill groups', ua: 'групи вмінь' },
-        { key: 'behavior', en: 'behaviors', ua: 'поведінки' },
-        { key: 'language', en: 'languages', ua: 'мови' },
+        { key: 'skill', en: 'skills', ua: 'вміння', ru: 'умения' },
+        { key: 'spell', en: 'spells', ua: 'закляття', ru: 'заклинания' },
+        { key: 'command', en: 'commands', ua: 'команди', ru: 'команды' },
+        { key: 'social', en: 'socials', ua: 'соціали', ru: 'социалы' },
+        { key: 'race', en: 'races', ua: 'раси', ru: 'расы' },
+        { key: 'class', en: 'classes', ua: 'класи', ru: 'классы' },
+        { key: 'religion', en: 'religions', ua: 'релігії', ru: 'религии' },
+        { key: 'zone', en: 'zones', ua: 'зони', ru: 'зоны' },
+        { key: 'craft', en: 'crafts', ua: 'ремесла', ru: 'ремесла' },
+        { key: 'group', en: 'skill groups', ua: 'групи вмінь', ru: 'группы умений' },
+        { key: 'behavior', en: 'behaviors', ua: 'поведінки', ru: 'поведения' },
+        { key: 'language', en: 'languages', ua: 'мови', ru: 'языки' },
     ];
 
     function pickTest(v) {
@@ -214,7 +220,10 @@
         }).catch(plain);
     }
 
+    /* help-body-ru.json is the base every article falls back to, so Russian
+       needs no overlay of its own. */
     function loadOverlay(lang) {
+        if (lang === 'ru') { overlay = {}; textFor = null; return Promise.resolve(); }
         return fetchData('help-body-' + (lang === 'ua' ? 'ua' : 'en') + '.json')
             .catch(function () { return {}; })
             .then(function (d) { overlay = d || {}; textFor = null; });
@@ -259,7 +268,7 @@
         })
         .catch(function () {
             artEl.innerHTML = '<p class="help-empty">' +
-                (L() === 'ua' ? 'Не вдалося завантажити довідку.' : 'Could not load the help.') + '</p>';
+                tx('Could not load the help.', 'Не вдалося завантажити довідку.', 'Не удалось загрузить справку.') + '</p>';
         });
 
     // ---- category index ---------------------------------------------------
@@ -309,11 +318,12 @@
             if (!g.items.length) return;
             g.items.sort(function (x, y) { return t(x.toc).localeCompare(t(y.toc)); });
             opts += '<option value="' + s.key + '">' +
-                esc(L() === 'ua' ? s.ua : s.en) + ' (' + g.items.length + ')</option>';
+                esc(s[L()]) + ' (' + g.items.length + ')</option>';
             html += '<details class="hcat ds-menu__group" data-cat="' + s.key + '">' +
                 '<summary class="ds-menu__cat">' +
                 '<span class="hcat__name" lang="en">' + esc(s.en) + '</span>' +
                 '<span class="hcat__name" lang="uk">' + esc(s.ua) + '</span>' +
+                '<span class="hcat__name" lang="ru">' + esc(s.ru) + '</span>' +
                 '<span class="ds-menu__count">' + g.items.length + '</span>' +
                 '<span class="ds-menu__caret" aria-hidden="true"></span></summary>' +
                 '<ul class="ds-menu__list">' +
@@ -323,10 +333,10 @@
                 }).join('') + '</ul></details>';
         });
         if (!shown) html = '<p class="help-empty">' +
-            (L() === 'ua' ? 'Статей такого типу немає.' : 'No articles of this type.') + '</p>';
+            tx('No articles of this type.', 'Статей такого типу немає.', 'Статей такого типа нет.') + '</p>';
         idxEl.innerHTML =
             (opts ? '<select class="catpick" id="helpCatPick" aria-label="' +
-                esc(L() === 'ua' ? 'Категорія довідки' : 'Help category') + '">' + opts + '</select>' : '') +
+                esc(tx('Help category', 'Категорія довідки', 'Категория справки')) + '">' + opts + '</select>' : '') +
             html;
         var pick = document.getElementById('helpCatPick');
         if (pick) pick.addEventListener('change', function () { setCat(pick.value); });
@@ -339,7 +349,7 @@
     var kindEl = document.getElementById('helpKind');
     function buildKindPick() {
         if (!kindEl) return;
-        var ua = L() === 'ua';
+        var l = L();
         function count(test) {
             var n = 0;
             index.forEach(function (a) { if (sectionFor(a) && test(a)) n++; });
@@ -349,21 +359,21 @@
             return '<option value="' + esc(v) + '"' + (v === kindPick ? ' selected' : '') + '>' +
                 esc(text) + (n == null ? '' : ' (' + n + ')') + '</option>';
         }
-        var html = opt('', ua ? 'Усі типи' : 'All types', null);
+        var html = opt('', tx('All types', 'Усі типи', 'Все типы'), null);
         KIND_PICKS.forEach(function (k) {
             var n = count(kindIs(k.key));
-            if (n) html += opt('k:' + k.key, ua ? k.ua : k.en, n);
+            if (n) html += opt('k:' + k.key, k[l], n);
         });
         var cls = '';
         CLASSES.forEach(function (c) {
             var n = count(function (a) { return hasLabel(a, c.key + '-skills'); });
-            if (n) cls += opt('c:' + c.key, ua ? c.ua : c.en, n);
+            if (n) cls += opt('c:' + c.key, c[l], n);
         });
-        if (cls) html += '<optgroup label="' + esc(ua ? 'Вміння класу' : 'Class skills') + '">' + cls + '</optgroup>';
+        if (cls) html += '<optgroup label="' + esc(tx('Class skills', 'Вміння класу', 'Умения класса')) + '">' + cls + '</optgroup>';
         kindEl.innerHTML = html;
         kindEl.value = kindPick;
         kindEl.classList.toggle('is-on', !!kindPick);
-        kindEl.setAttribute('aria-label', ua ? 'Тип статті' : 'Article type');
+        kindEl.setAttribute('aria-label', tx('Article type', 'Тип статті', 'Тип статьи'));
     }
     if (kindEl) kindEl.addEventListener('change', function () {
         kindPick = kindEl.value;
@@ -372,7 +382,7 @@
         var n = buildIndex();
         markCurrent(curId);
         var st = document.getElementById('helpFilterStatus');
-        if (st) st.textContent = L() === 'ua' ? ('Статей у списку: ' + n) : (n + ' articles listed');
+        if (st) st.textContent = tx(n + ' articles listed', 'Статей у списку: ' + n, 'Статей в списке: ' + n);
         if (searchEl && searchEl.value) searchFor(searchEl.value);
     });
 
@@ -383,7 +393,7 @@
         var items = (a.related || []).map(function (id) { return byId[id]; })
             .filter(function (r) { return r; });
         if (!items.length) return '';
-        var title = L() === 'ua' ? 'Див. також' : 'See also';
+        var title = tx('See also', 'Див. також', 'См. также');
         return '<nav class="hart__related" aria-label="' + esc(title) + '">' +
             '<h3>' + esc(title) + '</h3><ul>' +
             items.map(function (r) {
@@ -402,13 +412,13 @@
             // the bodies are still on the wire -- claim the slot and come back
             pendingId = id;
             artEl.innerHTML = '<p class="help-empty">' +
-                (L() === 'ua' ? 'Завантаження...' : 'Loading...') + '</p>';
+                tx('Loading...', 'Завантаження...', 'Загрузка...') + '</p>';
             loadBodies();
             return;
         }
         if (!a) {
             artEl.innerHTML = '<p class="help-empty">' +
-                (L() === 'ua' ? 'Такої статті немає.' : 'No such article.') + '</p>';
+                tx('No such article.', 'Такої статті немає.', 'Такой статьи нет.') + '</p>';
             return;
         }
         artEl.innerHTML =
@@ -491,9 +501,9 @@
        line, the matched word under it when the title does not show it. */
     function suggestions(full) {
         var sug = S.fuzzy(index, full, L(), kindTest);
-        var none = '<p class="help-empty">' + (L() === 'ua' ? 'Нічого не знайшлося.' : 'Nothing found.') + '</p>';
+        var none = '<p class="help-empty">' + tx('Nothing found.', 'Нічого не знайшлося.', 'Ничего не нашлось.') + '</p>';
         if (!sug.length) return none;
-        return '<p class="hsearch__maybe">' + (L() === 'ua' ? 'Можливо, мали на увазі:' : 'Did you mean:') + '</p>' +
+        return '<p class="hsearch__maybe">' + tx('Did you mean:', 'Можливо, мали на увазі:', 'Может, имелось в виду:') + '</p>' +
             sug.map(function (h) {
                 var hint = S.fuzzyHint(h, L());
                 return '<a href="#h' + h.article.id + '" data-hid="' + h.article.id + '"><b>' +
@@ -526,7 +536,7 @@
     // the placeholder is an attribute, so the dual-DOM trick can't carry it
     function paintChrome() {
         if (searchEl) searchEl.setAttribute('placeholder',
-            L() === 'ua' ? 'Шукай будь-що' : 'Search anything');
+            tx('Search anything', 'Шукай будь-що', 'Ищи что угодно'));
     }
     paintChrome();
 
