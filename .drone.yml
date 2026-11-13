@@ -36,6 +36,9 @@ steps:
   - /usr/bin/node /var/www/dreamland_web/site.js/build-maps.js /home/dreamland/dreamland_mapper/public/data
   - /usr/bin/node /var/www/dreamland_web/site.js/build-zonehelp.js /tmp/helps.json /home/dreamland/dreamland_areas
   - /usr/bin/node /var/www/dreamland_web/site.js/build-news.js /tmp/news.xml
+  # legends.html from the story dumps ('webdump story') + the book of legends in git
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-legends.js /tmp/story2.xml /tmp/story1.xml
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-gallery.js
   # homepage "One world" rooms, from the live area files
   - /usr/bin/node /var/www/dreamland_web/site.js/build-rooms.js /home/dreamland/dreamland_areas
   - cp /tmp/db_armor.json /tmp/db_weapon.json /tmp/db_magic.json /tmp/db_pets.json /var/www/dreamland_web/static/data/
