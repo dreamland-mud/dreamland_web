@@ -62,6 +62,13 @@ steps:
   commands:
   - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime
 
+# Redirect pages over every URL of the old Russian site (/ru/..., /ru/maps/...
+# and the root copies). After update_website, which writes the /maps pages the
+# /ru/maps stubs are listed from; before build_sitemap, which skips them.
+- name: update_stubs
+  commands:
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-stubs.js /var/www/dreamland_web/static
+
 # Public help MCP server (mcp-help/README.md). The unit restarts itself when
 # these files change, so installing dependencies is all this step does.
 - name: mcp_help

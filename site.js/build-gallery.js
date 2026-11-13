@@ -2,8 +2,8 @@
 /* website.js/data/gallery.json + the video and drawing lists below
  *   -> static/gallery.html, in the new design.
  *
- * gallery.json is the same file website.js/main.js renders into the old
- * /ru/gallery.html. Russian only for now: the EN and UA modes show a one-line
+ * gallery.json is the same file the old Russian site's gallery page was
+ * rendered from. Russian only for now: the EN and UA modes show a one-line
  * note and then the Russian text, tagged lang="ru" for screen readers.
  *
  * usage: node site.js/build-gallery.js [gallery.json]

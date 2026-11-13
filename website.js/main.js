@@ -1,7 +1,7 @@
-const cheerio = require('cheerio')
 const fs = require('fs')
 const path = require('path')
 const ejs = require('ejs')
+const shell = require('../site.js/shell')
 const { XMLParser } = require('fast-xml-parser')
 
 // Game dumps carry entities that he.decode handles later, so keep them raw
@@ -25,21 +25,13 @@ else
 process.chdir(__dirname)
 var srcMapDir = '../static/maps/sources' 
 var bannerMapDir = '../static/maps/banners'
-var destDir = '../static/'
 var destMapDir = '../static/maps'
-var ruDir = '../static/ru'
 
-// The Russian edition lives in its own directory, but the templates mix
-// root-absolute asset links (/css/style.css) with relative ones (maps/x.html,
-// img/..., css/news.css). Give /ru its own view of the shared directories
-// instead of hunting every relative reference through twenty templates.
-fs.mkdirSync(ruDir, { recursive: true })
-;['css', 'js', 'img', 'maps', 'downloads'].forEach(dir => {
-    var link = ruDir + '/' + dir
-    if (fs.lstatSync(link, { throwIfNoEntry: false }))
-        fs.rmSync(link, { recursive: true, force: true })
-    fs.symlinkSync('../' + dir, link)
-})
+// Everything else this generator used to write (the Russian edition under
+// /ru and its root copies) has a page in the new design now, and
+// site.js/build-stubs.js turns the old URLs into redirects. What is left here
+// has no replacement yet: the per-area ASCII map pages, the maps index the
+// map editor and the old item searcher read, and the Fenia API reference.
 
 // Strip MUD markup the way the engine's parse_color_web does: it consumes a {
 // and the char after it, emitting nothing for a colour/format code -- and even
@@ -50,85 +42,6 @@ const stripTags = s => (s || '')
     .replace(/\{hh\d*/g, '')
     .replace(/\{h[cxs]/g, '')
     .replace(/\{[a-zA-Z0-9*+\/]/g, '')
-
-/** Analyze current line and the following one, to see if a forced line break can be safely removed. */
-const needsLineBreak = (line, nextline) => {
-    let punct = line.match(/[\.\?!:] *$/) != null;
-    let nextcap = nextline !== undefined && (nextline.match(/^[А-ЯA-Z]/) != null);
-    let nextspace = nextline !== undefined && (
-            nextline.match(/^ *[-\*\[] */) != null ||
-            nextline.match(/^\s*$/) != null ||
-            nextline.match(/^   /) != null);
-
-    // If line ends in punctuation mark and next one begins with a space/asterix, assume it's a break.
-    if (punct && nextspace)
-        return true;
-
-    // Always keep empty lines as they were.
-    if (line.match(/^ *$/) != null)
-        return true;
-
-    // If next line starts with a space/asterix, assume a break is required.
-    if (nextspace)
-        return true;
-
-    // Join all other lines.
-    return false;
-};
-
-/** Transform node.text, removing extra line breaks added for the sake of 80-character width displays,
-  * thus making the text responsive. 
-  */
-const newsTransformer = nodes => {
-    return nodes.map(node => {
-        let lines = node.text.split('\n');
-        let newtext = '';
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i];
-            let nextline = i+1 < lines.length ? lines[i+1] : undefined;
-
-            newtext += line.trimEnd();
-            if (needsLineBreak(line, nextline)) {
-                newtext += '\n';
-            } else if (nextline && !nextline.match(/^ /)) {
-                newtext += ' ';
-            }
-        }
-
-        node.text = newtext;
-        return node; 
-    });
-};
-
-/** Write a generated page. Everything this generator makes is Russian, so it all
-  * lands under /ru, the Russian edition of the site. Pages with a replacement in
-  * the new design at the root exist only under /ru now (stories and samurai
-  * were folded into the new legends.html). The rest are also written to the
-  * root so no published URL breaks. */
-const ownedByNewSite = new Set(['index', 'searcher', 'maps', 'news',
-                                'values', 'gallery', 'legends', 'stories', 'samurai'])
-
-const writePage = (keyword, str) => {
-    // The root copies and /ru/index.html duplicate a /ru page: point search
-    // engines at the one URL.
-    let canonical = 'https://dreamland.rocks/ru/' + (keyword == 'index' ? '' : keyword + '.html')
-    str = str.replace('</head>', '<link rel="canonical" href="' + canonical + '"/>\n</head>')
-    fs.writeFileSync(ruDir + '/' + keyword + '.html', str)
-    if (!ownedByNewSite.has(keyword))
-        fs.writeFileSync(destDir + '/' + keyword + '.html', str)
-}
-
-/** Render a single page applying specified sort order and text transformer. */
-const render = (keyword, array, sorter, nodesTransformer) =>
-    ejs.renderFile
-        ('templates/' + keyword + '.ejs',
-        { notes: nodesTransformer(array.sort(sorter)) },
-        function(err, str) {
-            !err || console.log(err)
-            writePage(keyword, str)
-        }
-    )
 
 /** Given a phrase of several words, some of them with gram cases listed with "|",
   * return the same phrase with all words in nominative case. 
@@ -234,125 +147,49 @@ areaList.forEach(area => {
     }
 })
 
-// Convert <c c='fgdw'> tags into spans with corresponding class attribute.
-// Decode <c/> tags from their &lt;c/&gt; form.
-const colourConv = text => {
-    let $ = cheerio.load(he.decode(text), {decodeEntities : false});
-    $('c').each(function(index, c) {
-        var span = $('<span/>')
-            .append($(this).contents())
-            .addClass($(this).attr('c'))
-        $(this).replaceWith(span)
-    })
-    return $('body').html()
-}
-
-console.log('Reading news...')
-let newsPath = '/tmp/news.xml';
-if (fs.existsSync(newsPath)) {
-    var newsXml = fs.readFileSync(newsPath, {encoding: 'utf-8'})
-    var newsObj = parseXml(newsXml, {})
-    render('news', newsObj.NoteBucket.node, (a,b) => b.id - a.id, newsTransformer);
-} else {
-    console.log('File ', newsPath, 'not found, generate it with \'webdump news\' command.');
-}
-
-console.log('Reading legends...')
-var legendsXml = fs.readFileSync('data/legends-dump.xml', {encoding: 'utf-8'})
-var legendsObj = parseXml(legendsXml, {
-    ignoreAttributes: false,
-    parseAttributeValue: true,
-    attributeNamePrefix : "",
-    attributesGroupName: "attr",
-    textNodeName: "text"
-})
-render('legends', legendsObj.book.node, (a,b) => a.attr.keyword > b.attr.keyword, nodes => nodes);
-
-
-console.log('Reading modern stories...')
-let storiesPath = '/tmp/story2.xml';
-if (fs.existsSync(storiesPath)) {
-    var storiesXml = fs.readFileSync(storiesPath, {encoding: 'utf-8'})
-    const stories = 
-        parseXml(storiesXml, {stopNodes: ['*.text']})
-        .NoteBucket.node
-        .map(n => {
-            n.text = colourConv(n.text)
-            n.subject = colourConv(n.subject)
-            return n;
-        });
-    render('stories', stories, (a,b) => a.id - b.id, nodes => nodes);
-} else {
-    console.log('File ', storiesPath, 'not found, generate it with \'webdump story\' command.');
-}
-
-console.log('Reading samurai stories...')
-let samuraiPath = '/tmp/story1.xml';
-if (fs.existsSync(storiesPath)) {
-    var samuraiXml = fs.readFileSync(samuraiPath, {encoding: 'utf-8'})
-    const samurai = 
-        parseXml(samuraiXml, {stopNodes: ['*.text']})
-        .NoteBucket.node
-        .map(n => {
-            n.text = colourConv(n.text)
-            n.subject = colourConv(n.subject)
-            return n;
-        });
-    render('samurai', samurai, (a,b) => a.id - b.id, nodes => nodes);
-} else {
-    console.log('File ', samuraiPath, 'not found, generate it with \'webdump story\' command.');
-}
-
 console.log('Reading Fenia API...')
-let feniaApiPath = '/tmp/feniaapi.json';
+// The server dumps its API here on every boot; FENIA_API_JSON is for a local run.
+let feniaApiPath = process.env.FENIA_API_JSON || '/tmp/feniaapi.json';
 if (fs.existsSync(feniaApiPath)) {
-    var feniaApi = require('/tmp/feniaapi.json')
+    var feniaApi = JSON.parse(fs.readFileSync(feniaApiPath, 'utf8'))
 
-    ejs.renderFile('templates/feniaapi.ejs', { api: feniaApi }, function(err, str) {
-        !err || console.log(err)
-        writePage('feniaapi', str)
+    // Rendered into the new-site shell. scripts/fenia-api.py in the dev
+    // workspace parses this page: keep <table id="..."> for every section,
+    // plain <tr>/<td> rows and the <h4>name</h4><table> pairs after id="tables".
+    ejs.renderFile('templates/feniaapi-body.ejs', { api: feniaApi }, function(err, str) {
+        if (err) {
+            console.log(err)
+            return
+        }
+        shell.write('feniaapi.html', shell.page({
+            file: 'feniaapi.html',
+            title: 'DreamLand — Fenia API',
+            description: 'Reference of the Fenia scripting API of DreamLand MUD: fields and methods of characters, objects, rooms, prototypes, skills and structures, and every flag table. Generated by the running server. In Russian.',
+            css: 'feniaapi.css',
+            note: {
+                en: 'generated by the running server',
+                uk: 'згенеровано сервером, що працює зараз',
+                ru: 'сгенерировано работающим сервером'
+            },
+            body: `<section class="pagehead pagehead--fapi" id="top">
+    <div class="wrap">
+        ${shell.tri('h1', { en: 'Fenia API', uk: 'Fenia API', ru: 'Fenia API' })}
+        ${shell.tri('p', {
+            en: 'Fields, methods and flag tables of Fenia, the scripting language the game is written in.',
+            uk: 'Поля, методи й таблиці прапорів Fenia, мови сценаріїв, якою написана гра.',
+            ru: 'Поля, методы и таблицы флагов Фени, языка сценариев, на котором написана игра.'
+        })}
+        <p class="fapi__note" lang="en">This reference is in Russian.</p><p class="fapi__note" lang="uk">Цей довідник лише російською.</p>
+    </div>
+</section>
+
+<main class="wrap fapi ru-always" lang="ru">
+${str}
+</main>`
+        }))
     })
 } else {
     console.log('File ', feniaApiPath, 'not found, it will be generated on first DL run.');
 }
-
-console.log('Generating HTMLs...');
-
-ejs.renderFile('templates/index.ejs', function(err, str) {
-    !err || console.log(err)
-    writePage('index', str)
-})
-
-ejs.renderFile('templates/links.ejs', function(err, str) {
-    !err || console.log(err)
-    writePage('links', str)
-})
-
-ejs.renderFile('templates/values.ejs', function(err, str) {
-    !err || console.log(err)
-    writePage('values', str)
-})
-
-var gallery = require('./data/gallery.json');
-gallery.forEach(section => {
-        section.portraits.forEach(p => {
-            p.text = p.text.join('\n').replace(/{[a-zA-Z]/g, '');
-        });
-    });    
-ejs.renderFile('templates/gallery.ejs', { gallery }, function(err, str) {
-    !err || console.log(err)
-    writePage('gallery', str)
-})
-
-ejs.renderFile('templates/searcher.ejs', function(err, str) {
-    !err || console.log(err)
-    writePage('searcher', str)
-})
-
-ejs.renderFile('templates/maps.ejs', { areaList: areaList }, function(err, str) {
-    !err || console.log(err)
-    writePage('maps', str)
-})
-
 
 console.log('Done')

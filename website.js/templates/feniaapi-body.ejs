@@ -1,0 +1,712 @@
+<%# Body of /feniaapi.html; website.js/main.js wraps it in the new-site shell (site.js/shell.js). -%>
+<nav class="fapi__toc" aria-labelledby="toc">
+    <h2 id="toc">Содержание</h2>
+    <ul>
+        <li><a href="#char">Персонаж</a></li>
+        <li><a href="#obj">Предмет</a></li>
+        <li><a href="#room">Комната</a></li>
+        <li><a href="#indexdata">Прототипы</a></li>
+        <li><a href="#root">Корневой</a></li>
+        <li><a href="#skillspell">Умение</a></li>
+        <li><a href="#struct">Структуры</a></li>
+        <li><a href="#string">Строка</a></li>
+        <li><a href="#tables">Таблицы</a></li>
+        <li><a href="#behavior">Поведение</a></li>
+    </ul>
+</nav>
+
+<section id="char" class="fapi__part" aria-labelledby="char-h">
+    <h2 id="char-h">Персонаж: моб или игрок</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="#char_fields">Поля персонажа</a></li>
+            <li><a href="#char_methods">Методы персонажа</a></li>
+            <li><a href="#player_fields">Поля игрока оффлайн</a></li>
+            <li><a href="#player_methods">Методы игрока оффлайн</a></li>
+            </ul>
+    </div>
+    </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><strong>eval ptc(api())</strong></li>
+            <li><strong>eval ptc(get_char_world("xxx").api())</strong></li>
+            <li><strong>eval ptc(.Player("xxx").api())</strong></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">См. также</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-Triggers#mob-triggers">Список всех триггеров для персонажей</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <a name="char_fields"></a>
+    <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
+            <table id="char_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th class="th-status">Статус</th>
+                    <th>Поле</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-fields', {apiList: api['char_fields']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#char_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="char_methods"></a>
+    <h3>Методы</h3>
+            <table id="char_methods" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['char_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#char_methods">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="player_fields"></a>
+    <h3>Поля игрока (.Player), доступные оффлайн</h3>
+            <table id="player_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th class="th-status">Статус</th>
+                    <th>Поле</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-fields', {apiList: api['player_fields']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#player_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="player_methods"></a>
+    <h3>Методы игрока (.Player), доступные оффлайн</h3>
+            <table id="player_methods" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['player_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#player_methods">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+</section>
+
+<section id="obj" class="fapi__part" aria-labelledby="obj-h">
+    <h2 id="obj-h">Предмет, объект</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="#obj_fields">Поля предмета</a></li>
+            <li><a href="#obj_methods">Методы предмета</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><strong>eval ptc(get_obj_world("barrel").api())</strong></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">См. также</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-Triggers#item-triggers">Список всех триггеров для предметов</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <a name="obj_fields"></a>
+    <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
+            <table id="obj_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th class="th-status">Статус</th>
+                    <th>Поле</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-fields', {apiList: api['obj_fields']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#obj_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="obj_methods"></a>
+    <h3>Методы</h3>
+            <table id="obj_methods" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['obj_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#obj_methods">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+</section>
+
+<section id="room" class="fapi__part" aria-labelledby="room-h">
+    <h2 id="room-h">Комната</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="#room_fields">Поля комнаты</a></li>
+            <li><a href="#room_methods">Методы комнаты</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><strong>eval ptc(in_room.api())</strong></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">См. также</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-Triggers#room-triggers">Список всех триггеров для комнаты</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <a name="room_fields"></a>
+    <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
+            <table id="room_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th class="th-status">Статус</th>
+                    <th>Поле</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-fields', {apiList: api['room_fields']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#room_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="room_methods"></a>
+    <h3>Методы</h3>
+            <table id="room_methods" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['room_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#room_methods">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+</section>
+
+<section id="indexdata" class="fapi__part" aria-labelledby="indexdata-h">
+    <h2 id="indexdata-h">Прототипы предметов, мобов и зон</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="#obj_index_fields">Прототип предмета</a></li>
+            <li><a href="#mob_index_fields">Прототип моба</a></li>
+            <li><a href="#area_index_fields">Прототип зоны</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><strong>eval ptc(.get_mob_index(3000).api())</strong></li>
+            <li><strong>eval ptc(.get_obj_index(3000).api())</strong></li>
+            <li><strong>eval ptc(.get_area_index("midgaard.are").api())</strong></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">См. также</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-Triggers#mob-triggers">Список всех триггеров для персонажа</a></li>
+            <li><a href="https://github.com/dreamland-mud/dreamland_code/wiki/Fenia-Triggers#item-triggers">Список всех триггеров для предмета</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Примечание</h3>
+        <div class="fapi__text">Все поля прототипов доступны только для чтения. </div>
+        </div>
+    </div>
+    <a name="obj_index_fields"></a>
+    <h3>Поля и методы прототипа предмета (obj index data)</h3>
+            <table id="obj_index_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['obj_index_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#obj_index_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="mob_index_fields"></a>
+    <h3>Поля и методы прототипа моба (mob index data)</h3>
+            <table id="mob_index_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['mob_index_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#mob_index_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="area_index_fields"></a>
+    <h3>Поля и методы прототипа зоны (area index data)</h3>
+            <table id="area_index_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['area_index_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#area_index_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+</section>
+<section id="root" class="fapi__part" aria-labelledby="root-h">
+    <h2 id="root-h">Корневой объект (root)</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><a href="#root_fields">Поля корневого объекта</a></li>
+            <li><a href="#root_methods">Методы корневого объекта</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><strong>eval ptc(.api())</strong></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Примечание</h3>
+        <div class="fapi__text">Поля и методы корневого объекта начинаются с точки.</div>
+        </div>
+    </div>
+    <a name="root_fields"></a>
+    <h3>Поля, доступные только для чтения [ro] и для записи [rw]</h3>
+            <table id="root_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th class="th-status">Статус</th>
+                    <th>Поле</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-fields', {apiList: api['root_fields']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#root_fields">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+
+    <a name="root_methods"></a>
+    <h3>Методы</h3>
+            <table id="root_methods" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['root_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#root_methods">Наверх таблицы</a> · <a href="#top">Наверх страницы</a></p>
+</section>
+
+<section id="struct" class="fapi__part" aria-labelledby="struct-h">
+    <h2 id="struct-h">Различные структуры</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+             <li><a href="#affect_fields">Affect</a></li>
+             <li><a href="#command_fields">FeniaCommand</a></li>
+             <li><a href="#area_fields">Area</a></li>
+             <li><a href="#areaquest_fields">AreaQuest</a></li>
+             <li><a href="#hometown_fields">Hometown</a></li>
+             <li><a href="#bonus_fields">Bonus</a></li>
+             <li><a href="#religion_fields">Religion</a></li>
+             <li><a href="#profession_fields">Profession</a></li>
+             <li><a href="#race_fields">Race</a></li>
+             <li><a href="#clan_fields">Clan</a></li>
+             <li><a href="#craftprofession_fields">CraftProfession</a></li>
+             <li><a href="#liquid_fields">Liquid</a></li>
+             <li><a href="#material_fields">Material</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">Можно посмотреть API для каждой структуры, создав ее и вызвав метод api(), например:
+            <ul>
+            <li><strong>eval ptc(.Affect("none").api())</strong></li>
+            <li><strong>eval ptc(.Profession("cleric").api())</strong></li>
+            <li><strong>eval ptc(.Liquid("wine").api())</strong></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <a name="affect_fields"></a>
+    <h3>Affect: аффект, поля и методы</h3>
+    <p>Все поля доступны для чтения и записи.</p>
+            <table id="affect_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['affect_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="command_fields"></a>
+    <h3>FeniaCommand: команда, поля и методы</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="command_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['command_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="area_fields"></a>
+    <h3>Area: зона</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="area_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['area_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="areaquest_fields"></a>
+    <h3>AreaQuest: арийный квест</h3>
+    <p>Шаг квеста, доступный через метод step(0), step(1), имеет такие поля:
+<pre>
+info - строка с подсказкой по шагу
+rewardQp - награда за шаг в qp
+rewardGold - награда за шаг в золоте
+rewardExp - награда за шаг в опыте
+rewardVnum - награда за шаг в виде предмета
+</pre>
+</p>
+<p>Информация о выполняемых квестах для персонажа ch хранится в его аттрибуте 'areaquest'. Это массив, в котором ключом служит vnum квеста, а значением - структура с полями.
+<pre>
+Структура ch.attribute("areaquest")[6000] имеет поля:
+
+total          - сколько раз за все жизни выполнили данный квест
+thisLife       - сколько раз выполнили за эту жизнь
+step           - текущий шаг или -1, если квест не активен
+timestart      - когда начался активный квест или 0, если квест не активен
+timeend        - когда закончился предыдущий квест или 0, если уже запущен
+</pre>
+</p>
+
+            <table id="areaquest_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['areaquest_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="hometown_fields"></a>
+    <h3>Hometown: родной город</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="hometown_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['hometown_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="bonus_fields"></a>
+    <h3>Bonus: календарный или религиозные бонус</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="bonus_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['bonus_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="religion_fields"></a>
+    <h3>Religion: религия</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="religion_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['religion_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="profession_fields"></a>
+    <h3>Profession: класс персонажа</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="profession_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['profession_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="race_fields"></a>
+    <h3>Race: раса персонажа</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="race_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['race_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="clan_fields"></a>
+    <h3>Clan: клан</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="clan_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['clan_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="craftprofession_fields"></a>
+    <h3>CraftProfession: дополнительная профессия</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="craftprofession_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['craftprofession_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="liquid_fields"></a>
+    <h3>Liquid: жидкость</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="liquid_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['liquid_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="material_fields"></a>
+    <h3>Material: материал(ы)</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="material_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['material_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+</section>
+
+<section id="skillspell" class="fapi__part" aria-labelledby="skillspell-h">
+    <h2 id="skillspell-h">Умения</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+             <li><a href="#skill_fields">Умение: .Skill()</a></li>
+             <li><a href="#skillgroup_fields">Группа умений: .SkillGroup()</a></li>
+             <li><a href="#spell_fields">Заклинание: .Spell()</a></li>
+             <li><a href="#spellcontext_fields">Контекст вызова заклинания</a></li>
+             <li><a href="#affecthandler_fields">Обработчик аффекта: .AffectHandler()</a></li>
+             <li><a href="#skillcommand_fields">Команда умения: .SkillCommand()</a></li>
+             <li><a href="#commandcontext_fields">Контекст вызова команды</a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+
+    <a name="skill_fields"></a>
+    <h3>Умение: .Skill()</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="skill_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['skill_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="skillgroup_fields"></a>
+    <h3>Группа умений: .SkillGroup()</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="skill_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['skillgroup_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="spell_fields"></a>
+    <h3>Заклинание: .Spell()</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="spell_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['spell_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="spellcontext_fields"></a>
+    <h3>Контекст вызова заклинания (что доступно изнутри runVict, runObj)</h3>
+            <table id="spellcontext_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['spellcontext_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="affecthandler_fields"></a>
+    <h3>Обработчик аффекта: .AffectHandler()</h3>
+            <table id="affecthandler_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['affecthandler_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="skillcommand_fields"></a>
+    <h3>Команда умения: .SkillCommand()</h3>
+    <p>Все поля доступны только для чтения.</p>
+            <table id="skillcommand_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['skillcommand_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+    <a name="commandcontext_fields"></a>
+    <h3>Контекст вызова команды (что доступно изнутри метода run)</h3>
+            <table id="commandcontext_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['commandcontext_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+
+</section>
+
+<section id="string" class="fapi__part" aria-labelledby="string-h">
+    <h2 id="string-h">Строка</h2>
+    <div class="fapi__info">
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Содержание</h3>
+        <div class="fapi__text">
+            <ul>
+             <li><a href="#string_fields">Методы строки</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="fapi__card">
+        <h3 class="fapi__cardh">Доступ к API изнутри мира</h3>
+        <div class="fapi__text">
+            <ul>
+            <li><strong>eval ptc("".api())</strong></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <h3>Методы</h3>
+            <table id="string_methods" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['string_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+</section>
+
+<section id="tables" class="fapi__part" aria-labelledby="tables-h">
+    <h2 id="tables-h">Таблицы</h2>
+
+    <p>Доступ ко всем таблицам флагов или значений осуществляется через поле корневого объекта <b>.tables</b>. Список
+таблиц также можно увидеть по команде <b>olchelp</b>.</p>
+    <h3>Методы всех таблиц (.tables)</h3>
+    <ul>
+    <li><b>.tables.api()</b>: вывести список всех полей .tables, то есть всех доступных таблиц</li>
+    </ul>
+    <h3>Методы отдельной таблицы (например, .tables.affect_flags)</h3>
+    <p>Каждая из таблиц имеет такие методы:</p>
+    <ul>
+       <li><b>.tables.affect_flag.api()</b>: вывести список всех полей таблицы и их русский перевод</li>
+       <li><b>.tables.affect_flag.names(число)</b>: вернет строку из названий флагов, которым соответствует это число</li>
+       <li><b>.tables.affect_flag.messages(число)</b>: вернет строку из русских названий флагов, если они прописаны для таблицы</li>
+       <li><b>.tables.affect_flag.values(строка)</b>: вернет числовое значение флага (флагов) по их английскому названию в строке</li>
+       <li><b>.tables.affect_flag.find(строка)</b>: нестрогий поиск флага по английскому или русскому имени во всех падежах</li>
+       <li><b>.tables.affect_flag.names</b>: список всех английских названий флагов</li>
+       <li><b>.tables.affect_flag.values</b>: список всех численных значений флагов</li>
+       <li><b>.tables.affect_flag.флаг</b>: численное значени того или иного флага, например, .tables.affect_flag.curse</li>
+    </ul>
+    <h3>Все таблицы</h3>
+    <div><%- include('fenia-tables', {apiList: api['tables']}) %></div>
+</section>
+
+<section id="behavior" class="fapi__part" aria-labelledby="behavior-h">
+    <h2 id="behavior-h">Поведение</h2>
+
+    <p>У mob/obj/room index data в поле behaviors хранится список всех назначенных поведений. Все поведения видны в OLC по команде 'bedit list'.</p>
+
+<p>Проверить, висит ли поведение на конкретном мобе, предмете или комнате, можно с помощью метода hasBehavior: например, eval ptc(get_obj_here("bells").hasBehavior("eqset_morris")).</p>
+<p>Каждое поведение имеет свой набор свойств, описанных в поле props поведения. Это JSON-объект, который можно посмотреть через API: eval ptc(.Behavior("eqset_noriva").props.total_count).</p>
+<p>Поле props на mob/obj/room index data представляет из себя JSON-объект, где ключом будет название поведения, а значением - его поле props. Это позволяет иметь много поведений на одном
+объекте или мобе, при этом их свойства не путаются между собой.  Доступ к props на index data: eval ptc(.get_obj_index(11876).props.noriva.total_count).
+</p>
+    <h3>Поля и методы поведения</h3>
+            <table id="behavior_fields" class="ds-table fapi__table">
+                <thead><tr>
+                    <th>Поле/Метод</th>
+                    <th>Описание</th>
+                </tr></thead>
+                <tbody><%- include('fenia-methods', {apiList: api['behavior_methods']}) %></tbody>
+            </table>
+            <p class="fapi__up"><a href="#top">Наверх страницы</a></p>
+</section>

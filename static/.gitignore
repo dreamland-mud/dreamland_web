@@ -1,10 +1,9 @@
-# Pages written by website.js/main.js at build time.
+# Pages written on live at build time: feniaapi.html (website.js/main.js),
+# legends.html and gallery.html (site.js/build-legends.js, build-gallery.js)
+# and the redirect stubs over the old Russian site's URLs (site.js/build-stubs.js).
 /*.html
 # ...except the pages of the new trilingual site, which are authored by hand
-# and live in git. The generator no longer writes these names to the root --
-# they exist only under /ru now. legends.html and gallery.html are new-site
-# pages too, but site.js/build-legends.js and build-gallery.js write them on
-# every deploy, so they stay ignored.
+# and live in git.
 !/index.html
 !/searcher.html
 !/maps.html
@@ -22,7 +21,8 @@
 
 # Built by site.js/build-*.js from the game's own dumps.
 /data/
-# The Russian edition, generated in full by website.js/main.js.
+# The old Russian edition: redirect stubs from site.js/build-stubs.js, plus the
+# old asset symlinks left in place for outside links.
 /ru/
 
 help
