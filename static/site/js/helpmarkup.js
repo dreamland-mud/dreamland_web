@@ -87,9 +87,10 @@ window.DLMarkup = (function () {
        four-word placeholder. Run last, over assembled HTML: esc() leaves every
        character of the marker alone, and the only markup around it by then is
        the <li> the metadata bullet became. */
-    var MAP_LABEL = { en: 'open the map', ua: 'відкрити мапу' };
+    var MAP_LABEL = { en: 'open the map', ua: 'відкрити мапу', ru: 'открыть карту' };
     function mapLinks(html) {
-        var l = document.documentElement.getAttribute('data-lang') === 'uk' ? 'ua' : 'en';
+        var dl = document.documentElement.getAttribute('data-lang');
+        var l = dl === 'uk' ? 'ua' : dl === 'ru' ? 'ru' : 'en';
         return html.replace(/\[map=([-0-9a-z_]{1,15})\.are\]/g, function (m, file) {
             return '<a class="hlink hlink--map" href="maps.html#' + file + '">' +
                 esc(MAP_LABEL[l]) + '</a>';

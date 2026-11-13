@@ -1,8 +1,8 @@
 /* Public account profile: /player/<id> (or /player/<CharName>).
    Data comes live from the game's public /api/profile endpoint, which answers
    404 for an account that has no reborn character, was switched off by its
-   owner, or has every character hidden. Every text renders in both languages
-   at once (lang="en" / lang="uk"), like the rest of the site, so the language
+   owner, or has every character hidden. Every text renders in all three languages
+   at once (lang="en" / "uk" / "ru"), like the rest of the site, so the language
    switch needs no re-render.
 
    Page order: header (the main character -- the one played longest -- with the
@@ -24,10 +24,10 @@
     // Clan badges, keyed by the first letter of the clan's internal name (the
     // who widget's key). The badge carries the short name; the sheet the full one.
     var CLAN_BADGES = {
-        a: ['Artificers', 'Артіль'], b: ['Fury', 'Ярості'], c: ['Chaos', 'Хаос'],
-        f: ['Flowers', 'Квіти'], g: ['Ghosts', 'Привиди'], i: ['Invaders', 'Загарбники'],
-        k: ['Knights', 'Лицарі'], l: ['Lions', 'Леви'], r: ['Rulers', 'Правителі'],
-        s: ['Shalafi', 'Шалафі']
+        a: ['Artificers', 'Артіль', 'Артель'], b: ['Fury', 'Ярості', 'Ярости'], c: ['Chaos', 'Хаос', 'Хаос'],
+        f: ['Flowers', 'Квіти', 'Цветы'], g: ['Ghosts', 'Привиди', 'Призраки'], i: ['Invaders', 'Загарбники', 'Захватчики'],
+        k: ['Knights', 'Лицарі', 'Рыцари'], l: ['Lions', 'Леви', 'Львы'], r: ['Rulers', 'Правителі', 'Правители'],
+        s: ['Shalafi', 'Шалафі', 'Шалафи']
     };
 
     function el(tag, cls, kids) {
@@ -40,23 +40,30 @@
         return e;
     }
 
-    // One text in both languages: two sibling spans, CSS shows the active one.
-    function bi(en, uk, cls) {
+    // One text in every language: sibling spans, CSS shows the active one.
+    // An empty translation falls back to English.
+    function tri(en, uk, ru, cls) {
         var f = document.createDocumentFragment();
-        var a = el('span', cls, [en]); a.setAttribute('lang', 'en');
-        var b = el('span', cls, [uk == null || uk === '' ? en : uk]); b.setAttribute('lang', 'uk');
-        f.appendChild(a); f.appendChild(b);
+        [['en', en], ['uk', uk], ['ru', ru]].forEach(function (p) {
+            var e = el('span', cls, [p[1] == null || p[1] === '' ? en : p[1]]);
+            e.setAttribute('lang', p[0]);
+            f.appendChild(e);
+        });
         return f;
     }
 
-    function ukPlural(n, uk1, uk2, uk5) {
-        var m10 = n % 10, m100 = n % 100;
-        return (m10 === 1 && m100 !== 11) ? uk1
-            : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? uk2 : uk5;
+    // 'en' | 'uk' | 'ru', for the attributes and <option>s spans can't reach
+    function lang() {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' || l === 'ru' ? l : 'en';
     }
+    function pick3(en, uk, ru) { var l = lang(); return l === 'uk' ? uk : l === 'ru' ? ru : en; }
 
-    function plural(n, en1, enN, uk1, uk2, uk5) {
-        return bi(n + ' ' + (n === 1 ? en1 : enN), n + ' ' + ukPlural(n, uk1, uk2, uk5));
+    // Ukrainian and Russian share the one/few/many rule.
+    function slavPlural(n, one, few, many) {
+        var m10 = n % 10, m100 = n % 100;
+        return (m10 === 1 && m100 !== 11) ? one
+            : (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) ? few : many;
     }
 
     function num(n, locale) { return Number(n).toLocaleString(locale); }
@@ -64,13 +71,13 @@
     function monthYear(unix) {
         var d = new Date(unix * 1000);
         var o = { month: 'long', year: 'numeric' };
-        return bi(d.toLocaleDateString('en-GB', o), d.toLocaleDateString('uk-UA', o));
+        return tri(d.toLocaleDateString('en-GB', o), d.toLocaleDateString('uk-UA', o), d.toLocaleDateString('ru-RU', o));
     }
 
     function shortDate(iso) {
         var d = new Date(iso);
         var o = { day: 'numeric', month: 'short', year: 'numeric' };
-        return bi(d.toLocaleDateString('en-GB', o), d.toLocaleDateString('uk-UA', o));
+        return tri(d.toLocaleDateString('en-GB', o), d.toLocaleDateString('uk-UA', o), d.toLocaleDateString('ru-RU', o));
     }
 
     function emblem(cls, size) {
@@ -98,6 +105,7 @@
 
     // The game's own per-language name: the Ukrainian form, else the Russian one.
     function ukName(c) { return c.name.ua || c.name.ru || c.name.en; }
+    function ruName(c) { return c.name.ru || c.name.en; }
     // The login: a stable anchor for #Name deep links whatever the display form.
     function login(c) { return c.name.login || c.name.en; }
 
@@ -108,14 +116,14 @@
         var names = CLAN_BADGES[clanLetter(clan)];
         if (!names) {
             var chip = el('span', 'ds-datachip');
-            chip.appendChild(bi(clan.en, clan.ua));
+            chip.appendChild(tri(clan.en, clan.ua, clan.ru));
             return chip;
         }
         var b = el('span', 'clan-chip clan-chip--md');
         b.setAttribute('data-clan', clanLetter(clan));
         b.appendChild(el('span', 'clan-chip__glow'));
         var label = el('span', 'clan-chip__label');
-        label.appendChild(bi(names[0], names[1]));
+        label.appendChild(tri(names[0], names[1], names[2]));
         b.appendChild(label);
         b.appendChild(el('span', 'clan-chip__orn clan-chip__orn--l'));
         b.appendChild(el('span', 'clan-chip__orn clan-chip__orn--r'));
@@ -132,10 +140,10 @@
             return chip;
         }
         var fem = c.sex === 'f';
-        if (c.rank === 'immortal') add(dchip('magic', bi(fem ? 'Goddess' : 'God', fem ? 'Богиня' : 'Бог')));
-        else if (c.rank === 'legendary') add(dchip('gold', bi('Legend', 'Легенда')));
+        if (c.rank === 'immortal') add(dchip('magic', tri(fem ? 'Goddess' : 'God', fem ? 'Богиня' : 'Бог', fem ? 'Богиня' : 'Бог')));
+        else if (c.rank === 'legendary') add(dchip('gold', tri('Legend', 'Легенда', 'Легенда')));
         if (c.clan) add(clanBadge(c.clan));
-        if (c.online) add(dchip('buff', bi('online', 'онлайн')));
+        if (c.online) add(dchip('buff', tri('online', 'онлайн', 'онлайн')));
         return row;
     }
 
@@ -152,49 +160,51 @@
         function t(s) { return (s || '').trim(); }
         var full = document.createDocumentFragment();
         var pre = c.pretitle || {}, ti = c.title || {};
-        full.appendChild(bi(
+        full.appendChild(tri(
             [t(pre.en), c.name.en, t(ti.en)].filter(Boolean).join(' '),
-            [t(pre.ru) || t(pre.en), ukName(c), t(ti.ua) || t(ti.ru)].filter(Boolean).join(' ')));
-        row(bi('Full name', 'Повне імʼя'), full);
-        row(bi('Race', 'Раса'), bi(c.race.en, c.race.ua));
-        row(bi('Class', 'Клас'), bi(c.class.en, c.class.ua));
-        row(bi('Rebirths', 'Переродження'), document.createTextNode(String(c.remorts)));
+            [t(pre.ru) || t(pre.en), ukName(c), t(ti.ua) || t(ti.ru)].filter(Boolean).join(' '),
+            [t(pre.ru) || t(pre.en), ruName(c), t(ti.ru)].filter(Boolean).join(' ')));
+        row(tri('Full name', 'Повне імʼя', 'Полное имя'), full);
+        row(tri('Race', 'Раса', 'Раса'), tri(c.race.en, c.race.ua, c.race.ru));
+        row(tri('Class', 'Клас', 'Класс'), tri(c.class.en, c.class.ua, c.class.ru));
+        row(tri('Rebirths', 'Переродження', 'Перерождения'), document.createTextNode(String(c.remorts)));
         if (c.clan) {
             var cl = document.createDocumentFragment();
-            cl.appendChild(bi(c.clan.en, c.clan.ua));
-            if (c.clan.title && (c.clan.title.en || c.clan.title.ua))
-                cl.appendChild(bi(', ' + c.clan.title.en, ', ' + (c.clan.title.ua || c.clan.title.en)));
-            row(bi('Clan', 'Клан'), cl);
+            cl.appendChild(tri(c.clan.en, c.clan.ua, c.clan.ru));
+            if (c.clan.title && (c.clan.title.en || c.clan.title.ua || c.clan.title.ru))
+                cl.appendChild(tri(', ' + c.clan.title.en, ', ' + (c.clan.title.ua || c.clan.title.en),
+                    ', ' + (c.clan.title.ru || c.clan.title.en)));
+            row(tri('Clan', 'Клан', 'Клан'), cl);
         } else {
-            row(bi('Clan', 'Клан'), bi('none', 'без клану'));
+            row(tri('Clan', 'Клан', 'Клан'), tri('none', 'без клану', 'без клана'));
         }
-        row(bi('Status', 'Статус'), c.online ? bi('in the world', 'у світі') : bi('away', 'не в грі'));
+        row(tri('Status', 'Статус', 'Статус'), c.online ? tri('in the world', 'у світі', 'в мире') : tri('away', 'не в грі', 'не в игре'));
 
         var bodyKids = [dl];
         if (c.desc && (c.desc.en || c.desc.ua || c.desc.ru)) {
-            bodyKids.push(el('h3', 'psheet__h', [bi('Description', 'Опис')]));
-            bodyKids.push(el('div', 'psheet__desc', [bi(c.desc.en || c.desc.ru, c.desc.ua || c.desc.ru)]));
+            bodyKids.push(el('h3', 'psheet__h', [tri('Description', 'Опис', 'Описание')]));
+            bodyKids.push(el('div', 'psheet__desc', [tri(c.desc.en || c.desc.ru, c.desc.ua || c.desc.ru, c.desc.ru || c.desc.en)]));
         }
 
         // What this character holds: its titles, then everything else it earned.
         var mine = (achList || []).filter(function (a) {
             return a.unlocked && (a.chars || []).indexOf(login(c)) >= 0;
         });
-        bodyKids.push(el('h3', 'psheet__h', [bi(
-            'Achievements: ' + mine.length, 'Досягнення: ' + mine.length)]));
+        bodyKids.push(el('h3', 'psheet__h', [tri(
+            'Achievements: ' + mine.length, 'Досягнення: ' + mine.length, 'Достижения: ' + mine.length)]));
         var titles = mine.filter(function (a) { return a.group === 'titles'; });
         var rest = mine.filter(function (a) { return a.group !== 'titles'; });
         rest.sort(function (x, y) { return RARITY[rarityOf(x)].rank - RARITY[rarityOf(y)].rank; });
         if (titles.length) {
-            bodyKids.push(el('p', 'psheet__sub', [bi('Titles', 'Титули')]));
+            bodyKids.push(el('p', 'psheet__sub', [tri('Titles', 'Титули', 'Титулы')]));
             bodyKids.push(achMiniList(titles));
         }
         if (rest.length) {
-            if (titles.length) bodyKids.push(el('p', 'psheet__sub', [bi('Achievements', 'Досягнення')]));
+            if (titles.length) bodyKids.push(el('p', 'psheet__sub', [tri('Achievements', 'Досягнення', 'Достижения')]));
             bodyKids.push(achMiniList(rest));
         }
 
-        return parchment(bi(c.name.en, ukName(c)), bodyKids, 'pchar__sheet');
+        return parchment(tri(c.name.en, ukName(c), ruName(c)), bodyKids, 'pchar__sheet');
     }
 
     // A side sheet's content: the title goes to the sheet head, the body
@@ -210,7 +220,7 @@
             var b = el('button', 'pmini__btn');
             b.type = 'button';
             b.appendChild(jewel(gemTint(a)));
-            b.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'pmini__name'));
+            b.appendChild(tri(nameOf(a).en, nameOf(a).ua, nameOf(a).ru, 'pmini__name'));
             b.addEventListener('click', function () { openAch(a); });
             ul.appendChild(el('li', null, [b]));
         });
@@ -236,46 +246,47 @@
         var r = RARITY[rarityOf(a)];
         var tier = document.createDocumentFragment();
         tier.appendChild(jewel(r.gem, 'psheet__gem'));
-        tier.appendChild(bi(r.en, r.uk));
-        row(bi('Tier', 'Рівень'), tier);
+        tier.appendChild(tri(r.en, r.uk, r.ru));
+        row(tri('Tier', 'Рівень', 'Уровень'), tier);
         // A secret says so: it was hidden from everyone until found.
         if (a.secret)
-            row(bi('Secret', 'Таємниця'), bi('Hidden until found', 'Прихована, доки не знайдеш'));
+            row(tri('Secret', 'Таємниця', 'Тайна'), tri('Hidden until found', 'Прихована, доки не знайдеш', 'Скрыта, пока не найдешь'));
         // Rarity: the share of all accounts with a pfile holding it.
         if (a.rarity && a.rarity.of > 0) {
             var pct = a.rarity.have * 100 / a.rarity.of;
             var shown = pct >= 10 ? Math.round(pct) : Math.round(pct * 10) / 10;
             var txt = (a.rarity.have > 0 && shown === 0) ? '<0.1' : String(shown);
-            row(bi('Rarity', 'Рідкість'), bi(
+            row(tri('Rarity', 'Рідкість', 'Редкость'), tri(
                 txt + '% of players (' + a.rarity.have + ' of ' + a.rarity.of + ')',
-                txt + '% гравців (' + a.rarity.have + ' з ' + a.rarity.of + ')'));
+                txt + '% гравців (' + a.rarity.have + ' з ' + a.rarity.of + ')',
+                txt + '% игроков (' + a.rarity.have + ' из ' + a.rarity.of + ')'));
         }
         if (a.unlocked && a.former) {
-            row(bi('Status', 'Статус'), bi('Previously held', 'Колишній титул'));
-            row(bi('Last held', 'Востаннє'), shortDate(a.unlocked * 1000));
+            row(tri('Status', 'Статус', 'Статус'), tri('Previously held', 'Колишній титул', 'Бывший титул'));
+            row(tri('Last held', 'Востаннє', 'В последний раз'), shortDate(a.unlocked * 1000));
         } else if (a.unlocked) {
-            row(bi('Earned', 'Здобуто'), shortDate(a.unlocked * 1000));
+            row(tri('Earned', 'Здобуто', 'Получено'), shortDate(a.unlocked * 1000));
         }
         if (a.unlocked) {
             var who = holderNames(a);
             if (who.length) {
                 var f = document.createDocumentFragment();
-                f.appendChild(bi(who.map(function (c) { return c.name.en; }).join(', '),
-                    who.map(ukName).join(', ')));
-                row(who.length === 1 ? bi('Character', 'Персонаж') : bi('Characters', 'Персонажі'), f);
+                f.appendChild(tri(who.map(function (c) { return c.name.en; }).join(', '),
+                    who.map(ukName).join(', '), who.map(ruName).join(', ')));
+                row(who.length === 1 ? tri('Character', 'Персонаж', 'Персонаж') : tri('Characters', 'Персонажі', 'Персонажи'), f);
             }
         } else {
-            row(bi('Status', 'Статус'), bi('Not earned yet', 'Ще не здобуто'));
+            row(tri('Status', 'Статус', 'Статус'), tri('Not earned yet', 'Ще не здобуто', 'Еще не получено'));
         }
         var art = el('div', 'ds-medal ds-medal--sheet ds-medal--' + rarityOf(a) + (a.unlocked ? '' : ' is-locked'));
         art.setAttribute('aria-hidden', 'true');
         art.innerHTML = DLMedal.svg(a);
-        var kids = [art, el('p', 'psheet__lead', [bi(descOf(a).en, descOf(a).ua)]), dl];
+        var kids = [art, el('p', 'psheet__lead', [tri(descOf(a).en, descOf(a).ua, descOf(a).ru)]), dl];
         if (!a.unlocked && a.progress) {
             kids.push(progressBar(a.progress.have, a.progress.need));
             kids.push(el('p', 'psheet__count', [a.progress.have + ' / ' + a.progress.need]));
         }
-        return parchment(bi(nameOf(a).en, nameOf(a).ua), kids, 'pach__sheet');
+        return parchment(tri(nameOf(a).en, nameOf(a).ua, nameOf(a).ru), kids, 'pach__sheet');
     }
 
     // One side sheet for every sheet: native <dialog> traps focus, closes on
@@ -337,9 +348,8 @@
 
     // Close label follows the language switch (an aria-label holds no spans).
     function relabelClose() {
-        var uk = document.documentElement.getAttribute('data-lang') === 'uk';
-        closeBtn.setAttribute('aria-label', uk ? 'Закрити' : 'Close');
-        backBtn.setAttribute('aria-label', uk ? 'Назад' : 'Back');
+        closeBtn.setAttribute('aria-label', pick3('Close', 'Закрити', 'Закрыть'));
+        backBtn.setAttribute('aria-label', pick3('Back', 'Назад', 'Назад'));
     }
     relabelClose();
     new MutationObserver(relabelClose).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
@@ -351,9 +361,10 @@
         b.setAttribute('aria-haspopup', 'dialog');
         b.appendChild(emblem(c.class, 'portrait'));
         var id = el('span', 'pchar__id');
-        id.appendChild(bi(c.name.en, ukName(c),
+        id.appendChild(tri(c.name.en, ukName(c), ruName(c),
             'ds-card__title pchar__name' + (c.rank === 'immortal' ? ' pchar__name--god' : '')));
-        id.appendChild(bi(c.race.en + ' ' + c.class.en, c.race.ua + ' ' + c.class.ua, 'pchar__cls'));
+        id.appendChild(tri(c.race.en + ' ' + c.class.en, c.race.ua + ' ' + c.class.ua,
+            c.race.ru + ' ' + c.class.ru, 'pchar__cls'));
         id.appendChild(chips(c));
         b.appendChild(id);
         b.addEventListener('click', function () { openSheet(c); });
@@ -375,7 +386,7 @@
             b.id = 'tab-' + t.key;
             b.setAttribute('role', 'tab');
             b.setAttribute('aria-controls', 'panel-' + t.key);
-            b.appendChild(bi(t.en, t.uk));
+            b.appendChild(tri(t.en, t.uk, t.ru));
             b.appendChild(el('span', 'ptabs__count', [String(t.count)]));
             b.addEventListener('click', function () { select(t.key); });
             b.addEventListener('keydown', function (e) {
@@ -419,19 +430,21 @@
         var a = p.account || {};
         var dl = el('dl', 'pstats');
         if (a.since)
-            dl.appendChild(stat(monthYear(a.since), bi('playing since', 'перший персонаж')));
+            dl.appendChild(stat(monthYear(a.since), tri('playing since', 'перший персонаж', 'первый персонаж')));
         if (a.hours != null)
-            dl.appendChild(stat(bi(num(a.hours, 'en-GB'), num(a.hours, 'uk-UA')),
-                bi(a.hours === 1 ? 'hour played' : 'hours played',
-                    ukPlural(a.hours, 'година', 'години', 'годин') + ' у грі')));
+            dl.appendChild(stat(tri(num(a.hours, 'en-GB'), num(a.hours, 'uk-UA'), num(a.hours, 'ru-RU')),
+                tri(a.hours === 1 ? 'hour played' : 'hours played',
+                    slavPlural(a.hours, 'година', 'години', 'годин') + ' у грі',
+                    slavPlural(a.hours, 'час', 'часа', 'часов') + ' в игре')));
         var lives = a.lives != null ? a.lives
             : chars.reduce(function (s, c) { return s + 1 + (c.remorts || 0); }, 0);
         dl.appendChild(stat(document.createTextNode(String(lives)),
-            bi(lives === 1 ? 'life lived' : 'lives lived',
-                ukPlural(lives, 'життя прожите', 'життя прожиті', 'життів прожито'))));
+            tri(lives === 1 ? 'life lived' : 'lives lived',
+                slavPlural(lives, 'життя прожите', 'життя прожиті', 'життів прожито'),
+                slavPlural(lives, 'жизнь прожита', 'жизни прожиты', 'жизней прожито'))));
         if (a.favClass) {
-            dl.appendChild(stat(bi(a.favClass.en, a.favClass.ua, 'pstat__cap'),
-                bi('favourite class', 'улюблений клас')));
+            dl.appendChild(stat(tri(a.favClass.en, a.favClass.ua, a.favClass.ru, 'pstat__cap'),
+                tri('favourite class', 'улюблений клас', 'любимый класс')));
         }
         return dl;
     }
@@ -440,24 +453,24 @@
 
     // Display groups, in shelf order. The game sends the key per achievement.
     var CATEGORIES = [
-        { key: 'quests', en: 'Quests', uk: 'Квести' },
-        { key: 'combat', en: 'Combat', uk: 'Бій' },
-        { key: 'life', en: 'Lives and time', uk: 'Життя й час' },
-        { key: 'craft', en: 'Crafting', uk: 'Ремесло' },
-        { key: 'world', en: 'World', uk: 'Світ' },
-        { key: 'clans', en: 'Clans', uk: 'Клани' },
-        { key: 'classes', en: 'Classes', uk: 'Класи' },
-        { key: 'titles', en: 'Titles', uk: 'Титули' },
-        { key: 'collection', en: 'Collection', uk: 'Колекція' },
-        { key: 'secrets', en: 'Secrets', uk: 'Таємниці' }
+        { key: 'quests', en: 'Quests', uk: 'Квести', ru: 'Квесты' },
+        { key: 'combat', en: 'Combat', uk: 'Бій', ru: 'Бой' },
+        { key: 'life', en: 'Lives and time', uk: 'Життя й час', ru: 'Жизни и время' },
+        { key: 'craft', en: 'Crafting', uk: 'Ремесло', ru: 'Ремесло' },
+        { key: 'world', en: 'World', uk: 'Світ', ru: 'Мир' },
+        { key: 'clans', en: 'Clans', uk: 'Клани', ru: 'Кланы' },
+        { key: 'classes', en: 'Classes', uk: 'Класи', ru: 'Классы' },
+        { key: 'titles', en: 'Titles', uk: 'Титули', ru: 'Титулы' },
+        { key: 'collection', en: 'Collection', uk: 'Колекція', ru: 'Коллекция' },
+        { key: 'secrets', en: 'Secrets', uk: 'Таємниці', ru: 'Тайны' }
     ];
 
     // Tier is set by hand from effort and luck. The word always rides with the tint.
     var RARITY = {
-        common: { gem: 'emerald', en: 'Common', uk: 'Звичайне', rank: 3 },
-        rare: { gem: 'sapphire', en: 'Rare', uk: 'Рідкісне', rank: 2 },
-        epic: { gem: 'amethyst', en: 'Epic', uk: 'Епічне', rank: 1 },
-        legendary: { gem: 'gold', en: 'Legendary', uk: 'Легендарне', rank: 0 }
+        common: { gem: 'emerald', en: 'Common', uk: 'Звичайне', ru: 'Обычное', rank: 3 },
+        rare: { gem: 'sapphire', en: 'Rare', uk: 'Рідкісне', ru: 'Редкое', rank: 2 },
+        epic: { gem: 'amethyst', en: 'Epic', uk: 'Епічне', ru: 'Эпическое', rank: 1 },
+        legendary: { gem: 'gold', en: 'Legendary', uk: 'Легендарне', ru: 'Легендарное', rank: 0 }
     };
 
     // An earned achievement wears its tier's jewel; one still ahead, plain stone.
@@ -471,11 +484,11 @@
 
     // Secrets nobody on the account has found come without words.
     function nameOf(a) {
-        return a.name || { en: '???', ua: '???' };
+        return a.name || { en: '???', ua: '???', ru: '???' };
     }
 
     function descOf(a) {
-        return a.desc || { en: 'A secret. Keep playing.', ua: 'Таємниця. Грай далі.' };
+        return a.desc || { en: 'A secret. Keep playing.', ua: 'Таємниця. Грай далі.', ru: 'Тайна. Играй дальше.' };
     }
 
     function progressOf(a) {
@@ -500,9 +513,9 @@
 
     // A summary tube: caption on the left, the tube, have|need on the right.
     // aria-label cannot hold the lang spans, so it follows the language switch.
-    function labelBar(en, uk, have, need, mod) {
+    function labelBar(en, uk, ru, have, need, mod) {
         var row = el('div', 'ptube');
-        var cap = el('span', 'ptube__cap', [bi(en, uk)]);
+        var cap = el('span', 'ptube__cap', [tri(en, uk, ru)]);
         cap.setAttribute('aria-hidden', 'true');
         var bar = progressBar(have, need, 'pbar--label ' + mod);
         var val = el('span', 'ptube__val', [el('b', null, [String(have)]), '|' + need]);
@@ -511,8 +524,7 @@
         row.appendChild(bar);
         row.appendChild(val);
         function relabel() {
-            var isUk = document.documentElement.getAttribute('data-lang') === 'uk';
-            bar.setAttribute('aria-label', (isUk ? uk : en) + ': ' + have + (isUk ? ' з ' : ' of ') + need);
+            bar.setAttribute('aria-label', pick3(en, uk, ru) + ': ' + have + pick3(' of ', ' з ', ' из ') + need);
         }
         relabel();
         new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
@@ -533,17 +545,18 @@
         var coin = el('span', 'ds-medal__art');
         coin.innerHTML = DLMedal.svg(a);
         btn.appendChild(coin);
-        btn.appendChild(bi(nameOf(a).en, nameOf(a).ua, 'ds-medal__name'));
-        if (big) btn.appendChild(bi(descOf(a).en, descOf(a).ua, 'ds-medal__desc'));
+        btn.appendChild(tri(nameOf(a).en, nameOf(a).ua, nameOf(a).ru, 'ds-medal__name'));
+        if (big) btn.appendChild(tri(descOf(a).en, descOf(a).ua, descOf(a).ru, 'ds-medal__desc'));
         if (locked && a.progress)
             btn.appendChild(el('span', 'ds-medal__count', [a.progress.have + ' / ' + a.progress.need]));
         // A title someone on the account held before (or a god topped).
-        if (a.former) btn.appendChild(bi('Previously held', 'Колишній титул', 'ds-medal__note'));
+        if (a.former) btn.appendChild(tri('Previously held', 'Колишній титул', 'Бывший титул', 'ds-medal__note'));
 
         var r = RARITY[rarityOf(a)];
-        btn.appendChild(el('span', 'sr-only', [bi(
+        btn.appendChild(el('span', 'sr-only', [tri(
             ', ' + r.en + (a.secret ? ', secret' : '') + (locked ? ', not earned yet' : ', earned'),
-            ', ' + r.uk + (a.secret ? ', таємниця' : '') + (locked ? ', ще не здобуто' : ', здобуто'))]));
+            ', ' + r.uk + (a.secret ? ', таємниця' : '') + (locked ? ', ще не здобуто' : ', здобуто'),
+            ', ' + r.ru + (a.secret ? ', тайна' : '') + (locked ? ', еще не получено' : ', получено'))]));
         return li;
     }
 
@@ -572,10 +585,10 @@
         var sum = el('div', 'pach-sum');
         var open = list.filter(function (a) { return bucketOf(a) !== 'secrets'; });
         var secrets = list.filter(function (a) { return bucketOf(a) === 'secrets'; });
-        sum.appendChild(labelBar('Achievements', 'Досягнення',
+        sum.appendChild(labelBar('Achievements', 'Досягнення', 'Достижения',
             open.filter(function (a) { return a.unlocked; }).length, open.length, 'pbar--blue'));
         if (secrets.length)
-            sum.appendChild(labelBar('Secrets', 'Таємниці',
+            sum.appendChild(labelBar('Secrets', 'Таємниці', 'Тайны',
                 secrets.filter(function (a) { return a.unlocked; }).length, secrets.length, 'pbar--gold'));
         return sum;
     }
@@ -585,7 +598,7 @@
         var sec = el('section', 'pach-sec');
         sec.setAttribute('aria-labelledby', 'achTitle');
         // The card's tubes already say "Achievements"; the heading stays for screen readers.
-        var h = el('h2', 'sr-only', [bi('Achievements', 'Досягнення')]);
+        var h = el('h2', 'sr-only', [tri('Achievements', 'Досягнення', 'Достижения')]);
         h.id = 'achTitle';
         sec.appendChild(h);
 
@@ -596,9 +609,9 @@
         // the locked toggle. With hundreds of entries, filters are the UI.
         var row = el('div', 'pach-row');
         var cats = el('select', 'ds-select pach-cat');
-        var CATS = [{ key: 'all', en: 'All', uk: 'Усі' }].concat(CATEGORIES).map(function (c) {
+        var CATS = [{ key: 'all', en: 'All', uk: 'Усі', ru: 'Все' }].concat(CATEGORIES).map(function (c) {
             var inCat = list.filter(function (a) { return c.key === 'all' || bucketOf(a) === c.key; });
-            return { key: c.key, en: c.en, uk: c.uk, total: inCat.length,
+            return { key: c.key, en: c.en, uk: c.uk, ru: c.ru, total: inCat.length,
                 have: inCat.filter(function (a) { return a.unlocked; }).length };
         }).filter(function (c) { return c.total > 0; });
         CATS.forEach(function (c) {
@@ -614,8 +627,9 @@
         row.appendChild(search);
 
         var sort = el('select', 'ds-select pach-sort');
-        var SORTS = [['recent', 'Newest first', 'Спершу нові'], ['rare', 'Rarest first', 'Спершу рідкісні'],
-            ['name', 'A to Z', 'За абеткою']];
+        var SORTS = [['recent', 'Newest first', 'Спершу нові', 'Сначала новые'],
+            ['rare', 'Rarest first', 'Спершу рідкісні', 'Сначала редкие'],
+            ['name', 'A to Z', 'За абеткою', 'По алфавиту']];
         SORTS.forEach(function (o) {
             var opt = el('option'); opt.value = o[0]; sort.appendChild(opt);
         });
@@ -623,7 +637,7 @@
         sort.addEventListener('change', function () { state.sort = sort.value; draw(); });
         row.appendChild(sort);
 
-        var lockedBtn = el('button', 'ds-chip', [bi('Show locked', 'Показати не здобуті')]);
+        var lockedBtn = el('button', 'ds-chip', [tri('Show locked', 'Показати не здобуті', 'Показать не полученные')]);
         lockedBtn.type = 'button';
         lockedBtn.setAttribute('aria-pressed', 'false');
         lockedBtn.addEventListener('click', function () {
@@ -635,23 +649,23 @@
 
         // Attributes and <option> text cannot hold the lang spans, so they follow the switch.
         function relabel() {
-            var uk = document.documentElement.getAttribute('data-lang') === 'uk';
-            search.placeholder = uk ? 'Шукати досягнення' : 'Search achievements';
+            search.placeholder = pick3('Search achievements', 'Шукати досягнення', 'Искать достижения');
             search.setAttribute('aria-label', search.placeholder);
-            sort.setAttribute('aria-label', uk ? 'Порядок' : 'Sort');
-            cats.setAttribute('aria-label', uk ? 'Категорія' : 'Category');
+            sort.setAttribute('aria-label', pick3('Sort', 'Порядок', 'Порядок'));
+            cats.setAttribute('aria-label', pick3('Category', 'Категорія', 'Категория'));
             CATS.forEach(function (c, i) {
-                cats.options[i].textContent = (uk ? c.uk : c.en) + ' ' + c.have + '/' + c.total;
+                cats.options[i].textContent = pick3(c.en, c.uk, c.ru) + ' ' + c.have + '/' + c.total;
             });
-            SORTS.forEach(function (o, i) { sort.options[i].textContent = uk ? o[2] : o[1]; });
+            SORTS.forEach(function (o, i) { sort.options[i].textContent = pick3(o[1], o[2], o[3]); });
         }
         relabel();
         new MutationObserver(relabel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
         sec.appendChild(row);
 
         var grid = el('ul', 'pach-grid pach-wall');
-        var empty = el('p', 'pach-empty', [bi('Nothing earned here yet. "Show locked" lists what is ahead.',
-            'Тут поки нічого не здобуто. "Показати не здобуті" покаже, що попереду.')]);
+        var empty = el('p', 'pach-empty', [tri('Nothing earned here yet. "Show locked" lists what is ahead.',
+            'Тут поки нічого не здобуто. "Показати не здобуті" покаже, що попереду.',
+            'Тут пока ничего не получено. "Показать не полученные" покажет, что впереди.')]);
         var live = el('p', 'sr-only');
         live.setAttribute('aria-live', 'polite');
         sec.appendChild(grid);
@@ -665,7 +679,7 @@
                 if (state.cat !== 'all' && bucketOf(a) !== state.cat) return false;
                 if (!state.locked && !a.unlocked) return false;
                 var n = nameOf(a), d = descOf(a);
-                if (state.q && (n.en + ' ' + n.ua + ' ' + d.en + ' ' + d.ua)
+                if (state.q && (n.en + ' ' + n.ua + ' ' + n.ru + ' ' + d.en + ' ' + d.ua + ' ' + d.ru)
                     .toLowerCase().indexOf(state.q) < 0) return false;
                 return true;
             });
@@ -693,12 +707,13 @@
     function achievementsSoon() {
         var sec = el('section', 'pach-sec');
         sec.setAttribute('aria-labelledby', 'achTitle');
-        var h = el('h2', 'pach-sec__title', [bi('Achievements', 'Досягнення')]);
+        var h = el('h2', 'pach-sec__title', [tri('Achievements', 'Досягнення', 'Достижения')]);
         h.id = 'achTitle';
         sec.appendChild(h);
-        sec.appendChild(el('p', 'pach-soon', [bi(
+        sec.appendChild(el('p', 'pach-soon', [tri(
             'The Archivist is still counting every deed of every life. Achievements open here soon.',
-            'Архіваріус ще рахує кожен подвиг кожного життя. Досягнення відкриються тут незабаром.')]));
+            'Архіваріус ще рахує кожен подвиг кожного життя. Досягнення відкриються тут незабаром.',
+            'Архивариус еще считает каждый подвиг каждой жизни. Достижения откроются здесь скоро.')]));
         var grid = el('ul', 'pach-grid pach-grid--ghost');
         grid.setAttribute('aria-hidden', 'true');
         for (var i = 0; i < 8; i++) {
@@ -750,7 +765,7 @@
         if (lead) {
             inset.appendChild(emblem(lead.class, 'head'));
             inset.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
-                [bi(lead.name.en, ukName(lead))]));
+                [tri(lead.name.en, ukName(lead), ruName(lead))]));
             inset.appendChild(el('p', 'phead__sub', [p.title || p.id]));
         } else {
             inset.appendChild(el('h1', 'phead__title', [p.title || p.id]));
@@ -770,7 +785,7 @@
         body.appendChild(band);
         overlapBanner(wrapper, inset);
         var csec = el('section', 'pchars-sec');
-        var ch = el('h2', 'sr-only', [bi('Characters', 'Персонажі')]);
+        var ch = el('h2', 'sr-only', [tri('Characters', 'Персонажі', 'Персонажи')]);
         csec.appendChild(ch);
         var list = el('div', 'pchars');
         chars.forEach(function (c) { list.appendChild(card(c)); });
@@ -778,9 +793,9 @@
 
         var earned = ach ? ach.filter(function (a) { return a.unlocked; }).length : 0;
         var tabs = profileTabs([
-            { key: 'ach', en: 'Achievements', uk: 'Досягнення', count: earned,
+            { key: 'ach', en: 'Achievements', uk: 'Досягнення', ru: 'Достижения', count: earned,
               panel: ach ? achievementsShelf(ach, show ? show.ids : []) : achievementsSoon() },
-            { key: 'chars', en: 'Characters', uk: 'Персонажі', count: chars.length, panel: csec }
+            { key: 'chars', en: 'Characters', uk: 'Персонажі', ru: 'Персонажи', count: chars.length, panel: csec }
         ]);
         body.appendChild(tabs.node);
 
@@ -805,12 +820,13 @@
     function renderMissing() {
         head.innerHTML = '';
         var w = el('div', 'wrap');
-        var h1 = el('h1', null, [bi('No such profile', 'Такого профілю немає')]);
+        var h1 = el('h1', null, [tri('No such profile', 'Такого профілю немає', 'Такого профиля нет')]);
         w.appendChild(h1);
-        w.appendChild(el('p', null, [bi(
+        w.appendChild(el('p', null, [tri(
             'Either the link is wrong, or the player keeps their characters to themselves. A profile opens once one of the account\'s characters has been reborn or finished more than 50 questor tasks.',
-            'Або посилання хибне, або гравець тримає своїх персонажів при собі. Профіль відкривається, коли хтось із персонажів акаунта переродиться або виконає понад 50 завдань квестора.')]));
-        var a = el('a', null, [bi('Find a player by name', 'Знайти гравця за імʼям')]);
+            'Або посилання хибне, або гравець тримає своїх персонажів при собі. Профіль відкривається, коли хтось із персонажів акаунта переродиться або виконає понад 50 завдань квестора.',
+            'Либо ссылка неверная, либо игрок держит своих персонажей при себе. Профиль открывается, когда кто-то из персонажей аккаунта переродится или выполнит больше 50 заданий квестора.')]));
+        var a = el('a', null, [tri('Find a player by name', 'Знайти гравця за імʼям', 'Найти игрока по имени')]);
         a.href = '/leaderboard.html#find';
         w.appendChild(el('p', null, [a]));
         head.appendChild(w);
@@ -820,8 +836,9 @@
     function renderError() {
         head.innerHTML = '';
         var w = el('div', 'wrap');
-        w.appendChild(el('h1', null, [bi('The Archivist is busy', 'Архіваріус зайнятий')]));
-        w.appendChild(el('p', null, [bi('The game did not answer. Try again in a minute.', 'Гра не відповіла. Спробуй за хвилину.')]));
+        w.appendChild(el('h1', null, [tri('The Archivist is busy', 'Архіваріус зайнятий', 'Архивариус занят')]));
+        w.appendChild(el('p', null, [tri('The game did not answer. Try again in a minute.', 'Гра не відповіла. Спробуй за хвилину.',
+            'Игра не ответила. Попробуй через минуту.')]));
         head.appendChild(w);
     }
 

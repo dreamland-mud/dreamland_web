@@ -4,8 +4,8 @@
    permalinks of their own, so swapping in place beats a dead link.
 
    The English site shows only notes that have an English translation
-   (en_subject/en_text from site.js/build-news.js); the Ukrainian one shows the
-   notes as posted. news.json carries enough rows for both. */
+   (en_subject/en_text from site.js/build-news.js); the Ukrainian and Russian
+   ones show the notes as posted. news.json carries enough rows for both. */
 (function () {
     var featWrap = document.getElementById('newsfeatured');
     var gallery  = document.getElementById('newsgallery');
@@ -15,8 +15,8 @@
     var COLLAPSED = '8.6em';          /* must match the mask ramp in theme.css */
     var HOME_COUNT = 8;               /* must match HOME_COUNT in site.js/build-news.js */
     var LABELS = {
-        more: { en: 'Read more', uk: 'Читати далі' },
-        less: { en: 'Show less', uk: 'Згорнути' }
+        more: { en: 'Read more', uk: 'Читати далі', ru: 'Читать дальше' },
+        less: { en: 'Show less', uk: 'Згорнути', ru: 'Свернуть' }
     };
 
     function esc(s) {
@@ -25,7 +25,8 @@
         });
     }
     function curLang() {
-        return document.documentElement.getAttribute('data-lang') === 'uk' ? 'uk' : 'en';
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' || l === 'ru' ? l : 'en';
     }
 
     var all = [], items = [], current = 0;
@@ -130,12 +131,12 @@
         })
         .catch(function () {
             if (loading) {
-                loading.textContent = curLang() === 'uk'
-                    ? 'Не вдалося завантажити новини.' : 'Could not load news.';
+                loading.textContent = { en: 'Could not load news.', uk: 'Не вдалося завантажити новини.',
+                    ru: 'Не удалось загрузить новости.' }[curLang()];
             }
         });
 
-    /* the language flip swaps the whole set: EN and UA show different notes.
+    /* the language flip swaps the whole set: EN and UA/RU show different notes.
        i18n.js is loaded first, so its click handler has already set data-lang. */
     document.querySelectorAll('[data-setlang]').forEach(function (b) {
         b.addEventListener('click', function () {

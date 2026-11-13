@@ -1,14 +1,13 @@
-/* Language toggle. EN and UA both live in the DOM (lang="en"/"uk");
-   CSS hides the inactive one. RU is a link out to the current site.
-   Choice persists in localStorage. */
+/* Language toggle. EN, UA and RU all live in the DOM (lang="en"/"uk"/"ru");
+   CSS hides the inactive ones. Choice persists in localStorage. */
 (function () {
     var KEY = 'dl_lang';
     var html = document.documentElement;
 
     function apply(lang) {
-        if (lang !== 'en' && lang !== 'uk') lang = 'en';
+        if (lang !== 'en' && lang !== 'uk' && lang !== 'ru') lang = 'en';
         html.setAttribute('data-lang', lang);
-        html.setAttribute('lang', lang === 'uk' ? 'uk' : 'en');
+        html.setAttribute('lang', lang);
         document.querySelectorAll('[data-setlang]').forEach(function (b) {
             b.setAttribute('aria-current', b.getAttribute('data-setlang') === lang ? 'true' : 'false');
         });
@@ -22,9 +21,9 @@
     var saved;
     try { saved = localStorage.getItem(KEY); } catch (e) {}
     if (!saved) {
-        // first visit: nudge Ukrainian speakers to UA, everyone else EN default
+        // first visit: follow the browser for UA and RU, everyone else EN default
         var nav = (navigator.language || '').toLowerCase();
-        saved = nav.indexOf('uk') === 0 ? 'uk' : 'en';
+        saved = nav.indexOf('uk') === 0 ? 'uk' : nav.indexOf('ru') === 0 ? 'ru' : 'en';
     }
     apply(saved);
 })();

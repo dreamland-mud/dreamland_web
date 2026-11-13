@@ -13,6 +13,6 @@
 .about li strong, .about p strong { color: var(--text); font-weight: 700; }
 .about code { color: var(--arcane); }
 .about .scrolls { margin-top: 18px; }
-/* Section targets sit outside the EN/UA heading pair: the hidden twin has no
+/* Section targets sit outside the per-language heading set: the hidden twin has no
    box, so an id on it would not scroll in the other language. */
 .about .anchor { display: block; height: 0; scroll-margin-top: 96px; }

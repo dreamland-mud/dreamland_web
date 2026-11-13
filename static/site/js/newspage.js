@@ -17,7 +17,10 @@
     var searchEl = document.getElementById('newsSearch');
     if (!listEl || !artEl) return;
 
-    function L() { return document.documentElement.getAttribute('data-lang') === 'uk' ? 'uk' : 'en'; }
+    function L() {
+        var l = document.documentElement.getAttribute('data-lang');
+        return l === 'uk' || l === 'ru' ? l : 'en';
+    }
     function esc(s) {
         return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
             return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
@@ -25,13 +28,13 @@
     }
 
     var UI = {
-        search:   { en: 'Search the archive', uk: 'Пошук в архіві' },
-        nothing:  { en: 'Nothing found.',     uk: 'Нічого не знайшлося.' },
-        untitled: { en: '(no subject)',       uk: '(без теми)' },
-        loading:  { en: 'Loading the archive…', uk: 'Вантажу архів…' },
-        failed:   { en: 'Could not load the news.', uk: 'Не вдалося завантажити новини.' },
-        count:    { en: 'entries',            uk: 'записів' },
-        by:       { en: 'posted by',          uk: 'написав' }
+        search:   { en: 'Search the archive', uk: 'Пошук в архіві',     ru: 'Поиск по архиву' },
+        nothing:  { en: 'Nothing found.',     uk: 'Нічого не знайшлося.', ru: 'Ничего не нашлось.' },
+        untitled: { en: '(no subject)',       uk: '(без теми)',          ru: '(без темы)' },
+        loading:  { en: 'Loading the archive…', uk: 'Вантажу архів…',   ru: 'Гружу архив…' },
+        failed:   { en: 'Could not load the news.', uk: 'Не вдалося завантажити новини.', ru: 'Не удалось загрузить новости.' },
+        count:    { en: 'entries',            uk: 'записів',             ru: 'записей' },
+        by:       { en: 'posted by',          uk: 'написав',             ru: 'написал' }
     };
     function t(k) { return UI[k][L()]; }
 
