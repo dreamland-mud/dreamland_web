@@ -1,0 +1,70 @@
+/* legends.html and gallery.html (built by site.js/build-legends.js and
+   build-gallery.js): long Russian reading, one text column, each story on
+   the same parchment the news entries use. */
+.pagehead--legends { padding-bottom: 34px; }
+.pagehead--legends p { font-size: 1.12rem; line-height: 1.6; }
+.pagehead .legends__note { margin-top: 12px; color: var(--gold-bright); font-size: 1rem; }
+
+.legends { max-width: 860px; padding-top: 30px; padding-bottom: 70px; }
+.legends [id] { scroll-margin-top: 96px; }
+.legends h2 { font-size: clamp(1.5rem, 3.6vw, 2.05rem); color: var(--gold-bright); margin: 52px 0 12px; }
+.legends p { color: var(--text-dim); font-size: 1.05rem; line-height: 1.65; margin: 0 0 14px; }
+.legends b { color: var(--text); }
+
+.legends__toc h2 { margin-top: 0; }
+.legends__toc ul { list-style: none; margin: 0; padding: 0; }
+.legends__toc li { margin: 0 0 8px; font-size: 1.1rem; }
+.legends__toc a, .legends__list a, .legends__top a { color: var(--arcane); }
+.legends__toc a:hover, .legends__list a:hover, .legends__top a:hover { color: var(--gold-bright); }
+.legends__n { font-family: var(--mono); font-size: .8rem; color: var(--text-faint); margin-left: 6px; }
+
+.legends__list { margin: 0 0 26px; border-bottom: 1px solid var(--stone-700); }
+.legends__list > summary { cursor: pointer; padding: 10px 0; color: var(--gold); font-weight: 700; }
+.legends__list > summary:hover { color: var(--gold-bright); }
+.legends__list ol { margin: 0 0 16px; padding-left: 2em; columns: 2 280px; column-gap: 28px; }
+.legends__list li { margin: 0 0 6px; color: var(--text-faint); break-inside: avoid; }
+.legends__by { font-size: .85em; color: var(--text-faint); }
+.legends__top { margin-top: 18px; }
+
+.story {
+    margin: 0 0 22px; padding: 26px 32px 30px; border-radius: 5px; color: var(--ink);
+    background: var(--noise), linear-gradient(172deg, var(--parchment), var(--parchment-2));
+    background-blend-mode: multiply, normal;
+    border: 1px solid var(--parch-edge);
+    box-shadow: 0 10px 26px rgba(0,0,0,.45), inset 0 0 60px rgba(120,95,50,.16);
+}
+.story h3 { font-family: var(--display); font-size: clamp(1.25rem, 2.6vw, 1.6rem); color: #241809;
+    margin: 0 0 6px; line-height: 1.2; overflow-wrap: anywhere; }
+.legends .story__meta { font-family: var(--mono); font-size: .76rem; color: var(--ink-dim); margin: 0 0 14px; }
+/* typed at a terminal, sometimes hand-aligned: keep the author's line breaks */
+.story__text {
+    white-space: pre-wrap; overflow-wrap: anywhere;
+    font-family: var(--article); font-size: .92rem; line-height: 1.6; color: var(--ink);
+    letter-spacing: var(--mono-track);
+}
+
+@media (max-width: 600px) {
+    .story { padding: 20px 18px 22px; }
+}
+
+/* ---------- gallery.html ---------- */
+.gallery h3 { font-family: var(--display); color: var(--text); font-size: 1.25rem; margin: 30px 0 12px; }
+.gallery__videos, .gallery__drawings { list-style: none; margin: 0 0 20px; padding: 0;
+    display: grid; gap: 22px; }
+.gallery__videos { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.gallery__videos h3 { font-family: var(--body); font-size: 1rem; margin: 0 0 8px; color: var(--text); }
+.gallery__videos img, .gallery__videos video { display: block; max-width: 100%; height: auto;
+    border-radius: 4px; border: 1px solid var(--stone-700); background: var(--stone-900); }
+.gallery__video p { margin: 6px 0 0; font-size: .85rem; }
+.gallery__drawings { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.gallery__drawings figure { margin: 0; }
+.gallery__drawings img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover;
+    border-radius: 4px; border: 1px solid var(--stone-700); }
+.gallery__drawings a:hover img { border-color: var(--gold); }
+.gallery__drawings figcaption { margin-top: 6px; font-size: .9rem; color: var(--text-dim); text-align: center; }
+.gallery a { color: var(--arcane); }
+.portrait { margin: 0 0 18px; padding: 22px 28px 12px; border-radius: 5px;
+    background: var(--noise), linear-gradient(172deg, var(--parchment), var(--parchment-2));
+    background-blend-mode: multiply, normal; border: 1px solid var(--parch-edge); }
+.gallery .portrait h4 { font-family: var(--display); font-size: 1.15rem; color: #241809; margin: 0 0 10px; }
+.gallery .portrait p { color: var(--ink); font-size: 1rem; }

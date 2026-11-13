@@ -1,8 +1,10 @@
 # Pages written by website.js/main.js at build time.
 /*.html
-# ...except the six pages of the English/Ukrainian site, which are authored by
-# hand and live in git. The generator no longer writes these names to the
-# root -- they exist only under /ru now.
+# ...except the pages of the new trilingual site, which are authored by hand
+# and live in git. The generator no longer writes these names to the root --
+# they exist only under /ru now. legends.html and gallery.html are new-site
+# pages too, but site.js/build-legends.js and build-gallery.js write them on
+# every deploy, so they stay ignored.
 !/index.html
 !/searcher.html
 !/maps.html
@@ -11,6 +13,7 @@
 !/about.html
 !/player.html
 !/leaderboard.html
+!/values.html
 
 /maps/*.html
 !/maps/*-v2.html

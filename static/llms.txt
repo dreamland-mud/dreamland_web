@@ -23,6 +23,9 @@ Agents can read the help directly: https://dreamland.rocks/mcp/help is a public 
 - [Maps](https://dreamland.rocks/maps.html): app; every area with level ranges and maps
 - [News](https://dreamland.rocks/news.html): app; in-game changelog
 - [Item search](https://dreamland.rocks/searcher.html): app; weapons, armor and magic items by stats
+- [Our values](https://dreamland.rocks/values.html): why DreamLand stands with Ukraine, and the respect the game runs on
+- [Legends](https://dreamland.rocks/legends.html): stories, samurai tales and Second Epoch legends written by players; in Russian
+- [Gallery](https://dreamland.rocks/gallery.html): player videos, character drawings and sample descriptions; in Russian
 - [Russian site](https://dreamland.rocks/ru/): the older Russian-language pages
 
 ## Community

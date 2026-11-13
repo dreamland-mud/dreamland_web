@@ -165,6 +165,10 @@ body::before {
 html[data-lang="en"] [lang="uk"], html[data-lang="en"] [lang="ru"] { display: none !important; }
 html[data-lang="uk"] [lang="en"], html[data-lang="uk"] [lang="ru"] { display: none !important; }
 html[data-lang="ru"] [lang="en"], html[data-lang="ru"] [lang="uk"] { display: none !important; }
+/* Content that exists only in Russian for now (legends, gallery) shows in every
+   mode. It keeps lang="ru" so a screen reader switches to the Russian voice;
+   the extra class outranks the hiding rules above. Block containers only. */
+html[data-lang] [lang="ru"].ru-always { display: block !important; }
 
 /* ---------- Layout ---------- */
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
@@ -1093,6 +1097,10 @@ details.scroll > summary:hover { color: #fff; }
 /* CC BY requires the attribution to be visible, not buried in a source comment. */
 .footer__credit { margin: 8px 0 0; font-size: .82rem; opacity: .8; }
 .footer__credit a { color: inherit; text-decoration: underline; }
+/* site map row of the compact page footers (index.html has the full grid) */
+.footer__nav { margin-bottom: 20px; }
+.footer__nav ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; }
+.footer__nav li { margin: 0; }
 
 @media (max-width: 780px) {
     .steps, .gemgrid { grid-template-columns: 1fr; }

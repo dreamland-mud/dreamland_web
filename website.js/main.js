@@ -102,10 +102,12 @@ const newsTransformer = nodes => {
 };
 
 /** Write a generated page. Everything this generator makes is Russian, so it all
-  * lands under /ru, the Russian edition of the site. Four of these pages have an
-  * English/Ukrainian replacement at the root -- those exist only under /ru now.
-  * The rest are also written to the root so no published URL breaks. */
-const ownedByNewSite = new Set(['index', 'searcher', 'maps', 'news'])
+  * lands under /ru, the Russian edition of the site. Pages with a replacement in
+  * the new design at the root exist only under /ru now (stories and samurai
+  * were folded into the new legends.html). The rest are also written to the
+  * root so no published URL breaks. */
+const ownedByNewSite = new Set(['index', 'searcher', 'maps', 'news',
+                                'values', 'gallery', 'legends', 'stories', 'samurai'])
 
 const writePage = (keyword, str) => {
     // The root copies and /ru/index.html duplicate a /ru page: point search
