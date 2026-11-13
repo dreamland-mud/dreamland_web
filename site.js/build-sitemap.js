@@ -5,8 +5,10 @@
  * they are not in git and a hand-written sitemap goes stale the day it is
  * committed. Walk what is actually on disk instead.
  *
- * /maps/*.html and /ru/maps/*.html are byte-identical copies; only /maps/ is
- * listed, since that is the URL old links point at.
+ * The old Russian site's URLs (/ru/..., /ru/maps/... and a few root copies)
+ * are redirect stubs now (site.js/build-stubs.js). They carry
+ * <meta name="robots" content="noindex">, and so does anything else that must
+ * stay out: every candidate page is checked for it before it is listed.
  *
  * No <lastmod>: every generator rewrites its pages on each deploy, so file
  * mtimes say "today" for everything and would only teach crawlers to ignore it.
@@ -25,10 +27,9 @@ const ROOT = path.resolve(process.argv[2] || path.join(__dirname, '../static'));
 const HELPS = process.argv[3] || '/tmp/helps.json';
 const BASE = 'https://dreamland.rocks';
 
-// The EN/UA front plus the web client. Legacy pages at the root are
-// duplicates of /ru/ and stay out.
+// The trilingual front plus the web client.
 const PAGES = ['index.html', 'about.html', 'help.html', 'maps.html', 'news.html', 'searcher.html',
-               'values.html', 'legends.html', 'gallery.html'];
+               'values.html', 'legends.html', 'gallery.html', 'feniaapi.html'];
 
 function htmlIn(dir) {
     const abs = path.join(ROOT, dir);
@@ -56,16 +57,25 @@ function url(rel) {
     return BASE + encodeURI(loc).replace(/&/g, '&amp;').replace(/'/g, '&apos;');
 }
 
+/* A page that asks not to be indexed (a redirect stub, a per-label help page)
+   has no business in the sitemap. The tag sits in <head>: read only the start. */
+function noindex(file) {
+    const fd = fs.openSync(file, 'r');
+    const buf = Buffer.alloc(4096);
+    const n = fs.readSync(fd, buf, 0, buf.length, 0);
+    fs.closeSync(fd);
+    return /<meta name="robots" content="noindex/i.test(buf.toString('utf8', 0, n));
+}
+
 const entries = [];
 function add(rel) {
     const file = path.join(ROOT, rel);
-    if (fs.existsSync(file))
+    if (fs.existsSync(file) && !noindex(file))
         entries.push(url(rel));
 }
 
 PAGES.forEach(add);
 entries.push(BASE + '/play/');
-htmlIn('ru').forEach(add);
 const helpPages = currentHelpPages();
 htmlIn('help').filter(rel => helpPages.has(path.basename(rel))).forEach(add);
 htmlIn('maps').forEach(add);

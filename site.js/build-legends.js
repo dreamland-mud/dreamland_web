@@ -5,7 +5,7 @@
  *   /tmp/story1.xml                  Miyamoto's samurai stories ('webdump story')
  *   website.js/data/legends-dump.xml the Second Epoch book of legends (in git)
  *
- * The same three dumps website.js/main.js renders into the old /ru pages.
+ * The same three dumps the old Russian site's story pages were rendered from.
  * Russian only for now: the EN and UA modes show a one-line note and then
  * the Russian text, tagged lang="ru" so screen readers switch voice.
  *

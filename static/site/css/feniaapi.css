@@ -1,0 +1,31 @@
+/* feniaapi.html (built on live by website.js/main.js from the server's own
+   API dump): one long reference page. Every section is open, so the browser's
+   own find works across all of it and a screen reader walks it by headings. */
+.pagehead--fapi { padding-bottom: 34px; }
+.pagehead .fapi__note { margin-top: 12px; color: var(--gold-bright); font-size: 1rem; }
+
+.fapi { padding-top: 30px; padding-bottom: 70px; }
+.fapi [id], .fapi a[name] { scroll-margin-top: 96px; }
+.fapi h2 { font-size: clamp(1.5rem, 3.6vw, 2.05rem); color: var(--gold-bright); margin: 52px 0 14px; }
+.fapi h3 { font-family: var(--display); color: var(--text); font-size: 1.2rem; margin: 30px 0 10px; }
+.fapi h4 { font-family: var(--mono); color: var(--gold); font-size: 1rem; margin: 26px 0 8px; }
+.fapi p, .fapi li { color: var(--text-dim); line-height: 1.6; }
+.fapi a { color: var(--arcane); }
+.fapi a:hover { color: var(--gold-bright); }
+.fapi b, .fapi strong { color: var(--text); }
+
+.fapi__toc h2 { margin-top: 0; }
+.fapi__toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.fapi__toc li { font-size: 1.05rem; }
+
+.fapi__info { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); margin: 0 0 10px; }
+.fapi__card { padding: 14px 18px; border: 1px solid var(--stone-700); border-radius: 5px; background: var(--stone-900); }
+.fapi .fapi__cardh { font-size: 1rem; margin: 0 0 6px; color: var(--gold); }
+.fapi__text ul { margin: 0; padding-left: 1.2em; }
+
+.fapi__table { margin: 0 0 6px; }
+.fapi__table td { overflow-wrap: anywhere; color: var(--text-dim); }
+.fapi__table td:first-child { color: var(--text); font-family: var(--mono); font-size: .85rem; }
+.fapi__table .th-status { width: 5%; }
+.fapi__table tbody tr:nth-child(even) { background: rgba(255,255,255,.025); }
+.fapi__up { font-size: .9rem; margin: 0 0 10px; }

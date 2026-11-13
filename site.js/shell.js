@@ -1,5 +1,6 @@
 /* The page shell of the new site (head, top bar, footer) for the pages a
- * builder writes instead of a person: legends.html, gallery.html.
+ * builder writes instead of a person: legends.html, gallery.html and
+ * feniaapi.html (website.js/main.js).
  *
  * The top bar and the footer site map are lifted from static/about.html, so a
  * nav change made by hand there reaches the generated pages on the next
