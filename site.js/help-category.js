@@ -54,9 +54,10 @@ const SHELVES = ['start', 'char', 'skills', 'magic', 'combat', 'classes', 'races
 const FALLBACK = [
     ['spell', 'magic'],
     ['social', 'socials'],
+    ['mobrace', 'world'],
     ['race', 'races'], ['raceaptitude', 'races'],
     ['religion', 'gods'],
-    ['class', 'classes'], ['skillgroup', 'classes'],
+    ['class', 'classes'], ['skillgroup', 'skills'],
     ['craft', 'items'], ['craftskill', 'items'],
     ['item', 'items'],
     ['clanskill', 'skills'], ['cardskill', 'skills'],
