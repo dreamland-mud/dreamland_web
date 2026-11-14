@@ -57,7 +57,11 @@ const STUBS = [
     ['help/samurai.html',  '/legends.html#samurai', LEGENDS],
     ['help/legends.html',  '/legends.html#legends', LEGENDS],
     ['help/links.html',    '/',                     HOME],
-    ['help/feniaapi.html', '/feniaapi.html',        { ru: 'Fenia API', en: 'Fenia API' }]
+    ['help/feniaapi.html', '/feniaapi.html',        { ru: 'Fenia API', en: 'Fenia API' }],
+    // 2019 hand-made root pages: the newbie textbook and the contributor page
+    ['guide.html',        '/about.html',            { ru: 'Что такое DreamLand', en: 'What is DreamLand' }],
+    ['dev.html',          'https://github.com/dreamland-mud/dreamland_code/wiki/Agent-Index',
+                                                    { ru: 'вики для разработчиков', en: 'developer wiki' }]
 ];
 
 /* help.js's per-label pages and its two landing pages: one list, from its own
@@ -92,9 +96,10 @@ function esc(s) {
    'ru'; /ru/... URLs imply 'ru'. */
 function stub(from, to, name, lang) {
     const setLang = lang || (from.startsWith('ru/') ? 'ru' : '');
-    const canonical = BASE + to.replace(/#.*/, '');
-    // keep the visitor's own #anchor unless the target names its own
-    const go = to.includes('#') ? JSON.stringify(to) : JSON.stringify(to) + ' + location.hash';
+    const external = /^https?:\/\//.test(to);
+    const canonical = (external ? '' : BASE) + to.replace(/#.*/, '');
+    // keep the visitor's own #anchor unless the target names its own or is off-site
+    const go = to.includes('#') || external ? JSON.stringify(to) : JSON.stringify(to) + ' + location.hash';
     return `<!DOCTYPE html>
 <html lang="ru">
 <head>
