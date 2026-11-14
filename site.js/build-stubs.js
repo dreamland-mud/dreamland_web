@@ -16,6 +16,11 @@
  * (it writes the /maps pages the /ru/maps stubs point at). None of these files
  * are in git: static/.gitignore covers them.
  *
+ * The retired help.js wrote a page per help label (/help/<label>.html) that
+ * repeated its articles in full. Those are stubs to the static help index now;
+ * the per-article /help/<id>.html pages are real pages again, written by
+ * build-help-pages.js, which also uses stub() below for retired article ids.
+ *
  * usage: node site.js/build-stubs.js [static-dir]
  */
 const fs = require('fs');
@@ -55,6 +60,21 @@ const STUBS = [
     ['help/feniaapi.html', '/feniaapi.html',        { ru: 'Fenia API', en: 'Fenia API' }]
 ];
 
+/* help.js's per-label pages and its two landing pages: one list, from its own
+   saveCategory() calls, so nothing it ever wrote is left serving stale text. */
+const HELP_INDEX = { ru: 'Справка', en: 'Help' };
+['race', 'class', 'religion', 'clan', 'skill', 'spell', 'skillgroup', 'area', 'social',
+ 'cmd', 'quest', 'char', 'info', 'shop', 'bank', 'service', 'learn', 'item', 'food',
+ 'move', 'locks', 'position', 'fight', 'magic', 'note', 'comm', 'family',
+ 'exoticskill', 'genericskill', 'raceaptitude', 'clanskill', 'clanorgskill',
+ 'craftskill', 'craft', 'cardskill', 'language', 'basicskill',
+ 'warrior-skills', 'thief-skills', 'cleric-skills', 'witch-skills', 'warlock-skills',
+ 'ranger-skills', 'samurai-skills', 'ninja-skills', 'paladin-skills',
+ 'anti-paladin-skills', 'necromancer-skills', 'vampire-skills', 'druid-skills',
+ 'lion-skills', 'battlerager-skills', 'knight-skills', 'chaos-skills', 'shalafi-skills',
+ 'ruler-skills', 'invader-skills', 'hunter-skills',
+ 'classskill', 'clanskills'].forEach(l => STUBS.push(['help/' + l + '.html', '/help/', HELP_INDEX]));
+
 /* /ru/maps was a symlink to /maps, so every ASCII map page had a /ru twin. */
 const MAPS = path.join(ROOT, 'maps');
 const ruMaps = fs.existsSync(MAPS)
@@ -68,8 +88,10 @@ function esc(s) {
                     .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-function stub(from, to, name) {
-    const ru = from.startsWith('ru/');
+/* lang (optional): the site language to switch to on the way, 'en' | 'uk' |
+   'ru'; /ru/... URLs imply 'ru'. */
+function stub(from, to, name, lang) {
+    const setLang = lang || (from.startsWith('ru/') ? 'ru' : '');
     const canonical = BASE + to.replace(/#.*/, '');
     // keep the visitor's own #anchor unless the target names its own
     const go = to.includes('#') ? JSON.stringify(to) : JSON.stringify(to) + ' + location.hash';
@@ -82,7 +104,7 @@ function stub(from, to, name) {
 <link rel="canonical" href="${esc(canonical)}"/>
 <meta name="robots" content="noindex"/>
 <script>
-${ru ? "try { localStorage.setItem('dl_lang', 'ru'); } catch (e) {}\n" : ''}location.replace(${go});
+${setLang ? "try { localStorage.setItem('dl_lang', '" + setLang + "'); } catch (e) {}\n" : ''}location.replace(${go});
 </script>
 <meta http-equiv="refresh" content="0; url=${esc(to)}"/>
 </head>
@@ -93,6 +115,9 @@ ${ru ? "try { localStorage.setItem('dl_lang', 'ru'); } catch (e) {}\n" : ''}loca
 </html>
 `;
 }
+
+module.exports = { stub };
+if (require.main !== module) return;
 
 /* The old generator made /ru/maps a symlink into /maps: writing a stub through
    it would overwrite the real map page. Swap the link for a directory. */

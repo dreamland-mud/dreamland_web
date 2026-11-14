@@ -7,66 +7,18 @@
  * it had no test: every change to it was verified by opening a page and
  * squinting. It needs a DOM (it parses the article with innerHTML rather than
  * splitting strings, because 21% of the colour spans straddle a newline), so
- * rather than pull in jsdom for one file there is a small DOM below -- enough
+ * rather than pull in jsdom for one file it runs on site.js/minidom.js -- enough
  * for the handful of tags the game actually emits.
  *
  * Fixtures are written in the markup the help dump carries -- {W -> fgbw,
  * {x -> fgdx, {c -> fgbc, {Y -> fgby -- copied from real articles in
  * static/data/help-body-ru.json.
  */
-const fs = require('fs');
-const path = require('path');
 
-// ---- a DOM with just enough in it ----------------------------------------
-function parse(html) {
-    const root = { nodeType: 1, tagName: 'DIV', children: [] };
-    const stack = [root];
-    const re = /<\/?([a-z]+)([^>]*)>/gi;
-    let last = 0, m;
-    const push = n => (stack[stack.length - 1] || root).children.push(n);
-    while ((m = re.exec(html))) {
-        if (m.index > last) push({ nodeType: 3, nodeValue: html.slice(last, m.index) });
-        last = m.index + m[0].length;
-        /* Real article bodies carry stray closing tags -- mudtags emits a bare
-           </c> where a colour region ends inside another. A browser's innerHTML
-           swallows them, so this has to as well, or the shim only ever works on
-           hand-written fixtures. */
-        if (m[0][1] === '/') { if (stack.length > 1) stack.pop(); continue; }
-        const attrs = {};
-        m[2].replace(/([a-z-]+)\s*=\s*'([^']*)'/gi, (s, k, v) => { attrs[k] = v; return s; });
-        const el = { nodeType: 1, tagName: m[1].toUpperCase(), attrs, children: [] };
-        push(el);
-        stack.push(el);
-    }
-    if (last < html.length) push({ nodeType: 3, nodeValue: html.slice(last) });
-    link(root);
-    return root;
-}
-function textOf(n) {
-    return n.nodeType === 3 ? n.nodeValue : (n.children || []).map(textOf).join('');
-}
-function link(node) {
-    node.firstChild = (node.children && node.children[0]) || null;
-    (node.children || []).forEach((c, i) => {
-        c.nextSibling = node.children[i + 1] || null;
-        c.getAttribute = k => (c.attrs && k in c.attrs ? c.attrs[k] : null);
-        Object.defineProperty(c, 'textContent', { get: () => textOf(c), configurable: true });
-        if (c.nodeType === 1) link(c);
-    });
-}
-let pageLang = 'en';
-global.document = {
-    documentElement: { getAttribute: k => (k === 'data-lang' ? pageLang : null) },
-    createElement() {
-        const holder = {};
-        Object.defineProperty(holder, 'innerHTML', {
-            set(v) { holder.firstChild = parse(v).firstChild; },
-        });
-        return holder;
-    },
-};
-global.window = global;
-eval(fs.readFileSync(path.resolve(__dirname, '../static/site/js/helpmarkup.js'), 'utf8'));
+// ---- a DOM with just enough in it (shared with build-help-pages.js) -------
+const doc = require('./minidom.js').install('en');
+const DLMarkup = require('../static/site/js/helpmarkup.js');
+const setLang = l => { doc.lang = l; };
 
 // ---- fixtures ------------------------------------------------------------
 const C = (cls, s) => "<c c='" + cls + "'>" + s + '</c>';
@@ -103,10 +55,10 @@ check('prose after the list is a paragraph', /<p><span class="c-fgdx">A vast pla
 check('help cross-reference still links', /href="help\.html#h42" data-hid="42"/.test(out));
 check('speedwalk still renders as a token', /<code class="hwalk">3n2e<\/code>/.test(out));
 
-pageLang = 'uk';
+setLang('uk');
 out = DLMarkup.render(ZONE, { hrefBase: 'help.html' });
 check('map label follows the page language', out.indexOf('відкрити мапу') > -1);
-pageLang = 'en';
+setLang('en');
 
 out = DLMarkup.render(SKILL, { hrefBase: 'help.html' });
 check('skill bullet is a list too', /<ul class="hlist"><li>/.test(out));

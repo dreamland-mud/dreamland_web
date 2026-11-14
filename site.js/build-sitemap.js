@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /* sitemap.xml for search engines, rebuilt on every deploy.
  *
- * The help pages under help/ are generated on live from the game's dump, so
- * they are not in git and a hand-written sitemap goes stale the day it is
- * committed. Walk what is actually on disk instead.
+ * The help, news and map pages are generated on live from the game's dumps,
+ * so they are not in git and a hand-written sitemap goes stale the day it is
+ * committed. List what is actually on disk instead.
  *
  * The old Russian site's URLs (/ru/..., /ru/maps/... and a few root copies)
  * are redirect stubs now (site.js/build-stubs.js). They carry
@@ -13,18 +13,20 @@
  * No <lastmod>: every generator rewrites its pages on each deploy, so file
  * mtimes say "today" for everything and would only teach crawlers to ignore it.
  *
- * help.js never deletes a page, so help/ also holds orphans for articles that
- * lost their labels and copies of 2019 pages. Only list what help.js writes
- * from the current dump: one page per labelled article and its three index
- * pages. The per-label pages repeat those articles in full and are noindex.
+ * The static help and news pages come in up to three languages each. Their
+ * builders (build-help-pages.js, build-news.js) leave a list of what they
+ * wrote in data/help-pages.json and data/news-pages.json: one row per article
+ * or note, {alternates: {hreflang: path}, xdefault}. Every language version is
+ * listed with xhtml:link alternates to all of them, so a search engine shows
+ * the reader the page in their own language. Pages kept out of the help app's
+ * shelves are not in those lists at all.
  *
- * usage: node site.js/build-sitemap.js [static-dir] [helps.json]
+ * usage: node site.js/build-sitemap.js [static-dir]
  */
 const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(process.argv[2] || path.join(__dirname, '../static'));
-const HELPS = process.argv[3] || '/tmp/helps.json';
 const BASE = 'https://dreamland.rocks';
 
 // The trilingual front plus the web client.
@@ -39,16 +41,6 @@ function htmlIn(dir) {
         .filter(f => f.endsWith('.html'))
         .sort()
         .map(f => path.join(dir, f));
-}
-
-function currentHelpPages() {
-    const pages = new Set(['index.html', 'classskill.html', 'clanskills.html']);
-    JSON.parse(fs.readFileSync(HELPS, 'utf8')).forEach(topic => {
-        if (!topic.labels || topic.labels.length == 0)
-            return;
-        pages.add(topic.id + '.html');
-    });
-    return pages;
 }
 
 function url(rel) {
@@ -71,22 +63,51 @@ const entries = [];
 function add(rel) {
     const file = path.join(ROOT, rel);
     if (fs.existsSync(file) && !noindex(file))
-        entries.push(url(rel));
+        entries.push('  <url><loc>' + url(rel) + '</loc></url>');
+}
+
+/* one manifest row -> one <url> per language version, each naming all of them */
+let multi = 0;
+function addVersions(row) {
+    const langs = Object.keys(row.alternates).filter(l => {
+        let rel = row.alternates[l].replace(/^\//, '');
+        if (rel === '' || rel.endsWith('/')) rel += 'index.html';
+        const file = path.join(ROOT, rel);
+        return fs.existsSync(file) && !noindex(file);
+    });
+    const links = langs.map(l => '<xhtml:link rel="alternate" hreflang="' + l + '" href="' + loc(row.alternates[l]) + '"/>');
+    if (langs.length > 1 && row.xdefault)
+        links.push('<xhtml:link rel="alternate" hreflang="x-default" href="' + loc(row.xdefault) + '"/>');
+    langs.forEach(l => {
+        entries.push('  <url><loc>' + loc(row.alternates[l]) + '</loc>' +
+                     (langs.length > 1 ? links.join('') : '') + '</url>');
+        multi++;
+    });
+}
+function loc(p) { return url(p.replace(/^\//, '')); }
+function manifest(name) {
+    const f = path.join(ROOT, 'data', name);
+    if (!fs.existsSync(f)) {
+        console.warn('no ' + f + ' -- its pages are left out this time');
+        return [];
+    }
+    return JSON.parse(fs.readFileSync(f, 'utf8'));
 }
 
 PAGES.forEach(add);
-entries.push(BASE + '/play/');
-const helpPages = currentHelpPages();
-htmlIn('help').filter(rel => helpPages.has(path.basename(rel))).forEach(add);
+entries.push('  <url><loc>' + BASE + '/play/</loc></url>');
+manifest('help-pages.json').forEach(addVersions);
+manifest('news-pages.json').forEach(addVersions);
 htmlIn('maps').forEach(add);
 
 const xml = ['<?xml version="1.0" encoding="UTF-8"?>',
-             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    .concat(entries.map(loc => '  <url><loc>' + loc + '</loc></url>'))
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ' +
+             'xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    .concat(entries)
     .concat(['</urlset>', ''])
     .join('\n');
 
 const out = path.join(ROOT, 'sitemap.xml');
 fs.writeFileSync(out + '.tmp', xml);
 fs.renameSync(out + '.tmp', out);
-console.log('sitemap.xml: ' + entries.length + ' urls');
+console.log('sitemap.xml: ' + entries.length + ' urls (' + multi + ' static help and news pages)');

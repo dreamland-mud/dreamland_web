@@ -8,7 +8,7 @@ The world: 158 areas, about 9,800 rooms, 3,700 creatures and 5,700 objects. 13 c
 
 How it is built: most spells, skills, quests and NPC behaviour run on Fenia, the game's own scripting language, so builders change the live world without a reboot. Every player picks English, Ukrainian or Russian at login, and 99.7% of room descriptions exist in all three. Screen-reader mode (`config screenreader on`) replaces every visual element with linear text. The web client has a live graph map with click-to-walk, side panels and a phone layout. No LLM runs in the game: "AI" here means mob behaviour and combat AI.
 
-The pages below marked "app" render in the browser from JSON, so a plain fetch gets an empty shell. The static help index has the same articles as plain HTML (in Russian).
+The pages below marked "app" render in the browser from JSON, so a plain fetch gets an empty shell. Every help article and every news note also has a plain HTML page of its own, one per language, under the static indexes listed below.
 
 Agents can read the help directly: https://dreamland.rocks/mcp/help is a public read-only MCP server (Streamable HTTP, no auth) with `help_search`, `help_get`, `help_categories` and `help_list`, plus `item_search` (armor, weapons, magic items and pets with stats and where they come from, as on the searcher page), `who` (who is playing now) and `news_list`/`news_get` (the game news), in English, Ukrainian or Russian.
 
@@ -19,11 +19,16 @@ The main pages have an EN / UA / RU language toggle; there is no separate Russia
 - [Play](https://dreamland.rocks/play/): web client
 - [Home](https://dreamland.rocks/): what the game is, latest news
 - [What is DreamLand?](https://dreamland.rocks/about.html): how to play, the world in numbers, languages, accessibility, history, FAQ
-- [Help (static)](https://dreamland.rocks/help/): every help article as plain HTML, in Russian
-- [Help](https://dreamland.rocks/help.html): app; English and Ukrainian, Russian at /help/
+- [Help in English](https://dreamland.rocks/en/help/): every translated help article as plain HTML, one page each (/en/help/<id>.html)
+- [Help in Ukrainian](https://dreamland.rocks/ua/help/): the same in Ukrainian (/ua/help/<id>.html)
+- [Help in Russian](https://dreamland.rocks/help/): every help article in Russian, the original language (/help/<id>.html)
+- [Help](https://dreamland.rocks/help.html): app; search and filters over the same articles in all three languages
 - [Help MCP server](https://dreamland.rocks/mcp/help): for AI agents; search and read every help article in three languages
 - [Maps](https://dreamland.rocks/maps.html): app; every area with level ranges and maps
 - [News](https://dreamland.rocks/news.html): app; in-game changelog
+- [News in English](https://dreamland.rocks/en/news/): notes written in English or translated, one page each, newest first
+- [News in Ukrainian](https://dreamland.rocks/ua/news/): notes written in Ukrainian (most news since 2024)
+- [News in Russian](https://dreamland.rocks/ru/news/): notes written in Russian (the archive back to 2001)
 - [Item search](https://dreamland.rocks/searcher.html): app; weapons, armor and magic items by stats
 - [Our values](https://dreamland.rocks/values.html): why DreamLand stands with Ukraine, and the respect the game runs on
 - [Legends](https://dreamland.rocks/legends.html): stories, samurai tales and Second Epoch legends written by players; in Russian

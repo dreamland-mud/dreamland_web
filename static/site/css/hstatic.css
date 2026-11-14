@@ -1,0 +1,39 @@
+/* The static one-language help pages (site.js/build-help-pages.js): an article
+   on parchment (helpart.css) under the site's top bar, and the per-language
+   index. The news pages (build-news.js) use the same layout. */
+
+/* clears the fixed top bar the way .pagehead does on the app pages */
+.hstatic { max-width: 900px; padding-top: 110px; padding-bottom: 60px; }
+.pagehead + .hstatic { padding-top: 30px; }
+
+.hstatic__crumbs { font-size: .95rem; color: var(--text-faint); margin: 0 0 14px; }
+.hstatic__crumbs a { color: var(--arcane); }
+.hstatic__crumbs a:hover { color: var(--gold-bright); }
+
+/* the h1 takes the look the help app gives its h2 */
+.hart > h1 { font-family: var(--display); font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    color: #241809; margin: 0 0 18px; line-height: 1.12;
+    padding-bottom: 14px; border-bottom: 1px solid rgba(150,120,70,.3); }
+.hart > h1 .hkind { font-size: .7rem; vertical-align: .35em; }
+.hart__related h2 { font-family: var(--display); font-size: 1.15rem; color: #241809; margin: 0 0 .5em; }
+.hart__meta { font-family: var(--mono); font-size: .8rem; color: var(--ink-dim); margin: -8px 0 16px; }
+/* a note keeps its own line breaks and indentation inside each paragraph */
+.hart__body--note p { white-space: pre-wrap; }
+
+.hstatic__more { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin: 26px 0 0; }
+
+.hstatic__n { font-family: var(--mono); font-size: .8rem; color: var(--text-faint); margin-left: 6px; }
+.hstatic__toc h2, .hstatic__shelf h2 { font-size: clamp(1.4rem, 3.2vw, 1.9rem); color: var(--gold-bright); margin: 40px 0 12px; }
+.hstatic__toc h2 { margin-top: 0; }
+.hstatic__toc ul { list-style: none; margin: 0; padding: 0; columns: 2 260px; column-gap: 28px; }
+.hstatic__toc li { margin: 0 0 8px; break-inside: avoid; }
+.hstatic__shelf { scroll-margin-top: 96px; }
+.hstatic__shelf [id] { scroll-margin-top: 96px; }
+.hstatic__shelf ul { margin: 0; padding: 0; list-style: none; columns: 3 220px; column-gap: 28px; }
+.hstatic__shelf li { margin: 0 0 6px; break-inside: avoid; color: var(--text-dim); }
+.hstatic--index a { color: var(--arcane); }
+.hstatic--index a:hover { color: var(--gold-bright); }
+/* the kind chip on the dark index, not on parchment */
+.hstatic__shelf .hkind { color: var(--text-faint); background: rgba(255,255,255,.04);
+    border-color: var(--stone-700); }
+.hstatic__date { font-family: var(--mono); font-size: .8rem; color: var(--text-faint); margin-right: 8px; }

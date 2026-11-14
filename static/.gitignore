@@ -29,3 +29,7 @@ help
 mudjs
 mudjs-vue
 mudjsvue
+# The static one-language help and news pages (site.js/build-help-pages.js,
+# site.js/build-news.js). /help/<id>.html and /ru/news/ are covered above.
+/en/
+/ua/

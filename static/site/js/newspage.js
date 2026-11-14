@@ -34,7 +34,8 @@
         loading:  { en: 'Loading the archive…', uk: 'Вантажу архів…',   ru: 'Гружу архив…' },
         failed:   { en: 'Could not load the news.', uk: 'Не вдалося завантажити новини.', ru: 'Не удалось загрузить новости.' },
         count:    { en: 'entries',            uk: 'записів',             ru: 'записей' },
-        by:       { en: 'posted by',          uk: 'написав',             ru: 'написал' }
+        by:       { en: 'posted by',          uk: 'написав',             ru: 'написал' },
+        page:     { en: 'This note on its own page', uk: 'Цей запис окремою сторінкою', ru: 'Эта запись отдельной страницей' }
     };
     function t(k) { return UI[k][L()]; }
 
@@ -148,9 +149,22 @@
                 '</div>' +
                 '<h2 class="news-full__subject">' + esc(subjectOf(n)) + '</h2>' +
                 '<div class="news-full__text">' + esc(n.text) + '</div>' +
+                staticLink(n) +
             '</article>';
         markCurrent();
         if (scroll) artEl.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+
+    /* The note's static page (site.js/build-news.js): in the page language
+       when there is one, else in the language it was written in. `lang` is
+       that original language, as the build read it off the letters. */
+    var PAGE_DIR = { en: '/en/news/', uk: '/ua/news/', ru: '/ru/news/' };
+    function staticLink(n) {
+        if (!n.lang) return '';
+        var has = { en: !!n.en_subject || n.lang === 'en', uk: n.lang === 'ua', ru: n.lang === 'ru' };
+        var l = has[L()] ? L() : (n.lang === 'ua' ? 'uk' : n.lang);
+        return '<p class="news-full__static"><a href="' + PAGE_DIR[l] + n.id + '.html" hreflang="' + l + '">' +
+            esc(t('page')) + '</a></p>';
     }
 
     function openFromHash(scroll) {
