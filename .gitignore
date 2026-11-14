@@ -3,7 +3,6 @@ package-lock.json
 # Locked so Dependabot can patch them and drone installs what we tested.
 !/package-lock.json
 !/website.js/package-lock.json
-!/help.js/package-lock.json
 
 # Built on every deploy by site.js/build-sitemap.js
 static/sitemap.xml

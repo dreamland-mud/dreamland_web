@@ -9,6 +9,12 @@
  *
  *   DLMarkup.render(raw, { hrefBase: 'help.html', resolveLink: fn })
  *
+ * Also loaded under node by site.js/build-help-pages.js, which renders every
+ * article to a static page (site.js/minidom.js stands in for the DOM). The
+ * options only that build needs: lang ('en' | 'uk' | 'ru', instead of reading
+ * the page), linkHref(id) for a cross-link's href instead of hrefBase#h<id>,
+ * and mapHref, the maps page the [map=] marker points at.
+ *
  * hrefBase prefixes the #h<id> cross-links: empty on the help page itself
  * (where the link is a same-page hash), 'help.html' anywhere else.
  *
@@ -20,7 +26,11 @@
  * pass a keyword lookup; where none is given, or the anchor matches nothing,
  * the text renders as plain emphasis rather than as a link that goes nowhere.
  */
-window.DLMarkup = (function () {
+(function (root, factory) {
+    var api = factory();
+    if (root) root.DLMarkup = api;
+    if (typeof module === 'object' && module && module.exports) module.exports = api;
+})(typeof window !== 'undefined' ? window : null, function () {
     'use strict';
 
     function esc(s) {
@@ -88,13 +98,19 @@ window.DLMarkup = (function () {
        character of the marker alone, and the only markup around it by then is
        the <li> the metadata bullet became. */
     var MAP_LABEL = { en: 'open the map', ua: 'відкрити мапу', ru: 'открыть карту' };
-    function mapLinks(html) {
-        var dl = document.documentElement.getAttribute('data-lang');
+    function mapLinks(html, opts) {
+        var dl = opts.lang || document.documentElement.getAttribute('data-lang');
         var l = dl === 'uk' ? 'ua' : dl === 'ru' ? 'ru' : 'en';
+        var maps = opts.mapHref || 'maps.html';
         return html.replace(/\[map=([-0-9a-z_]{1,15})\.are\]/g, function (m, file) {
-            return '<a class="hlink hlink--map" href="maps.html#' + file + '">' +
+            return '<a class="hlink hlink--map" href="' + esc(maps) + '#' + file + '">' +
                 esc(MAP_LABEL[l]) + '</a>';
         });
+    }
+
+    /* base is a string (hrefBase) or a function id -> href (linkHref) */
+    function linkTo(base, id) {
+        return typeof base === 'function' ? base(id) : base + '#h' + id;
     }
 
     function wrapChain(html, chain, base) {
@@ -105,7 +121,7 @@ window.DLMarkup = (function () {
                also an article. Both were rendered by the game client and by
                nothing here, so hg used to reach the page as literal "<hg>". */
             else if (w.tag === 'hh' || w.tag === 'hg') html = w.link
-                ? '<a class="hlink" href="' + base + '#h' + esc(w.link) +
+                ? '<a class="hlink" href="' + esc(linkTo(base, w.link)) +
                     '" data-hid="' + esc(w.link) + '">' + html + '</a>'
                 : '<b class="hlink-plain">' + html + '</b>';
             else if (w.tag === 'hc') html = '<code class="hcmd">' + html + '</code>';
@@ -167,8 +183,9 @@ window.DLMarkup = (function () {
     var FMT_CONT = /^ {7}(?! )\S/;
 
     function render(raw, opts) {
-        var base = (opts && opts.hrefBase) || '';
-        var resolve = (opts && opts.resolveLink) || null;
+        opts = opts || {};
+        var base = opts.linkHref || opts.hrefBase || '';
+        var resolve = opts.resolveLink || null;
         var holder = document.createElement('div');
         holder.innerHTML = raw || '';
         var lines = toLines(flatten(holder, resolve));
@@ -259,8 +276,37 @@ window.DLMarkup = (function () {
             para.push(lineHtml(line, base));
         }
         flushAll();
-        return mapLinks(out.join('\n'));
+        return mapLinks(out.join('\n'), opts);
     }
 
-    return { render: render, esc: esc };
-})();
+    /* The [square bracket] references in the corpus arrive with no article id
+       (helpformatter.cpp emits a bare {hh), so they are resolved the same way
+       the game client resolves them: by the anchor text. Keywords first, then
+       the visible title, which is what anchors like "Traveller's Comfort" are
+       actually written against. index: help-index.json entries.
+       Returns text -> id | null, ready to pass as resolveLink. */
+    function keywordResolver(index) {
+        var byKeyword = {};
+        function put(key, id) {
+            if (!key) return;
+            key = key.trim().toLowerCase();
+            if (key && byKeyword[key] === undefined) byKeyword[key] = id;
+        }
+        index.forEach(function (a) {
+            (a.kwList || []).forEach(function (k) { put(String(k).replace(/^'|'$/g, ''), a.id); });
+        });
+        // second pass: titles never outrank a real keyword
+        index.forEach(function (a) {
+            ['ru', 'en', 'ua'].forEach(function (l) {
+                put((a.toc && a.toc[l]) || '', a.id);
+                put((a.title && a.title[l]) || '', a.id);
+            });
+        });
+        return function (text) {
+            var id = byKeyword[String(text || '').trim().toLowerCase()];
+            return id === undefined ? null : id;
+        };
+    }
+
+    return { render: render, esc: esc, keywordResolver: keywordResolver };
+});

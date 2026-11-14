@@ -21,18 +21,17 @@ steps:
   - git pull
   - kill -9 $SSH_AGENT_PID
   
-- name: update_helps
-  commands:
-  - /usr/bin/node /var/www/dreamland_web/help.js/help.js /var/www/dreamland_web/static/help
-
 # Data for the English/Ukrainian site, straight from the game's own dumps. The
 # searcher and help dumps rewrite themselves every few hours and on boot, so
 # there is nothing to trigger in game first; news.xml is the exception and only
 # updates when someone runs 'webdump news'. Order matters: maps writes the index
-# that zonehelp reports against.
+# that zonehelp reports against. build-help-pages.js and build-news.js also write
+# the static one-language pages (/help/<id>.html, /en/help/, /ua/help/,
+# /<lang>/news/) that search engines read instead of the apps.
 - name: update_site_data
   commands:
   - /usr/bin/node /var/www/dreamland_web/site.js/build-help.js /tmp/helps.json
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-help-pages.js /tmp/helps.json
   - /usr/bin/node /var/www/dreamland_web/site.js/build-maps.js /home/dreamland/dreamland_mapper/public/data
   - /usr/bin/node /var/www/dreamland_web/site.js/build-zonehelp.js /tmp/helps.json /home/dreamland/dreamland_areas
   - /usr/bin/node /var/www/dreamland_web/site.js/build-news.js /tmp/news.xml
@@ -63,8 +62,9 @@ steps:
   - /usr/bin/node /var/www/dreamland_web/website.js/main.js /home/dreamland/runtime
 
 # Redirect pages over every URL of the old Russian site (/ru/..., /ru/maps/...
-# and the root copies). After update_website, which writes the /maps pages the
-# /ru/maps stubs are listed from; before build_sitemap, which skips them.
+# and the root copies) and the retired help.js's per-label pages (/help/<label>.html).
+# After update_website, which writes the /maps pages the /ru/maps stubs are
+# listed from; before build_sitemap, which skips them.
 - name: update_stubs
   commands:
   - /usr/bin/node /var/www/dreamland_web/site.js/build-stubs.js /var/www/dreamland_web/static
@@ -80,7 +80,7 @@ steps:
 # so a failure here can't skip the searcher restart.
 - name: build_sitemap
   commands:
-  - /usr/bin/node /var/www/dreamland_web/site.js/build-sitemap.js /var/www/dreamland_web/static /tmp/helps.json
+  - /usr/bin/node /var/www/dreamland_web/site.js/build-sitemap.js /var/www/dreamland_web/static
 
 - name: discord_failure
   commands:

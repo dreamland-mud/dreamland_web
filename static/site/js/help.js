@@ -160,35 +160,9 @@
 
     // ---- data -------------------------------------------------------------
     var index = [], byId = {}, aliasOf = {}, bodyRu = {}, overlay = {}, ready = false;
-    var byKeyword = {};
-
-    /* The [square bracket] references in the corpus arrive with no article id
-       (helpformatter.cpp emits a bare {hh), so they are resolved here the same
-       way the game client resolves them: by the anchor text. Keywords first,
-       then the visible title, which is what anchors like "Traveller's Comfort"
-       are actually written against. */
-    function buildKeywordIndex() {
-        byKeyword = {};
-        function put(key, id) {
-            if (!key) return;
-            key = key.trim().toLowerCase();
-            if (key && byKeyword[key] === undefined) byKeyword[key] = id;
-        }
-        index.forEach(function (a) {
-            (a.kwList || []).forEach(function (k) { put(String(k).replace(/^'|'$/g, ''), a.id); });
-        });
-        // second pass: titles never outrank a real keyword
-        index.forEach(function (a) {
-            ['ru', 'en', 'ua'].forEach(function (l) {
-                put((a.toc && a.toc[l]) || '', a.id);
-                put((a.title && a.title[l]) || '', a.id);
-            });
-        });
-    }
-    function resolveLink(text) {
-        var id = byKeyword[String(text || '').trim().toLowerCase()];
-        return id === undefined ? null : id;
-    }
+    /* bare {hh references resolve by anchor text, the way the game client does
+       (helpmarkup.js keywordResolver, shared with the static page build) */
+    var resolveLink = function () { return null; };
 
     function bodyFor(id) {
         var o = overlay[id];
@@ -259,7 +233,7 @@
             index.forEach(function (a) {
                 (a.aliases || []).forEach(function (x) { if (!byId[x]) aliasOf[x] = a.id; });
             });
-            buildKeywordIndex();
+            resolveLink = DLMarkup.keywordResolver(index);
             ready = true;              // search, random and the rail work from here
             readPickFromUrl();
             buildIndex();
@@ -402,6 +376,19 @@
             '</ul></nav>';
     }
 
+    /* The article's static page (site.js/build-help-pages.js): every labelled
+       article has a Russian one, English and Ukrainian only where the text is
+       translated -- exactly where the overlay carries it. */
+    var PAGE_DIR = { en: '/en/help/', ua: '/ua/help/', ru: '/help/' };
+    function staticLink(a) {
+        if (!a.labels || !a.labels.length) return '';
+        var l = L() === 'ru' || (overlay[a.id] != null && overlay[a.id] !== '') ? L() : 'ru';
+        return '<p class="hart__static"><a href="' + PAGE_DIR[l] + a.id + '.html" hreflang="' +
+            (l === 'ua' ? 'uk' : l) + '">' +
+            esc(tx('This article on its own page', 'Ця стаття окремою сторінкою', 'Эта статья отдельной страницей')) +
+            '</a></p>';
+    }
+
     function show(id) {
         if (!byId[id] && aliasOf[id]) {          // a retired id: open its article, fix the address
             id = aliasOf[id];
@@ -428,6 +415,7 @@
                     DLMarkup.render(bodyFor(a.id), { resolveLink: resolveLink }) +
                 '</div>' +
                 related(a) +
+                staticLink(a) +
             '</article>';
         artEl.scrollTop = 0;
         curId = a.id;
@@ -547,7 +535,7 @@
             if (!ready) return;
             bodiesReady = null;
             loadOverlay(L()).then(function () {
-                buildKeywordIndex();
+                resolveLink = DLMarkup.keywordResolver(index);
                 buildIndex();
                 openFromHash();
                 if (searchEl && searchEl.value) searchFor(searchEl.value);

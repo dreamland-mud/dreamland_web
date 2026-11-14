@@ -25,22 +25,29 @@ const TOPICAL = [
 const NON_PLAYER = ['imm', 'credits', 'engine', 'deprecated'];
 const ALL_KEYS = TOPICAL.concat(NON_PLAYER);
 
+/* Names match the help app's rail (static/site/js/help.js SECTIONS). */
 const DISPLAY = {
-    start:   { en: 'Getting started', ua: 'З чого почати' },
-    char:    { en: 'Your character', ua: 'Твій персонаж' },
-    combat:  { en: 'Combat', ua: 'Бій' },
-    skills:  { en: 'Skills and learning', ua: 'Вміння й навчання' },
-    magic:   { en: 'Spells and magic', ua: 'Закляття й магія' },
-    classes: { en: 'Classes', ua: 'Класи' },
-    races:   { en: 'Races', ua: 'Раси' },
-    gods:    { en: 'Gods and religions', ua: 'Боги й релігії' },
-    items:   { en: 'Items and economy', ua: 'Речі й господарство' },
-    quests:  { en: 'Quests', ua: 'Квести' },
-    world:   { en: 'World and travel', ua: 'Світ і подорожі' },
-    society: { en: 'Players and clans', ua: 'Гравці й клани' },
-    comm:    { en: 'Communication and settings', ua: 'Спілкування й налаштування' },
-    socials: { en: 'Socials', ua: 'Соціали' },
+    start:   { en: 'Getting started', ua: 'З чого почати', ru: 'С чего начать' },
+    char:    { en: 'Your character', ua: 'Твій персонаж', ru: 'Твой персонаж' },
+    combat:  { en: 'Combat', ua: 'Бій', ru: 'Бой' },
+    skills:  { en: 'Skills and learning', ua: 'Вміння й навчання', ru: 'Умения и обучение' },
+    magic:   { en: 'Spells and magic', ua: 'Закляття й магія', ru: 'Заклинания и магия' },
+    classes: { en: 'Classes', ua: 'Класи', ru: 'Классы' },
+    races:   { en: 'Races', ua: 'Раси', ru: 'Расы' },
+    gods:    { en: 'Gods and religions', ua: 'Боги й релігії', ru: 'Боги и религии' },
+    items:   { en: 'Items and economy', ua: 'Речі й господарство', ru: 'Вещи и хозяйство' },
+    quests:  { en: 'Quests', ua: 'Квести', ru: 'Квесты' },
+    world:   { en: 'World and travel', ua: 'Світ і подорожі', ru: 'Мир и путешествия' },
+    society: { en: 'Players and clans', ua: 'Гравці й клани', ru: 'Игроки и кланы' },
+    comm:    { en: 'Communication and settings', ua: 'Спілкування й налаштування', ru: 'Общение и настройки' },
+    socials: { en: 'Socials', ua: 'Соціали', ru: 'Социалы' },
 };
+
+/* The order the help app's rail shows them in (static/site/js/help.js
+ * SECTIONS): the reading order a newcomer wants, not alphabetical. The static
+ * help index (build-help-pages.js) uses the same one. */
+const SHELVES = ['start', 'char', 'skills', 'magic', 'combat', 'classes', 'races',
+    'gods', 'items', 'world', 'quests', 'society', 'comm', 'socials'];
 
 /* A spell also carries `skill` and a class facet, so `spell` has to be tried
  * first or every spell would land on the skills shelf. */
@@ -69,4 +76,4 @@ function resolve(labels) {
 
 function isPlayer(cat) { return TOPICAL.indexOf(cat) >= 0; }
 
-module.exports = { TOPICAL, NON_PLAYER, ALL_KEYS, DISPLAY, resolve, isPlayer };
+module.exports = { TOPICAL, NON_PLAYER, ALL_KEYS, DISPLAY, SHELVES, resolve, isPlayer };

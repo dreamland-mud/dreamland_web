@@ -102,3 +102,7 @@ details.nyear > summary:hover { color: #fff; }
     .news-full { padding: 24px 20px 30px; }
 }
 @media (max-width: 560px) { .nyear__items { grid-auto-columns: 86%; } }
+
+/* the note's static page (site.js/build-news.js) */
+.news-full__static { margin: 1.2em 0 0; font-size: .88rem; }
+.news-full__static a { color: var(--arcane-ink); border-bottom: 1px solid rgba(106,47,166,.38); }

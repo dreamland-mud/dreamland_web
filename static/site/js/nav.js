@@ -12,13 +12,15 @@
        i18n click bindings survive. */
     /* Mark the page you are on. Derived from the URL rather than written into
        each page's copy of the nav, because there are five copies of that markup
-       and the sixth would be forgotten. index.html is also what "/" serves. */
+       and the sixth would be forgotten. index.html is also what "/" serves.
+       Whole resolved paths, not file names: the static help pages live in
+       subdirectories, and /help/index.html is not the home page. */
     (function () {
-        var here = (location.pathname.split('/').pop() || 'index.html');
+        function norm(p) { return p.replace(/\/index\.html$/, '/'); }
+        var here = norm(location.pathname);
         pill.querySelectorAll('a.navlink').forEach(function (a) {
             // a bare "#start" is this page — on the home page that IS the home link
-            var target = (a.getAttribute('href') || '').split('#')[0].split('/').pop() || 'index.html';
-            if (target === here) a.setAttribute('aria-current', 'page');
+            if (norm(a.pathname) === here) a.setAttribute('aria-current', 'page');
         });
     })();
 

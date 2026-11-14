@@ -102,3 +102,7 @@
 @media (max-width: 900px) {
     .hart { padding: 24px 20px 30px; }
 }
+
+/* the help app's pointer to the article's static page (build-help-pages.js) */
+.hart__static { margin: 1.2em 0 0; font-size: .88rem; }
+.hart__static a { color: var(--arcane-ink); border-bottom: 1px solid rgba(106,47,166,.38); }
