@@ -23,7 +23,11 @@
  * whose article lost its translation or its labels is simply gone. help/ also
  * holds files that are not ours (hedit.json, helps.json, the old per-label pages
  * that build-stubs.js turns into stubs), so there only <number>.html and
- * index.html are owned: written fresh, and any not written this time deleted.
+ * index.html are owned. Those URLs are indexed, so one that is not written as
+ * a page this time never becomes a 404: it turns into a noindex stub, to the
+ * article in the help app if the dump still has it (unlabelled), else to the
+ * index. A stub is itself a <number>.html, so the next run rewrites it the
+ * same way, and replaces it with a page the day the article is labelled again.
  *
  * usage: node site.js/build-help-pages.js [helps.json] [static-dir]
  */
@@ -327,9 +331,20 @@ for (const f of Object.keys(ru)) fs.writeFileSync(path.join(stage, f), ru[f]);
 fs.mkdirSync(HELP, { recursive: true });
 for (const f of Object.keys(ru)) fs.renameSync(path.join(stage, f), path.join(HELP, f));
 fs.rmSync(stage, { recursive: true, force: true });
-let dropped = 0;
-for (const f of fs.readdirSync(HELP))
-    if (OWNED.test(f) && !(f in ru)) { fs.unlinkSync(path.join(HELP, f)); dropped++; }
+const gone = { kept: 0, removed: 0 };
+for (const f of fs.readdirSync(HELP)) {
+    if (!OWNED.test(f) || f in ru) continue;
+    const id = +f.slice(0, -5);
+    const out = path.join(HELP, f);
+    const known = byId[id];
+    const to = known ? '/help.html#h' + id : '/help/';
+    const name = known
+        ? { ru: S.label(known, 'ru'), en: S.label(known, 'en') }
+        : { ru: T.help.ru, en: T.help.en };
+    fs.writeFileSync(out + '.tmp', stub('help/' + f, to, name, 'ru'));
+    fs.renameSync(out + '.tmp', out);
+    gone[known ? 'kept' : 'removed']++;
+}
 
 const data = path.join(ROOT, 'data');
 fs.mkdirSync(data, { recursive: true });
@@ -339,4 +354,5 @@ fs.renameSync(path.join(data, 'help-pages.json.tmp'), path.join(data, 'help-page
 const hiddenN = index.filter(a => has.ru[a.id] != null && (!CAT.DISPLAY[a.cat] || HIDDEN.indexOf(a.cat) >= 0)).length;
 console.log(LANGS.map(L => `${L.key.toUpperCase()} ${counts[L.key].pages} pages` +
     (counts[L.key].aliases ? ` + ${counts[L.key].aliases} alias stubs` : '')).join(' · '));
-console.log(`${hiddenN} of them noindex (not on any shelf) · ${dropped} old page(s) removed from help/`);
+console.log(`${hiddenN} of them noindex (not on any shelf) · old help/ pages now stubs: ` +
+            `${gone.kept} to the help app (unlabelled), ${gone.removed} to the index (article gone)`);
