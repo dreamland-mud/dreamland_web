@@ -39,13 +39,13 @@
 .hart__related a { font-family: var(--article); font-size: .92rem; color: var(--arcane-ink);
     border-bottom: 1px solid rgba(106,47,166,.38); }
 .hart__related a:hover { color: var(--arcane-ink-hi); border-bottom-color: var(--arcane-ink-hi); }
-.hart__body code.hcmd { font-family: var(--article); font-size: .84em; color: #5c4a1e;
+.hart__body code.hcmd { font-family: var(--article); font-size: .84em; color: #59471d;
     letter-spacing: var(--mono-track);
     background: rgba(70,50,20,.1); border: 1px solid rgba(120,90,50,.24);
     padding: 1px 6px; border-radius: 4px; }
 
 /* A speedwalk token (%hs%): the game client walks it, a web page cannot. */
-.hart__body code.hwalk { font-family: var(--article); font-size: .84em; color: #5a5344;
+.hart__body code.hwalk { font-family: var(--article); font-size: .84em; color: #50493c;
     letter-spacing: var(--mono-track);
     background: rgba(70,50,20,.07); border: 1px dashed rgba(120,90,50,.3);
     padding: 1px 6px; border-radius: 4px; }
@@ -58,7 +58,7 @@
    Was a run of <p>s with a bold • pasted on the front. */
 .hart__body ul.hlist { margin: 0 0 .85em; padding-left: 1.35em; list-style: disc; }
 .hart__body ul.hlist li { margin: 0 0 .25em; }
-.hart__body ul.hlist li::marker { color: #8a6a10; }
+.hart__body ul.hlist li::marker { color: #5c470a; }
 
 /* One call shape per line. The game emits one %FMT% per shape, but they used to
    be joined into a paragraph -- `sacrifice` read "Format: sacrifice all Format:
@@ -66,7 +66,7 @@
 .hart__body p.hfmt { margin: 0 0 .3em; display: flex; gap: .5em; align-items: baseline;
     flex-wrap: wrap; }
 .hart__body p.hfmt + p:not(.hfmt) { margin-top: .85em; }
-.hart__body .hfmt__label { color: #8a6a10; font-weight: 700; letter-spacing: .02em;
+.hart__body .hfmt__label { color: #5c470a; font-weight: 700; letter-spacing: .02em;
     text-transform: uppercase; font-size: .78em; flex: none; }
 .hart__body .hfmt__call { font-family: var(--article); font-size: .9em; color: #3a2f18;
     letter-spacing: var(--mono-track);
@@ -88,19 +88,28 @@
 .hart > h2 .hkind { font-size: .7rem; vertical-align: .35em; }
 
 /* mudjs terminal palette remapped for ink-on-parchment: the originals are tuned
-   for a black background and several of them are invisible here */
+   for a black background and several of them are invisible here. Every ink
+   clears 4.5:1 against the parchment as rendered at the foot of a tall
+   article (gradient end under the noise, ~#caba91), not just the token. */
 .c-fgdx, .c-fgdw { color: inherit; }
 .c-fgbw, .c-fgbx { color: #171104; font-weight: 600; }
-.c-fgby { color: #8a6a10; font-weight: 600; } .c-fgdy { color: #7a5f14; }
-.c-fgbg { color: #3f6b1c; font-weight: 600; } .c-fgdg { color: #4c6a24; }
-.c-fgbr { color: #a3202c; font-weight: 600; } .c-fgdr { color: #93242e; }
-.c-fgbc { color: #17696e; font-weight: 600; } .c-fgdc { color: #1c6468; }
-.c-fgbb { color: #2a55a0; font-weight: 600; } .c-fgdb { color: #2f5691; }
-.c-fgbm { color: #7a3597; font-weight: 600; } .c-fgdm { color: #6f4184; }
-.c-fgbd { color: #6b6250; } .c-fgdd { color: #5a5344; }
+.c-fgby { color: #5c470a; font-weight: 600; } .c-fgdy { color: #5b470e; }
+.c-fgbg { color: #315315; font-weight: 600; } .c-fgdg { color: #3a511b; }
+.c-fgbr { color: #8f1c26; font-weight: 600; } .c-fgdr { color: #8b222b; }
+.c-fgbc { color: #125256; font-weight: 600; } .c-fgdc { color: #175256; }
+.c-fgbb { color: #234887; font-weight: 600; } .c-fgdb { color: #284a7e; }
+.c-fgbm { color: #6b2e84; font-weight: 600; } .c-fgdm { color: #623975; }
+.c-fgbd { color: #50493b; } .c-fgdd { color: #50493c; }
 
 @media (max-width: 900px) {
     .hart { padding: 24px 20px 30px; }
+}
+/* On a phone an article runs many screens tall, so the 172deg gradient and the
+   inset vignette read as the page yellowing toward the bottom. Flat light
+   parchment there, grain kept. */
+@media (max-width: 640px) {
+    .hart { background: var(--noise), var(--parchment);
+        box-shadow: 0 14px 34px rgba(0,0,0,.5); }
 }
 
 /* the help app's pointer to the article's static page (build-help-pages.js) */

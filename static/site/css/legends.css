@@ -68,3 +68,10 @@
     background-blend-mode: multiply, normal; border: 1px solid var(--parch-edge); }
 .gallery .portrait h4 { font-family: var(--display); font-size: 1.15rem; color: #241809; margin: 0 0 10px; }
 .gallery .portrait p { color: var(--ink); font-size: 1rem; }
+
+/* same as .hart (helpart.css): flat parchment on a phone */
+@media (max-width: 640px) {
+    .story { background: var(--noise), var(--parchment);
+        box-shadow: 0 10px 26px rgba(0,0,0,.45); }
+    .portrait { background: var(--noise), var(--parchment); }
+}

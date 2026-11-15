@@ -78,6 +78,11 @@ details.nyear > summary:hover { color: #fff; }
 .news-full__text a:hover { color: var(--arcane-ink-hi); border-bottom-color: var(--arcane-ink-hi); }
 .news-empty { padding: 30px; text-align: center; color: var(--text-faint); }
 
+/* same as .hart (helpart.css): flat parchment on a phone */
+@media (max-width: 640px) {
+    .news-full { background: var(--noise), var(--parchment);
+        box-shadow: 0 14px 34px rgba(0,0,0,.5); }
+}
 @media (max-width: 900px) {
     .newspage { grid-template-columns: 1fr; gap: 18px; }
     /* min-width:0 all the way down to the scroller: a grid/flex item defaults to
