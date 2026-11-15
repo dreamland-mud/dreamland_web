@@ -694,6 +694,10 @@ html[data-lang] [lang="ru"].ru-always { display: block !important; }
 .ds-parch__body { font-family: var(--article); font-size: .96rem; line-height: 1.62;
     letter-spacing: var(--mono-track); color: var(--ink); }
 .ds-parch a { color: var(--arcane-ink); border-bottom: 1px solid rgba(106,47,166,.38); }
+/* flat parchment on a phone, like .hart (helpart.css) */
+@media (max-width: 640px) {
+    .ds-parch::before { background: var(--noise), var(--parchment); box-shadow: none; }
+}
 
 /* ---------- form well + focus orbit (Nirvana canon) ----------
    Dark well, gold-deep frame; focus = gold ring plus the arcane glow orbiting
