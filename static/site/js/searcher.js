@@ -42,6 +42,9 @@
         limited: { en: 'limited quantity', uk: 'обмежена кількість', ru: 'ограниченное количество' },
         alignf:  { en: 'Usable by', uk: 'Кому доступна', ru: 'Кому доступна' },
         showLimited: { en: 'Show limited', uk: 'Показувати обмежені', ru: 'Показывать ограниченные' },
+        sortedBy:{ en: 'Sorted by', uk: 'Відсортовано за', ru: 'Отсортировано по' },
+        sortAsc: { en: 'ascending', uk: 'за зростанням', ru: 'по возрастанию' },
+        sortDesc:{ en: 'descending', uk: 'за спаданням', ru: 'по убыванию' },
         spellHint: { en: 'Type an English spell name, e.g. "cure light", or an item name.',
                      uk: 'Впиши англійську назву закляття, напр. "cure light", або назву речі.',
                      ru: 'Впиши английское название заклинания, напр. "cure light", или название вещи.' }
@@ -118,6 +121,39 @@
         return list.map(function (t) { return '<span class="ds-datachip ds-datachip--parch">' + esc(t) + '</span>'; }).join('');
     }
     function kindOf(v) { return KIND[v] ? tr(KIND[v]) : (v || ''); }
+    function itypeOf(v) { return ITYPE[v] ? tr(ITYPE[v]) : (v || ''); }
+
+    /* Sortable columns. key(item) gives a number (numeric columns) or a
+       string; null/'' means "nothing here" and always sinks to the bottom,
+       whichever way the column is sorted. Numeric columns open descending:
+       the usual question is "what is the best I can wear on this slot". */
+    function col(label, key, numeric) { return { label: label, key: key, num: !!numeric }; }
+    // one number for "how much does it give": every bonus added up, saves
+    // flipped, since a negative save is the good kind
+    function bonusSum(it) {
+        var sum = 0, any = false;
+        STATS.forEach(function (s) {
+            var v = nz(it[s.k]);
+            if (v === null) return;
+            any = true;
+            sum += s.k === 'saves' ? -v : v;
+        });
+        return any ? sum : null;
+    }
+    // the alignment letters in good-neutral-evil order; unrestricted sinks
+    function alignKey(it) {
+        var m = String(it.align || '').match(/[GNE]/g);
+        return m ? m.map(function (L) { return 'GNE'.indexOf(L); }).join('') : null;
+    }
+    function flagCount(list) { return list.length ? list.length : null; }
+    var K = {
+        name:  function (it) { return dl(it, 'name'); },
+        level: function (it) { return num(it.level); },
+        zone:  function (it) { return dl(it, 'area'); },
+        where: function (it) { return dl(it, 'where'); },
+        bonus: bonusSum,
+        align: alignKey
+    };
 
     var STATFILT = S.STATFILT;
 
@@ -128,7 +164,10 @@
             label: { en: 'Armor & gear', uk: 'Броня і речі', ru: 'Броня и вещи' },
             controls: ['level', 'name', 'slots', 'stats', 'align', 'limited'],
             statKeys: ['str','int','wis','dex','con','cha','hr','dr','hp','mana','saves'],
-            columns: [C.name, C.lvl, C.kind, C.bonus, C.align, C.zone, C.where],
+            columns: [col(C.name, K.name), col(C.lvl, K.level, true),
+                col(C.kind, function (it) { return kindOf(it.itemtype); }),
+                col(C.bonus, K.bonus, true), col(C.align, K.align),
+                col(C.zone, K.zone), col(C.where, K.where)],
             filter: S.FILTERS.armor,
             row: function (it) {
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' + it.level + '</td>' +
@@ -143,7 +182,17 @@
             label: { en: 'Weapons', uk: 'Зброя', ru: 'Оружие' },
             controls: ['level', 'name', 'wclass', 'stats', 'align', 'limited'],
             statKeys: ['str','int','wis','dex','con','hr','dr','hp','mana','saves'],
-            columns: [C.name, C.lvl, C.dice, C.effects, C.bonus, C.align, C.zone, C.where],
+            columns: [col(C.name, K.name), col(C.lvl, K.level, true),
+                // average damage when the dump has it, else the dice product
+                col(C.dice, function (it) {
+                    var a = parseFloat(it.ave);
+                    if (!isNaN(a)) return a;
+                    var d1 = num(it.d1), d2 = num(it.d2);
+                    return d1 && d2 ? d1 * (d2 + 1) / 2 : null;
+                }, true),
+                col(C.effects, function (it) { return flagCount(flags(it.special, WSPECIAL)); }, true),
+                col(C.bonus, K.bonus, true), col(C.align, K.align),
+                col(C.zone, K.zone), col(C.where, K.where)],
             filter: S.FILTERS.weapon,
             row: function (it) {
                 var d1 = num(it.d1), d2 = num(it.d2);
@@ -161,14 +210,22 @@
             key: 'magic', file: 'data/db_magic.json', gem: 'amethyst',
             label: { en: 'Magic', uk: 'Магія', ru: 'Магия' },
             controls: ['level', 'itype', 'spellsearch', 'limited'],
-            columns: [C.name, C.lvl, C.kind, C.slvl, C.chg, C.spells, C.zone, C.where],
+            columns: [col(C.name, K.name), col(C.lvl, K.level, true),
+                col(C.kind, function (it) { return itypeOf(it.itemtype); }),
+                col(C.slvl, function (it) { return nz(it.spellLevel); }, true),
+                col(C.chg, function (it) { return num(it.charges); }, true),
+                col(C.spells, function (it) {
+                    var ru = /[а-яё]/i.test(currentSearch);
+                    return ru ? (it.ruspells || it.spells) : (it.spells || it.ruspells);
+                }),
+                col(C.zone, K.zone), col(C.where, K.where)],
             filter: S.FILTERS.magic,
             row: function (it) {
                 // show RU spell list if the query looked Russian; else English
                 var ru = /[а-яё]/i.test(currentSearch);
                 var spells = ru ? (it.ruspells || it.spells) : (it.spells || it.ruspells);
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' + it.level + '</td>' +
-                    '<td class="i-dim">' + esc(tr(ITYPE[it.itemtype] || { en: it.itemtype, uk: it.itemtype, ru: it.itemtype })) + '</td>' +
+                    '<td class="i-dim">' + esc(itypeOf(it.itemtype)) + '</td>' +
                     '<td class="i-lvl">' + (num(it.spellLevel) || '<span class="i-dim">—</span>') + '</td>' +
                     '<td class="i-lvl">' + (num(it.charges) !== null ? it.charges : '<span class="i-dim">—</span>') + '</td>' +
                     '<td class="i-bonus">' + (spells ? esc(spells) : '<span class="i-dim">—</span>') + '</td>' +
@@ -179,7 +236,12 @@
             key: 'pet', file: 'data/db_pets.json', gem: 'emerald',
             label: { en: 'Pets', uk: 'Улюбленці', ru: 'Питомцы' },
             controls: ['level', 'name'],
-            columns: [C.name, C.lvl, C.aff, C.tricks, C.zone],
+            columns: [col(C.name, K.name), col(C.lvl, K.level, true),
+                col(C.aff, function (it) { return flagCount(flags(it.aff, PETFLAG)); }, true),
+                col(C.tricks, function (it) {
+                    return flagCount(flags(it.off, PETFLAG).concat(flags(it.act, PETFLAG)));
+                }, true),
+                col(C.zone, K.zone)],
             filter: S.FILTERS.pet,
             row: function (it) {
                 var tricks = flags(it.off, PETFLAG).concat(flags(it.act, PETFLAG));
@@ -197,6 +259,7 @@
     var cache = {};          // file → data array
     var active = TABS[0];
     var currentSearch = '';
+    var sort = null;         // { col: index into active.columns, dir: 'ascending'|'descending' }
     var tabbar = document.getElementById('tabbar');
     var panel = document.getElementById('panel');
 
@@ -212,7 +275,7 @@
     });
 
     function selectTab(t) {
-        active = t; currentSearch = '';
+        active = t; currentSearch = ''; sort = null;
         TABS.forEach(function (x) { x._btn.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
         renderControls(t);
         load(t).then(function () { runSearch(); });
@@ -321,9 +384,19 @@
                 '</div>' + rows + hint +
             '</div>' +
             '<div class="result-meta" id="meta"></div>' +
+            '<p class="sr-only" id="sortnote" aria-live="polite"></p>' +
             '<div class="tablewrap"><table class="results"><thead><tr>' +
-                t.columns.map(function (c) { return '<th><span lang="en">' + c.en + '</span><span lang="uk">' + c.uk + '</span><span lang="ru">' + c.ru + '</span></th>'; }).join('') +
+                t.columns.map(function (c, i) {
+                    var l = c.label;
+                    return '<th scope="col" aria-sort="none"><button type="button" class="sortbtn" data-col="' + i + '">' +
+                        '<span lang="en">' + l.en + '</span><span lang="uk">' + l.uk + '</span><span lang="ru">' + l.ru + '</span>' +
+                        '<span class="sortarrow" aria-hidden="true"></span></button></th>';
+                }).join('') +
             '</tr></thead><tbody id="rows"></tbody></table></div>';
+        panel.querySelectorAll('.sortbtn').forEach(function (b) {
+            b.addEventListener('click', function () { sortBy(parseInt(b.getAttribute('data-col'), 10)); });
+        });
+        paintSort(false);
 
         // wire chips (toggle .on class) + live search
         panel.querySelectorAll('.chip input').forEach(function (cb) {
@@ -372,12 +445,11 @@
     function runSearch() {
         var data = cache[active.file] || [];
         var f = collect();
-        var out = [];
-        for (var i = 0; i < data.length && out.length < CAP; i++) {
-            if (matches(data[i], f)) out.push(data[i]);
-        }
-        var total = 0;
-        for (var j = 0; j < data.length; j++) if (matches(data[j], f)) total++;
+        var all = [];
+        for (var i = 0; i < data.length; i++) if (matches(data[i], f)) all.push(data[i]);
+        var total = all.length;
+        // sort the whole match list before the cap, so "top N" is the real top N
+        var out = sorted(all).slice(0, CAP);
 
         var meta = document.getElementById('meta');
         if (total === 0) {
@@ -395,6 +467,55 @@
         var html = '';
         for (var r = 0; r < out.length; r++) html += '<tr>' + active.row(out[r]) + '</tr>';
         document.getElementById('rows').innerHTML = html;
+    }
+
+    /* Missing values sink in both directions; ties keep dump order. */
+    function sorted(list) {
+        if (!sort) return list;
+        var c = active.columns[sort.col];
+        var mul = sort.dir === 'descending' ? -1 : 1;
+        var lang = T();
+        var rows = list.map(function (it, i) {
+            var k = c.key(it);
+            if (k === '' || (c.num && (k === null || isNaN(k)))) k = null;
+            return { it: it, k: k, i: i };
+        });
+        rows.sort(function (a, b) {
+            if (a.k === null || b.k === null) {
+                if (a.k === b.k) return a.i - b.i;
+                return a.k === null ? 1 : -1;
+            }
+            var d = c.num ? a.k - b.k : String(a.k).localeCompare(String(b.k), lang, { sensitivity: 'base', numeric: true });
+            return d ? d * mul : a.i - b.i;
+        });
+        return rows.map(function (r) { return r.it; });
+    }
+
+    function sortBy(i) {
+        var c = active.columns[i];
+        if (sort && sort.col === i)
+            sort.dir = sort.dir === 'ascending' ? 'descending' : 'ascending';
+        else
+            sort = { col: i, dir: c.num ? 'descending' : 'ascending' };
+        paintSort(true);
+        runSearch();
+    }
+
+    /* aria-sort on the header carries the state; the arrow is for sighted
+       readers, and the live note says it aloud, since a changed aria-sort is
+       not announced while focus stays on the button. */
+    function paintSort(announce) {
+        panel.querySelectorAll('.results thead th').forEach(function (th, i) {
+            var dir = sort && sort.col === i ? sort.dir : 'none';
+            th.setAttribute('aria-sort', dir);
+            th.querySelector('.sortarrow').textContent =
+                dir === 'ascending' ? '\u25B2' : dir === 'descending' ? '\u25BC' : '\u21C5';
+        });
+        var note = document.getElementById('sortnote');
+        if (!note || !announce || !sort) return;
+        var c = active.columns[sort.col];
+        note.textContent = tr(UI.sortedBy) + ' ' + tr(c.label) + ', ' +
+            tr(sort.dir === 'ascending' ? UI.sortAsc : UI.sortDesc);
     }
 
     function load(t) {
