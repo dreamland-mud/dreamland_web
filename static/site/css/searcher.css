@@ -84,6 +84,20 @@
 .result-meta b { color: var(--gold-bright); font-family: var(--display); }
 
 /* the results table (.tablewrap + table.results) is canon now: theme.css */
+/* Sortable headers: the whole cell is one button, so it keeps the header's
+   own type and only adds a pointer, a focus ring and the arrow. The arrow is
+   decoration -- th[aria-sort] is what a screen reader hears. */
+.results th .sortbtn {
+    display: inline-flex; align-items: center; gap: 6px; width: 100%;
+    margin: 0; padding: 0; border: 0; background: none; cursor: pointer;
+    font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-align: left;
+}
+.results th .sortbtn:hover { color: #2a1d0d; }
+.results th .sortbtn:focus-visible { outline: 2px solid #6a2fa6; outline-offset: 3px; border-radius: 2px; }
+.sortarrow { font-size: .9em; line-height: 1; color: #6b5630; }
+.results th[aria-sort="ascending"] .sortarrow,
+.results th[aria-sort="descending"] .sortarrow { color: #2a1d0d; }
+.results th[aria-sort="ascending"], .results th[aria-sort="descending"] { color: #2a1d0d; }
 .i-name { font-weight: 600; color: #2a1d0d; }
 /* limited items -- only N exist in the world at once -- read as arcane, not as
    an error: purple name, purple diamond. #7a3597, not the UI's --arcane, which
