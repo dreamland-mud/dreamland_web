@@ -144,10 +144,12 @@
     ];
     var STATFIELD = {};
     STATFILT.forEach(function (s) { STATFIELD[s.k] = s.field; });
+    // one STATFILT bonus on the item by its chip key, or null when it has none
+    function statValue(it, k) { return nz(it[STATFIELD[k] || ('stat_' + k)]); }
     // every listed stat must be a non-zero bonus on the item
     function hasStats(it, keys) {
         for (var i = 0; i < keys.length; i++)
-            if (nz(it[STATFIELD[keys[i]] || ('stat_' + keys[i])]) === null) return false;
+            if (statValue(it, keys[i]) === null) return false;
         return true;
     }
 
@@ -236,7 +238,7 @@
     return {
         num: num, nz: nz, sign: sign, statText: statText, STATS: STATS, ALIGN: ALIGN, SLOTS: SLOTS, WCLASS: WCLASS,
         ITYPE: ITYPE, KIND: KIND, WSPECIAL: WSPECIAL, PETFLAG: PETFLAG, STATFILT: STATFILT,
-        hasStats: hasStats, nameHit: nameHit, isLimited: isLimited, flagKeys: flagKeys,
+        statValue: statValue, hasStats: hasStats, nameHit: nameHit, isLimited: isLimited, flagKeys: flagKeys,
         flagLabels: flagLabels, FILTERS: FILTERS, passesCommon: passesCommon, matches: matches,
     };
 });
