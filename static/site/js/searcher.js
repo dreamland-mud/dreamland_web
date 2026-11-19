@@ -156,6 +156,42 @@
     };
 
     var STATFILT = S.STATFILT;
+    var STATBYKEY = {};
+    STATFILT.forEach(function (s) { STATBYKEY[s.k] = s; });
+
+    /* A ticked bonus chip adds a column of that one stat right before Bonuses,
+       so the table can rank by it. One column object per tab and stat, kept,
+       so the sort state follows it while other columns come and go. Saves
+       flip like in bonusSum: descending puts the best item on top. */
+    function statCol(t, k) {
+        t._statCols = t._statCols || {};
+        if (!t._statCols[k]) {
+            var s = STATBYKEY[k];
+            var c = col({ en: s.en, uk: s.uk, ru: s.ru }, function (it) {
+                var v = S.statValue(it, k);
+                return v === null ? null : (k === 'saves' ? -v : v);
+            }, true);
+            c.stat = s;
+            t._statCols[k] = c;
+        }
+        return t._statCols[k];
+    }
+    function setStatCols(t, keys) {
+        var cur = sort ? t.columns[sort.col] : null;
+        var at = -1;
+        t.base.forEach(function (c, i) { if (c.key === K.bonus) at = i; });
+        t.extra = at < 0 ? [] : keys.map(function (k) { return statCol(t, k); });
+        t.columns = at < 0 ? t.base.slice() : t.base.slice(0, at).concat(t.extra, t.base.slice(at));
+        var idx = cur ? t.columns.indexOf(cur) : -1;
+        sort = idx >= 0 ? { col: idx, dir: sort.dir } : null;
+    }
+    // the stat column cells, shown the way the Bonuses chips show them
+    function statCells(t, it) {
+        return (t.extra || []).map(function (c) {
+            var v = S.statText(it, { k: c.stat.field });
+            return '<td class="i-lvl">' + (v === null ? '<span class="i-dim">—</span>' : esc(v)) + '</td>';
+        }).join('');
+    }
 
     // ---------- Tab specs ----------
     var TABS = [
@@ -172,7 +208,7 @@
             row: function (it) {
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' + it.level + '</td>' +
                     '<td class="i-dim">' + esc(kindOf(it.itemtype)) + '</td>' +
-                    '<td class="i-bonus">' + bonusCell(it) + '</td>' +
+                    statCells(this, it) + '<td class="i-bonus">' + bonusCell(it) + '</td>' +
                     '<td class="i-align">' + alignCell(it.align) + '</td>' +
                     zoneCell(it) + '<td class="i-dim">' + esc(dl(it, 'where')) + '</td>';
             }
@@ -201,7 +237,7 @@
                 var eff = flagChips(flags(it.special, WSPECIAL));
                 return '<td>' + nameCell(it) + '</td><td class="i-lvl">' + it.level + '</td>' +
                     '<td class="i-bonus">' + dice + '</td><td class="i-bonus">' + eff + '</td>' +
-                    '<td class="i-bonus">' + bonusCell(it) + '</td>' +
+                    statCells(this, it) + '<td class="i-bonus">' + bonusCell(it) + '</td>' +
                     '<td class="i-align">' + alignCell(it.align) + '</td>' +
                     zoneCell(it) + '<td class="i-dim">' + esc(dl(it, 'where')) + '</td>';
             }
@@ -253,6 +289,9 @@
             }
         }
     ];
+
+    // the tab's own columns; stat columns are spliced into t.columns on top
+    TABS.forEach(function (t) { t.base = t.columns.slice(); });
 
     var CAP = 800;
     var MAXLEVEL = 100;      // the game's ceiling; nothing in the dumps is above it
@@ -385,23 +424,18 @@
             '</div>' +
             '<div class="result-meta" id="meta"></div>' +
             '<p class="sr-only" id="sortnote" aria-live="polite"></p>' +
-            '<div class="tablewrap"><table class="results"><thead><tr>' +
-                t.columns.map(function (c, i) {
-                    var l = c.label;
-                    return '<th scope="col" aria-sort="none"><button type="button" class="sortbtn" data-col="' + i + '">' +
-                        '<span lang="en">' + l.en + '</span><span lang="uk">' + l.uk + '</span><span lang="ru">' + l.ru + '</span>' +
-                        '<span class="sortarrow" aria-hidden="true"></span></button></th>';
-                }).join('') +
-            '</tr></thead><tbody id="rows"></tbody></table></div>';
-        panel.querySelectorAll('.sortbtn').forEach(function (b) {
-            b.addEventListener('click', function () { sortBy(parseInt(b.getAttribute('data-col'), 10)); });
-        });
-        paintSort(false);
+            '<div class="tablewrap"><table class="results"><thead><tr id="headrow"></tr></thead>' +
+            '<tbody id="rows"></tbody></table></div>';
+        // the panel is fresh, so no chip is ticked and no stat column stays
+        setStatCols(t, []);
+        renderHead(t);
 
         // wire chips (toggle .on class) + live search
         panel.querySelectorAll('.chip input').forEach(function (cb) {
             cb.addEventListener('change', function () {
-                cb.closest('.chip').classList.toggle('on', cb.checked); runSearch();
+                cb.closest('.chip').classList.toggle('on', cb.checked);
+                if (cb.closest('#c_stats')) statChipChanged(t, cb);
+                runSearch();
             });
         });
         var nameInput = document.getElementById('f_name');
@@ -413,11 +447,36 @@
         document.getElementById('btnReset').addEventListener('click', function () { selectTab(t); });
     }
 
+    function renderHead(t) {
+        var row = document.getElementById('headrow');
+        row.innerHTML = t.columns.map(function (c, i) {
+            var l = c.label;
+            return '<th scope="col" aria-sort="none"><button type="button" class="sortbtn" data-col="' + i + '">' +
+                '<span lang="en">' + l.en + '</span><span lang="uk">' + l.uk + '</span><span lang="ru">' + l.ru + '</span>' +
+                '<span class="sortarrow" aria-hidden="true"></span></button></th>';
+        }).join('');
+        row.querySelectorAll('.sortbtn').forEach(function (b) {
+            b.addEventListener('click', function () { sortBy(parseInt(b.getAttribute('data-col'), 10)); });
+        });
+        paintSort(false);
+    }
+
+    /* A newly ticked stat takes over the sort, best first, and says so aloud:
+       the order changed without a header click. */
+    function statChipChanged(t, cb) {
+        setStatCols(t, checked('c_stats'));
+        renderHead(t);
+        if (!cb.checked) return;
+        sort = { col: t.columns.indexOf(statCol(t, cb.value)), dir: 'descending' };
+        if (sort.col < 0) { sort = null; return; }
+        paintSort(true);
+    }
+
+    function checked(id) {
+        var el = document.getElementById(id); if (!el) return [];
+        return Array.prototype.slice.call(el.querySelectorAll('input:checked')).map(function (i) { return i.value; });
+    }
     function collect() {
-        function checked(id) {
-            var el = document.getElementById(id); if (!el) return [];
-            return Array.prototype.slice.call(el.querySelectorAll('input:checked')).map(function (i) { return i.value; });
-        }
         var loEl = document.getElementById('f_lo'), hiEl = document.getElementById('f_hi');
         var nameEl = document.getElementById('f_name'), itEl = document.getElementById('f_itype');
         var limEl = document.querySelector('#c_limited input');
