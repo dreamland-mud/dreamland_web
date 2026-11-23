@@ -560,14 +560,15 @@ app.post('/account-api/enter', async (req, res) => {
 
 const kofiForm = express.urlencoded({ limit: '16kb', extended: false });
 
-// Free text the engine can hold. The engine converts to KOI8, which has no emoji,
-// and its converter stops at the first unmappable character -- so keep printable
-// ASCII, Cyrillic and the UA apostrophe, and fold line breaks into spaces.
+// Free text the engine can hold. The engine converts to KOI8-U, which has no
+// emoji, and its converter stops at the first unmappable character -- so keep
+// printable ASCII, the RU/UA letters KOI8-U has and the UA apostrophe, and fold
+// line breaks into spaces.
 function kofiText(v, max) {
     if (typeof v !== 'string')
         return undefined;
     const s = v.replace(/[\r\n\t]+/g, ' ')
-        .replace(/[^\x20-\x7EЀ-ӿʼ]/g, '')
+        .replace(/[^\x20-\x7EА-яЁёЄєІіЇїҐґʼ]/g, '')
         .replace(/ {2,}/g, ' ')
         .trim().slice(0, max);
     return s || undefined;
