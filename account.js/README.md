@@ -153,8 +153,9 @@ no account bounces to `/newui/?acct_error=discord_nolink`; linking stays in-game
    `account-broker: kofi:` line in `journalctl -u dreamland-account`.
 
 The engine matches a payment to an account by the Discord the payer connected on
-Ko-fi, then the payer's email, then an account id or a character name in the Ko-fi
-message. Donations and subscriptions extend the account's supporter date (a month per
+Ko-fi, then the payer's email, then the account's Ko-fi code (its id, shown in
+`account` status) anywhere in the Ko-fi message, or a message that is nothing but one
+character name. Donations and subscriptions extend the account's supporter date (a month per
 $5, a year per $50); shop orders and commissions are only recorded. Anything the
 engine cannot match waits in the ledger: the payer claims it in-game with
 `account kofi <transaction id>` from their receipt, or an immortal sees it in
