@@ -1385,3 +1385,7 @@ details.scroll > summary:hover { color: #fff; }
     text-transform: uppercase; letter-spacing: .06em; }
 .ds-table td code { font-size: .78rem; }
 .ds-table tr:last-child td { border-bottom: 0; }
+
+/* Ko-fi link: gold text so it doesn't read as one more game section */
+.topnav a.navlink--support { color: var(--gold-bright); }
+.topnav a.navlink--support:hover { color: var(--gold-bright); background: rgba(198,162,78,.12); }
