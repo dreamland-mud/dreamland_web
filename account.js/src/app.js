@@ -77,6 +77,10 @@ const DISCORD_CONFIGURED = !!(DISCORD_CLIENT_ID && DISCORD_CLIENT_SECRET);
 // cookie via /account-api/session on load, so a bare /newui/ is enough on success.
 const NEWUI = '/play/';
 
+// Ko-fi webhook verification token (Ko-fi dashboard -> API -> Webhooks). Optional:
+// without it /kofi answers 501 and everything else works.
+const KOFI_TOKEN = process.env.KOFI_VERIFICATION_TOKEN || '';
+
 const OAUTH_STATE_NAME = 'dl_oauth';
 const OAUTH_STATE_TTL_MS = 10 * 60 * 1000;   // the round-trip to Discord and back
 
@@ -544,6 +548,138 @@ app.post('/account-api/enter', async (req, res) => {
     if (r.status === 400 || r.status === 404)
         return res.status(400).json({ error: 'not_owned' });
     return res.status(502).json({ error: 'upstream' });
+});
+
+// ---- Ko-fi webhook ---------------------------------------------------------
+//
+// Ko-fi POSTs form-urlencoded `data=<JSON string>`. We check its verification
+// token, keep a whitelist of fields and hand the payment to the engine, which
+// keeps an idempotent ledger (one file per transaction) and extends the account's
+// supporter date. 200 = stored or a duplicate; a 5xx when the engine is down, so
+// Ko-fi retries.
+
+const kofiForm = express.urlencoded({ limit: '16kb', extended: false });
+
+// Free text the engine can hold. The engine converts to KOI8, which has no emoji,
+// and its converter stops at the first unmappable character -- so keep printable
+// ASCII, Cyrillic and the UA apostrophe, and fold line breaks into spaces.
+function kofiText(v, max) {
+    if (typeof v !== 'string')
+        return undefined;
+    const s = v.replace(/[\r\n\t]+/g, ' ')
+        .replace(/[^\x20-\x7EЀ-ӿʼ]/g, '')
+        .trim().slice(0, max);
+    return s || undefined;
+}
+
+function kofiAscii(v, max) {
+    if (typeof v !== 'string' && typeof v !== 'number')
+        return undefined;
+    const s = String(v).replace(/[^\x20-\x7E]/g, '').trim().slice(0, max);
+    return s || undefined;
+}
+
+function kofiBool(v) {
+    return typeof v === 'boolean' ? v : undefined;
+}
+
+// Whitelisted, coerced, capped payment for /account/kofi, or null when a required
+// field is missing. Undefined fields drop out in JSON.stringify.
+function kofiPayment(d) {
+    const txn = typeof d.kofi_transaction_id === 'string' ? d.kofi_transaction_id.trim() : '';
+    if (!/^[A-Za-z0-9-]{1,64}$/.test(txn))
+        return null;
+    const type = kofiAscii(d.type, 40);
+    const amount = kofiAscii(d.amount, 20);
+    if (!type || !amount || !/^[0-9][0-9,]*(\.[0-9]+)?$/.test(amount))
+        return null;
+
+    const email = typeof d.email === 'string' ? d.email.trim().toLowerCase() : '';
+    const discordId = typeof d.discord_userid === 'string' || typeof d.discord_userid === 'number'
+        ? String(d.discord_userid) : '';
+    const items = Array.isArray(d.shop_items) ? d.shop_items.slice(0, 20)
+        .filter(i => i && typeof i === 'object')
+        .map(i => ({
+            direct_link_code: kofiAscii(i.direct_link_code, 100),
+            variation_name: kofiAscii(i.variation_name, 100),
+            quantity: Number.isInteger(i.quantity) ? i.quantity : undefined,
+        })) : undefined;
+
+    return {
+        txn,
+        type,
+        amount,
+        currency: kofiAscii(d.currency, 8),
+        message_id: kofiAscii(d.message_id, 64),
+        timestamp: kofiAscii(d.timestamp, 40),
+        from_name: kofiText(d.from_name, 100),
+        message: kofiText(d.message, 1000),
+        email: looksEmail(email) ? email : undefined,
+        tier_name: kofiText(d.tier_name, 100),
+        discord_username: kofiText(d.discord_username, 100),
+        discord_userid: /^[0-9]{1,20}$/.test(discordId) ? discordId : undefined,
+        is_public: kofiBool(d.is_public),
+        is_subscription_payment: kofiBool(d.is_subscription_payment),
+        is_first_subscription_payment: kofiBool(d.is_first_subscription_payment),
+        shop_items: items,
+    };
+}
+
+app.post('/account-api/kofi', kofiForm, async (req, res) => {
+    // Everything inside one try: an async throw in an Express-4 route is an
+    // unhandled rejection, and that kills the process.
+    try {
+        if (!KOFI_TOKEN)
+            return res.status(501).json({ error: 'kofi_off' });
+
+        const raw = req.body && req.body.data;
+        if (typeof raw !== 'string')
+            return res.status(400).json({ error: 'no_data' });
+        let data;
+        try {
+            data = JSON.parse(raw);
+        } catch (e) {
+            return res.status(400).json({ error: 'bad_json' });
+        }
+        if (!data || typeof data !== 'object' || Array.isArray(data))
+            return res.status(400).json({ error: 'bad_json' });
+
+        // Constant-time compare on byte-length Buffers, the way verifySession does:
+        // timingSafeEqual throws on unequal lengths, and a string-length check
+        // misses multi-byte input.
+        const tok = data.verification_token;
+        if (typeof tok !== 'string' || tok.length > 256)
+            return res.status(403).json({ error: 'bad_token' });
+        const tb = Buffer.from(tok), kb = Buffer.from(KOFI_TOKEN);
+        if (tb.length !== kb.length || !crypto.timingSafeEqual(tb, kb))
+            return res.status(403).json({ error: 'bad_token' });
+
+        const payment = kofiPayment(data);
+        if (!payment) {
+            console.error('account-broker: kofi payment rejected, missing txn/type/amount');
+            return res.status(400).json({ error: 'bad_payment' });
+        }
+
+        const r = await mudCall('/account/kofi', payment);
+        const line = `kofi: txn ${payment.txn} ${payment.type} ${payment.amount} ${payment.currency || ''}`;
+        if (r.status === 200 && r.json) {
+            const result = r.json.duplicate ? 'duplicate'
+                : `${r.json.status} match=${r.json.match} months=${r.json.months}`;
+            console.log(`account-broker: ${line} -> ${result}`);
+            return res.status(200).json({ ok: true });
+        }
+        if (r.status === 400) {
+            console.error(`account-broker: ${line} -> engine refused (400)`);
+            return res.status(400).json({ error: 'bad_payment' });
+        }
+        // 403 (token mismatch), 500 (ledger write) or unreachable: let Ko-fi retry.
+        console.error(`account-broker: ${line} -> engine ${r.status}, Ko-fi will retry`);
+        return res.status(503).json({ error: 'upstream' });
+    } catch (e) {
+        console.error('account-broker: kofi handler failed', e.message);
+        if (!res.headersSent)
+            res.status(500).json({ error: 'internal' });
+    }
 });
 
 app.post('/account-api/logout', (req, res) => {
