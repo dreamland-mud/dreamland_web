@@ -558,7 +558,9 @@ app.post('/account-api/enter', async (req, res) => {
 // supporter date. 200 = stored or a duplicate; a 5xx when the engine is down, so
 // Ko-fi retries.
 
-const kofiForm = express.urlencoded({ limit: '16kb', extended: false });
+// The JSON sits URL-encoded inside `data` (Cyrillic costs 6-10 bytes a letter on
+// the wire), so leave room for a long message or a big shop order.
+const kofiForm = express.urlencoded({ limit: '128kb', extended: false });
 
 // Free text the engine can hold. The engine converts to KOI8-U, which has no
 // emoji, and its converter stops at the first unmappable character -- so keep
@@ -581,6 +583,10 @@ function kofiAscii(v, max) {
     return s || undefined;
 }
 
+// Same rule as KofiLedger::monthsFor in the engine: no leading zeros, no comma,
+// at most 7 integer digits and 2 decimals.
+const KOFI_AMOUNT = /^(0|[1-9][0-9]{0,6})(\.[0-9]{1,2})?$/;
+
 function kofiBool(v) {
     return typeof v === 'boolean' ? v : undefined;
 }
@@ -591,9 +597,12 @@ function kofiPayment(d) {
     const txn = typeof d.kofi_transaction_id === 'string' ? d.kofi_transaction_id.trim() : '';
     if (!/^[A-Za-z0-9-]{1,64}$/.test(txn))
         return null;
+    // The amount is forwarded as Ko-fi sent it: the engine validates it (strict
+    // D.CC, KOFI_AMOUNT above mirrors its rule for the log) and stores anything
+    // malformed as `manual` for an immortal, rather than dropping the payment here.
     const type = kofiAscii(d.type, 40);
     const amount = kofiAscii(d.amount, 20);
-    if (!type || !amount || !/^[0-9][0-9,]*(\.[0-9]+)?$/.test(amount))
+    if (!type || !amount)
         return null;
 
     const email = typeof d.email === 'string' ? d.email.trim().toLowerCase() : '';
@@ -663,7 +672,8 @@ app.post('/account-api/kofi', kofiForm, async (req, res) => {
         }
 
         const r = await mudCall('/account/kofi', payment);
-        const line = `kofi: txn ${payment.txn} ${payment.type} ${payment.amount} ${payment.currency || ''}`;
+        const odd = KOFI_AMOUNT.test(payment.amount) ? '' : ' (malformed amount)';
+        const line = `kofi: txn ${payment.txn} ${payment.type} ${payment.amount} ${payment.currency || ''}${odd}`;
         if (r.status === 200 && r.json) {
             const result = r.json.duplicate ? 'duplicate'
                 : `${r.json.status} match=${r.json.match} months=${r.json.months}`;
