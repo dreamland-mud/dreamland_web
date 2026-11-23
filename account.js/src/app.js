@@ -568,6 +568,7 @@ function kofiText(v, max) {
         return undefined;
     const s = v.replace(/[\r\n\t]+/g, ' ')
         .replace(/[^\x20-\x7EЀ-ӿʼ]/g, '')
+        .replace(/ {2,}/g, ' ')
         .trim().slice(0, max);
     return s || undefined;
 }

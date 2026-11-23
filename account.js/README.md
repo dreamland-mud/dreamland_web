@@ -20,6 +20,7 @@ It never serves HTML. The UI lives in mudjs `/newui`; this is the token-holder.
 | GET | `/account-api/session` | — | `{account, title, chars}` or `{account:null}` |
 | POST | `/account-api/enter` | `{char}` | `{char, token}` — a one-use entry token for the client's WS |
 | POST | `/account-api/logout` | — | `{ok:true}` |
+| POST | `/account-api/kofi` | Ko-fi webhook: form-urlencoded `data=<JSON>` | `200 {ok:true}` when the engine stored the payment or already had it; `403` bad verification token; `400` malformed; `503` engine unreachable (Ko-fi retries); `501` if unconfigured |
 
 Every MUD call goes out as `{token: <web token>, bottype: "web", args}`. The engine
 seam `servlet_auth_account()` checks the web token, which reaches account endpoints
@@ -51,6 +52,10 @@ Optional:
 - `DISCORD_REDIRECT_URI` — default `https://dreamland.rocks/account-api/discord/callback`.
   Must match the redirect registered in the Discord app EXACTLY (Discord rejects a
   mismatch), and is sent identically on both `/start` and the token exchange.
+
+- `KOFI_VERIFICATION_TOKEN` — the verification token from Ko-fi (Settings -> API ->
+  Webhooks). Enables `/kofi`; without it that endpoint returns `501` and everything
+  else works. Compared constant-time against the token inside each webhook's `data`.
 
 ## Go-live checklist (Kit-gated, needs root once)
 
@@ -133,3 +138,25 @@ the callback verifies the state (CSRF), exchanges the code for an id server-side
 token never reaches the browser), resolves the account by that numeric id — the same
 id the bot's `/attach` keys by — and sets the session cookie. A Discord id that owns
 no account bounces to `/newui/?acct_error=discord_nolink`; linking stays in-game.
+
+## Ko-fi webhook go-live (extra, on top of the checklist above)
+
+`/kofi` ships dark until:
+
+1. **Engine** — the `/account/kofi` servlet is live (dreamland_code, reload
+   `loadsave` + `comm` or reboot). The ledger lands in `runtime/var/db/kofi/`, one
+   `<txn>.json` per transaction, created on first use.
+2. **Env** — add `KOFI_VERIFICATION_TOKEN` to `/etc/dreamland/account.env`, then
+   `systemctl restart dreamland-account`.
+3. **Ko-fi** — Settings -> API -> Webhooks: URL
+   `https://dreamland.rocks/account-api/kofi`, then "Send test" and look for the
+   `account-broker: kofi:` line in `journalctl -u dreamland-account`.
+
+The engine matches a payment to an account by the Discord the payer connected on
+Ko-fi, then the payer's email, then an account id or a character name in the Ko-fi
+message. Donations and subscriptions extend the account's supporter date (a month per
+$5, a year per $50); shop orders and commissions are only recorded. Anything the
+engine cannot match waits in the ledger: the payer claims it in-game with
+`account kofi <transaction id>` from their receipt, or an immortal sees it in
+`account kofi list`. The broker logs one line per payment (txn, type, amount, result)
+and never the token or the email.
