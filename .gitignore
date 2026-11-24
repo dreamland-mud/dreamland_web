@@ -9,3 +9,6 @@ static/sitemap.xml
 
 # Built every 10 min on live by site.js/build-gsgp.js (dreamland-gsgp.timer)
 static/gsgp.json
+
+# Supporter portraits: written on live by the AI worker, never committed
+static/portraits/
