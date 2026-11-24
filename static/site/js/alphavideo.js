@@ -19,7 +19,12 @@
     // h = half a texel of the stacked frame: linear filtering must not reach
     // across the seam between the two halves.
     var FRAG =
-        'precision mediump float;' +
+        // mediump is 16-bit on mobile GPUs: too coarse to address 1920 rows
+        '#ifdef GL_FRAGMENT_PRECISION_HIGH\n' +
+        'precision highp float;\n' +
+        '#else\n' +
+        'precision mediump float;\n' +
+        '#endif\n' +
         'varying vec2 uv;' +
         'uniform sampler2D t;' +
         'uniform float h;' +

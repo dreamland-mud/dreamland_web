@@ -177,10 +177,12 @@
 .pach-empty { color: var(--text-dim); }
 
 /* one band under the banner: the card's lower third, then the three rarest
-   medals. The band's ground bleeds to the viewport edges (body clips the
-   overflow, so no sideways scroll). flow-root keeps the card's negative
-   margin inside the band. */
-body { overflow-x: clip; }
+   medals. The band's ground bleeds to the viewport edges and body clips the
+   overflow. html needs a clip of its own: otherwise body's overflow moves
+   to the viewport, body stops clipping, and the page stays as wide as the
+   bleed (scrollable by script, focus or find-in-page). flow-root keeps the
+   card's negative margin inside the band. */
+html, body { overflow-x: clip; }
 .ptop { position: relative; isolation: isolate; display: flow-root; margin-bottom: 30px; }
 .ptop::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: -100vmax; right: -100vmax;
     background: radial-gradient(40% 70% at 50% 100%, rgba(187,134,252,.14), transparent 70%), #0d0a13;
