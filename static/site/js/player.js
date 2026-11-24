@@ -6,7 +6,8 @@
    switch needs no re-render.
 
    Page order: header (the main character -- the one played longest -- with the
-   account title under it) and the account numbers, then achievements (the
+   account title under it) and the account numbers, a supporter's portrait of
+   that character beside them, then achievements (the
    heart of the page), then the characters as a card grid. A character card or
    an achievement opens a side sheet: a parchment docked to the right. Achievements come with the profile when the game sends
    them (field "achievements"); otherwise the page shows a "coming soon" shelf.
@@ -729,6 +730,67 @@
         return sec;
     }
 
+    // ---------- supporter portrait ----------
+
+    // The main character's portrait (field "portrait", supporters only): a
+    // looping ink-wash figure on parchment. The motion is decoration, hidden
+    // from screen readers; the figure is named by its written description in
+    // the page language, kept in a visually hidden caption. Reduced motion
+    // gets the poster still. A file that fails to load falls back to the
+    // still, and a missing still drops the figure: never an empty frame.
+    var PORTRAIT_PATH = /^\/portraits\/[0-9a-f]{32}\.(mp4|jpg)$/;
+
+    function portraitFigure(pt, lead) {
+        if (!pt || !lead || !PORTRAIT_PATH.test(pt.video || '') || !PORTRAIT_PATH.test(pt.poster || '')) return null;
+        if (pt.char && pt.char !== login(lead)) return null;
+
+        var fig = el('figure', 'ds-parch ds-frame pportrait');
+        var media = el('div', 'pportrait__media');
+        var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+        var videoFailed = false;
+
+        function fill() {
+            var m;
+            if (videoFailed || (reduce && reduce.matches)) {
+                m = el('img');
+                m.alt = '';
+                m.addEventListener('error', function () { fig.hidden = true; });
+                m.src = pt.poster;
+            } else {
+                m = el('video');
+                // Properties for the autoplay check, attributes for the markup.
+                m.muted = true;
+                m.loop = true;
+                m.autoplay = true;
+                m.playsInline = true;
+                ['muted', 'loop', 'autoplay', 'playsinline', 'disablepictureinpicture'].forEach(function (a) {
+                    m.setAttribute(a, '');
+                });
+                m.preload = 'metadata';
+                m.poster = pt.poster;
+                m.addEventListener('error', function () { videoFailed = true; fill(); });
+                m.src = pt.video;
+            }
+            m.className = 'pportrait__still';
+            m.setAttribute('aria-hidden', 'true');
+            media.innerHTML = '';
+            media.appendChild(m);
+        }
+        fill();
+        if (reduce && reduce.addEventListener) reduce.addEventListener('change', fill);
+
+        var alt = pt.alt || {};
+        var en = alt.en || alt.ru || alt.ua, uk = alt.ua || alt.ru || en, ru = alt.ru || alt.ua || en;
+        var cap = el('figcaption', 'sr-only', [en
+            ? tri(en, uk, ru)
+            : tri('Portrait of ' + lead.name.en, 'Портрет: ' + ukName(lead), 'Портрет: ' + ruName(lead))]);
+        cap.id = 'portraitCaption';
+        fig.setAttribute('aria-labelledby', cap.id);
+        fig.appendChild(media);
+        fig.appendChild(cap);
+        return DLFrame.dress(fig);
+    }
+
     // ---------- page ----------
 
     // Two thirds of the card over the banner, one third below it. The card's
@@ -779,11 +841,18 @@
         // rarest medals (left out of the wall below).
         body.innerHTML = '';
         var band = el('div', 'ptop');
-        band.appendChild(wrapper);
+        // A supporter's portrait stands beside the card (under it on a phone):
+        // the pair straddles the banner together.
+        var hero = wrapper;
+        var fig = portraitFigure(p.portrait, lead);
+        if (fig) {
+            hero = el('div', 'phero', [wrapper, fig]);
+        }
+        band.appendChild(hero);
         var show = ach ? achShowcase(ach) : null;
         if (show) band.appendChild(show.node);
         body.appendChild(band);
-        overlapBanner(wrapper, inset);
+        overlapBanner(hero, inset);
         var csec = el('section', 'pchars-sec');
         var ch = el('h2', 'sr-only', [tri('Characters', 'Персонажі', 'Персонажи')]);
         csec.appendChild(ch);
