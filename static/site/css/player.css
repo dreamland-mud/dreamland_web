@@ -39,18 +39,24 @@
 .phead__loading { color: var(--text-dim); }
 
 /* ---------- supporter portrait ----------
-   A cutout figure with no frame or card, standing in the hometown banner.
-   player.js sizes and places it: beside the header card on a wide screen,
-   its feet on the banner's bottom edge; centred and behind the card on a
-   narrow one. The art is sepia ink, so a warm rim light keeps it readable on
-   a dark banner; a soft pool of shadow under the feet grounds it. */
-.phero { position: relative; }
-.phero > .pinset { z-index: 1; }
-.pportrait { position: absolute; z-index: 0; margin: 0; pointer-events: none; }
-.pportrait--side::before { content: ""; position: absolute; z-index: -1;
-    left: 6%; right: 6%; bottom: 0; height: 8%;
-    background: radial-gradient(closest-side, rgba(0,0,0,.65), rgba(0,0,0,0)); }
-.pportrait__media { position: relative; width: 100%; height: 100%;
+   A cutout figure in the header card's first column (on top on a phone), in
+   a window of the hometown banner so the dark ink of the art does not sink
+   into the dark card. The figure follows the text in the DOM (reading
+   order) and is moved first with order. The art is sepia ink, so a warm rim
+   light keeps it readable. */
+.pinset__card--portrait { width: min(800px, 100%); flex-direction: row; align-items: center; gap: 28px; }
+.pinset__main { position: relative; flex: 1 1 auto; min-width: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.pportrait { position: relative; order: -1; flex: 0 0 200px; aspect-ratio: 9 / 16; margin: 0;
+    overflow: hidden; border: 1px solid var(--gold-deep); border-radius: 4px; pointer-events: none; }
+.pportrait[hidden] { display: none; }
+.pportrait__window { position: absolute; inset: 0; background-position: center; background-size: cover; }
+.pportrait__window > .zb-ink { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* a vignette over the banner so the figure, not the map, holds the eye */
+.pportrait::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 36px 12px rgba(13,11,18,.85); }
+.pportrait__media { position: absolute; top: 0; bottom: 0; left: 50%; height: 100%; aspect-ratio: 9 / 16;
+    transform: translateX(-50%);
     filter: drop-shadow(0 0 1px rgba(255,230,186,.5)) drop-shadow(0 0 14px rgba(236,190,120,.3)); }
 .pportrait__still, .pportrait__motion { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .pportrait__still { object-fit: contain; filter: url(#pportrait-alpha); }
@@ -204,6 +210,8 @@ html, body { overflow-x: clip; }
     .pstats { gap: 10px 22px; }
     .pinset { padding-left: 0; padding-right: 0; }
     .pinset__card { padding: 46px 30px 26px; }
+    .pinset__card--portrait { flex-direction: column; gap: 18px; }
+    .pportrait { flex: 0 0 auto; align-self: stretch; aspect-ratio: auto; height: 280px; }
     .pemblem--head { width: 70px; height: 76px; }
     .pinset__card .pach-sum { gap: 4px 10px; }
     .pach-show { grid-template-columns: minmax(0, 1fr); }
