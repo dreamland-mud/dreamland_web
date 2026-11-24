@@ -7,7 +7,7 @@
 
    Page order: header (the main character -- the one played longest -- with the
    account title under it) and the account numbers, a supporter's portrait of
-   that character beside them, then achievements (the
+   that character standing in the banner beside them, then achievements (the
    heart of the page), then the characters as a card grid. A character card or
    an achievement opens a side sheet: a parchment docked to the right. Achievements come with the profile when the game sends
    them (field "achievements"); otherwise the page shows a "coming soon" shelf.
@@ -732,49 +732,63 @@
 
     // ---------- supporter portrait ----------
 
-    // The main character's portrait (field "portrait", supporters only): a
-    // looping ink-wash figure on parchment. The motion is decoration, hidden
-    // from screen readers; the figure is named by its written description in
-    // the page language, kept in a visually hidden caption. Reduced motion
-    // gets the poster still. A file that fails to load falls back to the
-    // still, and a missing still drops the figure: never an empty frame.
-    var PORTRAIT_PATH = /^\/portraits\/[0-9a-f]{32}\.(mp4|jpg)$/;
+    // The main character's portrait (field "portrait", supporters only): an
+    // ink-wash figure cut out of its paper, standing in the hometown banner.
+    // The video is stacked alpha (site/js/alphavideo.js) drawn on a canvas;
+    // the RGBA png is the still. The motion is decoration, hidden from screen
+    // readers; the figure is named by its written description in the page
+    // language, kept in a visually hidden caption. Reduced motion, no WebGL, a
+    // video that fails or autoplay that is refused all get the still. The
+    // still shows while the video loads, and a still that fails drops the
+    // figure: never an empty box.
+    var PORTRAIT_PATH = /^\/portraits\/[0-9a-f]{32}\.(mp4|png)$/;
+
+    function portraitFile(path, ext) {
+        var m = PORTRAIT_PATH.exec(path || '');
+        return !!m && m[1] === ext;
+    }
+
+    // Where the feet are, as a share of the picture's height from the top,
+    // and how much of the figure shows above the card when it stands behind it.
+    var PORTRAIT_FEET = 0.97, PORTRAIT_SHOW = 0.6;
 
     function portraitFigure(pt, lead) {
-        if (!pt || !lead || !PORTRAIT_PATH.test(pt.video || '') || !PORTRAIT_PATH.test(pt.poster || '')) return null;
+        if (!pt || !lead || !portraitFile(pt.video, 'mp4') || !portraitFile(pt.poster, 'png')) return null;
         if (pt.char && pt.char !== login(lead)) return null;
 
-        var fig = el('figure', 'ds-parch ds-frame pportrait');
+        var fig = el('figure', 'pportrait');
         var media = el('div', 'pportrait__media');
+        media.setAttribute('aria-hidden', 'true');
         var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
-        var videoFailed = false;
+        var videoFailed = false, player = null;
+
+        var still = el('img', 'pportrait__still');
+        still.alt = '';
+        still.addEventListener('error', function () {
+            if (player) player.stop();
+            fig.hidden = true;
+            fig.dispatchEvent(new Event('dl-drop'));
+        });
+        still.src = pt.poster;
+        media.appendChild(still);
 
         function fill() {
-            var m;
-            if (videoFailed || (reduce && reduce.matches)) {
-                m = el('img');
-                m.alt = '';
-                m.addEventListener('error', function () { fig.hidden = true; });
-                m.src = pt.poster;
-            } else {
-                m = el('video');
-                // Properties for the autoplay check, attributes for the markup.
-                m.muted = true;
-                m.loop = true;
-                m.autoplay = true;
-                m.playsInline = true;
-                ['muted', 'loop', 'autoplay', 'playsinline', 'disablepictureinpicture'].forEach(function (a) {
-                    m.setAttribute(a, '');
-                });
-                m.preload = 'metadata';
-                m.poster = pt.poster;
-                m.addEventListener('error', function () { videoFailed = true; fill(); });
-                m.src = pt.video;
+            if (player) {
+                player.stop();
+                player.canvas.remove();
+                player.video.remove();
+                player = null;
             }
-            m.className = 'pportrait__still';
-            m.setAttribute('aria-hidden', 'true');
-            media.innerHTML = '';
-            media.appendChild(m);
+            still.hidden = false;
+            if (videoFailed || (reduce && reduce.matches) || !window.DLAlphaVideo) return;
+            player = DLAlphaVideo.create(pt.video, function () { videoFailed = true; fill(); });
+            if (!player) return;
+            player.canvas.className = 'pportrait__motion';
+            player.video.className = 'pportrait__feed';
+            // the still stays under the canvas until the first frame is drawn
+            player.canvas.addEventListener('dl-frame', function () { if (!videoFailed) still.hidden = true; });
+            media.appendChild(player.canvas);
+            media.appendChild(player.video);
         }
         fill();
         if (reduce && reduce.addEventListener) reduce.addEventListener('change', fill);
@@ -788,22 +802,69 @@
         fig.setAttribute('aria-labelledby', cap.id);
         fig.appendChild(media);
         fig.appendChild(cap);
-        return DLFrame.dress(fig);
+        return fig;
+    }
+
+    // The figure stands in the banner, its feet on the banner's bottom edge
+    // (foot: that edge, in px from the hero's top). Beside the card when the
+    // screen has room for a tall figure there; otherwise centred and behind
+    // the card, its upper part showing above it, with the banner grown
+    // enough that the head clears the site header.
+    function standPortrait(hero, card, fig, foot) {
+        head.style.paddingTop = '';
+        fig.classList.remove('pportrait--side', 'pportrait--behind');
+        if (fig.hidden) return;
+        var bar = document.getElementById('topbar');
+        var barH = bar ? bar.offsetHeight : 52;
+        var hr = hero.getBoundingClientRect(), cr = card.getBoundingClientRect();
+        var gap = 16;
+        var room = document.documentElement.clientWidth - cr.right - 2 * gap;
+        var tall = Math.min(560, Math.floor((head.offsetHeight - barH - 12) / PORTRAIT_FEET));
+        var wide = Math.min(Math.round(tall * 9 / 16), room);
+        tall = Math.round(wide * 16 / 9);
+        var side = tall >= 300;
+        if (!side) {
+            tall = Math.round(Math.min(360, Math.max(260, cr.width * 0.85)));
+            wide = Math.round(tall * 9 / 16);
+        }
+        fig.classList.add(side ? 'pportrait--side' : 'pportrait--behind');
+        fig.style.width = wide + 'px';
+        fig.style.height = tall + 'px';
+        if (side) {
+            // into the free space a little, never far from the card
+            fig.style.left = Math.round(cr.right - hr.left + gap + Math.min((room - wide) / 2, 48)) + 'px';
+            fig.style.top = Math.round(foot - tall * PORTRAIT_FEET) + 'px';
+            return;
+        }
+        var cardTop = cr.top - hr.top;
+        var top = Math.round(cardTop - tall * PORTRAIT_SHOW);
+        fig.style.left = Math.round((hr.width - wide) / 2) + 'px';
+        fig.style.top = top + 'px';
+        // the head must clear the fixed header at the top of the page
+        var headTop = hr.top + window.pageYOffset + top;
+        var short = barH + 10 - headTop;
+        if (short > 0)
+            head.style.paddingTop = (parseFloat(getComputedStyle(head).paddingTop) + short) + 'px';
     }
 
     // ---------- page ----------
 
     // Two thirds of the card over the banner, one third below it. The card's
     // height depends on its content and the viewport, so it is measured.
-    function overlapBanner(wrapper, card) {
+    function overlapBanner(hero, card, fig) {
         var gap = 22;  // .ds-inset padding above the card
         function place() {
             var up = Math.round(card.offsetHeight * 2 / 3);
-            wrapper.style.marginTop = -(up + gap) + 'px';
+            hero.style.marginTop = -(up + gap) + 'px';
             head.style.paddingBottom = (up + 40) + 'px';
+            if (fig) standPortrait(hero, card, fig, up + gap);
         }
         place();
         if (window.ResizeObserver) new ResizeObserver(place).observe(card);
+        if (fig) {
+            window.addEventListener('resize', place);
+            fig.addEventListener('dl-drop', place);
+        }
     }
 
     function renderProfile(p) {
@@ -841,8 +902,8 @@
         // rarest medals (left out of the wall below).
         body.innerHTML = '';
         var band = el('div', 'ptop');
-        // A supporter's portrait stands beside the card (under it on a phone):
-        // the pair straddles the banner together.
+        // A supporter's portrait stands in the banner beside the card, or
+        // behind it on a narrow screen; it follows the card in reading order.
         var hero = wrapper;
         var fig = portraitFigure(p.portrait, lead);
         if (fig) {
@@ -852,7 +913,7 @@
         var show = ach ? achShowcase(ach) : null;
         if (show) band.appendChild(show.node);
         body.appendChild(band);
-        overlapBanner(hero, inset);
+        overlapBanner(hero, inset, fig);
         var csec = el('section', 'pchars-sec');
         var ch = el('h2', 'sr-only', [tri('Characters', 'Персонажі', 'Персонажи')]);
         csec.appendChild(ch);

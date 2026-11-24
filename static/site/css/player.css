@@ -39,28 +39,24 @@
 .phead__loading { color: var(--text-dim); }
 
 /* ---------- supporter portrait ----------
-   A .ds-parch sheet framed like every parchment, holding a 9:16 figure. Beside
-   the header card on a wide screen, its top level with the card's (the
-   .ds-inset padding); under the card on a narrow one, above the tabs. */
-.phero { display: flex; justify-content: center; align-items: flex-start; gap: 18px; }
-/* the card keeps its own 640px (plus the inset's 22px each side) in the row */
-.phero > .pinset { flex: 0 1 684px; min-width: 0; }
-.pportrait { flex: none; margin: 22px 0 0; }
-/* The generated art carries a small seal stamp in a bottom corner, up to ~9%
-   in from the bottom edge: the media is scaled up from near the top, so ~10%
-   of the bottom, ~6% of each side and ~2% of the top fall outside the box. */
-.pportrait__media { position: relative; z-index: 1; width: 220px; aspect-ratio: 9 / 16; overflow: hidden; }
-.pportrait__still { display: block; width: 100%; height: 100%; object-fit: cover;
-    transform: scale(1.12); transform-origin: 50% 15%; }
-@media (max-width: 1000px) {
-    .phero { flex-direction: column; align-items: center; gap: 0; }
-    .phero > .pinset { flex: none; align-self: stretch; }
-    .pportrait { margin: 4px 0 0; }
-    .pportrait__media { width: min(240px, 60vw); }
-}
-@media (max-width: 560px) {
-    .pportrait { padding: 26px 28px; }
-}
+   A cutout figure with no frame or card, standing in the hometown banner.
+   player.js sizes and places it: beside the header card on a wide screen,
+   its feet on the banner's bottom edge; centred and behind the card on a
+   narrow one. The art is sepia ink, so a warm rim light keeps it readable on
+   a dark banner; a soft pool of shadow under the feet grounds it. */
+.phero { position: relative; }
+.phero > .pinset { z-index: 1; }
+.pportrait { position: absolute; z-index: 0; margin: 0; pointer-events: none; }
+.pportrait--side::before { content: ""; position: absolute; z-index: -1;
+    left: 6%; right: 6%; bottom: 0; height: 8%;
+    background: radial-gradient(closest-side, rgba(0,0,0,.65), rgba(0,0,0,0)); }
+.pportrait__media { position: relative; width: 100%; height: 100%;
+    filter: drop-shadow(0 0 1px rgba(255,230,186,.5)) drop-shadow(0 0 14px rgba(236,190,120,.3)); }
+.pportrait__still, .pportrait__motion { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.pportrait__still { object-fit: contain; filter: url(#pportrait-alpha); }
+.pportrait__still[hidden] { display: none; }
+/* the hidden source of the canvas: laid out (Safari decodes nothing else) but unseen */
+.pportrait__feed { position: absolute; left: 0; top: 0; width: 1px; height: 1px; opacity: 0; }
 
 /* ---------- account numbers ---------- */
 .pstats { margin: 8px 0 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 34px; }
