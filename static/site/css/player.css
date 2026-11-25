@@ -11,7 +11,7 @@
 .phead { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 
 /* ---------- header card: Nirvana's big inset straddling the banner ----------
-   player.js measures the card and pulls it up by two thirds of its height.
+   player.js measures the card and pulls it up by a third of its height.
    The class emblem sits centred on the top rail, so the card lets it overhang. */
 .pinset { padding-bottom: 0; }
 .pinset__card { width: min(640px, 100%); padding: 58px 32px 28px; overflow: visible;
@@ -171,7 +171,7 @@
 .pach.is-locked .pach__desc { color: var(--text-faint); }
 .pach-empty { color: var(--text-dim); }
 
-/* one band under the banner: the card's lower third, then the three rarest
+/* one band under the banner: the card's lower two thirds, then the three rarest
    medals. The band's ground bleeds to the viewport edges and body clips the
    overflow. html needs a clip of its own: otherwise body's overflow moves
    to the viewport, body stops clipping, and the page stays as wide as the
