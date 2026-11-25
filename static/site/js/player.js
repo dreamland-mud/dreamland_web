@@ -750,7 +750,7 @@
     }
 
     // How much of the figure, from the top, shows above the card.
-    var PORTRAIT_SHOW = 0.88;
+    var PORTRAIT_SHOW = 0.6;
 
     function portraitFigure(pt, lead) {
         if (!pt || !lead || !portraitFile(pt.video, 'mp4') || !portraitFile(pt.poster, 'png')) return null;
@@ -805,8 +805,8 @@
         return fig;
     }
 
-    // The figure stands centred behind the card, on the page's one axis, most
-    // of her showing above it; the banner grows enough that her head clears
+    // The figure stands centred behind the card, on the page's one axis, head
+    // and torso above it; the banner grows enough that her head clears
     // the site header. foot is unused since she no longer stands beside it.
     function standPortrait(hero, card, fig) {
         head.style.paddingTop = '';
