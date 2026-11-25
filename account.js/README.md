@@ -153,10 +153,12 @@ no account bounces to `/newui/?acct_error=discord_nolink`; linking stays in-game
    `https://dreamland.rocks/account-api/kofi`, then "Send test" and look for the
    `account-broker: kofi:` line in `journalctl -u dreamland-account`.
 
-The engine matches a payment to an account by the Discord the payer connected on
-Ko-fi, then the payer's email as an account identity, then an email that already paid
-for an account (Ko-fi renewals carry no message), then the account's Ko-fi code (its
-id, shown in `account` status) anywhere in the Ko-fi message. Nothing else matches.
+The engine matches a one-off tip by the account's Ko-fi code (its id, shown in
+`account` status) anywhere in the Ko-fi message first, so a tip can be a gift to a
+friend. A membership payment, and a tip without a code, goes by the Discord the payer
+connected on Ko-fi, then the payer's email as an account identity, then an email whose
+membership already paid for an account (Ko-fi renewals carry no message), then the
+code. Only membership payments teach that email. Nothing else matches.
 USD donations and subscriptions with a well-formed amount extend the account's
 supporter date (a month per $5, a year per $50); shop orders, commissions, other
 currencies and odd amounts are recorded as `manual`. Anything the engine cannot match
