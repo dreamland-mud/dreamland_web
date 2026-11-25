@@ -830,12 +830,12 @@
 
     // ---------- page ----------
 
-    // Two thirds of the card over the banner, one third below it. The card's
+    // One third of the card over the banner, two thirds below it. The card's
     // height depends on its content and the viewport, so it is measured.
     function overlapBanner(hero, card, fig) {
         var gap = 22;  // .ds-inset padding above the card
         function place() {
-            var up = Math.round(card.offsetHeight * 2 / 3);
+            var up = Math.round(card.offsetHeight / 3);
             hero.style.marginTop = -(up + gap) + 'px';
             head.style.paddingBottom = (up + 40) + 'px';
             if (fig) standPortrait(hero, card, fig);
@@ -879,7 +879,7 @@
 
         document.title = 'DreamLand — ' + (lead ? lead.name.en : (p.title || p.id));
 
-        // One band under the banner: the card's lower third, then the three
+        // One band under the banner: the card's lower two thirds, then the three
         // rarest medals (left out of the wall below).
         body.innerHTML = '';
         var band = el('div', 'ptop');
