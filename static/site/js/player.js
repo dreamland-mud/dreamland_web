@@ -733,8 +733,8 @@
     // ---------- supporter portrait ----------
 
     // The main character's portrait (field "portrait", supporters only): an
-    // ink-wash figure cut out of its paper, standing in a window of the
-    // hometown banner inside the header card.
+    // ink-wash figure cut out of its paper, rising behind the header card in
+    // the hometown banner.
     // The video is stacked alpha (site/js/alphavideo.js) drawn on a canvas;
     // the RGBA png is the still. The motion is decoration, hidden from screen
     // readers; the figure is named by its written description in the page
@@ -749,16 +749,14 @@
         return !!m && m[1] === ext;
     }
 
+    // How much of the figure, from the top, shows above the card.
+    var PORTRAIT_SHOW = 0.88;
+
     function portraitFigure(pt, lead) {
         if (!pt || !lead || !portraitFile(pt.video, 'mp4') || !portraitFile(pt.poster, 'png')) return null;
         if (pt.char && pt.char !== login(lead)) return null;
 
         var fig = el('figure', 'pportrait');
-        // the hometown's art behind her, the same picture as the page banner
-        var win = el('div', 'pportrait__window');
-        win.setAttribute('aria-hidden', 'true');
-        fig.appendChild(win);
-        if (window.DLZoneBanner) DLZoneBanner.apply(win, lead.home || 'midgaard', 'midgaard');
         var media = el('div', 'pportrait__media');
         media.setAttribute('aria-hidden', 'true');
         var reduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
@@ -807,19 +805,47 @@
         return fig;
     }
 
+    // The figure stands centred behind the card, on the page's one axis, most
+    // of her showing above it; the banner grows enough that her head clears
+    // the site header. foot is unused since she no longer stands beside it.
+    function standPortrait(hero, card, fig) {
+        head.style.paddingTop = '';
+        if (fig.hidden) return;
+        var bar = document.getElementById('topbar');
+        var barH = bar ? bar.offsetHeight : 52;
+        var hr = hero.getBoundingClientRect(), cr = card.getBoundingClientRect();
+        var tall = Math.round(Math.min(620, Math.max(360, cr.width * 0.95)));
+        var wide = Math.round(tall * 9 / 16);
+        fig.style.width = wide + 'px';
+        fig.style.height = tall + 'px';
+        var top = Math.round(cr.top - hr.top - tall * PORTRAIT_SHOW);
+        fig.style.left = Math.round((hr.width - wide) / 2) + 'px';
+        fig.style.top = top + 'px';
+        // the head must clear the fixed header at the top of the page
+        var headTop = hr.top + window.pageYOffset + top;
+        var short = barH + 10 - headTop;
+        if (short > 0)
+            head.style.paddingTop = (parseFloat(getComputedStyle(head).paddingTop) + short) + 'px';
+    }
+
     // ---------- page ----------
 
     // Two thirds of the card over the banner, one third below it. The card's
     // height depends on its content and the viewport, so it is measured.
-    function overlapBanner(wrapper, card) {
+    function overlapBanner(hero, card, fig) {
         var gap = 22;  // .ds-inset padding above the card
         function place() {
             var up = Math.round(card.offsetHeight * 2 / 3);
-            wrapper.style.marginTop = -(up + gap) + 'px';
+            hero.style.marginTop = -(up + gap) + 'px';
             head.style.paddingBottom = (up + 40) + 'px';
+            if (fig) standPortrait(hero, card, fig);
         }
         place();
         if (window.ResizeObserver) new ResizeObserver(place).observe(card);
+        if (fig) {
+            window.addEventListener('resize', place);
+            fig.addEventListener('dl-drop', place);
+        }
     }
 
     function renderProfile(p) {
@@ -840,28 +866,16 @@
         var inset = el('div', 'ds-inset__card pinset__card');
         wrapper.appendChild(inset);
         inset.appendChild(DLFrame.dress(el('div', 'ds-inset__frame ds-frame')));
-        if (lead) inset.appendChild(emblem(lead.class, 'head'));
-        // A supporter's portrait is the card's first column (its top on a
-        // phone), so the page keeps its one centre axis; the figure comes
-        // after the name in reading order.
-        var col = inset;
-        var fig = portraitFigure(p.portrait, lead);
-        if (fig) {
-            inset.classList.add('pinset__card--portrait');
-            col = el('div', 'pinset__main');
-            inset.appendChild(col);
-            fig.addEventListener('dl-drop', function () { inset.classList.remove('pinset__card--portrait'); });
-        }
         if (lead) {
-            col.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
+            inset.appendChild(emblem(lead.class, 'head'));
+            inset.appendChild(el('h1', 'phead__title' + (lead.rank === 'immortal' ? ' pchar__name--god' : ''),
                 [tri(lead.name.en, ukName(lead), ruName(lead))]));
-            col.appendChild(el('p', 'phead__sub', [p.title || p.id]));
+            inset.appendChild(el('p', 'phead__sub', [p.title || p.id]));
         } else {
-            col.appendChild(el('h1', 'phead__title', [p.title || p.id]));
+            inset.appendChild(el('h1', 'phead__title', [p.title || p.id]));
         }
-        col.appendChild(stats(p, chars));
-        if (ach) col.appendChild(achTubes(ach));
-        if (fig) inset.appendChild(fig);
+        inset.appendChild(stats(p, chars));
+        if (ach) inset.appendChild(achTubes(ach));
 
         document.title = 'DreamLand — ' + (lead ? lead.name.en : (p.title || p.id));
 
@@ -869,11 +883,18 @@
         // rarest medals (left out of the wall below).
         body.innerHTML = '';
         var band = el('div', 'ptop');
-        band.appendChild(wrapper);
+        // A supporter's portrait stands behind the card, centred; it follows
+        // the card in reading order.
+        var hero = wrapper;
+        var fig = portraitFigure(p.portrait, lead);
+        if (fig) {
+            hero = el('div', 'phero', [wrapper, fig]);
+        }
+        band.appendChild(hero);
         var show = ach ? achShowcase(ach) : null;
         if (show) band.appendChild(show.node);
         body.appendChild(band);
-        overlapBanner(wrapper, inset);
+        overlapBanner(hero, inset, fig);
         var csec = el('section', 'pchars-sec');
         var ch = el('h2', 'sr-only', [tri('Characters', 'Персонажі', 'Персонажи')]);
         csec.appendChild(ch);
