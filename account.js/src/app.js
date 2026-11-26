@@ -550,6 +550,34 @@ app.post('/account-api/enter', async (req, res) => {
     return res.status(502).json({ error: 'upstream' });
 });
 
+// Link a hero being created on the web to the session's account. The engine's
+// nanny hands the client a pending linking code (WS account_code) when the player
+// creates from the roster; we redeem it with the identity the session already
+// proved, the same redeem the bots' /attach does. The engine parks it and attaches
+// the character once it saves.
+const LINK_CODE_RE = /^DL-[A-Za-z0-9]{5}$/;
+
+app.post('/account-api/linknew', async (req, res) => {
+    const sess = readSession(req);
+    if (!sess)
+        return res.status(401).json({ error: 'no_session' });
+
+    const code = String(req.body && req.body.code || '').trim();
+    if (!LINK_CODE_RE.test(code))
+        return res.status(400).json({ error: 'invalid_code' });
+
+    const r = await mudCall('/account/redeem', {
+        code,
+        identityType: sess.t,
+        value: sess.v,
+    });
+    if (r.status === 200 && r.json)
+        return res.json({ char: r.json.char || '', pending: r.json.pending === true });
+    if (r.status === 400)
+        return res.status(400).json({ error: 'invalid_or_expired' });
+    return res.status(502).json({ error: 'upstream' });
+});
+
 // ---- Ko-fi webhook ---------------------------------------------------------
 //
 // Ko-fi POSTs form-urlencoded `data=<JSON string>`. We check its verification

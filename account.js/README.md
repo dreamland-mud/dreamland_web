@@ -19,6 +19,7 @@ It never serves HTML. The UI lives in mudjs `/newui`; this is the token-holder.
 | GET | `/account-api/discord/callback` | `?code&state` | exchanges the code server-side, sets the session cookie if the Discord id owns an account, then 302 to `/newui/`; every failure 302s to `/newui/?acct_error=…` |
 | GET | `/account-api/session` | — | `{account, title, chars}` or `{account:null}` |
 | POST | `/account-api/enter` | `{char}` | `{char, token}` — a one-use entry token for the client's WS |
+| POST | `/account-api/linknew` | `{code}` | `{char, pending}` — redeems a hero-in-creation's linking code (the nanny's WS `account_code`) with the session identity; the engine attaches the char once it saves |
 | POST | `/account-api/logout` | — | `{ok:true}` |
 | POST | `/account-api/kofi` | Ko-fi webhook: form-urlencoded `data=<JSON>`, up to 128 KB | `200 {ok:true}` when the engine stored the payment or already had it; `403` bad verification token; `400` malformed; `503` engine unreachable (Ko-fi retries); `501` if unconfigured |
 
