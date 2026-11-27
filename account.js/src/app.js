@@ -58,9 +58,10 @@ const TG_AUTH_MAX_AGE_S = 24 * 60 * 60;   // reject a widget payload older than 
 const COOKIE_NAME = 'dl_acct';
 // "Identity proven, no character chosen." Kept long so a returning player lands on
 // their roster instead of re-proving every visit -- the cookie is httpOnly + Secure +
-// SameSite=Lax + HMAC-signed, only ever opens characters the account already owns, and
-// the engine re-checks ownership on /enter, so a stale one is low-value. The visible
-// Log out button clears it for shared machines.
+// SameSite=Lax + HMAC-signed, only ever opens characters the account already owns
+// (the engine re-checks ownership on /enter) or adds a hero its own browser is
+// creating (/linknew, capped on wrong codes), so a stale one is low-value. The
+// visible Log out button clears it for shared machines.
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;   // 30 days
 
 // Discord OAuth2 (authorization-code flow). Optional, same as Telegram: without a
@@ -551,10 +552,11 @@ app.post('/account-api/enter', async (req, res) => {
 });
 
 // Link a hero being created on the web to the session's account. The engine's
-// nanny hands the client a pending linking code (WS account_code) when the player
-// creates from the roster; we redeem it with the identity the session already
-// proved, the same redeem the bots' /attach does. The engine parks it and attaches
-// the character once it saves.
+// nanny hands the creating client a pending linking code (WS account_code) when the
+// player creates from the roster; we post it to the engine's web-seam
+// /account/linknew with the identity the session proved. The engine accepts only a
+// code minted for a hero in creation and only an identity that already owns an
+// account, caps wrong codes, and attaches the hero once it saves.
 const LINK_CODE_RE = /^DL-[A-Za-z0-9]{5}$/;
 
 app.post('/account-api/linknew', async (req, res) => {
@@ -566,15 +568,20 @@ app.post('/account-api/linknew', async (req, res) => {
     if (!LINK_CODE_RE.test(code))
         return res.status(400).json({ error: 'invalid_code' });
 
-    const r = await mudCall('/account/redeem', {
+    const r = await mudCall('/account/linknew', {
         code,
         identityType: sess.t,
         value: sess.v,
     });
-    if (r.status === 200 && r.json)
-        return res.json({ char: r.json.char || '', pending: r.json.pending === true });
+    if (r.status === 200 && r.json && r.json.pending === true)
+        return res.json({ char: r.json.char || '', pending: true });
+
+    // Never the code or the identity value in the log.
+    console.error('account-broker: linknew failed, engine status', r.status);
     if (r.status === 400)
         return res.status(400).json({ error: 'invalid_or_expired' });
+    if (r.status === 404)
+        return res.status(400).json({ error: 'no_account' });
     return res.status(502).json({ error: 'upstream' });
 });
 

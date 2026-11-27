@@ -19,14 +19,15 @@ It never serves HTML. The UI lives in mudjs `/newui`; this is the token-holder.
 | GET | `/account-api/discord/callback` | `?code&state` | exchanges the code server-side, sets the session cookie if the Discord id owns an account, then 302 to `/newui/`; every failure 302s to `/newui/?acct_error=…` |
 | GET | `/account-api/session` | — | `{account, title, chars}` or `{account:null}` |
 | POST | `/account-api/enter` | `{char}` | `{char, token}` — a one-use entry token for the client's WS |
-| POST | `/account-api/linknew` | `{code}` | `{char, pending}` — redeems a hero-in-creation's linking code (the nanny's WS `account_code`) with the session identity; the engine attaches the char once it saves |
+| POST | `/account-api/linknew` | `{code}` | `{char, pending}` — posts a hero-in-creation's linking code (the nanny's WS `account_code`) with the session identity to the engine's `/account/linknew`; the engine attaches the hero once it saves |
 | POST | `/account-api/logout` | — | `{ok:true}` |
 | POST | `/account-api/kofi` | Ko-fi webhook: form-urlencoded `data=<JSON>`, up to 128 KB | `200 {ok:true}` when the engine stored the payment or already had it; `403` bad verification token; `400` malformed; `503` engine unreachable (Ko-fi retries); `501` if unconfigured |
 
 Every MUD call goes out as `{token: <web token>, bottype: "web", args}`. The engine
-seam `servlet_auth_account()` checks the web token, which reaches account endpoints
-only — never `/api/exec` (that gates on the separate ops token and rejects
-`bottype: web`).
+seam `servlet_auth_account_web()` checks the web token, which reaches the web-capable
+account endpoints only (emailcode, emailverify, info, enter, linknew, kofi). The
+bot-only `/account/redeem` and `/account/resetpw` refuse it, and so does `/api/exec`
+(that gates on the separate ops token and rejects `bottype: web`).
 
 ## Environment
 
@@ -67,7 +68,7 @@ The whole layer ships dark. To turn the broker on:
    head -c 24 /dev/urandom | base64 | tr -d '/+=' > runtime/var/misc/account_web.token
    chmod 600 runtime/var/misc/account_web.token
    ```
-2. **Reboot the MUD** so the `servlet_auth_account()` seam that accepts `bottype: web`
+2. **Reboot the MUD** so the `servlet_auth_account_web()` seam that accepts `bottype: web`
    is live (C++ change, ships on a rebuild).
 3. **Secrets file** `/etc/dreamland/account.env` (0600 root), like the bot units:
    ```
